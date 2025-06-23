@@ -1,0 +1,22 @@
+<script>
+document.getElementById("nenta").style.backgroundColor = "black";
+document.getElementById("custom11").innerHTML = "🎄";
+document.body.style.backgroundColor = "black";
+var bien1 = document.getElementsByName("colorX");
+for (var i = 0; i < bien1.length; i++)
+{
+bien1[i].style.color = "white";
+}
+var bien2 = document.getElementById("MauCauHoi");
+if (bien2)
+{
+bien2.value = "deeppink";
+}
+var bien3 = document.getElementById("MauNoiDungCauHoi");
+if (bien3)
+{
+bien3.value = "yellow";
+}
+document.getElementById("chuyenlightdark").style.display = "none";
+document.getElementById("custom10").style.display = "none";
+</script>
