@@ -1,4 +1,39 @@
 <script>
-document.getElementById("custom477").innerHTML = "<a class=\"nav-link menu-item\" id=\"custom507\" href=\"/Home/TronMau\">Trộn Màu</a><a class=\"nav-link menu-item\" id=\"custom511\" href=\"/Home/TracNghiemX_Multiple\">Play-Trắc-Nghiệm_Multiple</a><a class=\"nav-link menu-item\" id=\"custom512\" href=\"/Home/PlayQuestion_Multiple\">PlayQuestion_Multiple</a><a class=\"nav-link menu-item\" id=\"custom514\" href=\"/Home/ToPlayKaraoke\">Play-Karaoke</a>";
-document.getElementById("custom422").style.display = "none";
+document.getElementById("phan1").innerHTML = "<b id=\"custom1334\"><a href=\"/Home/CreateFile_Karaoke\">B&#x1EA1;n ch&#x1B0;a c&#xF3; file text karaoke?</a></b><br /><b style=\"color: darkgreen;\" id=\"custom1335\"><a href=\"/Home/PhanDoanMember_Karaoke\">Ph&#xE2;n &#x111;o&#x1EA1;n h&#xE1;t cho c&#xE1;c member? (sau khi b&#x1EA1;n &#x111;&#xE3; t&#x1EA1;o file text Karaoke t&#x1EEB; h&#x1EC7; th&#x1ED1;ng)</a></b><br />";
+document.getElementById("phan2").style.display = "none";
+document.getElementById("phan3").style.display = "none";
+
+function democheck() {
+                if (document.getElementById("checkdemo").checked == false) {
+                    document.getElementById("phan1").style.display = "block";
+                   // document.getElementById("phan2").style.display = "block";
+                   // document.getElementById("phan3").style.display = "block";
+                    document.getElementById("servercheck").style.display = "block";
+                } else {
+                    document.getElementById("phan1").style.display = "none";
+                    document.getElementById("phan2").style.display = "none";
+                    document.getElementById("phan3").style.display = "none";
+                    document.getElementById("servercheck").style.display = "none";
+                }
+            }
+
+function onlinecheck() {
+                if (document.getElementById("onlineServer").checked == true) {
+                    document.getElementById("phan1").style.display = "none";
+                    document.getElementById("phan2").style.display = "none";
+                    document.getElementById("phan3").style.display = "none";
+                    document.getElementById("check").style.display = "none";
+                    document.getElementById("phan4").style.display = "block";
+                    document.getElementById("phan5").style.display = "block";
+                    document.getElementById("phan6").style.display = "block";
+                } else {
+                    document.getElementById("phan1").style.display = "block";
+                  //  document.getElementById("phan2").style.display = "block";
+                   // document.getElementById("phan3").style.display = "block";
+                    document.getElementById("check").style.display = "block";
+                    document.getElementById("phan4").style.display = "none";
+                    document.getElementById("phan5").style.display = "none";
+                    document.getElementById("phan6").style.display = "none";
+                }
+            }
 </script>
