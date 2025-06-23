@@ -1,0 +1,24 @@
+<style>
+#fixedSelect {
+position: fixed;
+bottom: 10px; /* cách đáy 10px */
+right: 10px; /* cách phải 10px */
+z-index: 9999; /* đảm bảo luôn trên cùng nếu cần */
+}
+</style>
+<select id="fixedSelect" onchange="changevitri()">
+<option value="0"></option>
+<option value="custom115">Lên đầu trang</option>
+<option value="come-39">Sửa email/megaIO</option>
+<option value="come-52">Upload file max size</option>
+<option value="custom180">Bảng thông tin</option>
+<option value="changesetting">Setting secure admin</option>
+</select>
+<script>
+function changevitri()
+{
+var select = document.getElementById("fixedSelect");
+if (select.value == "") return;
+window.location.href = "/Admin/SettingXYZ_DarkAdmin#"+select.value;
+}
+</script>
