@@ -1,0 +1,108 @@
+<style>
+/* RESET và responsive cơ bản */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+max-width: 100%;
+word-break: break-word;
+}
+
+html, body {
+width: 100%;
+overflow-x: hidden;
+font-family: Arial, sans-serif;
+line-height: 1.5;
+padding: 1rem;
+}
+
+/* Font-size linh hoạt theo từng thiết bị */
+body {
+font-size: 16px;
+}
+
+h1 {
+font-size: 3vw;
+}
+
+p {
+font-size: 1.2rem;
+}
+
+button {
+padding: 0.75rem 1.5rem;
+font-size: 1rem;
+border-radius: 8px;
+cursor: pointer;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+body {
+font-size: 14px;
+}
+
+h1 {
+font-size: 6vw;
+}
+
+p {
+font-size: 1rem;
+}
+
+button {
+font-size: 0.9rem;
+}
+}
+
+/* Điện thoại nhỏ */
+@media (max-width: 480px) {
+body {
+font-size: 12px;
+}
+
+h1 {
+font-size: 7vw;
+}
+
+p {
+font-size: 0.95rem;
+}
+
+button {
+font-size: 0.85rem;
+}
+}
+</style>
+
+<script>
+// JS: Tự scale font theo kích thước màn hình
+function scaleFontByWidth() {
+const width = window.innerWidth;
+const baseWidth = 1920;
+const scale = Math.max(0.6, Math.min(1.2, width / baseWidth));
+document.documentElement.style.fontSize = `${16 * scale}px`;
+}
+
+window.addEventListener('resize', scaleFontByWidth);
+window.addEventListener('DOMContentLoaded', scaleFontByWidth);
+
+function isMobileDevice() {
+return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (isMobileDevice())
+{
+document.getElementsByName("not_singer")[0].checked = true;
+document.getElementsByName('not_singer')[0].addEventListener('click', function (e) {
+// Ngăn không cho bỏ tick
+e.preventDefault();
+});
+}
+
+document.getElementById("custom1365").style.display = "none";
+document.getElementById("behind").style.display = "none";
+document.getElementsByName("auto_play")[0].style.display = "none";
+document.getElementById("custom1360").style.display = "none";
+document.getElementById("custom1359").style.display = "none";
+</script>
