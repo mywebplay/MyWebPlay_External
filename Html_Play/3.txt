@@ -1,0 +1,59 @@
+<div id="customerX">
+<div id="modalOverlay" class="modal-overlay" style="display: none">
+<div class="modal">
+<form style="display:none" id="hiddenForm" method="post" target="_blank" action="/Cover/ViewWebHtml">
+<input type="text" id="sPage" name="txtPage">
+<textarea id="sHtml" name="txtHtml"></textarea>
+<input id="oksao" type="submit">
+</form>
+<img src="/Image_Play/waiting.gif" onclick="viewHTML()">
+</div>
+</div>
+</div>
+<script>
+if (document.getElementById("custom7"))
+{
+document.getElementById("custom7").innerText = "🏠";
+document.getElementById("custom7").style.fontSize = "30px";
+document.getElementById("custom9").style.display = "none";
+}
+document.addEventListener('keydown', function(e) {
+if (e.key === 'F8') {
+e.preventDefault(); // Ngăn hành vi mặc định (nếu có)
+// Lấy phần tử modal và overlay
+const modalOverlay = document.getElementById("modalOverlay");
+
+// Thêm CSS cho modal-overlay qua JavaScript
+modalOverlay.style.position = "fixed";
+modalOverlay.style.top = "0";
+modalOverlay.style.left = "0";
+modalOverlay.style.width = "100%";
+modalOverlay.style.height = "100%";
+modalOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+modalOverlay.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
+modalOverlay.style.justifyContent = "center";
+modalOverlay.style.alignItems = "center";
+modalOverlay.style.zIndex = "1000"; // Đảm bảo modal nằm trên các phần tử khác
+
+// Thêm CSS cho modal box
+const modal = modalOverlay.querySelector(".modal");
+modal.style.backgroundColor = "white";
+modal.style.padding = "20px";
+modal.style.borderRadius = "8px";
+modal.style.width = "250px"; // Kích thước modal
+modal.style.height = "250px"; // Kích thước modal
+modal.style.position = "relative";
+modal.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+modal.style.display = "block";
+}
+});
+
+function viewHTML()
+{
+document.getElementById("sPage").value = window.location.pathname;
+document.getElementById("sHtml").value = document.documentElement.outerHTML;
+modalOverlay.style.display = "none";
+document.getElementById("oksao").click();
+}
+
+</script>
