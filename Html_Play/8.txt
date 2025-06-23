@@ -1,0 +1,89 @@
+<div id="modalOverlay8" class="modal-overlay8" style="display:none">
+<div class="modal8">
+<span class="close-btn8" id="closeModal8">❌</span>
+<br />
+<div id="menuX"></div>
+<br />
+</div>
+</div>
+<script>
+var menu = document.getElementById("menu").innerHTML;
+document.getElementById("menu").remove();
+var closeBtn8 = null;
+var modalOverlay8 = null;
+var modal8 = null;
+var loadxong6 = 0;
+setInterval(function()
+{
+if (loadxong6 == 1 || document.readyState != "complete") return;
+
+// Lấy phần tử modal và overlay
+modalOverlay8 = document.getElementById("modalOverlay8");
+closeBtn8 = document.getElementById("closeModal8");
+
+// Thêm CSS cho modal-overlay qua JavaScript
+modalOverlay8.style.position = "fixed";
+modalOverlay8.style.top = "100";
+modalOverlay8.style.left = "0";
+modalOverlay8.style.width = "100%";
+modalOverlay8.style.height = "100%";
+modalOverlay8.style.backgroundColor = "transparent";
+modalOverlay8.style.justifyContent = "center";
+modalOverlay8.style.alignItems = "";
+modalOverlay8.style.zIndex = "1000"; // Đảm bảo modal nằm trên các phần tử khác
+
+// Thêm CSS cho modal box
+modal8 = modalOverlay8.querySelector(".modal8");
+modal8.style.backgroundColor = "transparent";
+modal8.style.padding = "20px";
+modal8.style.borderRadius = "8px";
+modal8.style.width = "1500px"; // Kích thước modal
+modal8.style.height = "150px"; // Kích thước modal
+modal8.style.position = "relative";
+modal8.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+
+// Thêm CSS cho nút đóng
+const closeButton8 = modal8.querySelector(".close-btn8");
+closeButton8.style.position = "absolute";
+closeButton8.style.top = "10px";
+closeButton8.style.right = "15px";
+closeButton8.style.fontSize = "18px";
+closeButton8.style.cursor = "pointer";
+
+// Đóng modal khi bấm dấu X
+closeBtn8.onclick = function () {
+modalOverlay8.style.display = "none";
+};
+
+document.getElementById("menuX").innerHTML = menu + "<br /><span style=\"background-color:yellow;color:red;\">Nếu nhạc chưa tải xong và tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁</span>";
+document.getElementById("xanhla").remove();
+modalOverlay8.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
+modal8.style.display = "block";
+doimau_Save();
+doihang_Save();
+doimauX_Save();
+doimauY_Save();
+doikichthuoc_Save();
+doikieuchu_Save();
+doiFontKieu();
+doikieudemnguoc_Save();
+doikieudemnguoc();
+doimaunen_Save();
+doimaunex_Save();
+doianhmo_Save();
+moanh();
+loadxong6 = 1;
+}, 1000);
+
+function dongmomenu()
+{
+if (modalOverlay8.style.display == "none")
+{
+modalOverlay8.style.display = "flex";
+}
+else
+{
+modalOverlay8.style.display = "none";
+}
+}
+</script>
