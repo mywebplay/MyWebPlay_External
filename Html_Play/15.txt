@@ -1,0 +1,4 @@
+<script>
+document.getElementById("custom477").innerHTML = "<a class=\"nav-link menu-item\" id=\"custom507\" href=\"/Home/TronMau\">Trộn Màu</a><a class=\"nav-link menu-item\" id=\"custom511\" href=\"/Home/TracNghiemX_Multiple\">Play-Trắc-Nghiệm_Multiple</a><a class=\"nav-link menu-item\" id=\"custom512\" href=\"/Home/PlayQuestion_Multiple\">PlayQuestion_Multiple</a><a class=\"nav-link menu-item\" id=\"custom514\" href=\"/Home/ToPlayKaraoke\">Play-Karaoke</a>";
+document.getElementById("custom422").style.display = "none";
+</script>
