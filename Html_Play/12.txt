@@ -1,0 +1,74 @@
+<script>
+if (document.getElementById("phan5").innerHTML.includes("searchBH()") == false && document.getElementById("listsong") != null)
+{
+document.getElementById("phan5").insertAdjacentHTML("beforeend", `
+<a id="BHX" href="#xuly" style="color:red" onclick="searchBH()">Tìm kiếm (nhập thử vài cụm từ)</a><br />
+<img id="BHY" src="/Image_Play/waiting.gif" style="display:none" /><br />
+`);
+}
+
+function searchBH()
+{
+var find = document.getElementById("baihatX").value;
+
+var bhx = document.getElementById("BHX");
+var bhy = document.getElementById("BHY");
+bhx.style.display = "none";
+bhy.style.display = "inline-block";
+
+var listsong= "";
+var select = document.getElementById("listsong");
+var formDataX = new FormData();
+formDataX.append("url", document.getElementById("serverX").value);
+
+$.ajax({
+url: "/Admin/ListSongKaraoke_Call",
+type: "POST",
+data: formDataX,
+contentType: false,
+processData: false,
+success: function(so) {
+listsong = so.content;
+
+if (find == "")
+{
+var datx = listsong.split('\n');
+var noidungS = "";
+for(var i = 0; i < datx.length;i++)
+{
+noidungS += "<option value=\""+datx[i]+"\">"+datx[i]+"</option>";
+}
+select.innerHTML = noidungS;
+bhy.style.display = "none";
+bhx.style.display = "inline-block";
+return;
+}
+
+var formData = new FormData();
+formData.append("items", listsong);
+formData.append("search", find);
+formData.append("type", "3");
+formData.append("sort", "0");
+formData.append("hoathuong", "1");
+
+$.ajax({
+url: "/Cover/SearchAndSortItem",
+type: "POST",
+data: formData,
+contentType: false,
+processData: false,
+success: function(so) {
+var data = so.data.split('\n');
+var noidungS = "";
+for(var i = 0; i < data.length;i++)
+{
+noidungS += "<option value=\""+data[i]+"\">"+data[i]+"</option>";
+}
+select.innerHTML = noidungS;
+bhy.style.display = "none";
+bhx.style.display = "inline-block";
+}});
+}});
+
+}
+</script>
