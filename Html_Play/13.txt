@@ -1,0 +1,12 @@
+<br /><br />
+<h2><a href="https://youtu.be/oJ-zFhgKXvg" target="_blank">Video hướng dẫn sử dụng</a></h2>
+<br /><br />
+<script>
+document.getElementById("custom1657").style.color= "yellow";
+</script>
+#3275#
+/Home/PlayQuestion_Multiple---GET
+||
+<script>
+document.getElementById("custom723").style.color= "yellow";
+</script>
