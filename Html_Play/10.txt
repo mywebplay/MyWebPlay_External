@@ -1,0 +1,113 @@
+<a href="#xuly" style="color:red" onclick="luutracnghiem()">Chọn bài trắc nghiệm/question có sẵn?</a>
+<div id="modalOverlay6" class="modal-overlay6" style="display:none">
+<div class="modal6">
+<span class="close-btn6" id="closeModal6">❌</span>
+<h2 style="color:red">CHỌN TRẮC NGHIỆM/QUESTION ĐÃ LƯU</h2>
+<input id="isJP" type="checkbox" /><b style="color:purple">Tự động chuyển đổi câu trả lời thành các kí tự Japan</b>
+<p><select id="chonTN"><select></p><a style="color:blue" onclick="xoaallTN()" href="#xuly">Xoá tất cả</a>
+<p><button style="color:green" onclick="lambainhe()"><b>BẮT ĐẦU LÀM BÀI</b></button></p>
+</div>
+</div>
+<script>
+function xoaallTN()
+{
+var confix = confirm("Bạn có chắc chắn không?");
+if (confix == true)
+{
+localStorage.removeItem("saveTN");
+window.location.reload();
+}
+}
+
+function lambainhe()
+{
+var select = document.getElementById("chonTN");
+var selectedText = select.options[select.selectedIndex].text;
+var ht = new Map();
+var data = localStorage.getItem("saveTN");
+if (data != null)
+{
+var parsed = JSON.parse(data);
+ht = new Map(parsed);
+}
+
+var model = ht.get(selectedText).replaceAll(",null","");
+
+var formData = new FormData();
+formData.append("model", model);
+
+$.ajax({
+url: "/Cover/XuLyPlayTracNghiem",
+type: "POST",
+data: formData,
+contentType: false,
+processData: false,
+success: function (data) {
+if (data.result == true) {
+var type = (window.location.pathname == "/Home/PlayQuestion_Multiple") ? "QUESTION" : "TRACNGHIEM";
+window.location.href = "/Home/ExecPlayTracNghiem?type="+type+"&&isJP="+ document.getElementById("isJP").checked;
+}
+}
+});
+}
+
+function luutracnghiem()
+{
+// Lấy phần tử modal và overlay
+const modalOverlay6 = document.getElementById("modalOverlay6");
+const closeBtn6 = document.getElementById("closeModal6");
+
+// Thêm CSS cho modal-overlay qua JavaScript
+modalOverlay6.style.position = "fixed";
+modalOverlay6.style.top = "0";
+modalOverlay6.style.left = "0";
+modalOverlay6.style.width = "100%";
+modalOverlay6.style.height = "100%";
+modalOverlay6.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+modalOverlay6.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
+modalOverlay6.style.justifyContent = "center";
+modalOverlay6.style.alignItems = "center";
+modalOverlay6.style.zIndex = "1000"; // Đảm bảo modal nằm trên các phần tử khác
+
+// Thêm CSS cho modal box
+const modal6 = modalOverlay6.querySelector(".modal6");
+modal6.style.backgroundColor = "white";
+modal6.style.padding = "20px";
+modal6.style.borderRadius = "8px";
+modal6.style.width = "700px"; // Kích thước modal
+modal6.style.height = "300px"; // Kích thước modal
+modal6.style.position = "relative";
+modal6.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+modal6.style.display = "block";
+
+// Thêm CSS cho nút đóng
+const closeButton6 = modal6.querySelector(".close-btn6");
+closeButton6.style.position = "absolute";
+closeButton6.style.top = "10px";
+closeButton6.style.right = "15px";
+closeButton6.style.fontSize = "18px";
+closeButton6.style.cursor = "pointer";
+
+// Đóng modal khi bấm dấu X
+closeBtn6.onclick = function () {
+modalOverlay6.style.display = "none";
+};
+
+var ht = new Map();
+var data = localStorage.getItem("saveTN");
+if (data != null)
+{
+var parsed = JSON.parse(data);
+ht = new Map(parsed);
+}
+
+var select = document.getElementById("chonTN");
+
+for (var key of ht.keys()) {
+var option = document.createElement("option");
+option.value = key;
+option.text = key;
+select.appendChild(option);
+}
+}
+</script>
