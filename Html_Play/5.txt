@@ -1,0 +1,95 @@
+<style>
+.scroll-btn {
+position: fixed;
+bottom: 30px;
+z-index: 1000;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 50%;
+padding: 15px 18px;
+cursor: pointer;
+font-size: 20px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+transition: opacity 0.3s ease, right 0.3s ease;
+opacity: 0;
+pointer-events: none;
+}
+
+.scroll-btn.show {
+opacity: 1;
+pointer-events: auto;
+}
+
+#scrollToTopBtn {
+right: 30px;
+}
+
+#scrollToBottomBtn {
+right: 90px;
+background-color: #28a745;
+}
+
+/* Nếu chỉ 1 nút xuất hiện thì dời về sát phải */
+.only-one #scrollToTopBtn,
+.only-one #scrollToBottomBtn {
+right: 30px !important;
+}
+</style>
+
+<!-- Nút cuộn lên -->
+<button id="scrollToTopBtn" class="scroll-btn" title="Lên đầu trang">▲</button>
+
+<!-- Nút cuộn xuống -->
+<button id="scrollToBottomBtn" class="scroll-btn" title="Xuống cuối trang">▼</button>
+
+<script>
+var lan = false;
+setInterval(function()
+{
+if (lan == true) return;
+
+const btnTop = document.getElementById('scrollToTopBtn');
+const btnBottom = document.getElementById('scrollToBottomBtn');
+
+function handleScrollButtons() {
+const scrollY = window.scrollY;
+const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+const atTop = scrollY === 0;
+const atBottom = scrollY >= maxScroll;
+
+// Reset trạng thái
+btnTop.classList.remove('show');
+btnBottom.classList.remove('show');
+document.body.classList.remove('only-one');
+
+if (atTop) {
+btnBottom.classList.add('show');
+document.body.classList.add('only-one');
+} else if (atBottom) {
+btnTop.classList.add('show');
+document.body.classList.add('only-one');
+} else {
+// Ở giữa trang
+btnTop.classList.add('show');
+btnBottom.classList.add('show');
+}
+}
+
+window.addEventListener('scroll', handleScrollButtons);
+window.addEventListener('load', handleScrollButtons);
+
+btnTop.addEventListener('click', () => {
+window.scrollTo({ top: 0, behavior: 'smooth' });
+setTimeout(handleScrollButtons, 500); // Cập nhật lại sau cuộn
+});
+
+btnBottom.addEventListener('click', () => {
+window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+setTimeout(handleScrollButtons, 500); // Cập nhật lại sau cuộn
+});
+
+lan = true;
+}, 10);
+</script>
