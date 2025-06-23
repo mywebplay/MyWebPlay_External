@@ -1,0 +1,159 @@
+<style>
+.clock {
+position: relative;
+width: 260px;
+height: 260px;
+border: 8px solid #333;
+border-radius: 50%;
+background: white;
+color:black;
+margin: 40px auto;
+}
+
+.hand {
+position: absolute;
+bottom: 50%;
+left: 50%;
+transform-origin: bottom center;
+transform: translateX(-50%) rotate(0deg);
+}
+
+.hand.hour {
+width: 6px;
+height: 60px;
+background: #333;
+}
+
+.hand.minute {
+width: 4px;
+height: 80px;
+background: #666;
+}
+
+.hand.second {
+width: 2px;
+height: 100px;
+background: red;
+}
+
+.center-dot {
+position: absolute;
+width: 14px;
+height: 14px;
+background: #000;
+border-radius: 50%;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+/* Số giờ */
+.number {
+position: absolute;
+top: 50%;
+left: 50%;
+font-size: 18px;
+font-weight: bold;
+transform: rotate(calc(var(--n) * 30deg)) translateY(-100px) rotate(calc(var(--n) * -30deg));
+}
+</style>
+
+
+<div id="modalOverlay3" class="modal-overlay3" style="display:none">
+<div class="modal3">
+<span class="close-btn3" id="closeModal3">❌</span>
+
+<div class="clock">
+<div class="hand hour" id="hour"></div>
+<div class="hand minute" id="minute"></div>
+<div class="hand second" id="second"></div>
+<div class="center-dot"></div>
+
+<!-- Số giờ 1 đến 12 -->
+<div class="number" style="--n:1">1</div>
+<div class="number" style="--n:2">2</div>
+<div class="number" style="--n:3">3</div>
+<div class="number" style="--n:4">4</div>
+<div class="number" style="--n:5">5</div>
+<div class="number" style="--n:6">6</div>
+<div class="number" style="--n:7">7</div>
+<div class="number" style="--n:8">8</div>
+<div class="number" style="--n:9">9</div>
+<div class="number" style="--n:10">10</div>
+<div class="number" style="--n:11">11</div>
+<div class="number" style="--n:12">12</div>
+</div>
+
+
+</div>
+</div>
+<script>
+function updateClock() {
+const now = new Date();
+const sec = now.getSeconds();
+const min = now.getMinutes();
+const hr = now.getHours();
+
+const secDeg = sec * 6;
+const minDeg = min * 6 + sec * 0.1;
+const hrDeg = (hr % 12) * 30 + min * 0.5;
+
+document.getElementById("second").style.transform = `translateX(-50%) rotate(${secDeg}deg)`;
+document.getElementById("minute").style.transform = `translateX(-50%) rotate(${minDeg}deg)`;
+document.getElementById("hour").style.transform = `translateX(-50%) rotate(${hrDeg}deg)`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+var loadxong333 = 0;
+setInterval(function()
+{
+if (loadxong333 == 1 || document.readyState != "complete") return;
+
+// Lấy phần tử modal và overlay
+const modalOverlay3 = document.getElementById("modalOverlay3");
+const closeBtn3 = document.getElementById("closeModal3");
+
+// Thêm CSS cho modal-overlay qua JavaScript
+modalOverlay3.style.position = "fixed";
+modalOverlay3.style.top = "0";
+modalOverlay3.style.left = "0";
+modalOverlay3.style.width = "100%";
+modalOverlay3.style.height = "100%";
+modalOverlay3.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+modalOverlay3.style.justifyContent = "center";
+modalOverlay3.style.alignItems = "center";
+modalOverlay3.style.zIndex = "1000"; // Đảm bảo modal nằm trên các phần tử khác
+
+// Thêm CSS cho modal box
+const modal3 = modalOverlay3.querySelector(".modal3");
+modal3.style.backgroundColor = "yellow";
+modal3.style.padding = "20px";
+modal3.style.borderRadius = "8px";
+modal3.style.width = "350px"; // Kích thước modal
+modal3.style.height = "390px"; // Kích thước modal
+modal3.style.position = "relative";
+modal3.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+document.getElementById("tmh").onclick = function()
+{
+modalOverlay3.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
+modal3.style.display = "block";
+};
+
+// Thêm CSS cho nút đóng
+const closeButton3 = modal3.querySelector(".close-btn3");
+closeButton3.style.position = "absolute";
+closeButton3.style.top = "10px";
+closeButton3.style.right = "15px";
+closeButton3.style.fontSize = "18px";
+closeButton3.style.cursor = "pointer";
+
+// Đóng modal khi bấm dấu X
+closeBtn3.onclick = function () {
+modalOverlay3.style.display = "none";
+};
+
+loadxong333 = 1;
+}, 1000);
+</script>
