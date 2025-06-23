@@ -4,9 +4,3 @@
 <script>
 document.getElementById("custom1657").style.color= "yellow";
 </script>
-#3275#
-/Home/PlayQuestion_Multiple---GET
-||
-<script>
-document.getElementById("custom723").style.color= "yellow";
-</script>
