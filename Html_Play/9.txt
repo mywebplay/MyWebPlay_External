@@ -1,0 +1,77 @@
+<a href="#xuly" style="color:red" onclick="luutracnghiem()">Lưu lại bản trắc nghiệm/question này?</a>
+<div id="modalOverlay5" class="modal-overlay5" style="display:none">
+<div class="modal5">
+<span class="close-btn5" id="closeModal5">❌</span>
+<h2 style="color:red">LƯU LẠI TRẮC NGHIỆM/QUESTION</h2>
+<p style="color:blue">Nhập tên trắc nghiệm bạn muốn lưu (cho dễ phân biệt) : </p>
+<p><input type="text" id="txtLuuTN" size="30" /></p>
+<p><button style="color:green" onclick="luuTN()"><b>SAVE</b></button></p>
+</div>
+</div>
+<script>
+function luuTN()
+{
+var ht = new Map();
+var data = localStorage.getItem("saveTN");
+if (data != null)
+{
+var parsed = JSON.parse(data);
+ht = new Map(parsed);
+}
+
+var name = document.getElementById("txtLuuTN").value;
+var tn = "";
+fetch('/Cover/CovertModel_SessionTracNghiem')
+.then(res => res.json())
+.then(model => {
+tn = JSON.stringify(model.data);
+ht.set(name, tn);
+var mapArray = Array.from(ht.entries());
+localStorage.setItem("saveTN", JSON.stringify(mapArray));
+alert("Đã lưu thành công, nếu bạn xoá dữ liệu duyệt web thì mọi thứ sẽ mất 😎");
+});
+}
+
+function luutracnghiem()
+{
+// Lấy phần tử modal và overlay
+const modalOverlay5 = document.getElementById("modalOverlay5");
+const closeBtn5 = document.getElementById("closeModal5");
+
+// Thêm CSS cho modal-overlay qua JavaScript
+modalOverlay5.style.position = "fixed";
+modalOverlay5.style.top = "0";
+modalOverlay5.style.left = "0";
+modalOverlay5.style.width = "100%";
+modalOverlay5.style.height = "100%";
+modalOverlay5.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+modalOverlay5.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
+modalOverlay5.style.justifyContent = "center";
+modalOverlay5.style.alignItems = "center";
+modalOverlay5.style.zIndex = "1000"; // Đảm bảo modal nằm trên các phần tử khác
+
+// Thêm CSS cho modal box
+const modal5 = modalOverlay5.querySelector(".modal5");
+modal5.style.backgroundColor = "white";
+modal5.style.padding = "20px";
+modal5.style.borderRadius = "8px";
+modal5.style.width = "600px"; // Kích thước modal
+modal5.style.height = "300px"; // Kích thước modal
+modal5.style.position = "relative";
+modal5.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+modal5.style.display = "block";
+
+// Thêm CSS cho nút đóng
+const closeButton5 = modal5.querySelector(".close-btn5");
+closeButton5.style.position = "absolute";
+closeButton5.style.top = "10px";
+closeButton5.style.right = "15px";
+closeButton5.style.fontSize = "18px";
+closeButton5.style.cursor = "pointer";
+
+// Đóng modal khi bấm dấu X
+closeBtn5.onclick = function () {
+modalOverlay5.style.display = "none";
+};
+}
+</script>
