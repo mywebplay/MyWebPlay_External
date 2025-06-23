@@ -1,0 +1,42 @@
+<script>
+var test = false;
+if (document.getElementById("data").style.display == "none")
+{
+if (document.getElementById("html_play").innerText.includes("Dán nội dung từ clipboard của bạn?") == false)
+{
+document.getElementById("html_play").innerHTML = "<a href=\"#xuly\" onclick=\"pastenoidung()\" id=\"pasteND\" style=\"color:red\">Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)</a><br /><br />";
+}
+}
+
+function pastenoidung()
+{
+if (test == false)
+{
+test = true;
+document.getElementById("data").value = "";
+}
+else
+{
+test = false;
+}
+
+if (test == true)
+{
+document.getElementById("data").style.display = "block";
+document.getElementById("editor").style.display = "none";
+document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "none";
+document.getElementById("pasteND").style.color = "green";
+document.getElementById("pasteND").innerText = "OK - Tiến hành lưu và tiếp tục";
+}
+else
+{
+document.getElementById("data").style.display = "none";
+document.getElementById("editor").style.display = "block";
+document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "block";
+var content = document.getElementById("data").value;
+quill.root.innerHTML += content;
+document.getElementById("pasteND").style.color = "red";
+document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)";
+}
+}
+</script>
