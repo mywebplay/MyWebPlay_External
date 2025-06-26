@@ -135,11 +135,14 @@ modal3.style.width = "350px"; // Kích thước modal
 modal3.style.height = "390px"; // Kích thước modal
 modal3.style.position = "relative";
 modal3.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+if (document.getElementById("tmh"))
+{
 document.getElementById("tmh").onclick = function()
 {
 modalOverlay3.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
 modal3.style.display = "block";
 };
+}
 
 // Thêm CSS cho nút đóng
 const closeButton3 = modal3.querySelector(".close-btn3");
