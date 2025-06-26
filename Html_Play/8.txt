@@ -13,8 +13,9 @@ var closeBtn8 = null;
 var modalOverlay8 = null;
 var modal8 = null;
 var loadxong6 = 0;
-if (loadxong6 == 0 && document.getElementById("music").currentTime == 5)
+setInterval(function()
 {
+if (loadxong6 == 1 || if (document.getElementById("music").currentTime != 5) return;
 
 // Lấy phần tử modal và overlay
 modalOverlay8 = document.getElementById("modalOverlay8");
@@ -72,7 +73,7 @@ doimaunex_Save();
 doianhmo_Save();
 moanh();
 loadxong6 = 1;
-}
+}, 1000);
 
 function dongmomenu()
 {
