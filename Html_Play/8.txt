@@ -15,7 +15,7 @@ var modal8 = null;
 var loadxong6 = 0;
 setInterval(function()
 {
-if (loadxong6 == 1 || document.getElementById("music").currentTime != 5 || dcoument.getElementById("error").style.display != "none") return;
+if (loadxong6 == 1 || document.getElementById("music").currentTime != 5 || document.getElementById("error").style.display != "none") return;
 
 // Lấy phần tử modal và overlay
 modalOverlay8 = document.getElementById("modalOverlay8");
