@@ -1,0 +1,33 @@
+Dưới đây là nội dung của một tài liệu trắc nghiệm với các đáp án A, B, C và D. Bạn nhìn vào và có biết đâu là câu hỏi, đâu là đáp án A, đâu là đáp án B, đâu là đáp án C và đâu là đáp án D không?
+
+Tôi cần bạn chỉnh lại format lại nội dung như dưới (vì nội dung hiện tại không đúng format, kể cả dấu chấm, dấu cách, xuống hàng) :
+
+Đây là ví dụ :
+--------------------------------------
+
+Câu số 1. <Câu hỏi 1> (Ví dụ kể cả tài liệu tôi đưa format câu hỏi là "Câu 1. " hoặc "Câu hỏi 1. " thì bạn cũng phải sửa lại format như này "Câu số 1. ")
+A. <Đáp án A câu 1> (tương tự như câu hỏi và cho đến hết đáp án B, C, D của mỗi câu)
+B. <Đáp án B câu 1>
+C. <Đáp án C câu 1>
+D. <Đáp án D câu 1>
+
+Câu số 2. <Câu hỏi 2>
+A. <Đáp án A câu 2>
+B. <Đáp án B câu 2>
+C. <Đáp án C câu 2>
+D. <Đáp án D câu 2>
+
+...(tương tự)...
+
+-------------------------------------
+
+* Chú ý : bạn chỉ cần đưa cho tôi nội dung đã chỉnh sửa và đừng nói thêm bất kỳ điều gì khác. (ko có "ok đây là kết quả của bạn" blabla gì hết). Nói chung tôi chỉ cần bạn đưa lại nội dung và đừng trò chuyện.
+* Nếu nội dung tôi gửi bạn là trống hay không phải là format của một tài liệu trắc nghiệm thì bạn cũng im lặng luôn (trả lời rỗng).
+
+=> Đây là nội dung thực sự :
+
+------------------------------------
+
+@@ body @@
+
+-----------------------------------
