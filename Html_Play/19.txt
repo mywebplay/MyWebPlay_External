@@ -174,15 +174,11 @@
     <div>
       <label>Độ phủ nền:</label>
       <input type="text" class="input-medium" id="anhmo123" title="Nhập độ mờ background (giá trị hợp lệ từ 0 - 1, có thể sử dụng định dạng thập phân)" onchange="moanh123()">
-    </div>
-
-    <div>
       <label>Màu nền:</label>
       <input type="color" class="input-full" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)" onchange="moanh123()" id="maunex123">
     </div>
 
     <div class="menu-buttons">
-	  <b style="color:yellow">Nhấn phím [SPACE] để trải nghiệm toàn màn hình.</b>
       <button title="Nhấn o/O để khởi động lại" onclick="resetKaraoke()">Phát / Khởi động lại</button>
       <button onclick="ghinho123()">Lưu các cài đặt hiện tại</button>
       <button onclick="xoaghinho123()">Xoá các cài đặt - trở về mặc định</button>
@@ -196,6 +192,10 @@
 <span id="menuX" style="display:none"></span>
 <span id="thietkeKara" style="display:none"></span>
 <span id="menuan" style="display:none"></span>
+    </div>
+
+    <div>
+	  <b style="color:yellow">Nhấn phím [SPACE] để trải nghiệm toàn màn hình.</b>
     </div>
   </div>
 <br />
