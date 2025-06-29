@@ -246,7 +246,7 @@ document.getElementById("saveshare").checked = document.getElementById("save123"
 
 function changeKara123()
 {
-document.getElementById("chon").selectedIndex = document.getElementById("chon123").selectedIndex;
+document.getElementById("chon").options.selectedIndex = document.getElementById("chon123").options.selectedIndex;
 changeKara();
 }
 
@@ -281,7 +281,7 @@ document.getElementById("kieudemnguoc").value = document.getElementById("kieudem
 
 function doiFontKieu123()
 {
-document.getElementById("fontKieu").selectedIndex = document.getElementById("fontKieu123").selectedIndex;
+document.getElementById("fontKieu").optionsselectedIndex = document.getElementById("fontKieu123").options.selectedIndex;
 doiFontKieu();
 }
 
@@ -298,13 +298,13 @@ setInterval(function () {
 
 document.getElementById("maunex123").value = document.getElementById("maunex").value;
 document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
-document.getElementById("fontKieu123").selectedIndex = document.getElementById("fontKieu").selectedIndex;
+document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
 document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
 document.getElementById("kichthuoc123").value = document.getElementById("kichthuoc").value;
 document.getElementById("mauY123").value = document.getElementById("mauY").value;
 document.getElementById("mauX123").value = document.getElementById("mauX").value;
 document.getElementById("mau123").value = document.getElementById("mau").value;
-document.getElementById("chon123").selectedIndex = document.getElementById("chon").selectedIndex;
+document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
 document.getElementById("mau789").style.display = (document.getElementById("custom1388") == null) ? "block" : "none";
 document.getElementById("chon789").style.display = document.getElementById("chon").style.display;
 if (document.getElementById("baihatXYZ").innerText != "")
