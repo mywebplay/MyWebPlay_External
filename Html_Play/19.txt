@@ -1,131 +1,133 @@
- <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
 
-    body {
-      margin: 0;
-      background: #f0f0f0;
-    }
+  body {
+    margin: 0;
+    background: #f0f0f0;
+  }
 
-    /* Mũi tên trigger */
-    #menuTrigger {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 25px;
-      background: #4e54c8;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom-left-radius: 6px;
-      border-bottom-right-radius: 6px;
-      cursor: pointer;
-      z-index: 1001;
-      opacity: 0.4;
-      transition: opacity 0.3s;
-      font-size:25px;
-    }
+  /* Mũi tên trigger */
+  #menuTrigger {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 25px;
+    background: #4e54c8;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    cursor: pointer;
+    z-index: 1001;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+    font-size: 25px;
+  }
 
-    #menuTrigger:hover {
-      opacity: 1;
-    }
+  #menuTrigger:hover {
+    opacity: 1;
+  }
 
-    #menuTrigger.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+  #menuTrigger.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-#hiddenMenu {
-  position: fixed;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(to right, #4e54c8, #8f94fb);
-  color: white;
-  padding: 20px;
-  padding-top: 30px;
-  transition: top 0.4s ease;
-  z-index: 1000;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
+  #hiddenMenu {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: white;
+    padding: 20px;
+    padding-top: 30px;
+    transition: top 0.4s ease;
+    z-index: 1000;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
 
-    #hiddenMenu.open {
-      top: 0;
-    }
+  #hiddenMenu.open {
+    top: 0;
+  }
 
-    h1 {
-      margin-top: 0;
-      font-size: 24px;
-      text-align: center;
-    }
+  h1 {
+    margin-top: 0;
+    font-size: 24px;
+    text-align: center;
+  }
 
-    .menu-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 10px;
-    }
+  .menu-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+  }
 
-    label {
-      font-size: 14px;
-      display: block;
-      margin-bottom: 5px;
-    }
+  label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+  }
 
-    select,
-    input[type="color"],
-    input[type="text"] {
-      border: none;
-      border-radius: 5px;
-      padding: 6px;
-    }
+  select,
+  input[type="color"],
+  input[type="text"] {
+    border: none;
+    border-radius: 5px;
+    padding: 6px;
+  }
 
-    .input-short {
-      width: 35px;
-    }
+  .input-short {
+    width: 35px;
+  }
 
-    .input-medium {
-      width: 60px;
-    }
+  .input-medium {
+    width: 60px;
+  }
 
-    .input-full {
-      width: 100%;
-    }
+  .input-full {
+    width: 100%;
+  }
 
-    .menu-buttons {
-      grid-column: 1 / -1;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
+  .menu-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
 
-    .menu-buttons button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      background-color: white;
-      color: #4e54c8;
-      transition: background-color 0.2s;
-    }
+  .menu-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: white;
+    color: #4e54c8;
+    transition: background-color 0.2s;
+  }
 
-    .menu-buttons button:hover {
-      background-color: #ddd;
-    }
-  </style>
+  .menu-buttons button:hover {
+    background-color: #ddd;
+  }
+</style>
+
 <div id="menuTrigger">⚙</div>
 
 <div id="hiddenMenu">
   <h1 style="color:aquamarine">Menu Setting Karaoke</h1>
   <div class="menu-content">
+    <!-- Cột trái -->
     <div id="chon789">
       <label>Chế độ:</label>
       <select class="input-full" id="chon123" onchange="changeKara123()" title="Có thể nhấn phím k/K để chuyển đổi chế độ">
@@ -139,14 +141,21 @@
       <input type="color" class="input-full" id="mauX123" onchange="doimauX123()">
     </div>
 
+    <div>
+      <label>Font chữ:</label>
+      <select class="input-full" title="Chọn kiểu chữ cho text hiển thị karaoke" id="fontKieu123" onchange="doiFontKieu123()">
+        <option style="font-family:Arial Black">Arial Black</option>
+        <option style="font-family:Segoe Marker">Segoe Marker</option>
+        <option style="font-family:Segoe Script">Segoe Script</option>
+        <option style="font-family:Tahoma">Tahoma</option>
+        <option style="font-family:Times New Roman">Times New Roman</option>
+        <option style="font-family:Segoe UI Black">Segoe UI Black</option>
+      </select>
+    </div>
+
     <div id="mau789">
       <label>Màu chữ tô điểm:</label>
       <input type="color" class="input-full" id="mau123" onchange="doimau123()">
-    </div>
-
-    <div>
-      <label>Màu chữ đếm ngược:</label>
-      <input type="color" class="input-full" id="mauY123"  onchange="doimauY123()">
     </div>
 
     <div>
@@ -155,27 +164,20 @@
     </div>
 
     <div>
-      <label>Icon đếm ngược:</label>
-      <input onchange="kieudem123()" type="text" class="input-short" title="Nhập icon đếm ngược để bắt đầu karaoke (nếu bạn nhập N thì mặc định sẽ đếm ngược cơ bản theo : 3 - 2 - 1)" id="kieudemnguoc123">
+      <label>Màu chữ đếm ngược:</label>
+      <input type="color" class="input-full" id="mauY123" onchange="doimauY123()">
     </div>
 
     <div>
-      <label>Font chữ:</label>
-      <select class="input-full" title="Chọn kiểu chữ cho text hiển thị karaoke" id="fontKieu123" onchange="doiFontKieu123()">
-      <option style="font-family:Arial Black">Arial Black</option>
-      <option style="font-family:Segoe Marker">Segoe Marker</option>
-      <option style="font-family:Segoe Script">Segoe Script</option>
-      <option style="font-family:Tahoma">Tahoma</option>
-      <option style="font-family:Times New Roman">Times New Roman</option>
-      <option style="font-family:Segoe UI Black">Segoe UI Black</option>
-      </select>
+      <label>Icon đếm ngược:</label>
+      <input onchange="kieudem123()" type="text" class="input-short" title="Nhập icon đếm ngược để bắt đầu karaoke" id="kieudemnguoc123">
     </div>
 
     <div>
       <label>Độ phủ nền:</label>
-      <input type="text" class="input-medium" id="anhmo123" title="Nhập độ mờ background (giá trị hợp lệ từ 0 - 1, có thể sử dụng định dạng thập phân)" onchange="moanh123()">
+      <input type="text" class="input-medium" id="anhmo123" title="Giá trị từ 0 - 1" onchange="moanh123()">
       <label>Màu nền:</label>
-      <input type="color" class="input-full" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)" onchange="moanh123()" id="maunex123">
+      <input type="color" class="input-full" title="Chọn màu nền" onchange="moanh123()" id="maunex123">
     </div>
 
     <div class="menu-buttons">
@@ -183,145 +185,130 @@
       <button onclick="ghinho123()">Lưu các cài đặt hiện tại</button>
       <button onclick="xoaghinho123()">Xoá các cài đặt - trở về mặc định</button>
       <button onclick="StopKaraoke()">Thoát</button>
-     <b id="xemthumau" style="display:none"></b>
-<b id="xemmauthu" style="display:none"></b>
-<b id="xemmaudi" style="display:none"></b>
-<input style="display: none; width: 5em;" id="hang" type="number" min="0" value="0" onchange="doihang()">
-<span id="demnguockieu" style="display:none"></span>
-<input id="temp_text" style="display:none">
-<span id="menuX" style="display:none"></span>
-<span id="thietkeKara" style="display:none"></span>
-<span id="menuan" style="display:none"></span>
+      <b id="xemthumau" style="display:none"></b>
+      <b id="xemmauthu" style="display:none"></b>
+      <b id="xemmaudi" style="display:none"></b>
+      <input style="display: none; width: 5em;" id="hang" type="number" min="0" value="0" onchange="doihang()">
+      <span id="demnguockieu" style="display:none"></span>
+      <input id="temp_text" style="display:none">
+      <span id="menuX" style="display:none"></span>
+      <span id="thietkeKara" style="display:none"></span>
+      <span id="menuan" style="display:none"></span>
     </div>
 
-    <div>
-	  <b style="color:yellow">Nhấn phím [SPACE] để trải nghiệm toàn màn hình.</b>
+    <div style="grid-column: 1 / -1">
+      <b style="color:yellow">Nhấn phím [SPACE] để trải nghiệm toàn màn hình.</b>
     </div>
   </div>
-<br />
-<div id="khac1">
-<b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
-<a id="sae" href="#xuly" onclick = "copyshare123()">Share karaoke</a>&nbsp;
-<input type="checkbox" id="save123" onclick="saveshare123()" /><b id="bgX">Bao gồm luôn các setting hiện tại của bạn</b>
-</div>
-    <br>
-    <span style="background-color:yellow;color:red;">
-      Nếu nhạc chưa tải xong và tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁
-    </span>
+  <br />
+  <div id="khac1">
+    <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
+    <a id="sae" href="#xuly" onclick="copyshare123()">Share karaoke</a>&nbsp;
+    <input type="checkbox" id="save123" onclick="saveshare123()" />
+    <b id="bgX">Bao gồm luôn các setting hiện tại của bạn</b>
+  </div>
+  <br>
+  <span style="background-color:yellow;color:red;">
+    Nếu nhạc chưa tải xong và tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁
+  </span>
 </div>
 
 <script>
-var kex = 0;
+  var kex = 0;
 
-function copyshare123()
-{
-document.getElementById('hiddenMenu').classList.remove('open');
-document.getElementById('menuTrigger').classList.remove('hidden');
-copyshare();
-}
+  function copyshare123() {
+    document.getElementById('hiddenMenu').classList.remove('open');
+    document.getElementById('menuTrigger').classList.remove('hidden');
+    copyshare();
+  }
 
-function ghinho123()
-{
-document.getElementById('hiddenMenu').classList.remove('open');
-document.getElementById('menuTrigger').classList.remove('hidden');
-ghinho();
-}
+  function ghinho123() {
+    document.getElementById('hiddenMenu').classList.remove('open');
+    document.getElementById('menuTrigger').classList.remove('hidden');
+    ghinho();
+  }
 
-function xoaghinho123()
-{
-document.getElementById('hiddenMenu').classList.remove('open');
-document.getElementById('menuTrigger').classList.remove('hidden');
-xoaghinho();
-}
+  function xoaghinho123() {
+    document.getElementById('hiddenMenu').classList.remove('open');
+    document.getElementById('menuTrigger').classList.remove('hidden');
+    xoaghinho();
+  }
 
-function dongmomenu()
-{
-document.getElementById("menu").style.display = "none";
-}
+  function dongmomenu() {
+    document.getElementById("menu").style.display = "none";
+  }
 
-function saveshare123()
-{
-document.getElementById("saveshare").checked = document.getElementById("save123").checked;
-}
+  function saveshare123() {
+    document.getElementById("saveshare").checked = document.getElementById("save123").checked;
+  }
 
-function changeKara123()
-{
-document.getElementById("chon").options.selectedIndex = document.getElementById("chon123").options.selectedIndex;
-changeKara();
-}
+  function changeKara123() {
+    document.getElementById("chon").options.selectedIndex = document.getElementById("chon123").options.selectedIndex;
+    changeKara();
+  }
 
-function doimau123()
-{
-document.getElementById("mau").value = document.getElementById("mau123").value;
-doimau();
-}
+  function doimau123() {
+    document.getElementById("mau").value = document.getElementById("mau123").value;
+    doimau();
+  }
 
-function doimauX123()
-{
-document.getElementById("mauX").value = document.getElementById("mauX123").value;
-doimauX();
-}
+  function doimauX123() {
+    document.getElementById("mauX").value = document.getElementById("mauX123").value;
+    doimauX();
+  }
 
-function doimauY123()
-{
-document.getElementById("mauY").value = document.getElementById("mauY123").value;
-doimauY();
-}
+  function doimauY123() {
+    document.getElementById("mauY").value = document.getElementById("mauY123").value;
+    doimauY();
+  }
 
-function doikichthuoc123()
-{
-document.getElementById("kichthuoc").value = document.getElementById("kichthuoc123").value;
-doikichthuoc();
-}
+  function doikichthuoc123() {
+    document.getElementById("kichthuoc").value = document.getElementById("kichthuoc123").value;
+    doikichthuoc();
+  }
 
-function kieudem123()
-{
-document.getElementById("kieudemnguoc").value = document.getElementById("kieudemnguoc123").value;
-}
+  function kieudem123() {
+    document.getElementById("kieudemnguoc").value = document.getElementById("kieudemnguoc123").value;
+  }
 
-function doiFontKieu123()
-{
-document.getElementById("fontKieu").options.selectedIndex = document.getElementById("fontKieu123").options.selectedIndex;
-doiFontKieu();
-}
+  function doiFontKieu123() {
+    document.getElementById("fontKieu").options.selectedIndex = document.getElementById("fontKieu123").options.selectedIndex;
+    doiFontKieu();
+  }
 
-function moanh123()
-{
-document.getElementById("anhmo").value = document.getElementById("anhmo123").value;
-document.getElementById("maunex").value = document.getElementById("maunex123").value;
-moanh();
-}
+  function moanh123() {
+    document.getElementById("anhmo").value = document.getElementById("anhmo123").value;
+    document.getElementById("maunex").value = document.getElementById("maunex123").value;
+    moanh();
+  }
 
-setInterval(function () {
-  if (loadxong6 == 0 || kex == 1) return;
+  setInterval(function () {
+    if (loadxong6 == 0 || kex == 1) return;
     document.getElementById("modalOverlay8").style.display = "none";
 
-document.getElementById("maunex123").value = document.getElementById("maunex").value;
-document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
-document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
-document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
-document.getElementById("kichthuoc123").value = document.getElementById("kichthuoc").value;
-document.getElementById("mauY123").value = document.getElementById("mauY").value;
-document.getElementById("mauX123").value = document.getElementById("mauX").value;
-document.getElementById("mau123").value = document.getElementById("mau").value;
-document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
-document.getElementById("mau789").style.display = (document.getElementById("custom1388") == null) ? "block" : "none";
-document.getElementById("chon789").style.display = document.getElementById("chon").style.display;
-if (document.getElementById("baihatXYZ").innerText != "")
-{
-document.getElementById("BHphat").innerText = document.getElementById("baihatXYZ").innerText;
-}
-else
-{
-document.getElementById("khac1").style.display = "none";
-}
+    document.getElementById("maunex123").value = document.getElementById("maunex").value;
+    document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
+    document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
+    document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
+    document.getElementById("kichthuoc123").value = document.getElementById("kichthuoc").value;
+    document.getElementById("mauY123").value = document.getElementById("mauY").value;
+    document.getElementById("mauX123").value = document.getElementById("mauX").value;
+    document.getElementById("mau123").value = document.getElementById("mau").value;
+    document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
+    document.getElementById("mau789").style.display = (document.getElementById("custom1388") == null) ? "block" : "none";
+    document.getElementById("chon789").style.display = document.getElementById("chon").style.display;
 
-if (document.getElementById("saveshare") == null)
-{
-document.getElementById("bgX").style.display = "none";
-document.getElementById("save123").style.display = "none";
-document.getElementById("sae").style.display = "none";
-}
+    if (document.getElementById("baihatXYZ").innerText != "") {
+      document.getElementById("BHphat").innerText = document.getElementById("baihatXYZ").innerText;
+    } else {
+      document.getElementById("khac1").style.display = "none";
+    }
+
+    if (document.getElementById("saveshare") == null) {
+      document.getElementById("bgX").style.display = "none";
+      document.getElementById("save123").style.display = "none";
+      document.getElementById("sae").style.display = "none";
+    }
 
     const trigger = document.getElementById("menuTrigger");
     const menu = document.getElementById("hiddenMenu");
@@ -364,5 +351,5 @@ document.getElementById("sae").style.display = "none";
     });
 
     kex++;
-}, 1000);
+  }, 1000);
 </script>
