@@ -1,3 +1,4 @@
+<!-- thay đổi giao diện home index -->
 <script>
 document.getElementById("nenta").style.backgroundColor = "black";
 document.getElementById("custom11").innerHTML = "🎄";
