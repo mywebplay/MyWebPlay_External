@@ -242,6 +242,7 @@
 <script>
 var kex = 0;
 loadxong = 0;
+loadlistSong();
 
 function copyshare123()
 {
