@@ -1,3 +1,4 @@
+<!-- chỉnh sửa file static readonly admin - TH muốn copy từ clipboard với quill textbox -->
 <script>
 var test = false;
 if (document.getElementById("data").style.display == "none")
