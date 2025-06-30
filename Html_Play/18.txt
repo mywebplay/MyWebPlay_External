@@ -1,4 +1,4 @@
-<!-- responsive giao diện giữa PC và SP -->
+<!-- responsive giao diện giữa PC và SP (2) - vì ToPlayKaraoke POST ko cần nên phải tạo riêng -->
 <style>
   /* RESET và responsive cơ bản */
   * {
