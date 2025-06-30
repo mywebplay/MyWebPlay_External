@@ -1,3 +1,4 @@
+<!-- Tạo option menu (hamburger menu) trên header -->
 <div id="menuX1">
     <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
     <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
