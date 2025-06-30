@@ -1,3 +1,4 @@
+<!-- Thiết kế đồng hồ kim -->
 <style>
 .clock {
 position: relative;
