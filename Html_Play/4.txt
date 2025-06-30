@@ -1,3 +1,4 @@
+<!-- responsive giao diện cho OC và SP -->
 <style>
 /* RESET và responsive cơ bản */
 * {
