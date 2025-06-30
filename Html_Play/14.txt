@@ -1,3 +1,4 @@
+<!-- Đổi màu chữ "Danh sách các file đã chọn" tại PlayQuestion - phù hợp giao diện màu đen -->
 <script>
 document.getElementById("custom723").style.color= "yellow";
 </script>
