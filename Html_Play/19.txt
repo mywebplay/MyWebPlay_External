@@ -132,6 +132,7 @@
   }
 
   #closeMenuBtn {
+  display: none; /* Mặc định ẩn */
   position: absolute;
   top: 5px;
   right: 10px;
@@ -143,8 +144,10 @@
   z-index: 1001;
 }
 
-#closeMenuBtn:hover {
-  color: #ccc;
+@media (max-width: 768px) {
+  #closeMenuBtn {
+    display: block; /* Chỉ hiện trên mobile / tablet */
+  }
 }
 </style>
 
