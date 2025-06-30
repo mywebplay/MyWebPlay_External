@@ -1,4 +1,4 @@
-<!-- Format menu karaoke 1 -->
+<!-- Karaoke - thêm link tìm kiếm bài hát -->
 <script>
 if (document.getElementById("phan5").innerHTML.includes("searchBH()") == false && document.getElementById("listsong") != null)
 {
