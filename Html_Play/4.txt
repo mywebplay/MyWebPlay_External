@@ -1,4 +1,4 @@
-<!-- responsive giao diện cho OC và SP -->
+<!-- responsive giao diện cho PC và SP (1) -->
 <style>
 /* RESET và responsive cơ bản */
 * {
