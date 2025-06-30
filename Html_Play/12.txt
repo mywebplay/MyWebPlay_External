@@ -1,3 +1,4 @@
+<!-- Format menu karaoke 1 -->
 <script>
 if (document.getElementById("phan5").innerHTML.includes("searchBH()") == false && document.getElementById("listsong") != null)
 {
