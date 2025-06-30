@@ -1,3 +1,4 @@
+<!-- responsive giao diện giữa PC và SP -->
 <style>
   /* RESET và responsive cơ bản */
   * {
