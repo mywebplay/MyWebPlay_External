@@ -130,11 +130,28 @@
     min-width: 60px;
     max-width: 120px;
   }
+
+  #closeMenuBtn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 20px;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+#closeMenuBtn:hover {
+  color: #ccc;
+}
 </style>
 
 <div id="menuTrigger">⚙</div>
 
 <div id="hiddenMenu">
+  <button id="closeMenuBtn" onclick="closeHiddenMenu()">❌</button>
   <h1>Menu Setting Karaoke</h1>
   <div class="menu-content">
     <div id="chon789">
@@ -243,6 +260,11 @@ const intervalId = setInterval(function () {
     clearInterval(intervalId);
   }
 }, 1000); 
+}
+
+function closeHiddenMenu() {
+  document.getElementById("hiddenMenu").classList.remove("open");
+  document.getElementById("menuTrigger").classList.remove("hidden");
 }
 
 function ghinho123()
