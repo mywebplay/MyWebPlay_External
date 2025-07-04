@@ -1,0 +1,33 @@
+<!-- Khi sử dụng thiết bị khác thì muốn thay mặt admin cũ để login vào secure setting -->
+<br />
+<a href="#xuly" onclick="anotherAutoLogin()">Thay mặt tư cách admin cũ để login (nếu có)?</a>
+<br /><br />
+<script>
+function anotherAutoLogin()
+{
+var ipEncrypt = prompt("Nhập key IP của admin cũ : ");
+
+ var formDataX = new FormData();
+        formDataX.append("ID", document.getElementById("IDadmin").value);
+        formDataX.append("Password", document.getElementById("PASSadmin").value);
+        formDataX.append("ipEncrypt", ipEncrypt);
+
+         $.ajax({
+            url: "/Admin/CheckingAutoLoginAdmin",
+            type: "POST",
+            data: formDataX,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+           
+                if (data.result == true)
+                {
+                    window.location.href = "/Admin/SettingXYZ_DarkAdmin";
+                }
+                else
+               {
+                 alert("Thất bại !");
+               }
+            }});
+}
+</script>
