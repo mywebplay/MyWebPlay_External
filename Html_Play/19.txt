@@ -151,7 +151,7 @@
   }
 }
 </style>
-
+<span id="thietkeKara"></span>
 <div id="menuTrigger">⚙</div>
 
 <div id="hiddenMenu">
@@ -219,7 +219,6 @@
       <span id="demnguockieu" style="display:none"></span>
       <input id="temp_text" style="display:none">
       <span id="menuX" style="display:none"></span>
-      <span id="thietkeKara" style="display:none"></span>
       <span id="menuan" style="display:none"></span>
     </div>
 
