@@ -228,7 +228,7 @@
   </div>
   <br />
   <div id="khac1">
-    <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat" onclick="xembaihat()"></b>&nbsp;
+    <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
     <a id="sae" href="#xuly" onclick="copyshare123()">Share karaoke</a>&nbsp;
      <select onchange="chonsongtulist123()" onclick="loadlistSong()" id="listSongKara"></select>
     <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Huỷ trình phát Karaoke tự động</b></button>
@@ -258,7 +258,7 @@ chonsongtulist();
 
 const intervalId = setInterval(function () {
   if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
-   document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerHTML;
+   document.getElementById("BHphat").innerHTML = "";
   document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
  document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
     clearInterval(intervalId);
@@ -283,11 +283,6 @@ function xoaghinho123()
 document.getElementById('hiddenMenu').classList.remove('open');
 document.getElementById('menuTrigger').classList.remove('hidden');
 xoaghinho();
-}
-
-function xembaihat()
-{
-   document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerHTML;
 }
 
 function dongmomenu()
@@ -366,7 +361,7 @@ document.getElementById("mau789").style.display = (document.getElementById("cust
 document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
 if (document.getElementById("baihatXYZ").innerHTML != "")
 {
-document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerHTML;
+document.getElementById("BHphat").innerHTML = "";
 }
 else
 {
