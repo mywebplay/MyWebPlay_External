@@ -327,7 +327,7 @@ document.getElementById("kieudemnguoc").value = document.getElementById("kieudem
 
 function doiFontKieu123()
 {
-document.getElementById("fontKieu").options.selectedIndex = document.getElementById("fontKieu123").options.selectedIndex;
+document.getElementById("fontKieu").value = document.getElementById("fontKieu123").value;
 doiFontKieu();
 }
 
