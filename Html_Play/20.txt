@@ -5,7 +5,11 @@
 <script>
 function anotherAutoLogin()
 {
-var ipEncrypt = prompt("Nhập key IP của admin cũ : ");
+var ipEncrypt = localStorage.getItem("keyIP");
+if (ipEncrypt == null)
+{
+  ipEncrypt = prompt("Nhập key IP của admin cũ : ");
+}
 
  var formDataX = new FormData();
         formDataX.append("ID", document.getElementById("IDadmin").value);
