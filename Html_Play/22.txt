@@ -1,0 +1,30 @@
+<!-- tạo trắc nghiệm - ẩn/hiện các pattern gợi ý lỗi sau khi xử lý -->
+<div id="fixedBox">
+  <label><input type="checkbox" onchange="toggleError('Erro1', this.checked)"> <b style="color:black">Ẩn gợi ý lỗi 1</b></label><br>
+  <label><input type="checkbox" onchange="toggleError('Error', this.checked)"> <b  style="color:black">Ẩn gợi ý lỗi 2</b></label><br>
+  <label><input type="checkbox" onchange="toggleError('erro4', this.checked)"> <b  style="color:black">Ẩn gợi ý lỗi 3</b></label>
+</div>
+
+<style>
+  #fixedBox {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: sans-serif;
+    z-index: 9999;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  }
+</style>
+
+<script>
+  function toggleError(id, checked) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.display = checked ? 'none' : 'inline-block';
+    }
+  }
+</script>
