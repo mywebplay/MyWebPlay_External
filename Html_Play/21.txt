@@ -14,6 +14,7 @@ function xemxetdulieu()
 
 async function xulyAI()
 {
+document.getElementById("cookAI").innerHTML = "<img style=\"width: 50px; height: 50px;\" id=\"loadingX2\" src=\"/Image_Play/waiting.gif\" />";
 try {
         const txtUrl = 'https://mywebplay.github.io/MyWebPlay_External/ChatGPT/tracnghiem.txt';
         const txtResponse = await fetch(txtUrl);
@@ -36,10 +37,12 @@ try {
 
         document.getElementById("Chuoi").value = result;
        alert("Xử lý thành công, vui lòng kiểm tra lại !");
+       document.getElementById("cookAI").innerHTML = "Nhờ AI phân tích/format lại nội dung trắc nghiệm của bạn? (giúp hệ thống dễ dàng xử lý)";
     } catch (err) {
         console.error("Lỗi:", err);
         document.getElementById("Chuoi").innerText = "Lỗi : " + err.message;
         alert("Xử lý thất bại, vui lòng kiểm tra lại !");
+        document.getElementById("cookAI").innerHTML = "Nhờ AI phân tích/format lại nội dung trắc nghiệm của bạn? (giúp hệ thống dễ dàng xử lý)";
     }
 }
 </script>
