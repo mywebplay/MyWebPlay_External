@@ -1,32 +1,12 @@
-Dưới đây là nội dung của một tài liệu trắc nghiệm với các đáp án A, B, C và D. Bạn nhìn vào và có biết đâu là câu hỏi, đâu là đáp án A, đâu là đáp án B, đâu là đáp án C và đâu là đáp án D không?
+Dưới đây là nội dung tài liệu trắc nghiệm gồm câu hỏi và các đáp án A, B, C, D.
 
-Tôi cần bạn chỉnh lại format lại nội dung như dưới (vì nội dung hiện tại không đúng format, kể cả dấu chấm, dấu cách, xuống hàng) :
+Hãy định dạng lại đúng chuẩn như sau:
+- Mỗi câu bắt đầu bằng: “Câu số X. ”
+- Các đáp án xuống dòng riêng, bắt đầu bằng: “A. ”, “B. ”, “C. ”, “D. ”
+- Giữ nguyên toàn bộ nội dung văn bản và các thẻ HTML (ví dụ: <span>, <sup>, <br>, ...), không xoá, không rút gọn, không sửa lỗi chính tả
+- Nếu đáp án bị gộp liền như “C. … D. …” thì phải tách dòng lại cho đúng định dạng
 
-Đây là ví dụ :
---------------------------------------
-
-Câu số 1. <Câu hỏi 1> (Ví dụ kể cả tài liệu tôi đưa format câu hỏi là "Câu 1. " hoặc "Câu hỏi 1. " thì bạn cũng phải sửa lại format như này "Câu số 1. ")
-A. <Đáp án A câu 1> (tương tự như câu hỏi và cho đến hết đáp án B, C, D của mỗi câu)
-B. <Đáp án B câu 1>
-C. <Đáp án C câu 1>
-D. <Đáp án D câu 1>
-
-Câu số 2. <Câu hỏi 2>
-A. <Đáp án A câu 2>
-B. <Đáp án B câu 2>
-C. <Đáp án C câu 2>
-D. <Đáp án D câu 2>
-
-...(tương tự)...
-
--------------------------------------
-
-* Chú ý : bạn chỉ cần đưa cho tôi nội dung đã chỉnh sửa và đừng nói thêm bất kỳ điều gì khác. (ko có "ok đây là kết quả của bạn" blabla gì hết). Nói chung tôi chỉ cần bạn đưa lại nội dung và đừng trò chuyện.
-* Nếu nội dung tôi gửi bạn là trống hay không phải là format của một tài liệu trắc nghiệm hoặc là lỗi, bạn không thể phân tích được đầy đủ nội dung thì bạn cũng im lặng luôn (trả lời rỗng).
-HÃY NHỚ KỸ : đừng trả lời bất kỳ thứ gì khác. Một là nội dung mới, hai là im lặng luôn!
-(ngoài ra nếu bạn sửa lỗi chính tả, dư thừa nhiều dấu cách, tab, enter, đầu câu mà ko viết hoa,...vv... thì càng tốt)
-
-=> Đây là nội dung thực sự :
+Chỉ trả về nội dung đã định dạng, không nói thêm bất cứ điều gì khác.
 
 ------------------------------------
 
