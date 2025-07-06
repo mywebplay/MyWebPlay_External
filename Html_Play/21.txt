@@ -1,0 +1,45 @@
+<script>
+document.getElementById("xemxet").checked = true;
+document.getElementById("xemxet").disabled = true;
+xemxetdata();
+if (document.getElementById("custom119").innerHTML.includes("cookAI") == false)
+{
+document.getElementById("custom119").innerHTML += "<br /><br/><a id=\"cookAI\" href=\"#xuly\" onclick=\"xulyAI()\">Nhờ AI phân tích/format lại nội dung trắc nghiệm của bạn? (giúp hệ thống dễ dàng xử lý)</a><br /><br />"
+}
+
+function xemxetdulieu()
+{
+  alert("Xin lỗi, tính năng đang bị gián đoạn!");
+}
+
+async function xulyAI()
+{
+try {
+        const txtUrl = 'https://mywebplay.github.io/MyWebPlay_External/ChatGPT/tracnghiem.txt';
+        const txtResponse = await fetch(txtUrl);
+        if (!txtResponse.ok) throw new Error("Không thể đọc file TXT");
+        const questionText = await txtResponse.text();
+
+        const formData = new FormData();
+        formData.append("question", questionText);
+
+        const apiResponse = await fetch("/Cover/CallAPI_OpenRouterAI", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!apiResponse.ok) throw new Error("Lỗi khi gọi API");
+
+        // Parse JSON và lấy field 'data'
+        const json = await apiResponse.json();
+        const result = json.data;
+
+        document.getElementById("Chuoi").value = result;
+       alert("Xử lý thành công, vui lòng kiểm tra lại !");
+    } catch (err) {
+        console.error("Lỗi:", err);
+        document.getElementById("Chuoi").innerText = "Lỗi : " + err.message;
+        alert("Xử lý thất bại, vui lòng kiểm tra lại !");
+    }
+}
+</script>
