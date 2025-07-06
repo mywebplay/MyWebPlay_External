@@ -24,7 +24,6 @@ try {
 
         const formData = new FormData();
         formData.append("question", questionText);
-        formData.append("model", "mistralai/Mistral-7B-Instruct-v0.1");
 
         const apiResponse = await fetch("/Cover/CallAPI_HuggingFaceChatAI", {
             method: "POST",
