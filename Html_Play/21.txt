@@ -1,4 +1,5 @@
-<!-- tạo file trắc nghiệm - nhờ AI format lại nội dung -->
+<!-- tạo file trắc nghiệm - nhờ AI format lại nội dung (đã đóng) -->
+<!--
 <script>
 document.getElementById("xemxet").checked = true;
 document.getElementById("xemxet").disabled = true;
@@ -48,3 +49,4 @@ try {
     }
 }
 </script>
+-->
