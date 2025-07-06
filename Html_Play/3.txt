@@ -12,7 +12,7 @@
 </div>
 </div>
 <script>
-if (document.getElementById("custom7") && window.location.pathname != "/Admin/Admin_ChangePassword")
+if (document.getElementById("custom7") && window.location.pathname != "<@@encrypt:wwy00QQHprv0xiYrSBnlaw0SeAgYJKPm1HlpahVUJhGN8MgXxHj2IGG9SW2IGMpJzi51p/Oe1147PKq+9vvoXw==@@>")
 {
 document.getElementById("custom7").innerText = "🏠";
 document.getElementById("custom7").style.fontSize = "30px";
