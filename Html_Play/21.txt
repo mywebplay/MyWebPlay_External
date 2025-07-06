@@ -1,4 +1,4 @@
-<!-- tạo file trắc nghiệm - nhờ AI xử lý format lại nội dung -->
+<!-- tạo file trắc nghiệm - nhờ AI format lại nội dung -->
 <script>
 document.getElementById("xemxet").checked = true;
 document.getElementById("xemxet").disabled = true;
