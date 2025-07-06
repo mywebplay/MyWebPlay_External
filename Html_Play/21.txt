@@ -24,6 +24,7 @@ try {
 
         const formData = new FormData();
         formData.append("question", questionText);
+        formData.append("type", "1");
 
         const apiResponse = await fetch("/Cover/CallAPI_HuggingFaceChatAI", {
             method: "POST",
