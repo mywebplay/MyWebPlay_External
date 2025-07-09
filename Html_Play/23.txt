@@ -1,0 +1,36 @@
+<!-- Bổ sung logo và sáng tạo header -->
+<style>
+#custom5
+{
+    position: relative;
+   background-color : #091725;
+   overflow: hidden;
+}
+.navbar-brand
+{
+     position: absolute;
+    white-space: nowrap;
+    animation: moveAround 15s linear infinite;
+}
+
+@keyframes moveAround {
+   0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(30%);
+    }
+}
+</style>
+<img id="logo" src="https://mywebplay.github.io/MyWebPlay_External/mywebplay.png" style="position: absolute; left: 0; top: 0;height:80px;margin-left:25px;margin-top:25px;">
+<script>
+document.getElementById("tmh").style.display = "none";
+if (document.getElementsByClassName("navbar-brand").length > 0)
+{
+document.getElementsByClassName("navbar-brand")[0].style.marginLeft = "222px";
+}
+else
+{
+document.getElementById("logo").style.display = "none";
+}
+</script>
