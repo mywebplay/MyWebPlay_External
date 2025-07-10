@@ -1,4 +1,4 @@
-<!-- Di chuyển vị trí - admin setting -->
+<!-- Di chuyển vị trí - admin setting  -->
 <style>
 #fixedSelect {
 position: fixed;
