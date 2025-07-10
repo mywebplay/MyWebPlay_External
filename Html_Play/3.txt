@@ -16,7 +16,10 @@ if (document.getElementById("custom7") && window.location.pathname != "<@@encryp
 {
 document.getElementById("custom7").innerText = "🏠";
 document.getElementById("custom7").style.fontSize = "30px";
+if (document.getElementById("custom9"))
+{
 document.getElementById("custom9").style.display = "none";
+}
 }
 document.addEventListener('keydown', function(e) {
 if (e.key === 'F8') {
