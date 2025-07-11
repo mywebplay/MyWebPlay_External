@@ -33,6 +33,7 @@ document.getElementById("tmh").style.display = "none";
 if (document.getElementById("nenta").innerHTML.includes("logo") == false)
 {
 document.getElementById("nenta").innerHTML += "<img id=\"logo\" src=\"https://mywebplay.github.io/MyWebPlay_External/mywebplay.png\" style=\"position: absolute; left: 0; top: 0;height:62px;margin-left:25px;margin-top:10px;\">";
+ document.getElementById("nenta").innerHTML += "<img id=\"bulb\" src=\"https://www.w3schools.com/js/pic_bulboff.gif\" onclick=\"toggleBulb()\" style=\"width:20px;top:0px\">";
 }
 }
 
@@ -43,5 +44,57 @@ function isMobile() {
 if (isMobile())
 {
 document.getElementsByClassName("navbar-brand")[0].style.display = "none";
+}
+
+    function toggleBulb() {
+      const bulb = document.getElementById("bulb");
+         nensangtoi();
+      if (sang == 1)
+      {
+       bulb.src = "https://www.w3schools.com/js/pic_bulbon.gif";
+     }
+    else
+   {
+        bulb.src = "https://www.w3schools.com/js/pic_bulboff.gif";
+    }
+      document.getElementById("nenta").style.backgroundColor = "#091725";
+       document.getElementById("menuX1").style.color = "white";
+   }
+
+ function nensangtoi()
+{
+             if (sang == 0)
+             {
+                 sang = 1;
+                 if (document.getElementById("chuyenlightdark") != null)
+             var li1 = document.getElementsByName("backgroundX").length;
+             for (var i = 0 ; i<li1; i++)
+             {
+                 document.getElementsByName("backgroundX")[i].style.backgroundColor = "white";
+             }
+        
+             var li2 = document.getElementsByName("colorX").length;
+             for (var i = 0 ; i<li2; i++)
+             {
+                 document.getElementsByName("colorX")[i].style.color = "black";
+             }
+        
+            }
+            else
+            {
+                sang = 0;
+                if (document.getElementById("chuyenlightdark") != null)
+             var li1 = document.getElementsByName("backgroundX").length;
+             for (var i = 0 ; i<li1; i++)
+             {
+                 document.getElementsByName("backgroundX")[i].style.backgroundColor = "black";
+             }
+        
+             var li2 = document.getElementsByName("colorX").length;
+             for (var i = 0 ; i<li2; i++)
+             {
+                 document.getElementsByName("colorX")[i].style.color = "white";
+             } 
+        }
 }
 </script>
