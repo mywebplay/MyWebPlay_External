@@ -60,7 +60,7 @@ document.getElementsByClassName("navbar-brand")[0].style.display = "none";
       document.getElementById("nenta").style.backgroundColor = "#091725";
        document.getElementById("menuX1").style.color = "white";
    }
-
+sang = 0;
  function nensangtoi()
 {
              if (sang == 0)
