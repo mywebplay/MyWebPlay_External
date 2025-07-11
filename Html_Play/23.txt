@@ -96,5 +96,10 @@ document.getElementsByClassName("navbar-brand")[0].style.display = "none";
                  document.getElementsByName("colorX")[i].style.color = "white";
              } 
         }
+
+      if (document.getElementById("MauNoiDungCauHoi"))
+      {
+           if (sang == 1) { document.getElementById("MauNoiDungCauHoi").value = "blue"; } else { document.getElementById("MauNoiDungCauHoi").value = "yellow"; }
+      }
 }
 </script>
