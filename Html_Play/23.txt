@@ -13,6 +13,7 @@
     animation: moveAround 15s linear infinite;
 }
 
+
 @keyframes moveAround {
    0% {
         transform: translateX(0%);
@@ -20,18 +21,27 @@
     100% {
         transform: translateX(30%);
     }
+
 }
 </style>
-<img id="logo" src="https://mywebplay.github.io/MyWebPlay_External/mywebplay.png" style="position: absolute; left: 0; top: 0;height:62px;margin-left:25px;margin-top:24px;">
 <script>
 if (document.getElementsByClassName("navbar-brand").length > 0)
 {
 document.getElementsByClassName("navbar-brand")[0].style.marginLeft = "222px";
 document.getElementById("custom7").style.display = "none";
 document.getElementById("tmh").style.display = "none";
-}
-else
+if (document.getElementById("nenta").innerHTML.includes("logo") == false)
 {
-document.getElementById("logo").style.display = "none";
+document.getElementById("nenta").innerHTML += "<img id=\"logo\" src=\"https://mywebplay.github.io/MyWebPlay_External/mywebplay.png\" style=\"position: absolute; left: 0; top: 0;height:62px;margin-left:25px;margin-top:10px;\">";
+}
+}
+
+function isMobile() {
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+if (isMobile())
+{
+document.getElementsByClassName("navbar-brand")[0].style.display = "none";
 }
 </script>
