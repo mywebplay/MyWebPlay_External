@@ -61,12 +61,23 @@ document.getElementsByClassName("navbar-brand")[0].style.display = "none";
        document.getElementById("menuX1").style.color = "white";
    }
 sang = 0;
+ var li1S = document.getElementsByName("backgroundX").length;
+             for (var i = 0 ; i<li1S; i++)
+             {
+                 document.getElementsByName("backgroundX")[i].style.backgroundColor = "black";
+             }
+        
+             var li2S = document.getElementsByName("colorX").length;
+             for (var i = 0 ; i<li2S; i++)
+             {
+                 document.getElementsByName("colorX")[i].style.color = "white";
+             } 
+
  function nensangtoi()
 {
              if (sang == 0)
              {
                  sang = 1;
-                 if (document.getElementById("chuyenlightdark") != null)
              var li1 = document.getElementsByName("backgroundX").length;
              for (var i = 0 ; i<li1; i++)
              {
@@ -83,7 +94,6 @@ sang = 0;
             else
             {
                 sang = 0;
-                if (document.getElementById("chuyenlightdark") != null)
              var li1 = document.getElementsByName("backgroundX").length;
              for (var i = 0 ; i<li1; i++)
              {
