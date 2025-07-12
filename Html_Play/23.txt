@@ -99,7 +99,7 @@ sang = 0;
 
       if (document.getElementById("MauNoiDungCauHoi"))
       {
-           if (sang == 1) { document.getElementById("MauNoiDungCauHoi").value = "blue"; } else { document.getElementById("MauNoiDungCauHoi").value = "yellow"; }
+           if (sang == 1) { document.getElementById("MauNoiDungCauHoi").value = "blue"; colorGoc = "black"; } else { document.getElementById("MauNoiDungCauHoi").value = "yellow"; colorGoc = "white"; }
       }
 }
 </script>
