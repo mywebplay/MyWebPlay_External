@@ -62,6 +62,7 @@ document.getElementsByClassName("navbar-brand")[0].style.display = "none";
    }
 sang = 0;
  var li1S = document.getElementsByName("backgroundX").length;
+colorGoc = "white";
              for (var i = 0 ; i<li1S; i++)
              {
                  document.getElementsByName("backgroundX")[i].style.backgroundColor = "black";
