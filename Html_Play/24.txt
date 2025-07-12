@@ -1,0 +1,54 @@
+<!-- tạo frame hướng dẫn sử dụng karaoke -->
+<script>
+  // ====== PHẦN 1: XÓA CÁC DÒNG MỞ ĐẦU ======
+  const earlyTexts = [
+    "Sẵn sàng nghe nhạc mp3 của bạn cùng ca sĩ hát",
+    "Nếu bạn đã chuẩn bị sẵn sàng, nhấn nút Start Play",
+    "Cách thực hiện : vừa nghe nhạc"
+  ];
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodesToDelete = [];
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    if (earlyTexts.some(txt => node.nodeValue.includes(txt))) {
+      nodesToDelete.push(node);
+    }
+  }
+
+  nodesToDelete.forEach(node => {
+    const parent = node.parentNode;
+    if (parent) parent.removeChild(node);
+  });
+
+  // ====== PHẦN 2: XÓA ĐOẠN CHÍNH GIỮA 2 PHẦN TỬ ======
+  const startElem = document.getElementById("custom573");
+  const endElem = document.getElementById("custom585");
+
+  if (startElem && endElem) {
+    const range = document.createRange();
+    range.setStartBefore(startElem);
+    range.setEndAfter(endElem);
+    range.deleteContents();
+
+    // ====== PHẦN 3: CHÈN IFRAME THAY THẾ ======
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <div style="margin: 10px 0;" id="huongdan">
+        <iframe 
+          src="http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=huong-dan-su-dung-karaoke" 
+          style="width:100%; height:800px; border:none;">
+        </iframe>
+      </div>
+    `;
+
+    // Chèn vào chính xác vị trí range vừa bị xoá
+    const container = range.startContainer;
+    if (container.nodeType === Node.ELEMENT_NODE) {
+      container.insertBefore(wrapper, container.childNodes[range.startOffset] || null);
+    } else if (container.parentNode) {
+      container.parentNode.insertBefore(wrapper, container.nextSibling);
+    }
+  }
+</script>
