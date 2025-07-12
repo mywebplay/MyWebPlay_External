@@ -48,7 +48,7 @@ document.getElementsByClassName("navbar-brand")[0].style.display = "none";
 
     function toggleBulb() {
       const bulb = document.getElementById("bulb");
-         nensangtoi();
+         nensangtoi('xuly');
       if (sang == 1)
       {
        bulb.src = "https://www.w3schools.com/js/pic_bulbon.gif";
@@ -74,8 +74,9 @@ colorGoc = "white";
                  document.getElementsByName("colorX")[i].style.color = "white";
              } 
 
- function nensangtoi()
+ function nensangtoi(message)
 {
+       if (message != 'xuly') return;
              if (sang == 0)
              {
                  sang = 1;
