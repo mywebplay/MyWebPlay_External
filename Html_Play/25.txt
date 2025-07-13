@@ -1,0 +1,46 @@
+<!-- layout bảng trắc nghiệm (ko tràn hết ra ngoài) -->
+<script>
+(function () {
+  const el = document.getElementById("custom737");
+  if (!el) return;
+
+  // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
+  const originalHTML = el.innerHTML;
+  if (!originalHTML.includes("<iframe")) {
+    localStorage.setItem("tracnghiem_layout", originalHTML);
+  }
+
+  // Ẩn phần tử gốc
+  el.style.display = "none";
+
+  // Tạo iframe mới
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem";
+  iframe.style.width = "100%";
+  iframe.style.border = "none";
+  iframe.style.height = "500px";
+
+  // Tạo khối HTML bên dưới iframe
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `
+    <button onclick="hayquaX()">Xem kết quả</button>
+    <br />
+    <p style="color:deeppink">
+      Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!
+    </p>
+    <br />
+  `;
+
+  // ✅ Chỉ chèn nếu chưa có
+  const existedIframe = document.querySelector('iframe[src*="layout-tracnghiem"]');
+  if (!existedIframe) {
+    el.parentNode.insertBefore(iframe, el.nextSibling);
+    el.parentNode.insertBefore(wrapper, iframe.nextSibling);
+  }
+})();
+
+     function hayquaX()
+    {
+      document.getElementById("OKX").click();
+    }
+</script>
