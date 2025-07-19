@@ -1,0 +1,13 @@
+<!-- Read ad file static - xem dưới dạng table -->
+<a href="#xuly" style="color:purple" onclick="taotable()">Xem dữ liệu dưới dạng table</a>
+<script>
+function taotable()
+{
+var content = document.getElementById("custom108").innerHTML;
+if (content.includes("&nbsp;&nbsp;&nbsp;&nbsp;") == false || content.includes("<br>") == false) return;
+
+content = content.replaceAll("&nbsp;&nbsp;&nbsp;&nbsp;", '\t');
+content = content.replaceAll("<br>", '\n');
+localStorage.setItem("tableX", content);
+window.location.href = "/Cover/CustomerPagePlay?code=tao-table";
+}
