@@ -114,7 +114,7 @@ function escapeHTML(str) {
     .replace(/'/g, "&#039;");
 }
 
-const tableXContent = localStorage.getItem("tableX");
+var tableXContent = localStorage.getItem("tableX");
 localStorage.removeItem("tableX");
 generateTableWithSearch(tableXContent);
 </script>
