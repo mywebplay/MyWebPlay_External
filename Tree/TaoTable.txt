@@ -1,137 +1,159 @@
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  #searchBox {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    box-sizing: border-box;
-    font-size: 16px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
   th, td {
-    border: 1px solid #aaa;
+    border: 1px solid #ccc;
     padding: 6px 8px;
     word-wrap: break-word;
     white-space: normal;
     text-align: left;
   }
-  th.stt, td.stt {
+  th.stt-col, td.stt-col {
     width: 5%;
     text-align: center;
+    white-space: nowrap;
+  }
+  input.search-box {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 6px 8px;
+  }
+  .search-row {
+    margin-top: 10px;
   }
 </style>
 </head>
 <body>
 
-<input type="text" id="searchBox" placeholder="Tìm kiếm" autocomplete="off" />
-<table id="dataTable"></table>
+<div id="tableContainer"></div>
+<div id="searchInputs" class="search-row"></div>
 
 <script>
-(function() {
-  // Lấy dữ liệu từ localStorage và xoá luôn key
+(function(){
+  // Lấy dữ liệu raw từ localStorage
   const rawData = localStorage.getItem("tableX") || "";
+  // Xóa vĩnh viễn localStorage sau khi lấy
   localStorage.removeItem("tableX");
 
-  // Nếu không có dữ liệu thì không vẽ bảng
   if (!rawData.trim()) {
-    document.getElementById('dataTable').innerHTML = '<tr><td>Không có dữ liệu để hiển thị</td></tr>';
+    document.getElementById("tableContainer").innerHTML = '<p><i>Không có dữ liệu để hiển thị</i></p>';
     return;
   }
 
-  function parseRawData(raw) {
-    let lines = raw.trim().split(/\r?\n/);
-    if (lines.length === 0) return { headers: [], data: [] };
+  // Lưu biến gốc toàn cục để lọc
+  window._originalData = rawData;
 
-    const headers = lines[0].split('\t').map(h => {
-      const parts = h.split('***');
-      return {
-        name: parts[0].trim(),
-        width: parseInt(parts[1]) || 10
-      };
-    });
+  // Phân tích dữ liệu raw thành mảng dòng
+  const rows = rawData.trim().split(/\r?\n/);
 
-    const data = lines.slice(1).map(line => line.split('\t'));
-    return { headers, data };
-  }
+  // Header có định dạng: Text***%Width\tText***%Width\t...
+  const headerCols = rows[0].split("\t").map(h => {
+    const parts = h.split("***");
+    return {
+      text: parts[0].trim(),
+      width: (parts[1] && !isNaN(parts[1])) ? parseInt(parts[1]) : 0
+    };
+  });
 
-  function createSafeRegex(str) {
-    try {
-      return new RegExp(str, 'i');
-    } catch {
-      return /$^/;
+  // Hàm tạo bảng từ mảng dòng (dữ liệu thô)
+  function renderTable(dataRows) {
+    const tableContainer = document.getElementById("tableContainer");
+    if (dataRows.length <= 1) {
+      tableContainer.innerHTML = '<p><i>Không có dữ liệu để hiển thị</i></p>';
+      return;
     }
+
+    let html = '<table><thead><tr>';
+    html += '<th class="stt-col">STT</th>';
+    headerCols.forEach(col => {
+      html += `<th style="width:${col.width}%">${escapeHTML(col.text)}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    for (let i=1; i<dataRows.length; i++) {
+      const cells = dataRows[i].split("\t");
+      html += '<tr>';
+      html += `<td class="stt-col">${i}</td>`;
+      for (let j=0; j<headerCols.length; j++) {
+        html += `<td>${escapeHTML(cells[j] || '')}</td>`;
+      }
+      html += '</tr>';
+    }
+
+    html += '</tbody></table>';
+    tableContainer.innerHTML = html;
   }
 
-  function renderTable(dataObj, filterRegex) {
-    const { headers, data } = dataObj;
-    const table = document.getElementById('dataTable');
-    table.innerHTML = '';
+  // Hàm tạo ô tìm kiếm
+  function createSearchInputs() {
+    const container = document.getElementById("searchInputs");
+    container.innerHTML = '';
+    headerCols.forEach((col, idx) => {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "search-box";
+      input.placeholder = `Tìm kiếm ${col.text}`;
+      input.dataset.colIndex = idx;
+      input.addEventListener("input", onSearchInput);
+      container.appendChild(input);
+    });
+  }
 
-    if (headers.length === 0) return;
+  // Hàm escape HTML để tránh lỗi hiển thị
+  function escapeHTML(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-    // Tạo thead
-    const thead = table.createTHead();
-    const trHead = thead.insertRow();
-
-    // Thêm cột STT
-    const thSTT = document.createElement('th');
-    thSTT.textContent = 'STT';
-    thSTT.className = 'stt';
-    trHead.appendChild(thSTT);
-
-    // Thêm cột header với width %
-    headers.forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h.name;
-      th.style.width = h.width + '%';
-      trHead.appendChild(th);
+  // Xử lý sự kiện nhập trong textbox tìm kiếm
+  function onSearchInput() {
+    const inputs = document.querySelectorAll("#searchInputs input.search-box");
+    const filters = [];
+    inputs.forEach(input => {
+      const val = input.value.trim();
+      filters.push(val);
     });
 
-    // Tạo tbody
-    const tbody = table.createTBody();
-    let sttCount = 1;
+    // Lọc dữ liệu dựa trên regex, bất kỳ cột nào match là giữ
+    // Nếu input rỗng thì bỏ qua
+    const originalRows = window._originalData.trim().split(/\r?\n/);
 
-    data.forEach(row => {
-      if (filterRegex) {
-        const match = row.some(cell => filterRegex.test(cell));
-        if (!match) return;
+    const filteredRows = [originalRows[0]]; // header luôn giữ
+
+    for (let i=1; i<originalRows.length; i++) {
+      const cols = originalRows[i].split("\t");
+      let match = false;
+
+      for (let j=0; j<filters.length; j++) {
+        if (!filters[j]) continue;
+        try {
+          // Dùng regex ignore case
+          const re = new RegExp(filters[j], "i");
+          if (re.test(cols[j] || "")) {
+            match = true;
+            break; // chỉ cần match 1 cột là đủ
+          }
+        } catch(e) {
+          // regex lỗi => coi như ko match
+        }
       }
 
-      const tr = tbody.insertRow();
-
-      // STT
-      const tdSTT = tr.insertCell();
-      tdSTT.className = 'stt';
-      tdSTT.textContent = sttCount++;
-
-      // Dữ liệu các cột
-      headers.forEach((_, i) => {
-        const td = tr.insertCell();
-        td.textContent = row[i] || '';
-      });
-    });
-  }
-
-  function handleSearch() {
-    const val = document.getElementById('searchBox').value.trim();
-    let regex = null;
-    if (val.length > 0) {
-      regex = createSafeRegex(val);
+      if (match || filters.every(f => !f)) {
+        filteredRows.push(originalRows[i]);
+      }
     }
-    renderTable(parsedData, regex);
+
+    renderTable(filteredRows);
   }
 
-  const parsedData = parseRawData(rawData);
+  // Khởi tạo lần đầu
+  createSearchInputs();
+  renderTable(rows);
 
-  renderTable(parsedData);
-
-  document.getElementById('searchBox').addEventListener('input', handleSearch);
 })();
 </script>
