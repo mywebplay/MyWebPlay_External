@@ -129,14 +129,14 @@
 
   function initTracNghiem() {
     const data = localStorage.getItem("tracnghiem_layout");
-     localStorage.removeItem("tracnghiem_layout");
+     
     if (!data) {
       const errBox = document.getElementById("error-message");
       errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
       errBox.style.display = "block";
       return;
     }
-
+    
     const container = document.getElementById("tracnghiem-container");
     container.style.display = "block";
 
@@ -165,6 +165,7 @@
     };
 
     document.getElementById("nextBtn").onclick = function () {
+      localStorage.removeItem("tracnghiem_layout");
       if (currentPage < totalPages - 1) {
         currentPage++;
         renderPage(currentPage);
