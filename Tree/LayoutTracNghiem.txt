@@ -1,0 +1,176 @@
+<div id="tracnghiem-container" style="display:none;">
+  <button class="arrow-btn circle" id="prevBtn">&larr;</button>
+  <div id="question-content"></div>
+  <button class="arrow-btn circle" id="nextBtn">&rarr;</button>
+</div>
+
+<div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;"></div>
+
+<style>
+  #tracnghiem-container {
+    position: relative;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    min-width: 600px;
+    max-width: 800px;
+    margin: 40px auto;
+  }
+  .arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.2s;
+  }
+  .arrow-btn:hover {
+    background: #0056b3;
+  }
+  .arrow-btn.circle {
+    border-radius: 50%;
+  }
+  #prevBtn { left: -50px; }
+  #nextBtn { right: -50px; }
+
+  .question-title, .question-description {
+    margin-bottom: 12px;
+  }
+  .answers a {
+    display: block;
+    padding: 10px;
+    margin: 6px 0;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+  }
+  .answers a:hover {
+    background: #e0e0e0;
+  }
+</style>
+
+<script>
+(function () {
+  let currentPage = 0;
+  let totalPages = 0;
+  let mauTN1 = [], mauTN2 = [], dapan = [], luaChon = [];
+
+  function renderPage(index) {
+    const questionDiv = document.getElementById("question-content");
+
+    const questionTitle = mauTN1[index]?.innerHTML || '';
+    const questionDesc = mauTN2[index]?.innerHTML || '';
+
+    const answerA = dapan[`dapanA-${index}`]?.innerHTML || '';
+    const answerB = dapan[`dapanB-${index}`]?.innerHTML || '';
+    const answerC = dapan[`dapanC-${index}`]?.innerHTML || '';
+    const answerD = dapan[`dapanD-${index}`]?.innerHTML || '';
+
+    questionDiv.innerHTML = `
+      <div class="question-title">${questionTitle}</div>
+      <div class="question-description">${questionDesc}</div>
+      <div class="answers">
+        <a href="#${index+1}" data-index="${index}" data-answer="1" onclick="parent.chondapan(${index},1)">${answerA}</a>
+        <a href="#${index+1}" data-index="${index}" data-answer="2" onclick="parent.chondapan(${index},2)">${answerB}</a>
+        <a href="#${index+1}" data-index="${index}" data-answer="3" onclick="parent.chondapan(${index},3)">${answerC}</a>
+        <a href="#${index+1}" data-index="${index}" data-answer="4" onclick="parent.chondapan(${index},4)">${answerD}</a>
+      </div>
+    `;
+
+    const answerLinks = document.querySelectorAll("#question-content .answers a");
+    answerLinks.forEach(link => {
+      link.addEventListener("click", function (e) {
+        const selectedAnswer = parseInt(this.dataset.answer);
+        const currentIndex = parseInt(this.dataset.index);
+
+        luaChon[currentIndex] = selectedAnswer;
+
+        answerLinks.forEach(a => {
+          a.style.background = "#f9f9f9";
+          a.style.color = "#333";
+          a.style.borderColor = "#ccc";
+        });
+
+        this.style.background = "#007bff";
+        this.style.color = "#fff";
+        this.style.borderColor = "#007bff";
+      });
+    });
+
+    if (luaChon[index]) {
+      const selectedIndex = luaChon[index] - 1;
+      if (answerLinks[selectedIndex]) {
+        answerLinks[selectedIndex].style.background = "#007bff";
+        answerLinks[selectedIndex].style.color = "#fff";
+        answerLinks[selectedIndex].style.borderColor = "#007bff";
+      }
+    }
+
+    document.getElementById("prevBtn").style.opacity = (index === 0) ? "0.3" : "1";
+    document.getElementById("prevBtn").style.pointerEvents = (index === 0) ? "none" : "auto";
+
+    document.getElementById("nextBtn").style.opacity = (index === totalPages - 1) ? "0.3" : "1";
+    document.getElementById("nextBtn").style.pointerEvents = (index === totalPages - 1) ? "none" : "auto";
+  }
+
+  function initTracNghiem() {
+    const data = localStorage.getItem("tracnghiem_layout");
+    if (!data) {
+      const errBox = document.getElementById("error-message");
+      errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
+      errBox.style.display = "block";
+      return;
+    }
+
+    const container = document.getElementById("tracnghiem-container");
+    container.style.display = "block";
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = data;
+
+    mauTN1 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-1"]'));
+    mauTN2 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-2"]'));
+
+    dapan = {};
+    ['A', 'B', 'C', 'D'].forEach(letter => {
+      for (let i = 0; i < mauTN1.length; i++) {
+        const el = tempDiv.querySelector(`#dapan${letter}-${i}`);
+        if (el) dapan[`dapan${letter}-${i}`] = el;
+      }
+    });
+
+    totalPages = mauTN1.length;
+    renderPage(currentPage);
+
+    document.getElementById("prevBtn").onclick = function () {
+      if (currentPage > 0) {
+        currentPage--;
+        renderPage(currentPage);
+      }
+    };
+
+    document.getElementById("nextBtn").onclick = function () {
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        renderPage(currentPage);
+      }
+    };
+  }
+
+  initTracNghiem();
+})();
+</script>
