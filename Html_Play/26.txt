@@ -11,3 +11,4 @@ content = content.replaceAll("<br>", '\n');
 localStorage.setItem("tableX", content);
 window.location.href = "/Cover/CustomerPagePlay?code=tao-table";
 }
+</script>
