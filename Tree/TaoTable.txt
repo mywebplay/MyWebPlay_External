@@ -3,7 +3,7 @@ function generateTableFromText(inputText) {
   const rows = inputText.trim().split(/\r?\n/);
   if (rows.length === 0) return "";
 
-  let tableHTML = "<table border='1' style='border-collapse: collapse; width: 100%;'>\n";
+  let tableHTML = `<table border='1' style='border-collapse: collapse; width: 100%; table-layout: fixed;'>\n`;
 
   rows.forEach((row, rowIndex) => {
     const cols = row.split("\t");
@@ -25,7 +25,6 @@ function generateTableFromText(inputText) {
   return tableHTML;
 }
 
-// Escape HTML để tránh lỗi
 function escapeHTML(str) {
   return str.replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
