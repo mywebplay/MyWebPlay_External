@@ -1,120 +1,157 @@
-<div id="tableContainer"></div>
-<div id="searchFormContainer"></div>
-
-<script>
-function generateTableWithSearch(inputText) {
-  const rows = inputText.trim().split(/\r?\n/);
-  if (rows.length === 0) return;
-
-  const tableContainer = document.getElementById("tableContainer");
-  const searchFormContainer = document.getElementById("searchFormContainer");
-  tableContainer.innerHTML = "";
-  searchFormContainer.innerHTML = "";
-
-  const headerCols = rows[0].split("\t").map(col => {
-    const [text] = col.split("***");
-    return text.trim();
-  });
-
-  // Tạo input form tìm kiếm
-  headerCols.forEach((text, index) => {
-    searchFormContainer.innerHTML += `<b>${escapeHTML(text)}</b>: <input type="text" id="txtCot${index + 1}" /> <br/>`;
-  });
-
-  // Radio AND / OR
-  searchFormContainer.innerHTML += `
-    <b>Condition:</b> 
-    <label><input type="radio" name="cond" value="AND" checked /> AND</label>
-    <label><input type="radio" name="cond" value="OR" /> OR</label>
-    <br/><br/>
-    <button onclick="filterTable()">Tìm kiếm</button>
-  `;
-
-  // Dữ liệu gốc để dùng lại
-  window._originalRows = rows;
-  renderTable(rows);
-}
-
-function renderTable(rows) {
-  const tableContainer = document.getElementById("tableContainer");
-  let tableHTML = `<table border="1" style="border-collapse: collapse; width: 100%; table-layout: fixed;">\n`;
-
-  rows.forEach((row, rowIndex) => {
-    const cols = row.split("\t");
-    const cellStyle = "word-wrap: break-word; white-space: normal; padding: 4px;";
-
-    tableHTML += "  <tr>\n";
-
-    if (rowIndex === 0) {
-      // Thêm STT
-      tableHTML += `    <th style="width: 5%; text-align: center; ${cellStyle}">STT</th>\n`;
-      cols.forEach(col => {
-        const [headerText, widthPercent] = col.split("***");
-        const width = parseInt(widthPercent) || 0;
-        tableHTML += `    <th style="width: ${width}%; text-align: left; ${cellStyle}">${escapeHTML(headerText)}</th>\n`;
-      });
-    } else {
-      tableHTML += `    <td style="text-align: center; ${cellStyle}">${rowIndex}</td>\n`;
-      cols.forEach(col => {
-        tableHTML += `    <td style="${cellStyle}">${escapeHTML(col)}</td>\n`;
-      });
+ <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
-    tableHTML += "  </tr>\n";
-  });
-
-  tableHTML += "</table>";
-  tableContainer.innerHTML = tableHTML;
-}
-
-function filterTable() {
-  const rows = window._originalRows;
-  if (!rows || rows.length < 2) return;
-
-  const headerCols = rows[0].split("\t");
-  const condition = document.querySelector('input[name="cond"]:checked').value;
-  const keywordList = headerCols.map((_, i) => {
-    const val = document.getElementById(`txtCot${i + 1}`).value.trim().toLowerCase();
-    return val;
-  });
-
-  const filteredRows = [rows[0]]; // giữ lại dòng tiêu đề
-
-  for (let i = 1; i < rows.length; i++) {
-    const cols = rows[i].split("\t");
-    let matches = [];
-
-    keywordList.forEach((keyword, idx) => {
-      if (keyword === "") {
-        matches.push(null); // bỏ qua cột này
-      } else {
-        const cell = (cols[idx] || "").toLowerCase();
-        matches.push(cell.includes(keyword));
-      }
-    });
-
-    const result = condition === "AND"
-      ? matches.every(m => m === null || m === true)
-      : matches.some(m => m === true);
-
-    if (result) {
-      filteredRows.push(rows[i]);
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+      word-break: break-word;
     }
-  }
 
-  renderTable(filteredRows);
-}
+    th {
+      background-color: #f2f2f2;
+    }
 
-function escapeHTML(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+    input[type="text"] {
+      width: 200px;
+      margin-bottom: 5px;
+    }
 
-var tableXContent = localStorage.getItem("tableX");
-localStorage.removeItem("tableX");
-generateTableWithSearch(tableXContent);
-</script>
+    label {
+      display: inline-block;
+      margin: 5px 0;
+    }
+
+    #searchFormContainer {
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="searchFormContainer"></div>
+  <div id="tableContainer"></div>
+
+  <script>
+    // Giả sử localStorage có sẵn tableX, nếu không thì demo mẫu
+    if (!localStorage.getItem("tableX")) {
+      localStorage.setItem("tableX",
+        "Tên***30\tTuổi***20\tĐịa chỉ***45\n" +
+        "Nam\t25\tHà Nội\n" +
+        "Lan\t30\tTP HCM\n" +
+        "Tú\t28\tĐà Nẵng\n" +
+        "Mai\t25\tHải Phòng"
+      );
+    }
+
+    function generateTableWithSearch() {
+      const raw = localStorage.getItem("tableX");
+      if (!raw || raw.trim() === "") return;
+
+      const rows = raw.trim().split("\n");
+      const headers = rows[0].split("\t").map(col => col.split("***"));
+      const data = rows.slice(1).map(row => row.split("\t"));
+
+      // Table HTML
+      const table = document.createElement("table");
+      table.id = "dynamicTable";
+
+      const thead = document.createElement("thead");
+      const trHead = document.createElement("tr");
+
+      const sttTh = document.createElement("th");
+      sttTh.textContent = "STT";
+      sttTh.style.width = "5%";
+      trHead.appendChild(sttTh);
+
+      headers.forEach(([name, width]) => {
+        const th = document.createElement("th");
+        th.textContent = name;
+        th.style.width = width + "%";
+        trHead.appendChild(th);
+      });
+      thead.appendChild(trHead);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      data.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+
+        const sttTd = document.createElement("td");
+        sttTd.textContent = idx + 1;
+        tr.appendChild(sttTd);
+
+        row.forEach(text => {
+          const td = document.createElement("td");
+          td.textContent = text;
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+
+      // Render table
+      const container = document.getElementById("tableContainer");
+      container.innerHTML = "";
+      container.appendChild(table);
+
+      // Search form
+      const form = document.createElement("div");
+      form.id = "searchForm";
+
+      headers.forEach(([name], i) => {
+        const label = document.createElement("label");
+        label.innerHTML = `${name}: <input type="text" id="txtCot${i + 1}">`;
+        form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+      });
+
+      // AND/OR
+      const cond = document.createElement("label");
+      cond.innerHTML = `Điều kiện:
+        <input type="radio" name="cond" value="AND" checked>AND
+        <input type="radio" name="cond" value="OR">OR`;
+      form.appendChild(cond);
+      form.appendChild(document.createElement("br"));
+
+      // Button
+      const btn = document.createElement("button");
+      btn.textContent = "Tìm kiếm";
+      btn.onclick = () => {
+        const values = headers.map((_, i) =>
+          document.getElementById("txtCot" + (i + 1)).value.trim().toLowerCase()
+        );
+        const condition = document.querySelector("input[name='cond']:checked").value;
+        const trs = table.querySelectorAll("tbody tr");
+
+        trs.forEach(tr => {
+          const tds = Array.from(tr.querySelectorAll("td")).slice(1); // Bỏ STT
+          const checks = values.map((val, i) =>
+            val === "" || tds[i].textContent.toLowerCase().includes(val)
+          );
+          const show = condition === "AND"
+            ? checks.every(Boolean)
+            : checks.some(Boolean);
+          tr.style.display = show ? "" : "none";
+        });
+      };
+      form.appendChild(btn);
+
+      const formContainer = document.getElementById("searchFormContainer");
+      formContainer.innerHTML = "";
+      formContainer.appendChild(form);
+    }
+
+    // Init
+    generateTableWithSearch();
+  </script>
