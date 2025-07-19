@@ -30,21 +30,21 @@
 </head>
 <body>
 
-<input type="text" id="searchBox" placeholder="Tìm kiếm" />
+<input type="text" id="searchBox" placeholder="Tìm kiếm" autocomplete="off" />
 
 <table id="dataTable"></table>
 
 <script>
-  // Lấy dữ liệu localStorage và xoá vĩnh viễn
+  // Lấy dữ liệu từ localStorage và xoá ngay
   let rawData = localStorage.getItem("tableX") || "";
   localStorage.removeItem("tableX");
 
+  // Hàm phân tích dữ liệu
   function parseRawData(raw) {
     if (!raw) return { headers: [], data: [] };
     let lines = raw.trim().split(/\r?\n/);
     if (lines.length === 0) return { headers: [], data: [] };
 
-    // Header parse: tách tên và width theo *** và \t
     const headers = lines[0].split('\t').map(h => {
       const parts = h.split('***');
       return {
@@ -53,11 +53,20 @@
       };
     });
 
-    // Data rows
     const data = lines.slice(1).map(line => line.split('\t'));
     return { headers, data };
   }
 
+  // Hàm tạo regex an toàn
+  function createSafeRegex(str) {
+    try {
+      return new RegExp(str, 'i');
+    } catch {
+      return /$^/; // regex không khớp gì nếu lỗi
+    }
+  }
+
+  // Hàm render bảng
   function renderTable(dataObj, filterRegex) {
     const { headers, data } = dataObj;
     const table = document.getElementById('dataTable');
@@ -68,13 +77,14 @@
     // Tạo thead
     const thead = table.createTHead();
     const trHead = thead.insertRow();
+
     // Cột STT
-    let thSTT = document.createElement('th');
-    thSTT.textContent = "STT";
+    const thSTT = document.createElement('th');
+    thSTT.textContent = 'STT';
     thSTT.className = 'stt';
     trHead.appendChild(thSTT);
 
-    // Header columns theo % width
+    // Các cột header với width %
     headers.forEach(h => {
       const th = document.createElement('th');
       th.textContent = h.name;
@@ -87,52 +97,41 @@
     let sttCount = 1;
 
     data.forEach(row => {
-      // Nếu có filter, kiểm tra tất cả cột (trừ STT)
       if (filterRegex) {
-        let matched = row.some(cell => filterRegex.test(cell));
-        if (!matched) return; // Bỏ qua dòng này
+        // Lọc regex trên tất cả cột trừ STT
+        const match = row.some(cell => filterRegex.test(cell));
+        if (!match) return;
       }
-
       const tr = tbody.insertRow();
+
       // STT
       const tdSTT = tr.insertCell();
-      tdSTT.textContent = sttCount++;
       tdSTT.className = 'stt';
+      tdSTT.textContent = sttCount++;
 
-      // Các cột dữ liệu
+      // Dữ liệu từng cột
       headers.forEach((_, i) => {
         const td = tr.insertCell();
-        td.textContent = row[i] || "";
+        td.textContent = row[i] || '';
       });
     });
   }
 
-  // Hàm tạo regex an toàn
-  function createSafeRegex(str) {
-    try {
-      return new RegExp(str, 'i');
-    } catch {
-      // Nếu regex không hợp lệ thì trả về regex không khớp gì
-      return /$^/;
-    }
-  }
-
-  // Hàm xử lý tìm kiếm
+  // Xử lý tìm kiếm
   function handleSearch() {
-    const searchVal = document.getElementById('searchBox').value.trim();
+    const val = document.getElementById('searchBox').value.trim();
     let regex = null;
-    if (searchVal.length > 0) {
-      regex = createSafeRegex(searchVal);
+    if (val.length > 0) {
+      regex = createSafeRegex(val);
     }
     renderTable(parsedData, regex);
   }
 
-  // Phân tích dữ liệu
   const parsedData = parseRawData(rawData);
 
-  // Hiển thị bảng lần đầu (không lọc)
+  // Render bảng lần đầu
   renderTable(parsedData);
 
-  // Gán sự kiện tìm kiếm
+  // Gắn sự kiện tìm kiếm
   document.getElementById('searchBox').addEventListener('input', handleSearch);
 </script>
