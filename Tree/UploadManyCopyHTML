@@ -1,0 +1,37 @@
+<span id="socola">
+<input id="filene" type="file" multiple />
+<br /><br />
+<button onclick="upload()"><b style="color:red">UPLOAD</b></button>
+</span>
+<img id="win" src="/Image_Play/waiting.gif" style="display:none" />
+<script>
+async function upload()
+{
+var so = document.getElementById("socola");
+var win = document.getElementById("win");
+var files = document.getElementById("filene").files;
+var formData = new FormData();
+formData.append("Path", "VvQVSPhivrFAJPwC00COryh8DLfnV4DKPx/9HOUvNtTB3BRk0sB6rxX/WOff8NusQhcmYu1jrcJ3UPEYfb0og+n697D3QyhZaJO8CfXApJQ=");
+formData.append("Type", "NOROOT");
+formData.append("Action", "UPLOAD");
+for (var i = 0; i < files.length; i++) {
+formData.append("files", files[i]);
+}
+socola.style.display = "none";
+win.style.display = "inline-block";
+fetch("/Cover/ExectFilePower", {
+method: "POST",
+body: formData
+})
+.then(res => res.json())
+.then(data => {
+console.log(data);
+if (data.result == true)
+{
+alert("Đã upload các file thành công.");
+socola.style.display = "inline-block";
+win.style.display = "none";
+}
+});
+}
+</script>
