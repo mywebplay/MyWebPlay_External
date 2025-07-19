@@ -1,29 +1,60 @@
-<script>
-function generateTableFromText(inputText) {
-  const rows = inputText.trim().split(/\r?\n/);
-  if (rows.length === 0) return "";
+<div id="tableContainer"></div>
+<div id="searchFormContainer"></div>
 
+<script>
+function generateTableWithSearch(inputText) {
+  const rows = inputText.trim().split(/\r?\n/);
+  if (rows.length === 0) return;
+
+  const tableContainer = document.getElementById("tableContainer");
+  const searchFormContainer = document.getElementById("searchFormContainer");
+  tableContainer.innerHTML = "";
+  searchFormContainer.innerHTML = "";
+
+  const headerCols = rows[0].split("\t").map(col => {
+    const [text] = col.split("***");
+    return text.trim();
+  });
+
+  // Tạo input form tìm kiếm
+  headerCols.forEach((text, index) => {
+    searchFormContainer.innerHTML += `<b>${escapeHTML(text)}</b>: <input type="text" id="txtCot${index + 1}" /> <br/>`;
+  });
+
+  // Radio AND / OR
+  searchFormContainer.innerHTML += `
+    <b>Condition:</b> 
+    <label><input type="radio" name="cond" value="AND" checked /> AND</label>
+    <label><input type="radio" name="cond" value="OR" /> OR</label>
+    <br/><br/>
+    <button onclick="filterTable()">Tìm kiếm</button>
+  `;
+
+  // Dữ liệu gốc để dùng lại
+  window._originalRows = rows;
+  renderTable(rows);
+}
+
+function renderTable(rows) {
+  const tableContainer = document.getElementById("tableContainer");
   let tableHTML = `<table border="1" style="border-collapse: collapse; width: 100%; table-layout: fixed;">\n`;
 
   rows.forEach((row, rowIndex) => {
     const cols = row.split("\t");
-    tableHTML += "  <tr>\n";
-
     const cellStyle = "word-wrap: break-word; white-space: normal; padding: 4px;";
 
-    if (rowIndex === 0) {
-      // Thêm cột STT ở đầu dòng tiêu đề
-      tableHTML += `    <th style="width: 5%; text-align: center; ${cellStyle}">STT</th>\n`;
+    tableHTML += "  <tr>\n";
 
+    if (rowIndex === 0) {
+      // Thêm STT
+      tableHTML += `    <th style="width: 5%; text-align: center; ${cellStyle}">STT</th>\n`;
       cols.forEach(col => {
         const [headerText, widthPercent] = col.split("***");
         const width = parseInt(widthPercent) || 0;
         tableHTML += `    <th style="width: ${width}%; text-align: left; ${cellStyle}">${escapeHTML(headerText)}</th>\n`;
       });
     } else {
-      // Thêm STT vào đầu mỗi dòng dữ liệu
       tableHTML += `    <td style="text-align: center; ${cellStyle}">${rowIndex}</td>\n`;
-
       cols.forEach(col => {
         tableHTML += `    <td style="${cellStyle}">${escapeHTML(col)}</td>\n`;
       });
@@ -33,7 +64,45 @@ function generateTableFromText(inputText) {
   });
 
   tableHTML += "</table>";
-  return tableHTML;
+  tableContainer.innerHTML = tableHTML;
+}
+
+function filterTable() {
+  const rows = window._originalRows;
+  if (!rows || rows.length < 2) return;
+
+  const headerCols = rows[0].split("\t");
+  const condition = document.querySelector('input[name="cond"]:checked').value;
+  const keywordList = headerCols.map((_, i) => {
+    const val = document.getElementById(`txtCot${i + 1}`).value.trim().toLowerCase();
+    return val;
+  });
+
+  const filteredRows = [rows[0]]; // giữ lại dòng tiêu đề
+
+  for (let i = 1; i < rows.length; i++) {
+    const cols = rows[i].split("\t");
+    let matches = [];
+
+    keywordList.forEach((keyword, idx) => {
+      if (keyword === "") {
+        matches.push(null); // bỏ qua cột này
+      } else {
+        const cell = (cols[idx] || "").toLowerCase();
+        matches.push(cell.includes(keyword));
+      }
+    });
+
+    const result = condition === "AND"
+      ? matches.every(m => m === null || m === true)
+      : matches.some(m => m === true);
+
+    if (result) {
+      filteredRows.push(rows[i]);
+    }
+  }
+
+  renderTable(filteredRows);
 }
 
 function escapeHTML(str) {
@@ -47,6 +116,5 @@ function escapeHTML(str) {
 
 const input = localStorage.getItem("tableX");
 localStorage.removeItem("tableX");
-const tableHTML = generateTableFromText(input);
-document.body.innerHTML = tableHTML;
+const tableHTML = generateTableWithSearch(input);
 </script>
