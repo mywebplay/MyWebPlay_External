@@ -9,16 +9,25 @@ function generateTableFromText(inputText) {
     const cols = row.split("\t");
     tableHTML += "  <tr>\n";
 
-    cols.forEach(col => {
-      const cellStyle = "word-wrap: break-word; white-space: normal; padding: 4px;";
-      if (rowIndex === 0) {
+    const cellStyle = "word-wrap: break-word; white-space: normal; padding: 4px;";
+
+    if (rowIndex === 0) {
+      // Thêm cột STT ở đầu dòng tiêu đề
+      tableHTML += `    <th style="width: 5%; text-align: center; ${cellStyle}">STT</th>\n`;
+
+      cols.forEach(col => {
         const [headerText, widthPercent] = col.split("***");
         const width = parseInt(widthPercent) || 0;
         tableHTML += `    <th style="width: ${width}%; text-align: left; ${cellStyle}">${escapeHTML(headerText)}</th>\n`;
-      } else {
+      });
+    } else {
+      // Thêm STT vào đầu mỗi dòng dữ liệu
+      tableHTML += `    <td style="text-align: center; ${cellStyle}">${rowIndex}</td>\n`;
+
+      cols.forEach(col => {
         tableHTML += `    <td style="${cellStyle}">${escapeHTML(col)}</td>\n`;
-      }
-    });
+      });
+    }
 
     tableHTML += "  </tr>\n";
   });
@@ -27,7 +36,6 @@ function generateTableFromText(inputText) {
   return tableHTML;
 }
 
-// Hàm để escape HTML tránh XSS
 function escapeHTML(str) {
   return String(str)
     .replace(/&/g, "&amp;")
