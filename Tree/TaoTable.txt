@@ -45,7 +45,7 @@
   }
 
   const rows = rawData.trim().split(/\r?\n/);
-  localStorage.removeItem("tableX");
+ // localStorage.removeItem("tableX");
 
   const searchInput = document.getElementById("searchInput");
 
