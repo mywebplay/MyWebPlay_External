@@ -37,7 +37,7 @@
 <div id="tableContainer"></div>
 
 <script>
-window.onload = function() {
+(() => {
   const rawData = localStorage.getItem("tableX");
   if (!rawData || !rawData.trim()) {
     document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
@@ -45,8 +45,7 @@ window.onload = function() {
   }
 
   const rows = rawData.trim().split(/\r?\n/);
-  // Xóa localStorage sau khi đã lấy dữ liệu
-  //localStorage.removeItem("tableX");
+  localStorage.removeItem("tableX");
 
   const searchInput = document.getElementById("searchInput");
 
@@ -77,11 +76,12 @@ window.onload = function() {
     });
     html += '</tr></thead><tbody>';
 
-    for(let i=0; i<dataRows.length; i++) {
-      if(i === 0) continue; // skip header line here
+    let stt = 0;
+    for(let i=1; i<dataRows.length; i++) {
       if(!dataRows[i].trim()) continue;
       let cols = dataRows[i].split("\t");
-      html += `<tr><td class="stt-col">${i}</td>`;
+      stt++;
+      html += `<tr><td class="stt-col">${stt}</td>`;
       for(let j=0; j<headerCols.length; j++) {
         let val = cols[j] || "";
         html += `<td>${escapeHTML(val)}</td>`;
@@ -99,22 +99,20 @@ window.onload = function() {
       return;
     }
 
-    const headerCols = rows[0].split("\t");
-    let filtered = [rows[0]];
+    const filtered = [rows[0]];
     for(let i=1; i<rows.length; i++) {
       let cols = rows[i].split("\t");
       let matched = false;
 
       try {
-        let re = new RegExp(keyword, "i");
+        const re = new RegExp(keyword, "i");
         for(let j=0; j<cols.length; j++) {
           if(re.test(cols[j] || "")) {
             matched = true;
             break;
           }
         }
-      } catch(e) {
-        // Nếu regex lỗi, fallback tìm gần đúng không phân biệt hoa thường
+      } catch {
         for(let j=0; j<cols.length; j++) {
           if((cols[j] || "").toLowerCase().includes(keyword.toLowerCase())) {
             matched = true;
@@ -131,7 +129,7 @@ window.onload = function() {
 
   searchInput.addEventListener("input", onSearchInput);
 
-  // Render bảng ban đầu đầy đủ
+  // Render ban đầu
   renderTable(rows);
-};
+})();
 </script>
