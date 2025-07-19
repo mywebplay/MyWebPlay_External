@@ -1,4 +1,25 @@
- <input type="text" id="searchInput" placeholder="Tìm kiếm" onchange="renderTable()" />
+ <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #eee;
+    }
+    input[type="text"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+  </style>
+<input type="text" id="searchInput" placeholder="Tìm kiếm" onchange="renderTable()" />
   <table id="dataTable" border="1" style="width: 100%; margin-top: 10px;"></table>
 
   <script>
