@@ -1,0 +1,51 @@
+<b>Nhập email : <b>
+<br />
+<input type="text" id="mail" style="width: 600px;" />
+<br />
+<b>Nhập subject : <b>
+<br />
+<input type="text" id="subject" style="width: 600px;" />
+<br />
+<b>Nhập nội dung : <b>
+<br />
+<textarea id="message" cols="200" rows="20"></textarea>
+<br />
+<input id="isHTML" type="checkbox" /><b style="color:blue">Is body mail HTML</b>
+<br />
+<input type="file" id="files" multiple />
+<br /><br />
+<button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
+<script>
+async function sendmail()
+{
+var mail = document.getElementById("mail").value;
+var subject = document.getElementById("subject").value;
+var message = document.getElementById("message").value;
+var isHTML = document.getElementById("isHTML").checked;
+
+var input = document.getElementById('files');
+var files = input.files;
+
+var formData = new FormData();
+formData.append("txtEmail", mail);
+formData.append("txtMessage", message);
+formData.append("txtSubject", subject);
+formData.append("isBodyHTML", "" + isHTML);
+
+for (var i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+}
+
+fetch("/Home/SendMailSave1", {
+method: "POST",
+body: formData
+})
+.then(res => res.json())
+.then(data => {
+if (data.result == true)
+{
+alert("Đã gửi mail thành công.");
+}
+});
+}
+</script>
