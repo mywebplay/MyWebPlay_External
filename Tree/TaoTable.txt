@@ -1,108 +1,64 @@
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  #searchInputs input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+  }
   th, td {
     border: 1px solid #ccc;
     padding: 6px 8px;
     word-wrap: break-word;
     white-space: normal;
     text-align: left;
+    vertical-align: top;
   }
   th.stt-col, td.stt-col {
     width: 5%;
     text-align: center;
-    white-space: nowrap;
   }
-  input.search-box {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    padding: 6px 8px;
-  }
-  .search-row {
-    margin-top: 10px;
+  #noData {
+    font-style: italic;
+    color: #888;
   }
 </style>
 </head>
 <body>
 
+<div id="searchInputs"></div>
 <div id="tableContainer"></div>
-<div id="searchInputs" class="search-row"></div>
 
 <script>
 (function(){
   // Lấy dữ liệu raw từ localStorage
-  const rawData = localStorage.getItem("tableX") || "";
-  // Xóa vĩnh viễn localStorage sau khi lấy
+  let rawData = localStorage.getItem("tableX");
+  // Xóa localStorage luôn để tránh lỗi sau này
   localStorage.removeItem("tableX");
 
-  if (!rawData.trim()) {
-    document.getElementById("tableContainer").innerHTML = '<p><i>Không có dữ liệu để hiển thị</i></p>';
+  if (!rawData || !rawData.trim()) {
+    document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
     return;
   }
 
-  // Lưu biến gốc toàn cục để lọc
-  window._originalData = rawData;
+  // Lưu dữ liệu gốc vào biến toàn cục để sử dụng sau
+  window._originalData = rawData.trim();
 
-  // Phân tích dữ liệu raw thành mảng dòng
-  const rows = rawData.trim().split(/\r?\n/);
+  // Phân tích dữ liệu thành mảng dòng
+  let rows = window._originalData.split(/\r?\n/);
 
-  // Header có định dạng: Text***%Width\tText***%Width\t...
-  const headerCols = rows[0].split("\t").map(h => {
-    const parts = h.split("***");
-    return {
-      text: parts[0].trim(),
-      width: (parts[1] && !isNaN(parts[1])) ? parseInt(parts[1]) : 0
-    };
-  });
-
-  // Hàm tạo bảng từ mảng dòng (dữ liệu thô)
-  function renderTable(dataRows) {
-    const tableContainer = document.getElementById("tableContainer");
-    if (dataRows.length <= 1) {
-      tableContainer.innerHTML = '<p><i>Không có dữ liệu để hiển thị</i></p>';
-      return;
-    }
-
-    let html = '<table><thead><tr>';
-    html += '<th class="stt-col">STT</th>';
-    headerCols.forEach(col => {
-      html += `<th style="width:${col.width}%">${escapeHTML(col.text)}</th>`;
-    });
-    html += '</tr></thead><tbody>';
-
-    for (let i=1; i<dataRows.length; i++) {
-      const cells = dataRows[i].split("\t");
-      html += '<tr>';
-      html += `<td class="stt-col">${i}</td>`;
-      for (let j=0; j<headerCols.length; j++) {
-        html += `<td>${escapeHTML(cells[j] || '')}</td>`;
-      }
-      html += '</tr>';
-    }
-
-    html += '</tbody></table>';
-    tableContainer.innerHTML = html;
-  }
-
-  // Hàm tạo ô tìm kiếm
-  function createSearchInputs() {
-    const container = document.getElementById("searchInputs");
-    container.innerHTML = '';
-    headerCols.forEach((col, idx) => {
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "search-box";
-      input.placeholder = `Tìm kiếm ${col.text}`;
-      input.dataset.colIndex = idx;
-      input.addEventListener("input", onSearchInput);
-      container.appendChild(input);
-    });
-  }
-
-  // Hàm escape HTML để tránh lỗi hiển thị
-  function escapeHTML(text) {
-    return String(text)
+  // Hàm escape html an toàn
+  function escapeHTML(str) {
+    return String(str)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -110,49 +66,110 @@
       .replace(/'/g, "&#039;");
   }
 
-  // Xử lý sự kiện nhập trong textbox tìm kiếm
-  function onSearchInput() {
-    const inputs = document.querySelectorAll("#searchInputs input.search-box");
-    const filters = [];
-    inputs.forEach(input => {
-      const val = input.value.trim();
-      filters.push(val);
+  // Tạo vùng input tìm kiếm dựa trên header
+  function createSearchInputs(headers) {
+    const container = document.getElementById("searchInputs");
+    container.innerHTML = "";
+    headers.forEach((col, i) => {
+      // col là chuỗi header, vd: "Tên***10"
+      let [text] = col.split("***");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = `Tìm kiếm ${text.trim()}`;
+      input.id = `searchCol${i}`;
+      input.autocomplete = "off";
+
+      // Thêm sự kiện onchange để lọc
+      input.addEventListener("input", onSearchInput);
+
+      container.appendChild(input);
     });
-
-    // Lọc dữ liệu dựa trên regex, bất kỳ cột nào match là giữ
-    // Nếu input rỗng thì bỏ qua
-    const originalRows = window._originalData.trim().split(/\r?\n/);
-
-    const filteredRows = [originalRows[0]]; // header luôn giữ
-
-    for (let i=1; i<originalRows.length; i++) {
-      const cols = originalRows[i].split("\t");
-      let match = false;
-
-      for (let j=0; j<filters.length; j++) {
-        if (!filters[j]) continue;
-        try {
-          // Dùng regex ignore case
-          const re = new RegExp(filters[j], "i");
-          if (re.test(cols[j] || "")) {
-            match = true;
-            break; // chỉ cần match 1 cột là đủ
-          }
-        } catch(e) {
-          // regex lỗi => coi như ko match
-        }
-      }
-
-      if (match || filters.every(f => !f)) {
-        filteredRows.push(originalRows[i]);
-      }
-    }
-
-    renderTable(filteredRows);
   }
 
-  // Khởi tạo lần đầu
-  createSearchInputs();
+  // Hàm tạo bảng, nhận mảng dòng raw (chuỗi tab phân cách cột)
+  function renderTable(dataRows) {
+    const container = document.getElementById("tableContainer");
+    if (!dataRows || dataRows.length < 2) {
+      container.innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
+      return;
+    }
+
+    // Lấy header
+    const headerCols = dataRows[0].split("\t");
+
+    // Bắt đầu tạo table html
+    let html = '<table><thead><tr>';
+    // Cột STT
+    html += '<th class="stt-col">STT</th>';
+    // Các cột header với % width
+    headerCols.forEach(col => {
+      let [text, width] = col.split("***");
+      width = width ? width.trim() : "";
+      html += `<th style="width:${width}%">${escapeHTML(text.trim())}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    // Các dòng dữ liệu
+    for(let i=1; i<dataRows.length; i++) {
+      if(!dataRows[i].trim()) continue;
+      let cols = dataRows[i].split("\t");
+      html += `<tr><td class="stt-col" style="text-align:center">${i}</td>`;
+      for(let j=0; j<headerCols.length; j++) {
+        let val = cols[j] || "";
+        html += `<td>${escapeHTML(val)}</td>`;
+      }
+      html += '</tr>';
+    }
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
+
+  // Hàm xử lý lọc khi nhập input tìm kiếm
+  function onSearchInput() {
+    // Lấy từ khóa tìm kiếm từ các ô input
+    const headers = rows[0].split("\t");
+    const filters = headers.map((_, i) => {
+      const val = document.getElementById(`searchCol${i}`).value.trim();
+      return val;
+    });
+
+    // Nếu tất cả trống thì trả về dữ liệu gốc
+    if(filters.every(f => f === "")) {
+      renderTable(rows);
+      return;
+    }
+
+    // Lọc dữ liệu: với mỗi dòng, nếu có ít nhất 1 cột chứa chuỗi tìm kiếm (regex nếu nhập được), giữ dòng đó
+    let filtered = [rows[0]]; // giữ header
+    for(let i=1; i<rows.length; i++) {
+      let cols = rows[i].split("\t");
+      let keep = false;
+      for(let j=0; j<filters.length; j++) {
+        if(!filters[j]) continue;
+        try {
+          // Tạo regex với i flag (ignore case)
+          let re = new RegExp(filters[j], "i");
+          if(re.test(cols[j] || "")) {
+            keep = true;
+            break; // thoát vòng for cột, vì chỉ cần 1 cột khớp
+          }
+        } catch(e) {
+          // regex sai thì fallback dùng includes thường
+          if((cols[j] || "").toLowerCase().includes(filters[j].toLowerCase())) {
+            keep = true;
+            break;
+          }
+        }
+      }
+      if(keep) filtered.push(rows[i]);
+    }
+
+    renderTable(filtered);
+  }
+
+  // Khởi tạo
+  createSearchInputs(rows[0].split("\t"));
   renderTable(rows);
 
 })();
