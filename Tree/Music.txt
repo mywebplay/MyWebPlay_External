@@ -26,7 +26,7 @@
 </style>
 
 <audio id="audio" hidden autoplay>
-  <source src="http://mywebplaydemo.somee.com/karaoke_Example/ExamKara/NhacDemo.mp3" type="audio/mp3">
+  <source src="http://normalwebbasic.somee.com/karaoke_Example/ExamKara/NhacDemo.mp3" type="audio/mp3">
 </audio>
 <canvas id="canvas"></canvas>
 <h1 id="tapX">Vui lòng đợi khoảng chừng 5s rồi tap vào màn hình 😁</h1>
