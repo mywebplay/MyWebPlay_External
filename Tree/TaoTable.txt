@@ -2,157 +2,118 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 10px;
     }
-
     th, td {
-      border: 1px solid #aaa;
+      border: 1px solid #999;
       padding: 8px;
       text-align: left;
-      word-break: break-word;
     }
-
     th {
-      background-color: #f2f2f2;
+      background-color: #eee;
     }
-
     input[type="text"] {
-      width: 200px;
-      margin-bottom: 5px;
-    }
-
-    label {
-      display: inline-block;
-      margin: 5px 0;
-    }
-
-    #searchFormContainer {
-      margin-top: 20px;
-    }
-
-    button {
+      width: 80%;
+      padding: 6px;
       margin-top: 10px;
-      padding: 6px 12px;
+    }
+    label {
+      margin-left: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <div id="searchFormContainer"></div>
+  <input type="text" id="searchInput" placeholder="Tìm kiếm...">
+  <label><input type="checkbox" id="andMode"> AND</label>
+
   <div id="tableContainer"></div>
 
   <script>
-    // Giả sử localStorage có sẵn tableX, nếu không thì demo mẫu
-    if (!localStorage.getItem("tableX")) {
-      localStorage.setItem("tableX",
-        "Tên***30\tTuổi***20\tĐịa chỉ***45\n" +
-        "Nam\t25\tHà Nội\n" +
-        "Lan\t30\tTP HCM\n" +
-        "Tú\t28\tĐà Nẵng\n" +
-        "Mai\t25\tHải Phòng"
-      );
+    let originalRows = [];
+
+    function generateTableFromLocalStorage() {
+      const raw = localStorage.getItem("tableX");
+      if (!raw) return;
+
+      localStorage.removeItem("tableX");
+      const rows = raw.trim().split("\n").map(row => row.split("\t"));
+      originalRows = rows;
+      renderTable(rows);
     }
 
-    function generateTableWithSearch() {
-      const raw = localStorage.getItem("tableX");
-      localStorage.removeItem("tableX");
-      if (!raw || raw.trim() === "") return;
+    function renderTable(rows) {
+      const container = document.getElementById("tableContainer");
+      container.innerHTML = "";
 
-      const rows = raw.trim().split("\n");
-      const headers = rows[0].split("\t").map(col => col.split("***"));
-      const data = rows.slice(1).map(row => row.split("\t"));
+      if (rows.length === 0) return;
 
-      // Table HTML
       const table = document.createElement("table");
-      table.id = "dynamicTable";
-
       const thead = document.createElement("thead");
-      const trHead = document.createElement("tr");
+      const tbody = document.createElement("tbody");
 
+      const headerRow = document.createElement("tr");
       const sttTh = document.createElement("th");
       sttTh.textContent = "STT";
       sttTh.style.width = "5%";
-      trHead.appendChild(sttTh);
+      headerRow.appendChild(sttTh);
 
-      headers.forEach(([name, width]) => {
+      rows[0].forEach(col => {
         const th = document.createElement("th");
-        th.textContent = name;
-        th.style.width = width + "%";
-        trHead.appendChild(th);
+        th.textContent = col;
+        headerRow.appendChild(th);
       });
-      thead.appendChild(trHead);
-      table.appendChild(thead);
+      thead.appendChild(headerRow);
 
-      const tbody = document.createElement("tbody");
-      data.forEach((row, idx) => {
+      // Đánh lại STT kể cả sau khi lọc
+      let currentStt = 1;
+
+      for (let i = 1; i < rows.length; i++) {
         const tr = document.createElement("tr");
 
         const sttTd = document.createElement("td");
-        sttTd.textContent = idx + 1;
+        sttTd.textContent = currentStt++;
         tr.appendChild(sttTd);
 
-        row.forEach(text => {
+        rows[i].forEach(cell => {
           const td = document.createElement("td");
-          td.textContent = text;
+          td.textContent = cell;
           tr.appendChild(td);
         });
-
         tbody.appendChild(tr);
-      });
+      }
+
+      table.appendChild(thead);
       table.appendChild(tbody);
-
-      // Render table
-      const container = document.getElementById("tableContainer");
-      container.innerHTML = "";
       container.appendChild(table);
-
-      // Search form
-      const form = document.createElement("div");
-      form.id = "searchForm";
-
-      headers.forEach(([name], i) => {
-        const label = document.createElement("label");
-        label.innerHTML = `${name}: <input type="text" id="txtCot${i + 1}">`;
-        form.appendChild(label);
-        form.appendChild(document.createElement("br"));
-      });
-
-      // AND/OR
-      const cond = document.createElement("label");
-      cond.innerHTML = `Điều kiện:
-        <input type="radio" name="cond" value="AND" checked>AND
-        <input type="radio" name="cond" value="OR">OR`;
-      form.appendChild(cond);
-      form.appendChild(document.createElement("br"));
-
-      // Button
-      const btn = document.createElement("button");
-      btn.textContent = "Tìm kiếm";
-      btn.onclick = () => {
-        const values = headers.map((_, i) =>
-          document.getElementById("txtCot" + (i + 1)).value.trim().toLowerCase()
-        );
-        const condition = document.querySelector("input[name='cond']:checked").value;
-        const trs = table.querySelectorAll("tbody tr");
-
-        trs.forEach(tr => {
-          const tds = Array.from(tr.querySelectorAll("td")).slice(1); // Bỏ STT
-          const checks = values.map((val, i) =>
-            val === "" || tds[i].textContent.toLowerCase().includes(val)
-          );
-          const show = condition === "AND"
-            ? checks.every(Boolean)
-            : checks.some(Boolean);
-          tr.style.display = show ? "" : "none";
-        });
-      };
-      form.appendChild(btn);
-
-      const formContainer = document.getElementById("searchFormContainer");
-      formContainer.innerHTML = "";
-      formContainer.appendChild(form);
     }
 
-    // Init
-    generateTableWithSearch();
+    function searchTable() {
+      const input = document.getElementById("searchInput").value.trim().toLowerCase();
+      const andMode = document.getElementById("andMode").checked;
+      const keywords = input.split(/\s+/);
+
+      if (!input) {
+        renderTable(originalRows);
+        return;
+      }
+
+      const matchedRows = [originalRows[0]];
+
+      for (let i = 1; i < originalRows.length; i++) {
+        const rowText = originalRows[i].join(" ").toLowerCase();
+        const match = andMode
+          ? keywords.every(k => rowText.includes(k))
+          : keywords.some(k => rowText.includes(k));
+        if (match) matchedRows.push(originalRows[i]);
+      }
+
+      renderTable(matchedRows);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", searchTable);
+    document.getElementById("andMode").addEventListener("change", searchTable);
+
+    generateTableFromLocalStorage();
   </script>
