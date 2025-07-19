@@ -43,7 +43,7 @@
   // Lấy dữ liệu raw từ localStorage
   let rawData = localStorage.getItem("tableX");
   // Xóa localStorage luôn để tránh lỗi sau này
-  localStorage.removeItem("tableX");
+  //localStorage.removeItem("tableX");
 
   if (!rawData || !rawData.trim()) {
     document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
