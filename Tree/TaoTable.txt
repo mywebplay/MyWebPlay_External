@@ -1,123 +1,114 @@
 <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    input[type="text"] {
-      padding: 5px;
-      width: 300px;
-      margin-bottom: 10px;
-    }
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 6px 10px;
       text-align: left;
     }
-    th:nth-child(1),
-    td:nth-child(1) {
-      width: 5%;
-      text-align: center;
+    th {
+      background: #eee;
     }
-    tr.hide {
-      display: none;
+    input[type="text"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 5px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
-<h2>Dữ liệu bảng</h2>
-<input type="text" id="searchInput" placeholder="Tìm kiếm (regex hỗ trợ ^abc, abc$, v.v.)">
+<input type="text" id="searchBox" placeholder="Tìm kiếm" onchange="renderTable()" />
 
-<table id="tableX">
-  <thead></thead>
-  <tbody></tbody>
-</table>
+<table id="dataTable"></table>
 
 <script>
-  function generateTableFromLocalStorage() {
-    const raw = localStorage.getItem("tableX");
-    if (!raw) {
-      alert("Không tìm thấy dữ liệu trong localStorage!");
-      return;
+  const raw = localStorage.getItem("tableX");
+  if (!raw) {
+    alert("Không có dữ liệu trong localStorage key 'tableX'");
+    throw new Error("Missing data");
+  }
+
+  const lines = raw.trim().split("\n");
+  if (lines.length < 2) {
+    alert("Dữ liệu không hợp lệ!");
+    throw new Error("Invalid data format");
+  }
+
+  // Dòng tiêu đề có định dạng width (***)
+  const headers = lines[0].split("\t").map(h => {
+    const [label, width] = h.split("***");
+    return { label: label.trim(), width: parseInt(width.trim()) || 10 };
+  });
+
+  // Dữ liệu bảng
+  const rows = lines.slice(1).map(line => line.split("\t"));
+
+  // Xoá localStorage sau khi đọc
+  localStorage.removeItem("tableX");
+
+  function renderTable() {
+    const keyword = document.getElementById("searchBox").value.trim();
+    let filteredRows = [...rows];
+
+    if (keyword !== "") {
+      try {
+        const regex = new RegExp(keyword, "i");
+        filteredRows = rows.filter(row =>
+          row.some(cell => regex.test(cell))
+        );
+      } catch (e) {
+        alert("Biểu thức tìm kiếm không hợp lệ!");
+        return;
+      }
     }
 
-    let data;
-    try {
-      data = JSON.parse(raw);
-      if (!Array.isArray(data) || data.length === 0) throw "Dữ liệu không hợp lệ";
-    } catch (e) {
-      alert("Dữ liệu JSON không hợp lệ!");
-      return;
-    }
+    const table = document.getElementById("dataTable");
+    table.innerHTML = "";
 
-    const table = document.getElementById("tableX");
-    const thead = table.querySelector("thead");
-    const tbody = table.querySelector("tbody");
-    thead.innerHTML = "";
-    tbody.innerHTML = "";
-
-    // Tạo tiêu đề bảng (có STT)
-    const headers = Object.keys(data[0]);
+    // Header
+    const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    headerRow.innerHTML = `<th>STT</th>` + headers.map(h => `<th>${h}</th>`).join("");
-    thead.appendChild(headerRow);
 
-    // Tạo hàng dữ liệu
-    data.forEach((row, index) => {
+    const sttTh = document.createElement("th");
+    sttTh.textContent = "STT";
+    headerRow.appendChild(sttTh);
+
+    headers.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h.label;
+      th.style.width = h.width + "%";
+      headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement("tbody");
+    filteredRows.forEach((row, i) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${index + 1}</td>` + headers.map(h => `<td>${row[h]}</td>`).join("");
+
+      const sttTd = document.createElement("td");
+      sttTd.textContent = i + 1;
+      tr.appendChild(sttTd);
+
+      row.forEach(cell => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+
       tbody.appendChild(tr);
     });
 
-    // Xoá dữ liệu khỏi localStorage
-    localStorage.removeItem("tableX");
+    table.appendChild(tbody);
   }
 
-  function filterTableRegex() {
-    const input = document.getElementById("searchInput").value.trim();
-    const table = document.getElementById("tableX");
-    const tbody = table.querySelector("tbody");
-    const rows = tbody.querySelectorAll("tr");
-
-    let regex;
-    try {
-      regex = new RegExp(input, "i"); // Không phân biệt hoa thường
-    } catch (e) {
-      rows.forEach(row => row.classList.remove("hide"));
-      return;
-    }
-
-    rows.forEach((row, index) => {
-      const cells = row.querySelectorAll("td");
-      let matched = false;
-
-      // Bỏ qua cột STT (ô đầu tiên)
-      for (let i = 1; i < cells.length; i++) {
-        if (regex.test(cells[i].textContent)) {
-          matched = true;
-          break;
-        }
-      }
-
-      row.classList.toggle("hide", !matched);
-    });
-
-    // Đánh lại STT chỉ cho hàng hiển thị
-    let newIndex = 1;
-    rows.forEach(row => {
-      if (!row.classList.contains("hide")) {
-        row.querySelector("td").textContent = newIndex++;
-      }
-    });
-  }
-
-  // Khởi tạo
-  generateTableFromLocalStorage();
-
-  // Gắn sự kiện tìm kiếm
-  document.getElementById("searchInput").addEventListener("input", filterTableRegex);
+  // Initial render
+  renderTable();
 </script>
