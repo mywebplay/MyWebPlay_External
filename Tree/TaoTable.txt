@@ -37,15 +37,26 @@
 <div id="tableContainer"></div>
 
 <script>
+var rootData = "";
 (() => {
-  const rawData = localStorage.getItem("tableX");
+ var rawData = "";
+if (localStorage.getItem("tableX") != null)
+{
+  rawData = localStorage.getItem("tableX");
+  rootData = rawData;
+  localStorage.removeItem("tableX");
+}
+else
+{
+     rawData = rootData;
+}
+   
   if (!rawData || !rawData.trim()) {
     document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
     return;
   }
 
   const rows = rawData.trim().split(/\r?\n/);
- // localStorage.removeItem("tableX");
 
   const searchInput = document.getElementById("searchInput");
 
