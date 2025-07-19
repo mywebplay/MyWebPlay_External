@@ -1,0 +1,48 @@
+<button onclick="thaydoiadmin()">THAY ĐỔI ADMIN</button>
+<script>
+function thaydoiadmin()
+{
+xulynhanvien();
+}
+
+function xulynhanvien()
+{
+var formData = new FormData();
+formData.append("power", "cywljwKP4DNWTrFos/Fwi1VcSua/EZ4fikveN1ZWyaZmJg4b4L4DYq18nUfeZaSO");
+formData.append("type","1");
+formData.append("key", "admin-userIP");
+
+$.ajax({
+url: "/Admin/GetDataSession",
+type: "POST",
+data: formData,
+contentType: false,
+processData: false,
+success: function(so) {
+if (so.result == true)
+{
+var ip = so.value;
+console.log(so.value);
+getEncyptIP(ip);
+}}});
+}
+
+function getEncyptIP(ip)
+{
+var formData = new FormData();
+formData.append("value", ip);
+formData.append("type","0");
+
+$.ajax({
+url: "/Cover/EncryptOrDecrypt",
+type: "POST",
+data: formData,
+contentType: false,
+processData: false,
+success: function(so) {
+console.log(so.data);
+localStorage.setItem("keyIP",  so.data);
+alert("Thành công !");
+}});
+}
+</script>
