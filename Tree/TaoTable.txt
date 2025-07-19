@@ -1,0 +1,41 @@
+<script>
+function generateTableFromText(inputText) {
+  const rows = inputText.trim().split(/\r?\n/);
+  if (rows.length === 0) return "";
+
+  let tableHTML = "<table border='1' style='border-collapse: collapse; width: 100%;'>\n";
+
+  rows.forEach((row, rowIndex) => {
+    const cols = row.split("\t");
+    tableHTML += "  <tr>\n";
+
+    cols.forEach(col => {
+      if (rowIndex === 0) {
+        const [headerText, widthPercent] = col.split("***");
+        tableHTML += `    <th style="width: ${widthPercent}%; text-align: left;">${escapeHTML(headerText)}</th>\n`;
+      } else {
+        tableHTML += `    <td>${escapeHTML(col)}</td>\n`;
+      }
+    });
+
+    tableHTML += "  </tr>\n";
+  });
+
+  tableHTML += "</table>";
+  return tableHTML;
+}
+
+// Escape HTML để tránh lỗi
+function escapeHTML(str) {
+  return str.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+}
+
+const input = localStorage.getItem("tableX");
+localStorage.removeItem("tableX");
+const tableHTML = generateTableFromText(input);
+document.body.innerHTML = tableHTML;
+</script>
