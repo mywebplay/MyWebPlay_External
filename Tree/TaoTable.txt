@@ -1,114 +1,73 @@
-<style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      text-align: left;
-    }
-    th {
-      background: #eee;
-    }
-    input[type="text"] {
-      width: 100%;
-      max-width: 300px;
-      padding: 5px;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
+ <input type="text" id="searchInput" placeholder="Tìm kiếm" onchange="renderTable()" />
+  <table id="dataTable" border="1" style="width: 100%; margin-top: 10px;"></table>
 
-<input type="text" id="searchBox" placeholder="Tìm kiếm" onchange="renderTable()" />
+  <script>
+    function renderTable() {
+      const rawData = localStorage.getItem("tableX");
+      if (!rawData) return;
 
-<table id="dataTable"></table>
+      const lines = rawData.trim().split("\n");
+      if (lines.length < 2) return;
 
-<script>
-  const raw = localStorage.getItem("tableX");
-  if (!raw) {
-    alert("Không có dữ liệu trong localStorage key 'tableX'");
-    throw new Error("Missing data");
-  }
+      const headers = lines[0].split("\t");
+      const widths = headers.map(h => h.split("***")[1] || "auto");
+      const titles = headers.map(h => h.split("***")[0]);
+      const dataRows = lines.slice(1);
 
-  const lines = raw.trim().split("\n");
-  if (lines.length < 2) {
-    alert("Dữ liệu không hợp lệ!");
-    throw new Error("Invalid data format");
-  }
+      const keyword = document.getElementById("searchInput").value.trim();
+      const regex = keyword ? new RegExp(keyword, "i") : null;
 
-  // Dòng tiêu đề có định dạng width (***)
-  const headers = lines[0].split("\t").map(h => {
-    const [label, width] = h.split("***");
-    return { label: label.trim(), width: parseInt(width.trim()) || 10 };
-  });
+      const table = document.getElementById("dataTable");
+      table.innerHTML = "";
 
-  // Dữ liệu bảng
-  const rows = lines.slice(1).map(line => line.split("\t"));
+      // Header
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
 
-  // Xoá localStorage sau khi đọc
-  localStorage.removeItem("tableX");
+      const sttTh = document.createElement("th");
+      sttTh.textContent = "STT";
+      headerRow.appendChild(sttTh);
 
-  function renderTable() {
-    const keyword = document.getElementById("searchBox").value.trim();
-    let filteredRows = [...rows];
-
-    if (keyword !== "") {
-      try {
-        const regex = new RegExp(keyword, "i");
-        filteredRows = rows.filter(row =>
-          row.some(cell => regex.test(cell))
-        );
-      } catch (e) {
-        alert("Biểu thức tìm kiếm không hợp lệ!");
-        return;
-      }
-    }
-
-    const table = document.getElementById("dataTable");
-    table.innerHTML = "";
-
-    // Header
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-
-    const sttTh = document.createElement("th");
-    sttTh.textContent = "STT";
-    headerRow.appendChild(sttTh);
-
-    headers.forEach(h => {
-      const th = document.createElement("th");
-      th.textContent = h.label;
-      th.style.width = h.width + "%";
-      headerRow.appendChild(th);
-    });
-
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    // Body
-    const tbody = document.createElement("tbody");
-    filteredRows.forEach((row, i) => {
-      const tr = document.createElement("tr");
-
-      const sttTd = document.createElement("td");
-      sttTd.textContent = i + 1;
-      tr.appendChild(sttTd);
-
-      row.forEach(cell => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        tr.appendChild(td);
+      titles.forEach((title, i) => {
+        const th = document.createElement("th");
+        th.textContent = title;
+        th.style.width = widths[i] + "%";
+        headerRow.appendChild(th);
       });
 
-      tbody.appendChild(tr);
-    });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
 
-    table.appendChild(tbody);
-  }
+      // Body
+      const tbody = document.createElement("tbody");
+      let stt = 1;
 
-  // Initial render
-  renderTable();
-</script>
+      dataRows.forEach(row => {
+        const cells = row.split("\t");
+
+        // Lọc theo regex nếu có
+        if (regex) {
+          const combined = cells.join("\t").toLowerCase();
+          if (!regex.test(combined)) return;
+        }
+
+        const tr = document.createElement("tr");
+
+        const sttTd = document.createElement("td");
+        sttTd.textContent = stt++;
+        tr.appendChild(sttTd);
+
+        cells.forEach(cell => {
+          const td = document.createElement("td");
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+    }
+
+    renderTable();
+  </script>
