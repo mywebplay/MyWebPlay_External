@@ -129,6 +129,7 @@
 
   function initTracNghiem() {
     const data = localStorage.getItem("tracnghiem_layout");
+     localStorage.removeItem("tracnghiem_layout");
     if (!data) {
       const errBox = document.getElementById("error-message");
       errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
