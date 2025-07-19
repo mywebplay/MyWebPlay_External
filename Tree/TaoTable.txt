@@ -46,7 +46,7 @@ window.onload = function() {
 
   const rows = rawData.trim().split(/\r?\n/);
   // Xóa localStorage sau khi đã lấy dữ liệu
-  localStorage.removeItem("tableX");
+  //localStorage.removeItem("tableX");
 
   const searchInput = document.getElementById("searchInput");
 
