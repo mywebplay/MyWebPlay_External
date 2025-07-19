@@ -1,0 +1,149 @@
+<!-- HTML bảng karaoke -->
+<div class="karaoke-guide" id="textContainer">
+  <div class="karaoke-text" id="textContent"></div>
+  <button id="nextButton" class="next-btn">Tiếp theo</button>
+</div>
+
+<!-- CSS style riêng, không ảnh hưởng toàn trang -->
+<style>
+.karaoke-guide {
+  background: #222;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.3);
+  max-width: 900px;
+  padding: 30px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative; 
+  margin: 50px auto;
+  display: block;
+}
+
+.karaoke-text {
+  white-space: pre-wrap;
+  border-left: 3px solid cyan;
+  padding-left: 10px;
+  animation: blink 0.7s steps(1) infinite;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 300px;
+}
+
+@keyframes blink {
+  0% { border-color: cyan; }
+  50% { border-color: transparent; }
+  100% { border-color: cyan; }
+}
+
+.highlight {
+  color: #00ffff;
+  font-weight: bold;
+}
+
+.next-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  text-decoration: underline dotted;
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+  padding: 5px;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.next-btn:hover {
+  opacity: 1;
+  color: #ccc;
+}
+</style>
+
+<!-- Script gói kín, không trùng biến toàn cục -->
+<script>
+(function() {
+  const karaokePages = [
+  `- Sẵn sàng nghe nhạc mp3 của bạn cùng ca sĩ hát để xác định thời điểm của mỗi khúc/đoạn và mỗi từ có trong lyric mà ca sĩ sẽ hát.
+
+- Nếu bạn đã chuẩn bị sẵn sàng, nhấn nút Start Play và nghe bản nhạc của bạn bên dưới. Trong khi đang nghe, bạn sẽ vừa thao tác để tiến hành tạo file Karaoke của bạn.
+
+- Cách thực hiện : vừa nghe nhạc, đồng thời hai ngón tay của bạn luôn giữ phím Enter và Space để thao tác trong suốt quá trình.
++ Nếu ca sĩ sắp hát đến đoạn lyric nào, hãy nhấn Space (đoạn lyric đó sẽ xuất hiện - ca sĩ sắp hát đến đoạn đó (nên dành thời gian 1-3 giây hoặc từ 5-8 giây (nếu sau nhạc dạo)).
++ Nếu ca sĩ đang hát đến từ nào trong đoạn lyric, hãy nhấn phím Enter (màu chữ của từ đó sẽ được tô) - ngoại trừ các đoạn nhạc dạo [Empty] hoặc [Music] bạn có thể bỏ qua mà không cần gõ để tô màu đoạn này!
++ Và thực hiện tương tự cho đến khi hết bài hát!
+
+LƯU Ý : trong suốt quá trình thực hiện, bạn không nên có bất kỳ thao tác nào khác ngoài việc bạn chỉ cần giữ và canh gõ 2 phím : Enter và Space.`,
+
+  `XIN LỖI VÌ SỰ BẤT TIỆN : mọi thao tác sai, bạn phải thực hiện lại từ đầu :)) - khi dò xét mỗi đoạn lyric mà đoạn đó có bao nhiêu từ thì bạn chỉ gõ đúng số lần đó (VD : đoạn lyric có 5 từ sẽ tương ứng chỉ đủ 5 lần gõ phím Enter của bạn [tô màu đủ số từ đang hiển thị] tại đoạn Lyric đang dò xét đó - không nên nhấn lố hay thiếu (hãy cẩn thận)) ... Chúc bạn thành công!😄
+
+Thông tin bổ sung : hiện tại dịch vụ thiết kế Karaoke của my web play chỉ là một tính năng nhỏ, cơ bản và có thể không được hoàn hảo như bạn mong muốn; có lẽ bạn phải tự thử đi thử lại nhiều lần (tuỳ vào cảm nhận của bạn về ứng dụng và lần sau khi tạo bản karaoke khác, sẽ dựa vào kinh nghiệm của bạn và theo phong cách của bạn - lúc đó bạn có thể tự tạo cho mình cách thiết kế karaoke từ my web play vì bạn đã hiểu được cách mà ứng dụng này nó hoạt động ra sao (mỗi người mỗi nhu cầu và cách xử lý sẽ khác nhau 😂). Thành thật xin lỗi vì điều này, nhưng mình sẽ cố gắng nâng cấp phiên bản mới tốt hơn từng ngày nếu có thể). Và trong khi play, nếu gặp một từ mà ca sĩ hát kéo dài (đoạn hơi dài), gợi ý bạn vui lòng đợi sau khi ca sĩ sắp và gần chót hát xong từ đó thì mới hãy tô màu cho từ chữ đó mà singer đang đã ca xong; còn nếu từ đó được singer ca và lấy hơi kéo quá dài thì bạn hãy bổ sung đại diện các dấu ba chấm sau từ đang ca đó - VD :"🎼 Hò ... ... ơi ..." (tuỳ chọn và tuỳ độ dài) và cũng tô màu cho chúng (tốt hơn hết đừng vì một từ mà đợi/kéo dài quá 0.3 giây mới tô) 😀.
+
+Hiện nay bạn đã có thể chờ và tô màu từ text đó theo quãng và tốc độ hát của ca sĩ vào đúng thời điểm thực tế, nhưng cho dù vậy bạn cũng không nên quá lố và quá sức... Mọi sự ở đây đều là hên xui (hướng dẫn này chỉ là một phần), hãy tự học hỏi - cảm nhận và tự sáng tạo và rút ra kinh nghiệm của mình và cho ra những sản phẩm karaoke theo ý bạn nhé 😎`,
+
+  {
+    highlight: "TỔNG HỢP MẸO XỬ LÝ - GIÚP CHO KARAOKE CÓ TIẾN TRÌNH/THIẾT KẾ KHI PLAY SẼ MƯỢT MÀ VÀ CHUẨN HƠN",
+    content: `
+- Hai ngón tay của bạn luôn canh và giữ 2 phím : Enter và Space. Nhấn Space khi muốn chuyển sang đoạn khác và ca sĩ cũng sắp hát đến đoạn đó. Và nhấn Enter khi ca sĩ đang hát đến từ đó (tô màu chữ theo tiến độ mà ca sĩ đang hát).
+
+- Bạn cần phải nắm rõ tiến độ và lời bài hát (file mp3) mà ca sĩ đã trình bày để việc canh giữ phím Enter và Space của bạn sẽ được chuẩn xác hơn so với thực tế.
+
+- Đối với các đoạn nhạc dạo giữa :
+    + Nếu bạn để là [Empty] hoặc [Music] thì màn hình phần text karaoke khi play sẽ được để trống, khi ca sĩ sắp hát tiếp sẽ tự động có bộ đếm ngược cho biết sắp bắt đầu hát/sắp bắt đầu vô nhịp mới. Lưu ý thêm, ở cái đoạn mới (hát tiếp) sau khi sắp hết đoạn nhạc dạo thì bạn canh gõ phím Enter một cách sớm nhất có thể nhé, vì còn phải chừa thời gian cho bộ đếm ngược thời gian bắt đầu hát đó nữa 😁 (cái này cũng tương tự như lúc đầu nữa nhé)...
+    + Nếu bạn để là [Empty-X] thì cũng tương tự như trên, nhưng nó sẽ không có bộ đếm ngược (trường hợp này sử dụng khi nhạc dạo ngắn).
+
+- Mặc dù được khuyên là gõ Enter khi ca sĩ đang/đã hát đến từ đó. Nhưng cách tốt nhất là đợi ca sĩ hát xong từ đó và cũng vừa dứt câu từ đó thì bạn mới gõ Enter để tô màu chữ đó (đặc biệt là khi ca sĩ hát cái từ đó và được kéo dài ra). Tuy nhiên, cũng có một số trường hợp mà ca sĩ đã hát xong từ đó (miệng ca sĩ đang im lặng một khoảng thời gian) rồi sau đó mới hát tiếp câu từ tiếp theo; đối với trường hợp này bạn có thể bổ sung giữa 2 từ này một kí tự đại diện phân cách để có thể đại diện cho độ nghỉ này (cũng canh và tô màu tương tự)...
+=> Nói chung bạn thử chơi Karaoke vài lần và tự rút kinh nghiệm là biết à (mình cũng không biết nói sao nữa, bạn cố gắng lên nhé 💕😂😁)...`
+  }
+];
+
+  const container = document.getElementById("textContainer");
+  const content = document.getElementById("textContent");
+  const nextBtn = document.getElementById("nextButton");
+
+  let pageIndex = 0;
+
+  function typeText(text, index = 0, callback) {
+    if (index < text.length) {
+      content.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+      setTimeout(() => typeText(text, index + 1, callback), 15);
+    } else {
+      callback && callback();
+    }
+  }
+
+  function showPage() {
+    content.innerHTML = "";
+    container.style.opacity = 1;
+    nextBtn.style.display = "none";
+
+    const page = karaokePages[pageIndex];
+    const isObject = typeof page === "object";
+    const fullText = isObject ? `${page.highlight}\n${page.content}` : page;
+
+    typeText(fullText, 0, () => {
+      if (isObject && page.highlight) {
+        const lines = content.innerHTML.split("<br>");
+        lines[0] = `<span class="highlight">${lines[0].replace(/<\/?[^>]+(>|$)/g, "")}</span>`;
+        content.innerHTML = lines.join("<br>");
+      }
+
+      nextBtn.innerText = (pageIndex === karaokePages.length - 1)
+        ? "Xem lại hướng dẫn"
+        : "Tiếp theo";
+      nextBtn.style.display = "block";
+    });
+  }
+
+  nextBtn.addEventListener("click", () => {
+    pageIndex = (pageIndex + 1) % karaokePages.length;
+    showPage();
+  });
+
+  showPage();
+})();
+</script>
