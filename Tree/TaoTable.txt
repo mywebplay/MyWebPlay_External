@@ -116,5 +116,5 @@ function escapeHTML(str) {
 
 const input = localStorage.getItem("tableX");
 localStorage.removeItem("tableX");
-const tableHTML = generateTableWithSearch(input);
+generateTableWithSearch(input);
 </script>
