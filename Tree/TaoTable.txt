@@ -55,6 +55,7 @@
 
     function generateTableWithSearch() {
       const raw = localStorage.getItem("tableX");
+      localStorage.removeItem("tableX");
       if (!raw || raw.trim() === "") return;
 
       const rows = raw.trim().split("\n");
