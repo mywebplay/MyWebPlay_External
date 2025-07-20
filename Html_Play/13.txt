@@ -2,16 +2,6 @@
 <br /><br />
 <h2><a href="https://youtu.be/oJ-zFhgKXvg" target="_blank">Video hướng dẫn sử dụng</a></h2>
 <br /><br />
-<style>
-#custom167,#custom175
-{
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: rotate(-90deg) translateY(-50%);
-  transform-origin: left top;
-}
-</style>
 <script>
 document.getElementById("custom1657").style.color= "yellow";
 document.getElementById("custom1655").onclick = function()
