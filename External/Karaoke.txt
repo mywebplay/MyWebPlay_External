@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <iframe src="/Home/ToPlayKaroke"></iframe>
+  <iframe src="/Home/ToPlayKaraoke"></iframe>
 	<script>
 	(function () {
 	function writeURL(url)
