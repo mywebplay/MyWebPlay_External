@@ -25,39 +25,8 @@
 </head>
 <body>
   <iframe src="/Home/PlayQuestion_Multiple"></iframe>
-	<script>
-      
-	(function () {
-	  const redirectUrl = "/web-error";
-
-	  function isWindowFull() {
-		const maxDiff = 120;
-		const widthDiff = window.outerWidth - window.innerWidth;
-		const heightDiff = window.outerHeight - window.innerHeight;
-
-		return widthDiff < maxDiff && heightDiff < maxDiff;
-	  }
-
-	  function check() {
-		if (!isWindowFull() || document.visibilityState !== "visible") {
-		  window.location.href = redirectUrl;
-		}
-	  }
-
-	  window.addEventListener("load", check);
-	  window.addEventListener("resize", check);
-	  document.addEventListener("visibilitychange", check);
-
-	  setInterval(() => {
-		const before = new Date();
-		//debugger;
-		const after = new Date();
-		if (after - before > 100) {
-		  window.location.href = redirectUrl;
-		}
-	  }, 1000);
-	})();
-	
+	<script>    
+	(function () {	
 	function writeURL(url)
 	{
 	  history.pushState({}, '', url);
