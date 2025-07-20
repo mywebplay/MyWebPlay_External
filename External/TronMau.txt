@@ -26,21 +26,6 @@
 <body>
   <iframe src="/Home/TronMau"></iframe>
 	<script>
-        let mouseDown = false;
-
-document.addEventListener("mousedown", () => {
-  mouseDown = true;
-});
-
-document.addEventListener("mouseleave", (e) => {
-  if (mouseDown) {
-    window.location.href = "/web-error";
-  }
-});
-
-document.addEventListener("mouseup", () => {
-  mouseDown = false;
-});
 	(function () {
 	  const redirectUrl = "/web-error";
 
