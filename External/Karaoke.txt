@@ -42,8 +42,16 @@ document.addEventListener("mouseup", () => {
   mouseDown = false;
 });
 
+let hasFocused = false;
+
+window.addEventListener("focus", () => {
+  hasFocused = true;
+});
+
 window.addEventListener("blur", () => {
-  window.location.href = "/web-error";
+  if (hasFocused) {
+    window.location.href = "/web-error";
+  }
 });
 	(function () {
 	  const redirectUrl = "/web-error";
