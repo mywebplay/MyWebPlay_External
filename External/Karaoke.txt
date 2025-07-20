@@ -26,33 +26,6 @@
 <body>
   <iframe src="/Home/ToPlayKaroke"></iframe>
 	<script>
-        let mouseDown = false;
-
-document.addEventListener("mousedown", () => {
-  mouseDown = true;
-});
-
-document.addEventListener("mouseleave", (e) => {
-  if (mouseDown) {
-    window.location.href = "/web-error";
-  }
-});
-
-document.addEventListener("mouseup", () => {
-  mouseDown = false;
-});
-
-let hasFocused = false;
-
-window.addEventListener("focus", () => {
-  hasFocused = true;
-});
-
-window.addEventListener("blur", () => {
-  if (hasFocused) {
-    window.location.href = "/web-error";
-  }
-});
 	(function () {
 	  const redirectUrl = "/web-error";
 
