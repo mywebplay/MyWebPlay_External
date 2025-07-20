@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <iframe src="/Home/PlayQuestion_Multiple"></iframe>
+  <iframe src="http://mywebplaylayout.somee.com/layout.html?path=/Home/PlayQuestion_Multiple"></iframe>
 	<script>    
 	(function () {	
 
