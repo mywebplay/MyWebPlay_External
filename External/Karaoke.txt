@@ -41,6 +41,10 @@ document.addEventListener("mouseleave", (e) => {
 document.addEventListener("mouseup", () => {
   mouseDown = false;
 });
+
+window.addEventListener("blur", () => {
+  window.location.href = "/web-error";
+});
 	(function () {
 	  const redirectUrl = "/web-error";
 
