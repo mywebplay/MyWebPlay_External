@@ -37,8 +37,10 @@
 <div id="tableContainer"></div>
 
 <script>
+var root = localStorage.getItem("tableX");
+localStorage.removeItem("tableX");
 (() => {
-  const rawData = localStorage.getItem("tableX");
+  const rawData = root;
   if (!rawData || !rawData.trim()) {
     document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
     return;
