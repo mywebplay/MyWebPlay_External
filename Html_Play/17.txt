@@ -97,18 +97,30 @@ document.getElementById("custom11").onclick = function()
 
       switch (action) {
         case 'TronMau':
+         if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/Home/TronMau");
+         } 
           window.location.href = "/Home/TronMau";
           break;
 
         case 'TracNghiem':
+          if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/Home/TracNghiemX_Multiple");
+         } 
           window.location.href = "/Home/TracNghiemX_Multiple";
           break;
 
         case 'Question':
+          if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/Home/PlayQuestion_Multiple");
+         } 
           window.location.href = "/Home/PlayQuestion_Multiple";
           break;
 
           case 'Karaoke':
+          if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/Home/ToPlayKaraoke");
+         } 
           window.location.href = "/Home/ToPlayKaraoke";
           break;
       }
