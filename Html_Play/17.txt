@@ -98,28 +98,28 @@ document.getElementById("custom11").onclick = function()
       switch (action) {
         case 'TronMau':
          if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/Home/TronMau");
+          parent.writeURL("/tron-mau");
          } 
           window.location.href = "/Home/TronMau";
           break;
 
         case 'TracNghiem':
           if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/Home/TracNghiemX_Multiple");
+          parent.writeURL("/trac-nghiem-2");
          } 
           window.location.href = "/Home/TracNghiemX_Multiple";
           break;
 
         case 'Question':
           if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/Home/PlayQuestion_Multiple");
+          parent.writeURL("/question");
          } 
           window.location.href = "/Home/PlayQuestion_Multiple";
           break;
 
           case 'Karaoke':
           if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/Home/ToPlayKaraoke");
+          parent.writeURL("/karaoke-2");
          } 
           window.location.href = "/Home/ToPlayKaraoke";
           break;
