@@ -30,8 +30,7 @@
 	  const redirectUrl = "/web-error";
 
 	  function isWindowFull() {
-		const maxDiff = 120; // Giới hạn chênh lệch (DevTools thường chiếm >150px)
-
+		const maxDiff = 120;
 		const widthDiff = window.outerWidth - window.innerWidth;
 		const heightDiff = window.outerHeight - window.innerHeight;
 
