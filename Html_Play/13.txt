@@ -4,4 +4,14 @@
 <br /><br />
 <script>
 document.getElementById("custom1657").style.color= "yellow";
+document.getElementById("custom1655").onclick = function()
+{
+     if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/tao-trac-nghiem");
+         } 
+
+     if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Trình tạo ôn tập và kiểm tra tài liệu với dạng trắc nghiệm | MyWebPlay");
+         } 
+}
 </script>
