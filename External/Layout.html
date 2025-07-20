@@ -14,6 +14,7 @@
   <iframe id="frame"></iframe>
 <script>
       const urlParams = new URLSearchParams(window.location.search);
-      const path = urlParams.get("path");
+     let path = urlParams.get("path");
+     if (path == null) path = "";
       document.getElementById("frame").src = "http://normalwebbasic.somee.com" + path;
 </script>
