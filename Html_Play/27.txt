@@ -1,0 +1,11 @@
+<!-- style css cho trang tạo trắc nghiệm với đoạn text đang bị xuống dòng xấu -->
+<style>
+#custom167,#custom175
+{
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: rotate(-90deg) translateY(-50%);
+  transform-origin: left top;
+}
+</style>
