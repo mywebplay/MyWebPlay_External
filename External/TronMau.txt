@@ -25,6 +25,7 @@
     </head>
     <body>
         <iframe src="/Home/TronMau"></iframe>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
             (function () {
                        function writeURL(url)
@@ -47,9 +48,5 @@
                    });
                 },10);
         </script>
-        <script src="/lib/jquery/dist/jquery.min.js"></script>
-        <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/site.js?v=TT9gdsrYxJxsTxry7yz80ShJ0E1Fs7_3rwt7zPCsi4I"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
     </body>
 </html>
