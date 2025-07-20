@@ -11,12 +11,9 @@
       display: block;
     }
   </style>
-</head>
-<body>
   <iframe id="frame"></iframe>
-	<script>
+<script>
       const urlParams = new URLSearchParams(window.location.search);
       const path = urlParams.get("path");
       document.getElementById("frame").src = path;
-	</script>
-</body>
+</script>
