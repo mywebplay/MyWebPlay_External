@@ -63,6 +63,11 @@
 	  history.pushState({}, '', url);
 	}
 
+        function writeTitle(title)
+        {
+          document.title = title;
+        }
+
       // Delete div somee
      setInterval(function()
      {
