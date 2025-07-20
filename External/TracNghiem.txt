@@ -24,7 +24,6 @@
         </style>
     </head>
     <body>
-        <iframe src="/Home/TracNghiemX_Multiple"></iframe>
          <script>
             (function () {
                        function writeURL(url)
@@ -44,5 +43,6 @@
             document.querySelectorAll("div[style='height: 65px;']").forEach(el => el.remove());
             }, 10);
         </script>
+        <iframe src="/Home/TracNghiemX_Multiple"></iframe>
     </body>
 </html>
