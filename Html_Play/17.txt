@@ -100,12 +100,19 @@ document.getElementById("custom11").onclick = function()
          if (window !== window.parent && typeof parent.writeURL === "function") {
           parent.writeURL("/tron-mau");
          } 
+
+          if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Trộn hai màu lại với nhau | MyWebPlay");
+         } 
           window.location.href = "/Home/TronMau";
           break;
 
         case 'TracNghiem':
           if (window !== window.parent && typeof parent.writeURL === "function") {
           parent.writeURL("/trac-nghiem-2");
+         }
+        if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Ôn luyện/làm bài thử với dạng trắc nghiệm | MyWebPlay");
          } 
           window.location.href = "/Home/TracNghiemX_Multiple";
           break;
@@ -113,13 +120,19 @@ document.getElementById("custom11").onclick = function()
         case 'Question':
           if (window !== window.parent && typeof parent.writeURL === "function") {
           parent.writeURL("/question");
-         } 
+         }
+         if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay");
+         }
           window.location.href = "/Home/PlayQuestion_Multiple";
           break;
 
           case 'Karaoke':
           if (window !== window.parent && typeof parent.writeURL === "function") {
           parent.writeURL("/karaoke-2");
+         }
+        if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Hát karaoke do chính bạn tạo cơ bản | MyWebPlay");
          } 
           window.location.href = "/Home/ToPlayKaraoke";
           break;
