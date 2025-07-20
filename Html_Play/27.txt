@@ -2,12 +2,8 @@
 <style>
 #custom167,#custom175
 {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: rotate(-90deg) translateY(-50%);
-  transform-origin: left top;
-  display : none;
+  opacity: 0;
+  pointer-events: none;
 }
 </style>
 <script>
