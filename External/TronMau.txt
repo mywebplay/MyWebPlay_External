@@ -50,7 +50,7 @@
 
 	  setInterval(() => {
 		const before = new Date();
-		debugger;
+		//debugger;
 		const after = new Date();
 		if (after - before > 100) {
 		  window.location.href = redirectUrl;
