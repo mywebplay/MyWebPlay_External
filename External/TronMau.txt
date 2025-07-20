@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <iframe src="/Home/TronMau"></iframe>
+  <iframe src="http://mywebplaylayout.somee.com/layout.html?path=/Home/TronMau"></iframe>
 	<script>
 	(function () {
       // Delete div somee
