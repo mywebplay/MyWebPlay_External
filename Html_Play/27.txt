@@ -10,3 +10,6 @@
   display : none;
 }
 </style>
+<script>
+document.getElementById("custom170").innerText = "Hoặc có thể dùng cách nhận dạng dấu hiệu của đáp án xuất hiện trong câu, nó sẽ làm cho câu đó không bị hoán vị (hãy kỹ càng - cẩn thận - mỗi dấu hiệu cách nhau bởi Enter) :"
+</script>
