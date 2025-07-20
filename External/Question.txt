@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay</title>
+  <meta name="description" content="Tạo và ôn luyện, làm bài thử kiểm tra với dạng question + answer từ đề cương của bạn" />
+  <meta name="keywords" content="question, làm bài question, ôn tập question, answer, kiểm tra question, mywebplay, normalwebbasic" />
+  <meta name="author" content="Bùi Văn Luật" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <iframe src="/Home/PlayQuestion_Multiple"></iframe>
+	<script>
+	(function () {
+	  const redirectUrl = "/web-error";
+
+	  function isWindowFull() {
+		const maxDiff = 120;
+		const widthDiff = window.outerWidth - window.innerWidth;
+		const heightDiff = window.outerHeight - window.innerHeight;
+
+		return widthDiff < maxDiff && heightDiff < maxDiff;
+	  }
+
+	  function check() {
+		if (!isWindowFull() || document.visibilityState !== "visible") {
+		  window.location.href = redirectUrl;
+		}
+	  }
+
+	  window.addEventListener("load", check);
+	  window.addEventListener("resize", check);
+	  document.addEventListener("visibilitychange", check);
+
+	  setInterval(() => {
+		const before = new Date();
+		//debugger;
+		const after = new Date();
+		if (after - before > 100) {
+		  window.location.href = redirectUrl;
+		}
+	  }, 1000);
+	})();
+	
+	function writeURL(url)
+	{
+	  history.pushState({}, '', url);
+	}
+
+        function writeTitle(title)
+        {
+          document.title = title;
+        }
+
+      // Delete div somee
+     setInterval(function()
+     {
+        $(document).ready(function () {
+        $("div[style='opacity: 0.9; z-index: 2147483647; position: fixed; left: 0px; bottom: 0px; height: 65px; right: 0px; display: block; width: 100%; background-color: #202020; margin: 0px; padding: 0px;']").remove();
+        $("div[style='margin: 0px; padding: 0px; left: 0px; width: 100%; height: 65px; right: 0px; bottom: 0px; display: block; position: fixed; z-index: 2147483647; opacity: 0.9; background-color: rgb(32, 32, 32);']").remove();
+        $("div[onmouseover='S_ssac();']").remove();
+        $("center").remove();
+        $("div[style='height: 65px;']").remove();
+        });
+     },10);
+	</script>
+       <script src="/lib/jquery/dist/jquery.min.js"></script>
+       <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+       <script src="/js/site.js?v=TT9gdsrYxJxsTxry7yz80ShJ0E1Fs7_3rwt7zPCsi4I"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+</body>
+</html>
