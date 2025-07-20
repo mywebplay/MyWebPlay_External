@@ -27,16 +27,6 @@
   <iframe src="/Home/TronMau"></iframe>
 	<script>
 	(function () {
-	function writeURL(url)
-	{
-	  history.pushState({}, '', url);
-	}
-
-        function writeTitle(title)
-        {
-          document.title = title;
-        }
-
       // Delete div somee
      setInterval(function()
      {
