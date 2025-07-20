@@ -1,5 +1,6 @@
 <!-- Karaoke - thêm link tìm kiếm bài hát -->
 <script>
+document.getElementById("custom1293").style.display = "none";
 if (document.getElementById("phan5").innerHTML.includes("searchBH()") == false && document.getElementById("listsong") != null)
 {
 document.getElementById("phan5").insertAdjacentHTML("beforeend", `
