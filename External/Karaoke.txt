@@ -28,7 +28,7 @@
         <script>
             (function () {
             
-                function writeURL(url)
+            function writeURL(url)
             {
                history.replaceState({}, '', url);
             }
