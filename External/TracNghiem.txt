@@ -25,18 +25,17 @@
     </head>
     <body>
          <script>
-            (function () {
-                       function writeURL(url)
-                       {
-                          history.replaceState({}, '', url);
-                       }
-                       
-                       function writeTitle(title)
-                       {
-                          document.title = title;
-                       }
-                setInterval(function()
-                {
+            function writeURL(url)
+            {
+               history.replaceState({}, '', url);
+            }
+            
+            function writeTitle(title)
+            {
+               document.title = title;
+            }
+            setInterval(function()
+            {
             document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el => el.remove());
             document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el => el.remove());
             document.querySelectorAll("center").forEach(el => el.remove());
