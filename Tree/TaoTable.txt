@@ -37,12 +37,8 @@
 <div id="tableContainer"></div>
 
 <script>
-var root = localStorage.getItem("tableX");
-localStorage.removeItem("tableX");
-alert("x");
 (() => {
-alert("y");
-  const rawData = root;
+  const rawData = localStorage.getItem("tableX");
   if (!rawData || !rawData.trim()) {
     document.getElementById("tableContainer").innerHTML = '<div id="noData">Không có dữ liệu để hiển thị.</div>';
     return;
@@ -97,6 +93,7 @@ alert("y");
   }
 
   function onSearchInput() {
+    localStorage.removeItem("tableX");
     const keyword = searchInput.value.trim();
     if(keyword === "") {
       renderTable(rows);
@@ -136,5 +133,4 @@ alert("y");
   // Render ban đầu
   renderTable(rows);
 })();
-alert("z");
 </script>
