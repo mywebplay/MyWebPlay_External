@@ -28,6 +28,14 @@ document.getElementById("custom1335").onclick = function()
          } 
 };
 
+if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/karaoke-2");
+         } 
+
+     if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Hát karaoke do chính bạn tạo cơ bản | MyWebPlay");
+         } 
+
 function democheck() {
                 if (document.getElementById("checkdemo").checked == false) {
                     document.getElementById("phan1").style.display = "block";
