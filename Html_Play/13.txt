@@ -14,4 +14,12 @@ document.getElementById("custom1655").onclick = function()
           parent.writeTitle("Trình tạo ôn tập và kiểm tra tài liệu với dạng trắc nghiệm | MyWebPlay");
          } 
 }
+
+if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/trac-nghiem-2");
+         } 
+
+     if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Ôn luyện/làm bài thử với dạng trắc nghiệm | MyWebPlay");
+         } 
 </script>
