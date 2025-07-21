@@ -17,6 +17,17 @@ document.getElementById("custom1334").onclick = function()
          } 
 };
 
+document.getElementById("custom1335").onclick = function()
+{
+ if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/phan-doan-member-hat-karaoke");
+         } 
+
+     if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Tạo trình hát karaoke và phân đoạn cho các member | MyWebPlay");
+         } 
+};
+
 function democheck() {
                 if (document.getElementById("checkdemo").checked == false) {
                     document.getElementById("phan1").style.display = "block";
