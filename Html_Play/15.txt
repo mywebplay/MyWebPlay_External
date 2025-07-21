@@ -6,6 +6,17 @@ document.getElementById("phan3").style.display = "none";
 document.getElementById("custom1334").innerHTML = "<a href=\"/tao-karaoke\">Bạn chưa có file text karaoke?</a>";
 document.getElementById("custom1335").innerHTML = "<a href=\"/phan-doan-member-hat-karaoke\">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>";
 
+document.getElementById("custom1334").onclick = function()
+{
+ if (window !== window.parent && typeof parent.writeURL === "function") {
+          parent.writeURL("/tao-karaoke");
+         } 
+
+     if (window !== window.parent && typeof parent.writeTitle === "function") {
+          parent.writeTitle("Tạo trình hát karaoke cơ bản & đơn giản | MyWebPlay");
+         } 
+};
+
 function democheck() {
                 if (document.getElementById("checkdemo").checked == false) {
                     document.getElementById("phan1").style.display = "block";
