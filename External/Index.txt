@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Trang chủ | MyWebPlay</title>
+        <meta name="description" content="Chào mừng bạn đến với MyWebPlay. Nền tảng trang web đa dịch vụ – với các tính năng cơ bản, bình dị, đời thường, tiện lợi và hoàn toàn miễn phí!" />
+        <meta name="keywords" content="mywebplay, normalwebbasic" />
+        <meta name="author" content="Bùi Văn Luật" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #2a5298);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+      color: white;
+    }
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .slider-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .slider-track {
+      display: flex;
+      height: 100%;
+      transition: transform 1s ease-in-out;
+    }
+    .slide {
+      flex: 0 0 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    .slide h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    .slide p {
+      font-size: 1.5rem;
+      max-width: 900px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    }
+    @media (max-width: 768px) {
+      .slide h1 {
+        font-size: 2.2rem;
+      }
+      .slide p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+      }
+    }
+
+    /* Nút menu hamburger góc phải */
+    #custom11 {
+      width: 35px;
+      height: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 200;
+      background: black;
+      padding: 5px 6px;
+      border-radius: 5px;
+    }
+    #custom11 span {
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Bảng menu */
+    #menuX1 {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: black;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      min-width: 180px;
+      z-index: 150;
+    }
+    #menuX1.showX1 {
+      display: flex;
+    }
+    .menu-itemX1 {
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s;
+      background: black;
+      color: white;
+      user-select: none;
+    }
+    .menu-itemX1:hover {
+      background: #007bff;
+      color: white;
+    }
+
+    /* Nút next tròn dưới nội dung */
+    #nextBtn {
+      position: absolute;
+      bottom: 10px; /* kéo lên gần nội dung hơn */
+      right: 50%;
+      transform: translateX(50%);
+      width: 60px; /* to hơn */
+      height: 60px; /* to hơn */
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      z-index: 100;
+    }
+    #nextBtn:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+    #nextBtn svg {
+      width: 30px; /* to hơn */
+      height: 30px; /* to hơn */
+      fill: white;
+    }
+  </style>
+    </head>
+   <body>
+  <!-- Nút hamburger menu -->
+  <div id="custom11">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Menu -->
+  <div id="menuX1">
+    <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
+    <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
+    <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
+    <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+  </div>
+
+  <div class="slider-wrapper">
+    <div class="slider-track" id="sliderTrack">
+      <div class="slide">
+        <h1>👋 Chào mừng bạn đến với MyWebPlay</h1>
+        <p>
+          Nền tảng trang web đa dịch vụ – với các tính năng cơ bản, bình dị, đời thường, tiện lợi và hoàn toàn miễn phí!
+        </p>
+      </div>
+      <div class="slide">
+        <h1>🎓 Tự tạo & làm bài trắc nghiệm từ đề cương của bạn</h1>
+        <p>
+          Bạn đang có đề cương ôn tập trắc nghiệm với hàng trăm câu hỏi và cảm thấy khó học bằng mắt hoặc cách truyền thống? 
+          Hãy sử dụng MyWebPlay! Không cần kinh nghiệm, chỉ cần vài bước, bạn có thể biến tài liệu đó thành bài trắc nghiệm sống động, 
+          giúp ghi nhớ dễ dàng, luyện tập mọi lúc mọi nơi – nhanh chóng và hiệu quả.
+        </p>
+      </div>
+      <div class="slide">
+        <h1>🎤 Tự tạo & hát karaoke theo cách của bạn</h1>
+        <p>
+          Bạn muốn hát một bài nhạc yêu thích nhưng không tìm thấy phiên bản karaoke phù hợp? 
+          Mặc dù bản nhạc của bạn hiện tại đã có rất nhiều phiên bản karaoke nhưng cái beat, cái melody của bản nhạc mà bạn muốn hát karaoke lại không có? 
+          Hoặc bạn đang có bản nhạc cũ/nhạc xưa hoặc một bản nhạc giai điệu cực hay nhưng lúc đó lại không có bản karaoke? 
+          Với MyWebPlay, chẳng cần kinh nghiệm, bạn cũng có thể tự tạo karaoke từ bản nhạc của mình, hát solo, song ca cùng bạn bè hoặc ca sĩ – cực kỳ đơn giản và thú vị!
+        </p>
+      </div>
+      <div class="slide">
+        <h1>🚀 Và còn nhiều tính năng hấp dẫn khác...</h1>
+        <p>
+          Chúng tôi đang liên tục phát triển các tiện ích thông minh và sáng tạo khác – và cảm ơn bạn đã ghé thăm trang web. 
+          Hãy cùng khám phá, trải nghiệm và chinh phục mọi giới hạn tại MyWebPlay!
+        </p>
+      </div>
+    </div>
+    <!-- Nút next -->
+    <button id="nextBtn" aria-label="Next slide" title="Next slide" type="button">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 5l8 7-8 7V5z" />
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    const slider = document.getElementById("sliderTrack");
+    const totalSlides = slider.children.length;
+    let currentSlide = 0;
+    let autoSlideInterval = null;
+
+    function goToSlide(index) {
+      currentSlide = index % totalSlides;
+      slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide + 1);
+    }
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(() => {
+        nextSlide();
+      }, 20000); // 20 giây
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    // Bắt đầu auto slide
+    startAutoSlide();
+
+    // Nút next bấm chuyển slide ngay, reset thời gian đếm 20s
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+      startAutoSlide();
+    });
+
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById("custom11");
+    const menu = document.getElementById("menuX1");
+
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("showX1");
+    });
+
+    // Ẩn menu khi click ngoài
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+        menu.classList.remove("showX1");
+      }
+    });
+
+    // Xử lý click menu item
+    document.querySelectorAll(".menu-itemX1").forEach((item) => {
+      item.addEventListener("click", () => {
+        const action = item.dataset.action;
+        switch (action) {
+          case "TronMau":
+            if (window !== window.parent && typeof parent.writeURL === "function") {
+              parent.writeURL("/tron-mau");
+            }
+            if (window !== window.parent && typeof parent.writeTitle === "function") {
+              parent.writeTitle("Trộn hai màu lại với nhau | MyWebPlay");
+            }
+            window.location.href = "/Home/TronMau";
+            break;
+          case "TracNghiem":
+            if (window !== window.parent && typeof parent.writeURL === "function") {
+              parent.writeURL("/trac-nghiem-2");
+            }
+            if (window !== window.parent && typeof parent.writeTitle === "function") {
+              parent.writeTitle(
+                "Ôn luyện/làm bài thử với dạng trắc nghiệm | MyWebPlay"
+              );
+            }
+            window.location.href = "/Home/TracNghiemX_Multiple";
+            break;
+          case "Question":
+            if (window !== window.parent && typeof parent.writeURL === "function") {
+              parent.writeURL("/question");
+            }
+            if (window !== window.parent && typeof parent.writeTitle === "function") {
+              parent.writeTitle(
+                "Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay"
+              );
+            }
+            window.location.href = "/Home/PlayQuestion_Multiple";
+            break;
+          case "Karaoke":
+            if (window !== window.parent && typeof parent.writeURL === "function") {
+              parent.writeURL("/karaoke-2");
+            }
+            if (window !== window.parent && typeof parent.writeTitle === "function") {
+              parent.writeTitle("Hát karaoke do chính bạn tạo cơ bản | MyWebPlay");
+            }
+            window.location.href = "/Home/ToPlayKaraoke";
+            break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
