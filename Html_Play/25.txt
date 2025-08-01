@@ -1,6 +1,10 @@
+
 <!-- layout bảng trắc nghiệm (ko tràn hết ra ngoài) -->
 <script>
-document.getElementById("custom1633").style.display = "none";
+if (document.getElementById("custom1633"))
+{
+   document.getElementById("custom1633").style.display = "none";
+}
 (function () {
   const el = document.getElementById("custom737");
   if (!el) return;
