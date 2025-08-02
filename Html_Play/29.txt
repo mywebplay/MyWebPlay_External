@@ -1,6 +1,17 @@
-<!-- Xoá hết console log sau khi load trang -->
+<!-- Xoá hết console log (error/warn) sau khi load trang -->
 <script>
-// Ngăn log ngay khi script chạy (trước cả load)
-console.error = () => {};
-console.warn = () => {};
+  // Clear console bằng cách tạo iframe trắng rồi ghi đè console context
+  (function () {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    if (iframe.contentWindow) {
+      console.clear = iframe.contentWindow.console.clear.bind(console);
+      console.log = iframe.contentWindow.console.log.bind(console);
+      console.warn = iframe.contentWindow.console.warn.bind(console);
+      console.error = iframe.contentWindow.console.error.bind(console);
+      console.clear(); // Gọi clear từ iframe sạch
+    }
+    document.body.removeChild(iframe);
+  })();
 </script>
