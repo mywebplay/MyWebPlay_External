@@ -1,11 +1,6 @@
 <!-- Xoá hết console log sau khi load trang -->
 <script>
-  window.addEventListener('load', () => {
-    // Xoá console sau khi load
-    console.clear();
-
-    // Chặn console.error và console.warn sau khi load
-    console.error = () => {};
-    console.warn = () => {};
-  });
+// Ngăn log ngay khi script chạy (trước cả load)
+console.error = () => {};
+console.warn = () => {};
 </script>
