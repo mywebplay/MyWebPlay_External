@@ -1,9 +1,11 @@
 <!-- Xoá hết console log sau khi load trang -->
 <script>
   window.addEventListener('load', () => {
-    // Clear console sau khi trang load hoàn tất
-    setTimeout(() => {
-      console.clear();
-    }, 0);
+    // Xoá console sau khi load
+    console.clear();
+
+    // Chặn console.error và console.warn sau khi load
+    console.error = () => {};
+    console.warn = () => {};
   });
 </script>
