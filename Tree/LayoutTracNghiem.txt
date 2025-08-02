@@ -61,6 +61,29 @@
   .answers a:hover {
     background: #e0e0e0;
   }
+
+  /* Responsive additions */
+  @media (max-width: 768px) {
+    #tracnghiem-container {
+      min-width: auto;
+      width: 90%;
+      padding: 20px;
+    }
+    #prevBtn { left: 5px; }
+    #nextBtn { right: 5px; }
+    .arrow-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+    }
+    .question-title, .question-description {
+      font-size: 16px;
+    }
+    .answers a {
+      font-size: 15px;
+      padding: 8px;
+    }
+  }
 </style>
 
 <script>
@@ -129,14 +152,14 @@
 
   function initTracNghiem() {
     const data = localStorage.getItem("tracnghiem_layout");
-     
+
     if (!data) {
       const errBox = document.getElementById("error-message");
       errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
       errBox.style.display = "block";
       return;
     }
-    
+
     const container = document.getElementById("tracnghiem-container");
     container.style.display = "block";
 
