@@ -1,22 +1,4 @@
 <!-- Đổi màu chữ "Danh sách các file đã chọn" tại PlayQuestion - phù hợp giao diện màu đen -->
 <script>
 document.getElementById("custom723").style.color= "yellow";
-document.getElementById("custom725").onclick = function()
-{
-     if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/tao-question");
-         } 
-
-     if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Trình tạo ôn tập/kiểm tra tài liệu dạng question + answer | MyWebPlay");
-         } 
-}
-
-if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/question");
-         } 
-
-     if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay");
-         } 
 </script>
