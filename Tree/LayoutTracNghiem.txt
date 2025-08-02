@@ -131,7 +131,7 @@
 
         answerLinks.forEach(a => {
           a.style.background = "#f9f9f9";
-          a.style.color = "#333";
+          a.style.color = "black";
           a.style.borderColor = "#ccc";
         });
 
