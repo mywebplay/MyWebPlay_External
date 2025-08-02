@@ -69,8 +69,8 @@
       width: 90%;
       padding: 20px;
     }
-    #prevBtn { left: 5px; top: 360px; }
-    #nextBtn { right: 5px; top: 360px; }
+    #prevBtn { left: 5px; top: 400px; }
+    #nextBtn { right: 5px; top: 400px; }
     .arrow-btn {
       width: 36px;
       height: 36px;
