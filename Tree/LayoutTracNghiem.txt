@@ -7,44 +7,25 @@
 <div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;background-color:white;"></div>
 
 <style>
-  #tracnghiem-container {
-    position: relative;
-    background: #fff;
-    padding: 20px 40px;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 800px;
-    margin: 40px auto;
-    overflow-x: hidden;
-    word-wrap: break-word;
+  #tracnghiem-container{
+    position:relative;background:#fff;padding:20px 40px;border-radius:12px;
+    box-shadow:0 0 12px rgba(0,0,0,0.1);width:100%;max-width:800px;margin:40px auto;
+    overflow-x:hidden;word-wrap:break-word;
   }
-  #tracnghiem-container img {
-    max-width: 100%;
-    height: auto;
+  #tracnghiem-container img{max-width:100%;height:auto;}
+
+  /* nút mũi tên – luôn đặt dưới nội dung */
+  .arrow-btn{
+    position:static;
+    display:inline-flex;
+    margin:15px 10px 0;
+    width:40px;height:40px;
+    background:#007bff;color:#fff;font-weight:bold;
+    font-size:24px;cursor:pointer;border:none;border-radius:50%;
+    align-items:center;justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);transition:background 0.2s
   }
-  .arrow-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius:50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    transition: background 0.2s;
-  }
-  .arrow-btn:hover { background: #0056b3; }
-  #prevBtn { left: -50px; }
-  #nextBtn { right: -50px; }
+  .arrow-btn:hover{background:#0056b3;}
 
   .question-title,.question-description{margin-bottom:12px;color:red;}
   .answers a{
@@ -52,21 +33,6 @@
     border-radius:8px;text-decoration:none;color:black;transition:all .2s ease;
   }
   .answers a:hover{background:#e0e0e0;}
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-    #tracnghiem-container{
-      padding:20px; width:90%;
-    }
-    .arrow-btn{
-      position: static; 
-      margin:15px 10px 0;
-      display:inline-flex;
-      width:36px;height:36px;font-size:20px;
-    }
-    .question-title,.question-description{font-size:16px;}
-    .answers a{font-size:15px;padding:8px;}
-  }
 </style>
 
 <script>
@@ -88,22 +54,22 @@
 
     questionDiv.innerHTML = `
       <h2>
-      <div class="question-title">${questionTitle}</div>
-      <div class="question-description">${questionDesc}</div>
+        <div class="question-title">${questionTitle}</div>
+        <div class="question-description">${questionDesc}</div>
       </h2>
       <h3>
-      <div class="answers">
-        <a href="#${index+1}" data-index="${index}" data-answer="1" onclick="parent.chondapan(${index},1)">${answerA}</a>
-        <a href="#${index+1}" data-index="${index}" data-answer="2" onclick="parent.chondapan(${index},2)">${answerB}</a>
-        <a href="#${index+1}" data-index="${index}" data-answer="3" onclick="parent.chondapan(${index},3)">${answerC}</a>
-        <a href="#${index+1}" data-index="${index}" data-answer="4" onclick="parent.chondapan(${index},4)">${answerD}</a>
-      </div>
+        <div class="answers">
+          <a href="#${index+1}" data-index="${index}" data-answer="1" onclick="parent.chondapan(${index},1)">${answerA}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="2" onclick="parent.chondapan(${index},2)">${answerB}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="3" onclick="parent.chondapan(${index},3)">${answerC}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="4" onclick="parent.chondapan(${index},4)">${answerD}</a>
+        </div>
       </h3>
     `;
 
     const answerLinks = document.querySelectorAll("#question-content .answers a");
     answerLinks.forEach(link => {
-      link.addEventListener("click", function (e) {
+      link.addEventListener("click", function () {
         const selectedAnswer = parseInt(this.dataset.answer);
         const currentIndex = parseInt(this.dataset.index);
 
@@ -139,7 +105,6 @@
 
   function initTracNghiem() {
     const data = localStorage.getItem("tracnghiem_layout");
-
     if (!data) {
       const errBox = document.getElementById("error-message");
       errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
