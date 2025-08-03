@@ -225,6 +225,13 @@
                 document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
             }, 10);
 
+            // Ẩn menu khi click ngoài
+            document.addEventListener("click", (e) => {
+                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    menu.classList.remove("showX1");
+                }
+            });
+
             // Toggle menu
             const menuBtn = document.getElementById("custom11");
             const menu = document.getElementById("menuX1");
