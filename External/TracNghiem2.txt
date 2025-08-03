@@ -290,6 +290,11 @@
 {
    parent.hayquaX();
 }
+
+function chondapan(i, s)
+{
+   parent.chondapan(i,s);
+}
         </script>
     </body>
 </html>
