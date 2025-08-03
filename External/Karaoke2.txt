@@ -204,9 +204,78 @@
                 box-shadow: 0 0 8px rgba(91, 155, 213, 0.5);
                 background-color: #fff;
             }
+
+            /* Nút menu hamburger góc phải */
+            #custom11 {
+                width: 35px;
+                height: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                cursor: pointer;
+                position: fixed;
+                top: 15px;
+                right: 20px;
+                z-index: 200;
+                background: black;
+                padding: 5px 6px;
+                border-radius: 5px;
+            }
+            #custom11 span {
+                height: 4px;
+                background: white;
+                border-radius: 2px;
+                transition: 0.3s;
+            }
+
+            /* Bảng menu */
+            #menuX1 {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 60px;
+                right: 20px;
+                background: black;
+                border: 1px solid #ccc;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 10px;
+                border-radius: 8px;
+                min-width: 180px;
+                z-index: 150;
+            }
+            #menuX1.showX1 {
+                display: flex;
+            }
+            .menu-itemX1 {
+                padding: 10px;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background 0.2s;
+                background: black;
+                color: white;
+                user-select: none;
+            }
+            .menu-itemX1:hover {
+                background: #007bff;
+                color: white;
+            }
         </style>
     </head>
     <body>
+        <!-- Nút hamburger menu -->
+        <div id="custom11">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Menu -->
+        <div id="menuX1">
+            <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
+            <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
+            <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
+            <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+        </div>
         <div class="note">
             Bạn nên trải nghiệm tính năng này trên máy tính (PC), laptop,... nhé 😊<br />
             <span style="color: cyan;">Lưu ý : trong khi đang trải nghiệm Karaoke, bạn không nên refresh lại trang để tránh mất dữ liệu!</span>
@@ -332,6 +401,43 @@
                     not_singer: not_singer,
                 });
             }
+
+            // Hamburger menu toggle
+            const menuBtn = document.getElementById("custom11");
+            const menu = document.getElementById("menuX1");
+
+            menuBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                menu.classList.toggle("showX1");
+            });
+
+            // Ẩn menu khi click ngoài
+            document.addEventListener("click", (e) => {
+                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    menu.classList.remove("showX1");
+                }
+            });
+
+            // Xử lý click menu item
+            document.querySelectorAll(".menu-itemX1").forEach((item) => {
+                item.addEventListener("click", () => {
+                    const action = item.dataset.action;
+                    switch (action) {
+                        case "TronMau":
+                            window.location.href = "/Home/TronMau";
+                            break;
+                        case "TracNghiem":
+                            window.location.href = "/Home/TracNghiemX_Multiple";
+                            break;
+                        case "Question":
+                            window.location.href = "/Home/PlayQuestion_Multiple";
+                            break;
+                        case "Karaoke":
+                            window.location.href = "/karaoke";
+                            break;
+                    }
+                });
+            });
         </script>
     </body>
 </html>
