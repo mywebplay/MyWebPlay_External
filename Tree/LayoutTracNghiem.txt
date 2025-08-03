@@ -8,18 +8,12 @@
 
 <style>
 html, body {
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-width: 100%;
   margin: 0;
   padding: 0;
-}
-
-@media (max-height: 600px) {
-  #tracnghiem-container {
-    transform: scale(0.85);
-    transform-origin: top;
-  }
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 #tracnghiem-container {
@@ -32,10 +26,17 @@ html, body {
   max-width: 800px;
   margin: 40px auto;
   overflow: hidden;
-  word-wrap: break-word;
-  word-break: break-word;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+}
+
+#tracnghiem-container * {
+  max-width: 100% !important;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 #tracnghiem-container img {
@@ -73,6 +74,8 @@ html, body {
 .question-title, .question-description {
   margin-bottom: 12px;
   color: red;
+  font-size: clamp(14px, 2.5vw, 18px);
+  line-height: 1.4;
 }
 
 .answers a {
@@ -85,15 +88,14 @@ html, body {
   text-decoration: none;
   color: black;
   transition: all 0.2s ease;
-  white-space: normal;
-  overflow-wrap: break-word;
+  font-size: clamp(13px, 2.5vw, 16px);
 }
 
 .answers a:hover {
   background: #e0e0e0;
 }
 
-/* Giao diện responsive */
+/* Responsive adjustments */
 @media (max-width: 768px) {
   #tracnghiem-container {
     padding: 16px 20px;
@@ -115,13 +117,13 @@ html, body {
   }
 
   .question-title, .question-description {
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 8px;
   }
 
   .answers a {
     padding: 8px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .arrow-btn {
@@ -133,17 +135,6 @@ html, body {
 
   #prevBtn { left: 4px; }
   #nextBtn { right: 4px; }
-}
-
-/* Tự co nội dung nếu quá dài để không tạo scroll */
-#question-content {
-  flex: 1;
-  max-height: 100%;
-  overflow: hidden;
-  font-size: clamp(10px, 4vw, 18px);
-  line-height: 1.3;
-  word-wrap: break-word;
-  word-break: break-word;
 }
 </style>
 
