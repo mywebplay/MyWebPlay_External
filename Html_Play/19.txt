@@ -240,12 +240,15 @@
   </span>
 </div>
 <script>
-var stop = StopKaraoke;
+if (!StopKaraoke.__patched) {
+    var oldStopKaraoke = StopKaraoke;
 
-function StopKaraoke()
-{
-if (typeof stop === 'function') stop();
-localStorage.setItem("giaodienmoi", "true");
+    window.StopKaraoke = function () {
+        if (typeof oldStopKaraoke === 'function') oldStopKaraoke();
+        localStorage.setItem("giaodienmoi", "true");
+    };
+
+    window.StopKaraoke.__patched = true; // đánh dấu đã patch
 }
 
 var kex = 0;
