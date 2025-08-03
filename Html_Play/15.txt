@@ -1,6 +1,14 @@
 <!-- Thay đổi giao diện ToPlayKaraoke - 1 số tính năng cần ẩn đi -->
 <script>
-history.replaceState(null, '', '/karaoke');
+if (localStorage.getItem("karaoke_giaodiencu") == null)
+{
+  window.location.href = "/karaoke";
+}
+else
+{
+   localStorage.removeItem("karaoke_giaodiencu");
+}
+
 document.getElementById("phan1").innerHTML = "<b id=\"custom1334\"><a href=\"/Home/CreateFile_Karaoke\">B&#x1EA1;n ch&#x1B0;a c&#xF3; file text karaoke?</a></b><br /><b style=\"color: darkgreen;\" id=\"custom1335\"><a href=\"/Home/PhanDoanMember_Karaoke\">Ph&#xE2;n &#x111;o&#x1EA1;n h&#xE1;t cho c&#xE1;c member? (sau khi b&#x1EA1;n &#x111;&#xE3; t&#x1EA1;o file text Karaoke t&#x1EEB; h&#x1EC7; th&#x1ED1;ng)</a></b><br />";
 document.getElementById("phan2").style.display = "none";
 document.getElementById("phan3").style.display = "none";
