@@ -261,7 +261,9 @@
                 });
             });
 
-            var timeX = 1 * 60;
+            var time = new Number(localStorage.getItem("time_tracnghiem"));
+            localStorage.removeItem("time_tracnghiem")
+            var timeX = time * 60;
             var id = setInterval(myAlert, 1000);
 
             function myAlert() {
