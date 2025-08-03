@@ -261,7 +261,11 @@
                 });
             });
 
-            var time = new Number(localStorage.getItem("time_tracnghiem"));
+            var time = 0;
+            if (localStorage.getItem("time_tracnghiem") != null)
+            {
+              new Number(localStorage.getItem("time_tracnghiem"));
+            }
             localStorage.removeItem("time_tracnghiem")
             var timeX = time * 60;
             var id = setInterval(myAlert, 1000);
