@@ -356,6 +356,7 @@
                 var random_color = document.getElementById("doimau").checked ? "on" : "";
                 var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
                 var txtOnline = document.getElementById("txtLinkBackground").value;
+                localStorage.setItem("karaoke_giaodiencu", "true");
                 postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
                     txtChon: "on",
                     KaraChon: "" + sChonSelectedIndex,
