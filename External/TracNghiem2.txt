@@ -213,7 +213,7 @@
         </div>
 
         <div>
-            <button onclick="hayquaX()">Xem kết quả</button>
+            <button onclick="ketthuc()">Xem kết quả</button>
             <p>Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!</p>
         </div>
 
@@ -282,10 +282,14 @@
                 if (timeX < 0) {
                     alert("Đã hết thời gian làm bài...\nBấm OK - Bài kiểm tra của bạn sẽ được nộp đánh giá sau đó!");
                     clearInterval(id);
-                    var ok = document.getElementById("OKX");
-                    if (ok) ok.click();
+                    parent.hayquaX();
                 }
             }
+
+           function ketthuc()
+{
+   parent.hayquaX();
+}
         </script>
     </body>
 </html>
