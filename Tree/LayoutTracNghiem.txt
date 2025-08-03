@@ -134,7 +134,7 @@ html, body {
   }
 
   #prevBtn { left: 4px; }
-  #nextBtn { right: 4px; }
+  #nextBtn { right: 5px; }
 }
 </style>
 
