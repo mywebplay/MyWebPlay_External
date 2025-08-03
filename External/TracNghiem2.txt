@@ -232,21 +232,6 @@
                 }
             });
 
-            // Toggle menu
-            const menuBtn = document.getElementById("custom11");
-            const menu = document.getElementById("menuX1");
-
-            menuBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                menu.classList.toggle("showX1");
-            });
-
-            document.addEventListener("click", (e) => {
-                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
-                    menu.classList.remove("showX1");
-                }
-            });
-
             document.querySelectorAll(".menu-itemX1").forEach((item) => {
                 item.addEventListener("click", () => {
                     const action = item.dataset.action;
