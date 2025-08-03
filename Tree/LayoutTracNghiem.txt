@@ -87,6 +87,24 @@
       color: black;
     }
   }
+
+#tracnghiem-container {
+  position: relative;
+  background: #fff;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
+  overflow-x: hidden;          /* ✅ tránh tràn ngang */
+  word-wrap: break-word;       /* ✅ xử lý text dài */
+}
+
+#tracnghiem-container img {     /* ✅ ảnh tự co theo khung */
+  max-width: 100%;
+  height: auto;
+}
 </style>
 
 <script>
