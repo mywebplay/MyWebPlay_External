@@ -240,14 +240,6 @@
   </span>
 </div>
 <script>
-var stop = StopKaraoke;
-
-function StopKaraoke()
-{
-   if (typeof stop === 'function') stop();
-   window.location.href = "/karaoke";
-}
-
 var kex = 0;
 loadxong = 0;
 loadlistSong();
