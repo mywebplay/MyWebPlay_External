@@ -264,7 +264,7 @@
             var time = 0;
             if (localStorage.getItem("time_tracnghiem") != null)
             {
-              new Number(localStorage.getItem("time_tracnghiem"));
+              time = new Number(localStorage.getItem("time_tracnghiem"));
             }
             localStorage.removeItem("time_tracnghiem")
             var timeX = time * 60;
