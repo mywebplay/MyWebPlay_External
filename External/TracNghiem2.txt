@@ -265,6 +265,8 @@
             var id = setInterval(myAlert, 1000);
 
             function myAlert() {
+                if (localStorage.getItem("tracnghiem_layout") == null) return;
+
                 var t = document.getElementById("Time");
                 var h = Math.floor(timeX / 3600);
                 var m = Math.floor((timeX / 60) % 60);
