@@ -7,6 +7,12 @@
 <div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;background-color:white;"></div>
 
 <style>
+ html, body{
+  overflow-x:hidden;
+  overflow-y:auto;        /* hoặc hidden nếu bạn không muốn scroll dọc toàn trang */
+  max-width:100%;
+}
+
   #tracnghiem-container{
     position:relative;background:#fff;padding:20px 40px;border-radius:12px;
     box-shadow:0 0 12px rgba(0,0,0,0.1);width:100%;max-width:800px;margin:40px auto;
