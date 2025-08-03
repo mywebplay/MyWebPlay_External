@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Karaoke | MyWebPlay</title>
+        <meta name="description" content="Tạo bản karaoke từ melody hoặc bài hát cũ chỉ với vài bước đơn giản – không cần kinh nghiệm, dành riêng cho bạn có thể tự hát." />
+        <meta name="keywords" content="karaoke,mywebplay, normalwebbasic" />
+        <meta name="author" content="Bùi Văn Luật" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: "Segoe UI", sans-serif;
+                background: linear-gradient(to right, #2c3e50, #4b79a1);
+                color: #f5f5f5;
+                padding: 20px;
+                animation: fadeIn 1s ease-in;
+            }
+
+            h1 {
+                text-align: center;
+                color: #ffeb3b;
+                margin-bottom: 30px;
+                font-size: 2em;
+                animation: slideInDown 0.6s ease-in-out;
+            }
+
+            .note {
+                text-align: center;
+                font-weight: 600;
+                color: #00ffff;
+                margin-bottom: 10px;
+            }
+
+            .section {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 12px;
+                padding: 25px;
+                max-width: 900px;
+                margin: 0 auto;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                animation: fadeInUp 0.8s ease;
+            }
+
+            .section p,
+            .section a {
+                margin: 10px 0;
+                color: #e0e0e0;
+                line-height: 1.5;
+            }
+
+            a {
+                color: #ff80ff;
+                text-decoration: underline dotted;
+            }
+
+            a:hover {
+                text-decoration: underline;
+                color: #ffccff;
+            }
+
+            .highlight {
+                color: orange;
+            }
+
+            select {
+                width: 100%;
+                padding: 10px;
+                font-size: 1em;
+                border-radius: 8px;
+                border: none;
+                margin: 10px 0 20px 0;
+                background: #34495e;
+                color: #fff;
+                transition: background 0.3s;
+            }
+
+            select:hover {
+                background: #3c5a72;
+            }
+
+            .checkboxes {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+            }
+
+            .checkbox-item {
+                background: rgba(255, 255, 255, 0.07);
+                padding: 12px 15px;
+                border-radius: 10px;
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                transition: transform 0.3s ease, background 0.3s;
+                animation: fadeIn 1s ease;
+            }
+
+            .checkbox-item:hover {
+                transform: translateY(-3px);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            .checkbox-item input[type="checkbox"] {
+                transform: scale(1.3);
+                accent-color: #00ffcc;
+                margin-top: 4px;
+            }
+
+            .warning {
+                color: #ff6666;
+                font-size: 0.9em;
+                margin-top: 15px;
+            }
+
+            button {
+                background: #1abc9c;
+                color: white;
+                font-size: 1em;
+                font-weight: bold;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 30px;
+                display: block;
+                margin: 30px auto 0;
+                transition: background 0.3s, transform 0.2s;
+            }
+
+            button:hover {
+                background: #16a085;
+                transform: scale(1.05);
+                cursor: pointer;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes slideInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @media (max-width: 480px) {
+                body {
+                    padding: 15px;
+                }
+
+                h1 {
+                    font-size: 1.5em;
+                }
+
+                button {
+                    width: 100%;
+                }
+            }
+
+            .custom-input {
+                font-size: 16px;
+                padding: 10px 16px;
+                border: 1px solid #ccc;
+                border-radius: 12px;
+                outline: none;
+                width: 100%;
+                max-width: 100%;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                background-color: #fdfdfd;
+            }
+
+            .custom-input:focus {
+                border-color: #5b9bd5;
+                box-shadow: 0 0 8px rgba(91, 155, 213, 0.5);
+                background-color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="note">
+            Bạn nên trải nghiệm tính năng này trên máy tính (PC), laptop,... nhé 😊<br />
+            <span style="color: cyan;">Lưu ý : trong khi đang trải nghiệm Karaoke, bạn không nên refresh lại trang để tránh mất dữ liệu!</span>
+        </div>
+
+        <h1>Play Your Karaoke - Online <span class="highlight">(phiên bản thường)</span></h1>
+
+        <div class="section">
+            <p><a href="#" onclick="demoKaraoke()">Tham khảo bản karaoke demo có sẵn trên hệ thống</a></p>
+            <p></p>
+            <p><a href="#" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
+            <br />
+            <p>
+                <a href="http://normalwebbasic.somee.com/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
+                <a href="http://normalwebbasic.somee.com/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
+            </p>
+            <br />
+            <br />
+            <p><b>🎨 Sử dụng ngẫu nhiên ảnh/video làm background karaoke :</b></p>
+            <select id="sChon" onchange="selectedBackground()">
+                <option>Sử dụng ngẫu nhiên ảnh/background có sẵn trên hệ thống - hoặc vòng lặp theo thứ tự</option>
+                <option>Sử dụng link ảnh/background online của bạn</option>
+                <option>Sử dụng link video/background online của bạn</option>
+                <option>Nhập link video Youtube online</option>
+                <option>Lấy ngẫu nhiên link video Youtube hiện có (một số link có thể không còn tồn tại)</option>
+            </select>
+            <input id="txtLinkBackground" style="display: none;" type="text" placeholder="Nhập link online background của bạn thực hiện karaoke..." class="custom-input" />
+
+            <div class="checkboxes">
+                <label class="checkbox-item"> <input type="checkbox" id="laplai" /> Tự động lặp lại music (không đảm bảo) </label>
+                <label class="checkbox-item"> <input type="checkbox" id="inhoa" /> Viết in hoa tất cả đoạn Text Karaoke </label>
+                <label class="checkbox-item"> <input type="checkbox" onchange="choncangiua()" id="cangiua" /> Căn giữa tất cả đoạn Text Karaoke </label>
+                <label class="checkbox-item" id="partCoDinh"> <input type="checkbox" checked id="codinh" /> Cố định đoạn text Karaoke ở phía dưới (như các bản karaoke thông thường) </label>
+                <label class="checkbox-item"> <input type="checkbox" id="doifont" /> Tự động chuyển đổi lần lượt font chữ của text karaoke </label>
+                <label class="checkbox-item"> <input type="checkbox" id="doimau" /> Tự động chuyển đổi random màu sắc (ban đầu/điểm tô) của text karaoke </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="kiemtra" /> Không cần xử lý/kiểm tra quá trình chạy của mp3 gốc (có giọng ca sĩ)
+                    <p class="warning">(hoặc có thể đặt fragment # tại thanh url trên trình duyệt của bạn trong khi play : locked/unlocked)</p>
+                </label>
+            </div>
+
+            <button onclick="batdau()">Bắt Đầu</button>
+        </div>
+        <script>
+            function postRedirect(url, data) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = url;
+
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        const input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = key;
+                        input.value = data[key];
+                        form.appendChild(input);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function demoKaraoke() {
+                postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
+                    txtChon: "on",
+                    KaraChon: "5",
+                    txtCoDinh: "on",
+                });
+            }
+
+            function selectedBackground() {
+                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
+                switch (sChonSelectedIndex) {
+                    case 0:
+                    case 4:
+                        document.getElementById("txtLinkBackground").style.display = "none";
+                        break;
+
+                    default:
+                        document.getElementById("txtLinkBackground").style.display = "flex";
+                        break;
+                }
+            }
+
+            function serverKaraoke() {
+                alert("Xin lỗi, tính năng này chưa được bổ sung trên giao diện mới.\nVì vậy, chúng tôi sẽ chuyển bạn đến màn hình của giao diện cũ.\nRất mong sự thông cảm của bạn !");
+                window.location.href = "http://normalwebbasic.somee.com/Home/ToPlayKaraoke";
+            }
+
+            function choncangiua() {
+                var cangiua = document.getElementById("cangiua");
+                var codinh = document.getElementById("codinh");
+                if (cangiua.checked) {
+                    codinh.checked = false;
+                    document.getElementById("partCoDinh").style.display = "none";
+                } else {
+                    codinh.checked = true;
+                    document.getElementById("partCoDinh").style.display = "flex";
+                }
+            }
+
+            function batdau() {
+                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
+                var auto_music = document.getElementById("laplai").checked ? "on" : "";
+                var txtInHoa = document.getElementById("inhoa").checked ? "on" : "";
+                var txtCanGiua = document.getElementById("cangiua").checked ? "on" : "";
+                var txtCoDinh = document.getElementById("codinh").checked ? "on" : "";
+                var random_font = document.getElementById("doifont").checked ? "on" : "";
+                var random_color = document.getElementById("doimau").checked ? "on" : "";
+                var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
+                var txtOnline = document.getElementById("txtLinkBackground").value;
+
+                postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
+                    KaraChon: "" + sChonSelectedIndex,
+                    txtOnline: txtOnline,
+                    auto_music: auto_music,
+                    txtCanGiua: txtCanGiua,
+                    txtInHoa: txtInHoa,
+                    txtCoDinh: txtCoDinh,
+                    random_font: random_font,
+                    random_color: random_color,
+                    not_singer: not_singer,
+                });
+            }
+        </script>
+    </body>
+</html>
