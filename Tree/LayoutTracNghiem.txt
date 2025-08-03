@@ -4,7 +4,7 @@
   <button class="arrow-btn circle" id="nextBtn">&rarr;</button>
 </div>
 
-<div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;"></div>
+<div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;background-color:yellow;"></div>
 
 <style>
   #tracnghiem-container {
