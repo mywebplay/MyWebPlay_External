@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Trắc nghiệm | MyWebPlay</title>
+        <meta name="description" content="Tạo bài trắc nghiệm và tự ôn tập, làm bài thử online." />
+        <meta name="keywords" content="trắc nghiệm, mywebplay, normalwebbasic" />
+        <meta name="author" content="Bùi Văn Luật" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                min-height: 100vh;
+                font-family: "Segoe UI", sans-serif;
+                background: linear-gradient(to right, #2c3e50, #4b79a1);
+                color: #f5f5f5;
+                animation: fadeIn 1s ease-in;
+            }
+
+            body {
+                padding: 20px;
+                padding-bottom: 90px;
+            }
+
+            h1 {
+                text-align: center;
+                color: #ffeb3b;
+                margin: 25px 0 15px;
+                font-size: clamp(1.6rem, 4vw, 2.5rem);
+                animation: slideInDown 0.6s ease-in-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes slideInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Hamburger menu */
+            #custom11 {
+                width: 40px;
+                height: 32px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                cursor: pointer;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 200;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 6px 7px;
+                border-radius: 6px;
+                backdrop-filter: blur(4px);
+            }
+
+            #custom11 span {
+                height: 4px;
+                background: white;
+                border-radius: 2px;
+                transition: 0.3s;
+            }
+
+            #menuX1 {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 60px;
+                right: 15px;
+                background: rgba(0, 0, 0, 0.9);
+                border-radius: 8px;
+                min-width: 200px;
+                z-index: 150;
+                backdrop-filter: blur(6px);
+            }
+
+            #menuX1.showX1 {
+                display: flex;
+            }
+
+            .menu-itemX1 {
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 6px;
+                transition: background 0.2s;
+                color: white;
+                user-select: none;
+                text-align: left;
+            }
+
+            .menu-itemX1:hover {
+                background: #007bff;
+            }
+
+            .divOnTop {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                opacity: 0.8;
+                background: #ffc107;
+                color: #000;
+                text-align: center;
+                padding: 5px 0;
+                z-index: 110;
+            }
+
+            .divOnTop h2 {
+                margin: 0;
+                font-size: clamp(1rem, 3vw, 1.6rem);
+            }
+
+            iframe {
+                width: 100%;
+                height: 60vh;
+                max-height: 600px;
+                border: none;
+            }
+
+            button {
+                background: #1abc9c;
+                color: white;
+                font-size: 1rem;
+                font-weight: bold;
+                border: none;
+                border-radius: 12px;
+                padding: 12px 32px;
+                display: block;
+                margin: 25px auto 15px;
+                transition: background 0.3s, transform 0.2s;
+                max-width: 300px;
+                width: 90%;
+                position: relative;
+                z-index: 999;
+            }
+
+            button:hover {
+                background: #16a085;
+                transform: scale(1.05);
+                cursor: pointer;
+            }
+
+            p {
+                margin: 0 auto;
+                max-width: 500px;
+                text-align: center;
+                line-height: 1.6;
+                font-size: 0.95rem;
+                color: cyan;
+                position: relative;
+                z-index: 999;
+            }
+
+            @media (max-width: 480px) {
+                body {
+                    padding: 15px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Nút hamburger menu -->
+        <div id="custom11">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Menu xổ -->
+        <div id="menuX1">
+            <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
+            <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
+            <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
+            <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+        </div>
+
+        <h1>Làm bài trắc nghiệm - Online <span class="highlight">(phiên bản thường)</span></h1>
+
+        <iframe src="http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
+
+        <div class="divOnTop">
+            <span style="color: blue; text-align: center;" id="custom749">
+                <h2 id="Time">00 : 00 : 00</h2>
+            </span>
+        </div>
+
+        <div>
+            <button onclick="hayquaX()">Xem kết quả</button>
+            <p>Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!</p>
+        </div>
+
+        <script>
+            setInterval(function () {
+                document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+                document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+                document.querySelectorAll("center").forEach((el) => el.remove());
+                document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+            }, 10);
+
+            // Toggle menu
+            const menuBtn = document.getElementById("custom11");
+            const menu = document.getElementById("menuX1");
+
+            menuBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                menu.classList.toggle("showX1");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    menu.classList.remove("showX1");
+                }
+            });
+
+            document.querySelectorAll(".menu-itemX1").forEach((item) => {
+                item.addEventListener("click", () => {
+                    const action = item.dataset.action;
+                    switch (action) {
+                        case "TronMau":
+                            window.location.href = "/Home/TronMau";
+                            break;
+                        case "TracNghiem":
+                            window.location.href = "/Home/TracNghiemX_Multiple";
+                            break;
+                        case "Question":
+                            window.location.href = "/Home/PlayQuestion_Multiple";
+                            break;
+                        case "Karaoke":
+                            window.location.href = "/Home/ToPlayKaraoke";
+                            break;
+                    }
+                });
+            });
+
+            var timeX = 1 * 60;
+            var id = setInterval(myAlert, 1000);
+
+            function myAlert() {
+                var t = document.getElementById("Time");
+                var h = Math.floor(timeX / 3600);
+                var m = Math.floor((timeX / 60) % 60);
+                var s = timeX % 60;
+                t.innerHTML = `${h.toString().padStart(2, "0")} : ${m.toString().padStart(2, "0")} : ${s.toString().padStart(2, "0")}`;
+                timeX--;
+                if (timeX < 0) {
+                    alert("Đã hết thời gian làm bài...\nBấm OK - Bài kiểm tra của bạn sẽ được nộp đánh giá sau đó!");
+                    clearInterval(id);
+                    var ok = document.getElementById("OKX");
+                    if (ok) ok.click();
+                }
+            }
+        </script>
+    </body>
+</html>
