@@ -79,6 +79,10 @@
     #prevBtn{left:4px;}
     #nextBtn{right:4px;}
   }
+
+#question-content{
+    font-size:clamp(12px,4vw,18px);
+}
 </style>
 
 <script>
