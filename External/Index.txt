@@ -289,7 +289,7 @@
                             window.location.href = "/Home/PlayQuestion_Multiple";
                             break;
                         case "Karaoke":
-                            window.location.href = "/Home/ToPlayKaraoke";
+                            window.location.href = "/karaoke";
                             break;
                     }
                 });
