@@ -225,6 +225,15 @@
                 document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
             }, 10);
 
+            // Hamburger menu toggle
+            const menuBtn = document.getElementById("custom11");
+            const menu = document.getElementById("menuX1");
+
+            menuBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                menu.classList.toggle("showX1");
+            });
+
             // Ẩn menu khi click ngoài
             document.addEventListener("click", (e) => {
                 if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
