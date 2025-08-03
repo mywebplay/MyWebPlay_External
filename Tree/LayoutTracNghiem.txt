@@ -14,18 +14,20 @@
   }
   #tracnghiem-container img{max-width:100%;height:auto;}
 
-  /* nút mũi tên – luôn đặt dưới nội dung */
-  .arrow-btn{
-    position:static;
-    display:inline-flex;
-    margin:15px 10px 0;
-    width:40px;height:40px;
-    background:#007bff;color:#fff;font-weight:bold;
-    font-size:24px;cursor:pointer;border:none;border-radius:50%;
-    align-items:center;justify-content:center;
-    box-shadow:0 2px 6px rgba(0,0,0,0.2);transition:background 0.2s
-  }
-  .arrow-btn:hover{background:#0056b3;}
+ .arrow-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#007bff;color:#fff;font-weight:bold;
+  width:36px;height:36px;
+  font-size:20px;
+  border:none;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2);transition:background .2s;
+}
+.arrow-btn:hover{background:#0056b3;}
+#prevBtn{left:0;}   /* ✅ sát cạnh trong bên trái */
+#nextBtn{right:0;}  /* ✅ sát cạnh trong bên phải */
 
   .question-title,.question-description{margin-bottom:12px;color:red;}
   .answers a{
