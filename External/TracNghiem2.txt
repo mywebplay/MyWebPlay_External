@@ -241,12 +241,6 @@
                 }
             });
 
-            document.getElementById("frame").addEventListener("click", (e) => {
-                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
-                    menu.classList.remove("showX1");
-                }
-            });
-
             document.querySelectorAll(".menu-itemX1").forEach((item) => {
                 item.addEventListener("click", () => {
                     const action = item.dataset.action;
