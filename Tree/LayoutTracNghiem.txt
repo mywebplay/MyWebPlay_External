@@ -10,13 +10,13 @@
   #tracnghiem-container{
     position:relative;background:#fff;padding:20px 40px;border-radius:12px;
     box-shadow:0 0 12px rgba(0,0,0,0.1);width:100%;max-width:800px;margin:40px auto;
-    overflow-x:hidden;word-wrap:break-word;
+    overflow:hidden;word-wrap:break-word;word-break:break-word;
   }
-  #tracnghiem-container img{max-width:100%;height:auto;}
+  #tracnghiem-container img{max-width:100%;height:auto;display:block;}
 
  .arrow-btn {
   position: absolute;
-  top: 10px; /* ✅ nằm sát trên */
+  top: 10px;
   width: 36px;
   height: 36px;
   font-size: 20px;
@@ -30,29 +30,49 @@
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: background 0.2s;
-  z-index: 10; /* ✅ đảm bảo không bị che */
+  z-index: 10;
 }
 .arrow-btn:hover {
   background: #0056b3;
 }
-#prevBtn { left: 10px; }  /* ✅ sát mép trái trong khung */
-#nextBtn { right: 10px; } /* ✅ sát mép phải trong khung */
-
-@media (max-width: 768px) {
-  .arrow-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 18px;
-    top: 10px;
-  }
-}
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
 
   .question-title,.question-description{margin-bottom:12px;color:red;}
   .answers a{
     display:block;padding:10px;margin:6px 0;background:#f9f9f9;border:1px solid #ccc;
     border-radius:8px;text-decoration:none;color:black;transition:all .2s ease;
+    white-space:normal;overflow-wrap:break-word;
   }
   .answers a:hover{background:#e0e0e0;}
+
+  /* ==== RESPONSIVE, CO NỘI DUNG, KHÔNG TẠO SCROLL ==== */
+  @media (max-width:768px){
+    #tracnghiem-container{
+      padding:16px 20px;
+      margin:20px 12px;
+    }
+    .arrow-btn{
+      width:32px;height:32px;font-size:18px;top:8px;
+    }
+  }
+  @media (max-width:480px){
+    #tracnghiem-container{
+      padding:12px 16px;
+      margin:12px 6px;
+    }
+    .question-title,.question-description{
+      font-size:15px;margin-bottom:8px;
+    }
+    .answers a{
+      padding:8px;font-size:14px;
+    }
+    .arrow-btn{
+      width:28px;height:28px;font-size:16px;top:6px;
+    }
+    #prevBtn{left:4px;}
+    #nextBtn{right:4px;}
+  }
 </style>
 
 <script>
