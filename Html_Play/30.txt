@@ -1,3 +1,8 @@
 <script>
 history.replaceState(null, '', '/karaoke');
+if (localStorage.getItem("giaodienmoi") == 'true')
+{
+  localStorage.removeItem("giaodienmoi")
+  window.location.href = "/karaoke";
+}
 </script>
