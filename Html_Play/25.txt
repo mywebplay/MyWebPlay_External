@@ -48,8 +48,6 @@ if (document.getElementById("custom1633"))
     {
       document.getElementById("OKX").click();
     }
-
-    window.location.href = "/trac-nghiem";
 </script>
 <script>
 localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll('Thời gian làm bài : ','').split('phút')[0].trim());
