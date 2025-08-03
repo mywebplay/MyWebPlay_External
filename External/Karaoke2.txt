@@ -347,10 +347,26 @@
             }
 
             function demoKaraoke() {
+                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
+                var auto_music = document.getElementById("laplai").checked ? "on" : "";
+                var txtInHoa = document.getElementById("inhoa").checked ? "on" : "";
+                var txtCanGiua = document.getElementById("cangiua").checked ? "on" : "";
+                var txtCoDinh = document.getElementById("codinh").checked ? "on" : "";
+                var random_font = document.getElementById("doifont").checked ? "on" : "";
+                var random_color = document.getElementById("doimau").checked ? "on" : "";
+                var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
+                var txtOnline = document.getElementById("txtLinkBackground").value;
                 postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
                     txtChon: "on",
-                    KaraChon: "5",
-                    txtCoDinh: "on",
+                    KaraChon: "" + sChonSelectedIndex,
+                    txtOnline: txtOnline,
+                    auto_music: auto_music,
+                    txtCanGiua: txtCanGiua,
+                    txtInHoa: txtInHoa,
+                    txtCoDinh: txtCoDinh,
+                    random_font: random_font,
+                    random_color: random_color,
+                    not_singer: not_singer
                 });
             }
 
