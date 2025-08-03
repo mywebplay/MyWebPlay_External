@@ -240,6 +240,14 @@
   </span>
 </div>
 <script>
+var stop = StopKaraoke;
+
+function StopKaraoke()
+{
+if (typeof stop === 'function') stop();
+localStorage.setItem("giaodienmoi", "true");
+}
+
 var kex = 0;
 loadxong = 0;
 loadlistSong();
