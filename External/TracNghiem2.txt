@@ -204,7 +204,7 @@
 
         <h1>Làm bài trắc nghiệm - Online <span class="highlight">(phiên bản thường)</span></h1>
 
-        <iframe src="http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
+        <iframe id="frame" src="http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
 
         <div class="divOnTop">
             <span style="color: blue; text-align: center;" id="custom749">
@@ -236,6 +236,12 @@
 
             // Ẩn menu khi click ngoài
             document.addEventListener("click", (e) => {
+                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    menu.classList.remove("showX1");
+                }
+            });
+
+            document.getElementById("frame").addEventListener("click", (e) => {
                 if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
                     menu.classList.remove("showX1");
                 }
