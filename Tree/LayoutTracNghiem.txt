@@ -133,7 +133,7 @@ html, body {
     top: 6px;
   }
 
-  #prevBtn { left: 4px; }
+  #prevBtn { left: 5px; }
   #nextBtn { right: 5px; }
 }
 </style>
