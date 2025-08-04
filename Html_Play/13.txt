@@ -4,4 +4,5 @@
 <br /><br />
 <script>
 document.getElementById("custom1657").style.color= "yellow";
+document.forms[0].target = "_top";
 </script>
