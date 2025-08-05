@@ -289,11 +289,11 @@
                 var frame = document.getElementById("frame").contentWindow.getDataDapAn();
             }
 
-            function SendDapAn(DAlist) {
-                postRedirect('http://normalwebbasic.somee.com/Home/PlayTracNghiem', DAlist);
+            function SendDapAn(DAlist, data) {
+                postRedirect("http://normalwebbasic.somee.com/Home/PlayTracNghiem", DAlist, data);
             }
 
-            function postRedirect(url, data) {
+            function postRedirect(url, data, another) {
                 const form = document.createElement("form");
                 form.method = "POST";
                 form.action = url;
@@ -304,6 +304,16 @@
                     input.name = item.key;
                     input.value = item.value;
                     form.appendChild(input);
+                }
+
+                for (let k in another) {
+                    if (obj.hasOwnProperty(k)) {
+                        const input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = k;
+                        input.value = another[k];
+                        form.appendChild(input);
+                    }
                 }
 
                 document.body.appendChild(form);
