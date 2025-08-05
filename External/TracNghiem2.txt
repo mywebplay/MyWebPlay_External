@@ -305,7 +305,7 @@
                     input.value = item.value;
                     form.appendChild(input);
                 }
-
+console.log(another)
                 for (let k in another) {
                     if (obj.hasOwnProperty(k)) {
                         const input = document.createElement("input");
