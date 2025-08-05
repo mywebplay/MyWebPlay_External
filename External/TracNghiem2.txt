@@ -290,7 +290,7 @@
             }
 
             function SendDapAn(DAlist) {
-                postRedirect('http://normalwebbasic.somee.com/Home/TracNghiemX_Multiple"', DAlist);
+                postRedirect('http://normalwebbasic.somee.com/Home/TracNghiemX_Multiple', DAlist);
             }
 
             function postRedirect(url, data) {
