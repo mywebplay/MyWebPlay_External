@@ -163,10 +163,11 @@ html, body {
       </h2>
       <h3>
         <div class="answers">
-          <a href="#${index+1}" data-index="${index}" data-answer="1" onclick="parent.chondapan(${index},1)">${answerA}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="2" onclick="parent.chondapan(${index},2)">${answerB}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="3" onclick="parent.chondapan(${index},3)">${answerC}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="4" onclick="parent.chondapan(${index},4)">${answerD}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="1">${answerA}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="2">${answerB}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="3">${answerC}</a>
+          <a href="#${index+1}" data-index="${index}" data-answer="4">${answerD}</a>
+          <input type="text" name="dapan-${index}" id="DA-${index}" hidden />
         </div>
       </h3>
     `;
@@ -178,6 +179,7 @@ html, body {
         const currentIndex = parseInt(this.dataset.index);
 
         luaChon[currentIndex] = selectedAnswer;
+        console.log(currentIndex + " : " + selectedAnswer);
 
         answerLinks.forEach(a => {
           a.style.background = "#f9f9f9";
