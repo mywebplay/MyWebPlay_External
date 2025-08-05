@@ -179,8 +179,27 @@ html, body {
         const currentIndex = parseInt(this.dataset.index);
 
         luaChon[currentIndex] = selectedAnswer;
-        console.log(currentIndex + " : " + selectedAnswer);
+        var dapan = "A";
+        switch(selectedAnswer)
+{
+   case 1 :
+dapan = "A";
+break;
 
+case 2 :
+dapan = "B";
+break;
+
+case 3 :
+dapan = "C";
+break;
+
+case 4 :
+dapan = "D";
+break;
+}
+
+      document.getElementById("DA-"+ currentIndex).value = dapan;
         answerLinks.forEach(a => {
           a.style.background = "#f9f9f9";
           a.style.color = "black";
