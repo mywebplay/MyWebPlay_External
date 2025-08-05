@@ -181,7 +181,6 @@
           <a href="#${index + 1}" data-index="${index}" data-answer="2">${answerB}</a>
           <a href="#${index + 1}" data-index="${index}" data-answer="3">${answerC}</a>
           <a href="#${index + 1}" data-index="${index}" data-answer="4">${answerD}</a>
-          <input type="text" name="dapan-${index}" id="DA-${index}" hidden />
         </div>
       </h3>
     `;
@@ -193,26 +192,6 @@
                     const currentIndex = parseInt(this.dataset.index);
 
                     luaChon[currentIndex] = selectedAnswer;
-                    var dapan = "A";
-                    switch (selectedAnswer) {
-                        case 1:
-                            dapan = "A";
-                            break;
-
-                        case 2:
-                            dapan = "B";
-                            break;
-
-                        case 3:
-                            dapan = "C";
-                            break;
-
-                        case 4:
-                            dapan = "D";
-                            break;
-                    }
-
-                    document.getElementById("DA-" + currentIndex).value = dapan;
                     answerLinks.forEach((a) => {
                         a.style.background = "#f9f9f9";
                         a.style.color = "black";
@@ -289,14 +268,33 @@
         initTracNghiem();
     })();
 
-        function getDataDapAn() {
-            var DA = document.querySelectorAll("#question-content .answers a");
-            var listDA = [];
-            for (var i = 0; i < DA.length; i++) {
-                var chon = document.getElementById("DA-" + i).value;
-                listDA.push({ key: "dapan-" + i, value: chon });
+    function getDataDapAn() {
+        var listDA = [];
+        for (var i = 0; i < totalPages; i++) {
+            var chon = luaChon[i] || 0;
+            var dapan = "";
+
+            switch (chon) {
+                case 1:
+                    dapan = "A";
+                    break;
+                case 2:
+                    dapan = "B";
+                    break;
+                case 3:
+                    dapan = "C";
+                    break;
+                case 4:
+                    dapan = "D";
+                    break;
+                default:
+                    dapan = "";
+                    break;
             }
 
-            parent.SendDapAn(listDA);
+            listDA.push({ key: "dapan-" + i, value: dapan });
         }
+
+        parent.SendDapAn(listDA);
+    }
 </script>
