@@ -158,6 +158,36 @@
             dapan = [],
             luaChon = [];
 
+        function getDataDapAn() {
+            var listDA = [];
+            for (var i = 0; i < totalPages; i++) {
+                var chon = luaChon[i] || 0;
+                var dapan = "";
+
+                switch (chon) {
+                    case 1:
+                        dapan = "A";
+                        break;
+                    case 2:
+                        dapan = "B";
+                        break;
+                    case 3:
+                        dapan = "C";
+                        break;
+                    case 4:
+                        dapan = "D";
+                        break;
+                    default:
+                        dapan = "";
+                        break;
+                }
+
+                listDA.push({ key: "dapan-" + i, value: dapan });
+            }
+
+            parent.SendDapAn(listDA);
+        }
+
         function renderPage(index) {
             const questionDiv = document.getElementById("question-content");
 
@@ -267,34 +297,4 @@
 
         initTracNghiem();
     })();
-
-    function getDataDapAn() {
-        var listDA = [];
-        for (var i = 0; i < totalPages; i++) {
-            var chon = luaChon[i] || 0;
-            var dapan = "";
-
-            switch (chon) {
-                case 1:
-                    dapan = "A";
-                    break;
-                case 2:
-                    dapan = "B";
-                    break;
-                case 3:
-                    dapan = "C";
-                    break;
-                case 4:
-                    dapan = "D";
-                    break;
-                default:
-                    dapan = "";
-                    break;
-            }
-
-            listDA.push({ key: "dapan-" + i, value: dapan });
-        }
-
-        parent.SendDapAn(listDA);
-    }
 </script>
