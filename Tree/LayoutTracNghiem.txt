@@ -185,7 +185,9 @@
                 listDA.push({ key: "dapan-" + i, value: dapan });
             }
 
-            parent.SendDapAn(listDA);
+            var data = localStorage.getItem("tracnghiem_info");
+            localStorage.removeItem("tracnghiem_info");
+            parent.SendDapAn(listDA, JSON.parse(data));
         }
 
         function renderPage(index) {
