@@ -1,33 +1,48 @@
-
 <!-- layout bảng trắc nghiệm (ko tràn hết ra ngoài) -->
 <script>
-if (document.getElementById("custom1633"))
-{
-   document.getElementById("custom1633").style.display = "none";
-}
-(function () {
-  const el = document.getElementById("custom737");
-  if (!el) return;
+    if (document.getElementById("custom1633")) {
+        document.getElementById("custom1633").style.display = "none";
+    }
+    (function () {
+        const el = document.getElementById("custom737");
+        if (!el) return;
 
-  // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
-  const originalHTML = el.innerHTML;
-  if (!originalHTML.includes("<iframe")) {
-    localStorage.setItem("tracnghiem_layout", originalHTML);
-  }
+        // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
+        const originalHTML = el.innerHTML;
+        if (!originalHTML.includes("<iframe")) {
+            localStorage.setItem("tracnghiem_layout", originalHTML);
+        }
 
-  // Ẩn phần tử gốc
-  el.style.display = "none";
+        if (localStorage.getItem("tracnghiem_info") == null) {
+            var data = {
+                TongSoCau: document.getElementsByName("TongSoCau")[0].value,
+                GioiHanCau: document.getElementsByName("GioiHanCau")[0].value,
+                TimeLamBai: document.getElementsByName("TimeLamBai")[0].value,
+                TenMon: document.getElementsByName("TenMon")[0].value,
+                CauHoi: document.getElementsByName("CauHoi")[0].value,
+                A: document.getElementsByName("A")[0].value,
+                B: document.getElementsByName("B")[0].value,
+                C: document.getElementsByName("C")[0].value,
+                D: document.getElementsByName("D")[0].value,
+                Dung: document.getElementsByName("Dung")[0].value,
+            };
 
-  // Tạo iframe mới
-  const iframe = document.createElement("iframe");
-  iframe.src = "http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem";
-  iframe.style.width = "100%";
-  iframe.style.border = "none";
-  iframe.style.height = "500px";
+            localStorage.setItem("tracnghiem_info", JSON.stringify(data));
+        }
 
-  // Tạo khối HTML bên dưới iframe
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `
+        // Ẩn phần tử gốc
+        el.style.display = "none";
+
+        // Tạo iframe mới
+        const iframe = document.createElement("iframe");
+        iframe.src = "http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem";
+        iframe.style.width = "100%";
+        iframe.style.border = "none";
+        iframe.style.height = "500px";
+
+        // Tạo khối HTML bên dưới iframe
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
     <button onclick="hayquaX()">Xem kết quả</button>
     <br />
     <p style="color:deeppink">
@@ -36,38 +51,28 @@ if (document.getElementById("custom1633"))
     <br />
   `;
 
-  // ✅ Chỉ chèn nếu chưa có
-  const existedIframe = document.querySelector('iframe[src*="layout-tracnghiem"]');
-  if (!existedIframe) {
-    el.parentNode.insertBefore(iframe, el.nextSibling);
-    el.parentNode.insertBefore(wrapper, iframe.nextSibling);
-  }
-})();
+        // ✅ Chỉ chèn nếu chưa có
+        const existedIframe = document.querySelector('iframe[src*="layout-tracnghiem"]');
+        if (!existedIframe) {
+            el.parentNode.insertBefore(iframe, el.nextSibling);
+            el.parentNode.insertBefore(wrapper, iframe.nextSibling);
+        }
+    })();
 
-     function hayquaX()
-    {
-      document.getElementById("OKX").click();
+    function hayquaX() {
+        document.getElementById("OKX").click();
     }
 </script>
 <script>
-localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll('Thời gian làm bài : ','').split('phút')[0].trim());
+    localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
 </script>
-<iframe
-    src="http://normalwebbasic.somee.com/trac-nghiem"
-    style="
-        position:fixed;
-        top:0;
-        left:0;
-        width:100vw;
-        height:100vh;
-        border:none;
-        z-index:9999;">
-</iframe>
+<iframe src="http://normalwebbasic.somee.com/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;"> </iframe>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
 </style>
