@@ -295,6 +295,7 @@
             };
         }
 
+        window.getDataDapAn = getDataDapAn;
         initTracNghiem();
     })();
 </script>
