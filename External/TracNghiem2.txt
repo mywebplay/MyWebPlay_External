@@ -204,7 +204,7 @@
 
         <h1>Làm bài trắc nghiệm - Online <span class="highlight">(phiên bản thường)</span></h1>
 
-        <iframe id="frame" src="http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
+        <iframe id="frame" src="/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
 
         <div class="divOnTop">
             <span style="color: blue; text-align: center;" id="custom749">
@@ -290,7 +290,7 @@
             }
 
             function SendDapAn(DAlist, data) {
-                postRedirect("http://normalwebbasic.somee.com/Home/PlayTracNghiem", DAlist, data);
+                postRedirect("/Home/PlayTracNghiem", DAlist, data);
             }
 
             function postRedirect(url, data, another) {
