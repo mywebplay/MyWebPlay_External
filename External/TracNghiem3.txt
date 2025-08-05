@@ -361,7 +361,7 @@
                     document.getElementById("loadingSpinner").style.display = "none";
                     document.getElementById("partTN").style.display = "";
                 } else {
-                    document.location.href = "/trac-nghiem";
+                    document.location.replace("/trac-nghiem");
                 }
             });
 
