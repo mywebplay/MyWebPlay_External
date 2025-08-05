@@ -35,7 +35,7 @@
 
         // Tạo iframe mới
         const iframe = document.createElement("iframe");
-        iframe.src = "http://normalwebbasic.somee.com/Cover/CustomerPagePlay?code=layout-tracnghiem";
+        iframe.src = "/Cover/CustomerPagePlay?code=layout-tracnghiem";
         iframe.style.width = "100%";
         iframe.style.border = "none";
         iframe.style.height = "500px";
@@ -66,7 +66,7 @@
 <script>
     localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
 </script>
-<iframe src="http://normalwebbasic.somee.com/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;"> </iframe>
+<iframe src="/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;"> </iframe>
 
 <style>
     html,
