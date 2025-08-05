@@ -287,5 +287,16 @@
         }
 
         initTracNghiem();
+
+        function getDataDapAn() {
+            var DA = document.querySelectorAll("#question-content .answers a");
+            var listDA = [];
+            for (var i = 0; i < DA.length; i++) {
+                var chon = document.getElementById("DA-" + i).value;
+                listDA.push({ key: "dapan-" + i, value: chon });
+            }
+
+            parent.SendDapAn(listDA);
+        }
     })();
 </script>
