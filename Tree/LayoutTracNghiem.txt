@@ -287,6 +287,7 @@
         }
 
         initTracNghiem();
+    })();
 
         function getDataDapAn() {
             var DA = document.querySelectorAll("#question-content .answers a");
@@ -298,5 +299,4 @@
 
             parent.SendDapAn(listDA);
         }
-    })();
 </script>
