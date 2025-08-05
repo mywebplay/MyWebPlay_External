@@ -1,161 +1,175 @@
-<div id="tracnghiem-container" style="display:none;">
-  <button class="arrow-btn circle" id="prevBtn">&larr;</button>
-  <div id="question-content"></div>
-  <button class="arrow-btn circle" id="nextBtn">&rarr;</button>
+<div id="tracnghiem-container" style="display: none;">
+    <button class="arrow-btn circle" id="prevBtn">&larr;</button>
+    <div id="question-content"></div>
+    <button class="arrow-btn circle" id="nextBtn">&rarr;</button>
 </div>
 
-<div id="error-message" style="display:none;color:red;text-align:center;padding:20px;font-size:18px;background-color:white;"></div>
+<div id="error-message" style="display: none; color: red; text-align: center; padding: 20px; font-size: 18px; background-color: white;"></div>
 
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  max-width: 100%;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
 
-#tracnghiem-container {
-  position: relative;
-  background: #fff;
-  padding: 20px 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 800px;
-  margin: 40px auto;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+    #tracnghiem-container {
+        position: relative;
+        background: #fff;
+        padding: 20px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
+        margin: 40px auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+    }
 
-#tracnghiem-container * {
-  max-width: 100% !important;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-}
+    #tracnghiem-container * {
+        max-width: 100% !important;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
 
-#tracnghiem-container img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+    #tracnghiem-container img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
 
-.arrow-btn {
-  position: absolute;
-  top: 10px;
-  width: 36px;
-  height: 36px;
-  font-size: 20px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: background 0.2s;
-  z-index: 10;
-}
+    .arrow-btn {
+        position: absolute;
+        top: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transition: background 0.2s;
+        z-index: 10;
+    }
 
-.arrow-btn:hover {
-  background: #0056b3;
-}
+    .arrow-btn:hover {
+        background: #0056b3;
+    }
 
-#prevBtn { left: 10px; }
-#nextBtn { right: 10px; }
+    #prevBtn {
+        left: 10px;
+    }
+    #nextBtn {
+        right: 10px;
+    }
 
-.question-title, .question-description {
-  margin-bottom: 12px;
-  color: red;
-  font-size: clamp(14px, 2.5vw, 18px);
-  line-height: 1.4;
-}
+    .question-title,
+    .question-description {
+        margin-bottom: 12px;
+        color: red;
+        font-size: clamp(14px, 2.5vw, 18px);
+        line-height: 1.4;
+    }
 
-.answers a {
-  display: block;
-  padding: 10px;
-  margin: 6px 0;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  text-decoration: none;
-  color: black;
-  transition: all 0.2s ease;
-  font-size: clamp(13px, 2.5vw, 16px);
-}
+    .answers a {
+        display: block;
+        padding: 10px;
+        margin: 6px 0;
+        background: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-decoration: none;
+        color: black;
+        transition: all 0.2s ease;
+        font-size: clamp(13px, 2.5vw, 16px);
+    }
 
-.answers a:hover {
-  background: #e0e0e0;
-}
+    .answers a:hover {
+        background: #e0e0e0;
+    }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  #tracnghiem-container {
-    padding: 16px 20px;
-    margin: 20px 12px;
-  }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #tracnghiem-container {
+            padding: 16px 20px;
+            margin: 20px 12px;
+        }
 
-  .arrow-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 18px;
-    top: 8px;
-  }
-}
+        .arrow-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            top: 8px;
+        }
+    }
 
-@media (max-width: 480px) {
-  #tracnghiem-container {
-    padding: 12px 16px;
-    margin: 12px 6px;
-  }
+    @media (max-width: 480px) {
+        #tracnghiem-container {
+            padding: 12px 16px;
+            margin: 12px 6px;
+        }
 
-  .question-title, .question-description {
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
+        .question-title,
+        .question-description {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-  .answers a {
-    padding: 8px;
-    font-size: 13px;
-  }
+        .answers a {
+            padding: 8px;
+            font-size: 13px;
+        }
 
-  .arrow-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 16px;
-    top: 6px;
-  }
+        .arrow-btn {
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+            top: 6px;
+        }
 
-  #prevBtn { left: 5px; }
-  #nextBtn { right: 5px; }
-}
+        #prevBtn {
+            left: 5px;
+        }
+        #nextBtn {
+            right: 5px;
+        }
+    }
 </style>
 
 <script>
-(function () {
-  let currentPage = 0;
-  let totalPages = 0;
-  let mauTN1 = [], mauTN2 = [], dapan = [], luaChon = [];
+    (function () {
+        let currentPage = 0;
+        let totalPages = 0;
+        let mauTN1 = [],
+            mauTN2 = [],
+            dapan = [],
+            luaChon = [];
 
-  function renderPage(index) {
-    const questionDiv = document.getElementById("question-content");
+        function renderPage(index) {
+            const questionDiv = document.getElementById("question-content");
 
-    const questionTitle = mauTN1[index]?.innerHTML || '';
-    const questionDesc = mauTN2[index]?.innerHTML || '';
+            const questionTitle = mauTN1[index]?.innerHTML || "";
+            const questionDesc = mauTN2[index]?.innerHTML || "";
 
-    const answerA = dapan[`dapanA-${index}`]?.innerHTML || '';
-    const answerB = dapan[`dapanB-${index}`]?.innerHTML || '';
-    const answerC = dapan[`dapanC-${index}`]?.innerHTML || '';
-    const answerD = dapan[`dapanD-${index}`]?.innerHTML || '';
+            const answerA = dapan[`dapanA-${index}`]?.innerHTML || "";
+            const answerB = dapan[`dapanB-${index}`]?.innerHTML || "";
+            const answerC = dapan[`dapanC-${index}`]?.innerHTML || "";
+            const answerD = dapan[`dapanD-${index}`]?.innerHTML || "";
 
-    questionDiv.innerHTML = `
+            questionDiv.innerHTML = `
       <br /><br />
       <h2>
         <div class="question-title">${questionTitle}</div>
@@ -163,116 +177,115 @@ html, body {
       </h2>
       <h3>
         <div class="answers">
-          <a href="#${index+1}" data-index="${index}" data-answer="1">${answerA}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="2">${answerB}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="3">${answerC}</a>
-          <a href="#${index+1}" data-index="${index}" data-answer="4">${answerD}</a>
+          <a href="#${index + 1}" data-index="${index}" data-answer="1">${answerA}</a>
+          <a href="#${index + 1}" data-index="${index}" data-answer="2">${answerB}</a>
+          <a href="#${index + 1}" data-index="${index}" data-answer="3">${answerC}</a>
+          <a href="#${index + 1}" data-index="${index}" data-answer="4">${answerD}</a>
           <input type="text" name="dapan-${index}" id="DA-${index}" hidden />
         </div>
       </h3>
     `;
 
-    const answerLinks = document.querySelectorAll("#question-content .answers a");
-    answerLinks.forEach(link => {
-      link.addEventListener("click", function () {
-        const selectedAnswer = parseInt(this.dataset.answer);
-        const currentIndex = parseInt(this.dataset.index);
+            const answerLinks = document.querySelectorAll("#question-content .answers a");
+            answerLinks.forEach((link) => {
+                link.addEventListener("click", function () {
+                    const selectedAnswer = parseInt(this.dataset.answer);
+                    const currentIndex = parseInt(this.dataset.index);
 
-        luaChon[currentIndex] = selectedAnswer;
-        var dapan = "A";
-        switch(selectedAnswer)
-{
-   case 1 :
-dapan = "A";
-break;
+                    luaChon[currentIndex] = selectedAnswer;
+                    var dapan = "A";
+                    switch (selectedAnswer) {
+                        case 1:
+                            dapan = "A";
+                            break;
 
-case 2 :
-dapan = "B";
-break;
+                        case 2:
+                            dapan = "B";
+                            break;
 
-case 3 :
-dapan = "C";
-break;
+                        case 3:
+                            dapan = "C";
+                            break;
 
-case 4 :
-dapan = "D";
-break;
-}
+                        case 4:
+                            dapan = "D";
+                            break;
+                    }
 
-      document.getElementById("DA-"+ currentIndex).value = dapan;
-        answerLinks.forEach(a => {
-          a.style.background = "#f9f9f9";
-          a.style.color = "black";
-          a.style.borderColor = "#ccc";
-        });
+                    document.getElementById("DA-" + currentIndex).value = dapan;
+                    answerLinks.forEach((a) => {
+                        a.style.background = "#f9f9f9";
+                        a.style.color = "black";
+                        a.style.borderColor = "#ccc";
+                    });
 
-        this.style.background = "#007bff";
-        this.style.color = "#fff";
-        this.style.borderColor = "#007bff";
-      });
-    });
+                    this.style.background = "#007bff";
+                    this.style.color = "#fff";
+                    this.style.borderColor = "#007bff";
+                });
+            });
 
-    if (luaChon[index]) {
-      const selectedIndex = luaChon[index] - 1;
-      if (answerLinks[selectedIndex]) {
-        answerLinks[selectedIndex].style.background = "#007bff";
-        answerLinks[selectedIndex].style.color = "#fff";
-        answerLinks[selectedIndex].style.borderColor = "#007bff";
-      }
-    }
+            if (luaChon[index]) {
+                const selectedIndex = luaChon[index] - 1;
+                if (answerLinks[selectedIndex]) {
+                    answerLinks[selectedIndex].style.background = "#007bff";
+                    answerLinks[selectedIndex].style.color = "#fff";
+                    answerLinks[selectedIndex].style.borderColor = "#007bff";
+                }
+            }
 
-    document.getElementById("prevBtn").style.opacity = (index === 0) ? "0.3" : "1";
-    document.getElementById("prevBtn").style.pointerEvents = (index === 0) ? "none" : "auto";
+            document.getElementById("prevBtn").style.opacity = index === 0 ? "0.3" : "1";
+            document.getElementById("prevBtn").style.pointerEvents = index === 0 ? "none" : "auto";
 
-    document.getElementById("nextBtn").style.opacity = (index === totalPages - 1) ? "0.3" : "1";
-    document.getElementById("nextBtn").style.pointerEvents = (index === totalPages - 1) ? "none" : "auto";
-  }
+            document.getElementById("nextBtn").style.opacity = index === totalPages - 1 ? "0.3" : "1";
+            document.getElementById("nextBtn").style.pointerEvents = index === totalPages - 1 ? "none" : "auto";
+        }
 
-  function initTracNghiem() {
-    const data = localStorage.getItem("tracnghiem_layout");
-    if (!data) {
-      const errBox = document.getElementById("error-message");
-      errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
-      errBox.style.display = "block";
-      return;
-    }
+        function initTracNghiem() {
+            const data = localStorage.getItem("tracnghiem_layout");
+            if (!data) {
+                const errBox = document.getElementById("error-message");
+                errBox.textContent = "Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !";
+                errBox.style.display = "block";
+                return;
+            }
 
-    const container = document.getElementById("tracnghiem-container");
-    container.style.display = "block";
+            const container = document.getElementById("tracnghiem-container");
+            container.style.display = "block";
 
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = data;
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = data;
 
-    mauTN1 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-1"]'));
-    mauTN2 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-2"]'));
+            mauTN1 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-1"]'));
+            mauTN2 = Array.from(tempDiv.querySelectorAll('[name="mau-TN-2"]'));
 
-    dapan = {};
-    ['A', 'B', 'C', 'D'].forEach(letter => {
-      for (let i = 0; i < mauTN1.length; i++) {
-        const el = tempDiv.querySelector(`#dapan${letter}-${i}`);
-        if (el) dapan[`dapan${letter}-${i}`] = el;
-      }
-    });
+            dapan = {};
+            ["A", "B", "C", "D"].forEach((letter) => {
+                for (let i = 0; i < mauTN1.length; i++) {
+                    const el = tempDiv.querySelector(`#dapan${letter}-${i}`);
+                    if (el) dapan[`dapan${letter}-${i}`] = el;
+                }
+            });
 
-    totalPages = mauTN1.length;
-    renderPage(currentPage);
+            totalPages = mauTN1.length;
+            renderPage(currentPage);
 
-    document.getElementById("prevBtn").onclick = function () {
-      if (currentPage > 0) {
-        currentPage--;
-        renderPage(currentPage);
-      }
-    };
+            document.getElementById("prevBtn").onclick = function () {
+                if (currentPage > 0) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            };
 
-    document.getElementById("nextBtn").onclick = function () {
-      localStorage.removeItem("tracnghiem_layout");
-      if (currentPage < totalPages - 1) {
-        currentPage++;
-        renderPage(currentPage);
-      }
-    };
-  }
+            document.getElementById("nextBtn").onclick = function () {
+                localStorage.removeItem("tracnghiem_layout");
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            };
+        }
 
-  initTracNghiem();
-})();
+        initTracNghiem();
+    })();
 </script>
