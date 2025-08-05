@@ -25,6 +25,7 @@
                 C: document.getElementsByName("C")[0].value,
                 D: document.getElementsByName("D")[0].value,
                 Dung: document.getElementsByName("Dung")[0].value,
+                txtUserIP: document.getElementsByName("txtUserIP")[0].value,
                 File_ND: ''
             };
 
