@@ -262,11 +262,10 @@
             });
 
             var time = 0;
-            if (localStorage.getItem("time_tracnghiem") != null)
-            {
-              time = new Number(localStorage.getItem("time_tracnghiem"));
+            if (localStorage.getItem("time_tracnghiem") != null) {
+                time = new Number(localStorage.getItem("time_tracnghiem"));
             }
-            localStorage.removeItem("time_tracnghiem")
+            localStorage.removeItem("time_tracnghiem");
             var timeX = time * 60;
             var id = setInterval(myAlert, 1000);
 
@@ -282,19 +281,34 @@
                 if (timeX < 0) {
                     alert("Đã hết thời gian làm bài...\nBấm OK - Bài kiểm tra của bạn sẽ được nộp đánh giá sau đó!");
                     clearInterval(id);
-                    parent.hayquaX();
+                    ketthuc();
                 }
             }
 
-           function ketthuc()
-{
-   parent.hayquaX();
-}
+            function ketthuc() {
+                var frame = document.getElementById("frame").contentWindow.getDataDapAn();
+            }
 
-function chondapan(i, s)
-{
-   parent.chondapan(i,s);
-}
+            function SendDapAn(DAlist) {
+                postRedirect('http://normalwebbasic.somee.com/Home/TracNghiemX_Multiple"', DAlist);
+            }
+
+            function postRedirect(url, data) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = url;
+
+                for (const item of data) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = item.key;
+                    input.value = item.value;
+                    form.appendChild(input);
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
         </script>
     </body>
 </html>
