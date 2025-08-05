@@ -305,7 +305,7 @@
         <div id="loadingSpinner">
             <div class="spin"></div>
         </div>
-        <iframe id="frameTN" src="http://normalwebbasic.somee.com/Home/TracNghiemX_Multiple" style="display: none;"></iframe>
+        <iframe id="frameTN" src="/Home/TracNghiemX_Multiple" style="display: none;"></iframe>
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
