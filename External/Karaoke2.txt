@@ -289,8 +289,8 @@
             <p><a href="#" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
             <br />
             <p>
-                <a href="http://normalwebbasic.somee.com/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
-                <a href="http://normalwebbasic.somee.com/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
+                <a href="/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
+                <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
             </p>
             <br />
             <br />
@@ -356,7 +356,7 @@
                 var random_color = document.getElementById("doimau").checked ? "on" : "";
                 var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
                 var txtOnline = document.getElementById("txtLinkBackground").value;
-                postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
+                postRedirect("/Home/ToPlayKaraoke", {
                     txtChon: "on",
                     KaraChon: "" + sChonSelectedIndex,
                     txtOnline: txtOnline,
@@ -386,7 +386,7 @@
 
             function serverKaraoke() {
                 alert("Xin lỗi, tính năng này chưa được bổ sung trên giao diện mới.\nVì vậy, chúng tôi sẽ chuyển bạn đến màn hình của giao diện cũ.\nRất mong sự thông cảm của bạn !");
-                window.location.href = "http://normalwebbasic.somee.com/Home/ToPlayKaraoke";
+                window.location.href = "/Home/ToPlayKaraoke";
             }
 
             function choncangiua() {
@@ -412,7 +412,7 @@
                 var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
                 var txtOnline = document.getElementById("txtLinkBackground").value;
 
-                postRedirect("http://normalwebbasic.somee.com/Home/ToPlayKaraoke", {
+                postRedirect("/Home/ToPlayKaraoke", {
                     KaraChon: "" + sChonSelectedIndex,
                     txtOnline: txtOnline,
                     auto_music: auto_music,
