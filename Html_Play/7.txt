@@ -1,5 +1,7 @@
 <!-- thay đổi giao diện home index -->
 <script>
+if (document.getElementById("nenta"))
+{
 document.getElementById("nenta").style.backgroundColor = "black";
 document.getElementById("custom11").innerHTML = "🎄";
 document.body.style.backgroundColor = "black";
@@ -20,4 +22,5 @@ bien3.value = "yellow";
 }
 document.getElementById("chuyenlightdark").style.display = "none";
 document.getElementById("custom10").style.display = "none";
+}
 </script>
