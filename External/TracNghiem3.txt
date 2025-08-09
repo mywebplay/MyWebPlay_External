@@ -306,6 +306,7 @@
             <div class="spin"></div>
         </div>
         <iframe id="frameTN" src="/Home/TracNghiemX_Multiple" style="display: none;"></iframe>
+        <iframe id="start" src="/" style="display: none;"></iframe>
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -409,6 +410,14 @@
                     s = "Không có file được tải lên";
                 }
                 link.title = s;
+            });
+
+            const iframeStart = document.getElementById("start");
+
+            iframeStart.addEventListener("load", () => {
+                setTimeout(() => {
+                    iframeStart.remove();
+                }, 60000);
             });
         </script>
     </body>
