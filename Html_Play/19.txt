@@ -363,7 +363,10 @@ if (document.getElementById("maunex"))
 {
   document.getElementById("maunex123").value = document.getElementById("maunex").value;
 }
-document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
+if (document.getElementById("anhmo"))
+{
+   document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
+}
 document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
 document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
 document.getElementById("kichthuoc123").value = document.getElementById("kichthuoc").value;
