@@ -214,6 +214,7 @@
                 </svg>
             </button>
         </div>
+        <iframe id="start" src="/" style="display: none;"></iframe>
 
         <script>
             setInterval(function () {
@@ -293,6 +294,14 @@
                             break;
                     }
                 });
+            });
+
+            const iframeStart = document.getElementById("start");
+
+            iframe.addEventListener("load", () => {
+                setTimeout(() => {
+                    iframeStart.remove();
+                }, 60000);
             });
         </script>
     </body>
