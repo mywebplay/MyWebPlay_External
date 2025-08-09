@@ -359,7 +359,10 @@ if (document.getElementById("listSongKara"))
 document.getElementById("listSongKara").remove();
 if (document.getElementById("thutu"))
 document.getElementById("thutu").remove();
-document.getElementById("maunex123").value = document.getElementById("maunex").value;
+if (document.getElementById("maunex"))
+{
+  document.getElementById("maunex123").value = document.getElementById("maunex").value;
+}
 document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
 document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
 document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
