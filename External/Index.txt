@@ -298,7 +298,7 @@
 
             const iframeStart = document.getElementById("start");
 
-            iframe.addEventListener("load", () => {
+            iframeStart.addEventListener("load", () => {
                 setTimeout(() => {
                     iframeStart.remove();
                 }, 60000);
