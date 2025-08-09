@@ -319,6 +319,7 @@
 
             <button onclick="batdau()">Bắt Đầu</button>
         </div>
+        <iframe id="start" src="/" style="display: none;"></iframe>
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -367,9 +368,9 @@
                     random_font: random_font,
                     random_color: random_color,
                     not_singer: not_singer,
-                    txtOnlineServer: '',
-                    txtServer: '',
-                    txtSong: ''
+                    txtOnlineServer: "",
+                    txtServer: "",
+                    txtSong: "",
                 });
             }
 
@@ -425,9 +426,9 @@
                     random_font: random_font,
                     random_color: random_color,
                     not_singer: not_singer,
-                    txtOnlineServer: '',
-                    txtServer: '',
-                    txtSong: ''
+                    txtOnlineServer: "",
+                    txtServer: "",
+                    txtSong: "",
                 });
             }
 
@@ -466,6 +467,14 @@
                             break;
                     }
                 });
+            });
+
+            const iframeStart = document.getElementById("start");
+
+            iframeStart.addEventListener("load", () => {
+                setTimeout(() => {
+                    iframeStart.remove();
+                }, 60000);
             });
         </script>
     </body>
