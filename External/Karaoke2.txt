@@ -368,7 +368,8 @@
                     random_color: random_color,
                     not_singer: not_singer,
                     txtOnlineServer: '',
-                    txtServer: ''
+                    txtServer: '',
+                    txtSong: ''
                 });
             }
 
@@ -425,7 +426,8 @@
                     random_color: random_color,
                     not_singer: not_singer,
                     txtOnlineServer: '',
-                    txtServer: ''
+                    txtServer: '',
+                    txtSong: ''
                 });
             }
 
