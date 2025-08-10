@@ -299,9 +299,9 @@
             <b>Đưa tất cả các file trắc nghiệm (chương bài học) của bạn vào cùng 1 thư mục sau đó sẽ dễ dàng kéo tất cả các file vào đây... :</b>
             <a id="uFile" style="cursor: pointer; color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
             <br />
-            <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
-            <span id="listFile" style="color:red;background-color:white;white-space: pre-line;">Chưa có file được tải lên</span>
-            <img src="/Image_Play/waiting.gif" id="waiting" style="display:none;width:5%;" title="Thử rê chuột vào đây để kiểm tra tình trạng các file của bạn" />
+            <b style="color: blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
+            <span id="listFile" style="color: red; background-color: white; white-space: pre-line;">Chưa có file được tải lên</span>
+            <img src="/Image_Play/waiting.gif" id="waiting" style="display: none; width: 5%;" title="Thử rê chuột vào đây để kiểm tra tình trạng các file của bạn" />
             <br />
             <button id="btnStart" onclick="lambai()">Bắt đầu làm bài</button>
         </div>
@@ -312,124 +312,133 @@
         <iframe id="frameTN" src="/Home/TracNghiemX_Multiple" style="display: none;"></iframe>
         <!-- <iframe id="start" src="/" style="display: none;"></iframe> -->
         <script>
-            setInterval(function () {
-                document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
-                document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
-                document.querySelectorAll("center").forEach((el) => el.remove());
-                document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
-            }, 10);
+                        setInterval(function () {
+                            document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+                            document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+                            document.querySelectorAll("center").forEach((el) => el.remove());
+                            document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+                        }, 10);
 
-            // Hamburger menu toggle
-            const menuBtn = document.getElementById("custom11");
-            const menu = document.getElementById("menuX1");
+                        // Hamburger menu toggle
+                        const menuBtn = document.getElementById("custom11");
+                        const menu = document.getElementById("menuX1");
 
-            menuBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                menu.classList.toggle("showX1");
-            });
+                        menuBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            menu.classList.toggle("showX1");
+                        });
 
-            // Ẩn menu khi click ngoài
-            document.addEventListener("click", (e) => {
-                if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
-                    menu.classList.remove("showX1");
-                }
-            });
+                        // Ẩn menu khi click ngoài
+                        document.addEventListener("click", (e) => {
+                            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                                menu.classList.remove("showX1");
+                            }
+                        });
 
-            // Xử lý click menu item
-            document.querySelectorAll(".menu-itemX1").forEach((item) => {
-                item.addEventListener("click", () => {
-                    const action = item.dataset.action;
-                    switch (action) {
-                        case "TronMau":
-                            window.location.href = "/Home/TronMau";
-                            break;
-                        case "TracNghiem":
-                            window.location.href = "/trac-nghiem-index";
-                            break;
-                        case "Question":
-                            window.location.href = "/Home/PlayQuestion_Multiple";
-                            break;
-                        case "Karaoke":
-                            window.location.href = "/karaoke";
-                            break;
-                    }
-                });
-            });
+                        // Xử lý click menu item
+                        document.querySelectorAll(".menu-itemX1").forEach((item) => {
+                            item.addEventListener("click", () => {
+                                const action = item.dataset.action;
+                                switch (action) {
+                                    case "TronMau":
+                                        window.location.href = "/Home/TronMau";
+                                        break;
+                                    case "TracNghiem":
+                                        window.location.href = "/trac-nghiem-index";
+                                        break;
+                                    case "Question":
+                                        window.location.href = "/Home/PlayQuestion_Multiple";
+                                        break;
+                                    case "Karaoke":
+                                        window.location.href = "/karaoke";
+                                        break;
+                                }
+                            });
+                        });
 
-            // Khi trang load thì ẩn partTN
-            document.getElementById("partTN").style.display = "none";
+                        // Khi trang load thì ẩn partTN
+                        document.getElementById("partTN").style.display = "none";
 
-            // Khi iframe load xong thì ẩn spinner & hiện partTN
-            var start = true;
-            document.querySelector("iframe").addEventListener("load", function () {
-                if (start) {
-                    document.getElementById("loadingSpinner").style.display = "none";
-                    document.getElementById("partTN").style.display = "";
-                } else {
-                    document.location.replace("/trac-nghiem");
-                }
-            });
+                        // Khi iframe load xong thì ẩn spinner & hiện partTN
+                        var start = true;
+                        document.querySelector("iframe").addEventListener("load", function () {
+                            if (start) {
+                                document.getElementById("loadingSpinner").style.display = "none";
+                                document.getElementById("partTN").style.display = "";
+                            } else {
+                                var t = 0;
+                                setInterval(function()
+                                {
+                                    t++;
+                                    if (t == 10)
+                                    {
+                                        document.location.replace("/trac-nghiem");
+                                        return;
+                                    }
+                                }, 1000);
+                            }
+                        });
 
-            function lambai() {
-                var socauTN = new Number(document.getElementById("socauTN").value);
-                var timeTN = new Number(document.getElementById("timeTN").value);
-                const fileTN = document.getElementById("fileTN");
-                var frameTN = document.getElementById("frameTN");
+                        function lambai() {
+                            var socauTN = new Number(document.getElementById("socauTN").value);
+                            var timeTN = new Number(document.getElementById("timeTN").value);
+                            const fileTN = document.getElementById("fileTN");
+                            var frameTN = document.getElementById("frameTN");
 
-                if (socauTN < 1) {
-                    alert("Số câu trắc nghiệm cần làm phải có ít nhất một câu !");
-                    return;
-                }
+                            if (socauTN < 1) {
+                                alert("Số câu trắc nghiệm cần làm phải có ít nhất một câu !");
+                                return;
+                            }
 
-                if (timeTN < 1 || timeTN > 1200) {
-                    alert("Thời gian làm bài phải tối thiểu 1 phút và tối đa 20 giờ !");
-                    return;
-                }
+                            if (timeTN < 1 || timeTN > 1200) {
+                                alert("Thời gian làm bài phải tối thiểu 1 phút và tối đa 20 giờ !");
+                                return;
+                            }
 
-                frameTN.contentWindow.document.getElementById("custom1643").value = socauTN;
-                frameTN.contentWindow.document.getElementById("custom1648").value = timeTN;
-                frameTN.contentWindow.document.getElementById("ok").click();
-                document.getElementById("loadingSpinner").style.display = "";
-                document.getElementById("partTN").style.display = "none";
-                start = false;
-            }
+                            frameTN.contentWindow.document.getElementById("custom1643").value = socauTN;
+                            frameTN.contentWindow.document.getElementById("custom1648").value = timeTN;
+                            frameTN.contentWindow.document.getElementById("ok").click();
+                            document.getElementById("loadingSpinner").style.display = "";
+                            document.getElementById("partTN").style.display = "none";
+                            start = false;
+                        }
 
-            function uploadfile() {
-                document.getElementById("listFile").style.display = "none";
-                document.getElementById("btnStart").style.display = "none";
-                document.getElementById("waiting").style.display = "inline-block";
-                var frameTN = document.getElementById("frameTN");
-                frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
-            }
+                        function uploadfile() {
+                            document.getElementById("listFile").style.display = "none";
+                            document.getElementById("btnStart").style.display = "none";
+                            document.getElementById("waiting").style.display = "inline-block";
+                            var frameTN = document.getElementById("frameTN");
+                            frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
+                        }
 
-            document.getElementById("waiting").addEventListener("mouseenter", () => {
-                var frameTN = document.getElementById("frameTN");
-                var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
-                var s = "";
-                for (var i = 0; i < input.files.length; i++) {
-                      s += input.files[i].name;
-                     if (i < input.files.length - 1) {
-                         s += "\n";
-                    }
-                }
-                 if (s == "") {
-                     s = "Chưa có file được tải lên";
-                }
-                document.getElementById("listFile").textContent = s;
-                document.getElementById("listFile").style.display = "inline-block";
-                document.getElementById("btnStart").style.display = "inline-block";
-                document.getElementById("waiting").style.display = "none";
-            });
+                        document.getElementById("waiting").addEventListener("mouseenter", () => {
+                            var frameTN = document.getElementById("frameTN");
+                            var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
+                            var s = "";
+                            for (var i = 0; i < input.files.length; i++) {
+                                  s += input.files[i].name;
+                                 if (i < input.files.length - 1) {
+                                     s += "\n";
+                                }
+                            }
+                             if (s == "") {
+                                 s = "Chưa có file được tải lên";
+                            }
+                            document.getElementById("listFile").textContent = s;
+                            document.getElementById("listFile").style.display = "inline-block";
+                            document.getElementById("btnStart").style.display = "inline-block";
+                            document.getElementById("waiting").style.display = "none";
+                        });
 
-            /*
-            const iframeStart = document.getElementById("start");
+                        /*
+                        const iframeStart = document.getElementById("start");
 
-            iframeStart.addEventListener("load", () => {
-                setTimeout(() => {
-                    iframeStart.remove();
-                }, 60000);
-            });
-            */
+                        iframeStart.addEventListener("load", () => {
+                            setTimeout(() => {
+                                iframeStart.remove();
+                            }, 60000);
+                        });
+                        */
         </script>
     </body>
 </html>
