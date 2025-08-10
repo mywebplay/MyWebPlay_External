@@ -297,6 +297,7 @@
             }
 
             function ketthuc() {
+                document.exitFullscreen();
                 var frame = document.getElementById("frame").contentWindow.getDataDapAn();
             }
 
