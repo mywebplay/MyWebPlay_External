@@ -300,8 +300,7 @@
             <a id="uFile" href="#" style="color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
             <br />
             <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
-            <br />
-            <span id="listFile" style="color:red;">Chưa có file được tải lên</span>
+            <span id="listFile" style="color:red;background-color:white;">Chưa có file được tải lên</span>
             <br />
             <button onclick="lambai()">Bắt đầu làm bài</button>
         </div>
@@ -413,7 +412,7 @@
                 if (s == "") {
                     s = "Chưa có file được tải lên";
                 }
-                document.getElementById("listFile").value = s;
+                document.getElementById("listFile").innerHTML = s;
             });
 
             /*
