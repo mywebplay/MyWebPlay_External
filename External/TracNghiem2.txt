@@ -342,8 +342,7 @@
             */
 
             document.body.addEventListener("load", function () {
-                    document.documentElement.requestFullscreen();
-                });
+                document.documentElement.requestFullscreen();
             });
 
             document.addEventListener("fullscreenchange", function () {
