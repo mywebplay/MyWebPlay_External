@@ -412,6 +412,7 @@
                 link.title = s;
             });
 
+            /*
             const iframeStart = document.getElementById("start");
 
             iframeStart.addEventListener("load", () => {
@@ -419,6 +420,7 @@
                     iframeStart.remove();
                 }, 60000);
             });
+            */
         </script>
     </body>
 </html>
