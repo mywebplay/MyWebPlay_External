@@ -297,7 +297,7 @@
             <b>Thời gian làm bài (phút) :</b>
             <input type="number" id="timeTN" min="1" max="1200" />
             <b>Đưa tất cả các file trắc nghiệm (chương bài học) của bạn vào cùng 1 thư mục sau đó sẽ dễ dàng kéo tất cả các file vào đây... :</b>
-            <a id="uFile" style="cursor:pointer;" style="color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
+            <a id="uFile" style="cursor: pointer; color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
             <br />
             <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
             <span id="listFile" style="color:red;background-color:white;">Chưa có file được tải lên</span>
@@ -396,7 +396,7 @@
 
             function uploadfile() {
                 document.getElementById("listFile").style.display = "none";
-                document.getElementById("waiting").style.display = "flex";
+                document.getElementById("waiting").style.display = "inline-block";
                 var frameTN = document.getElementById("frameTN");
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
@@ -416,7 +416,7 @@
                     s = "Chưa có file được tải lên";
                 }
                 document.getElementById("listFile").innerHTML = s;
-                document.getElementById("listFile").style.display = "flex";
+                document.getElementById("listFile").style.display = "inline-block";
                 document.getElementById("waiting").style.display = "none";
             });
 
