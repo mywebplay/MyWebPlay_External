@@ -402,8 +402,7 @@
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
 
-            var link = document.getElementById("uFile");
-            link.addEventListener("mouseenter", () => {
+            document.getElementById("waiting").addEventListener("mouseenter", () => {
                 var frameTN = document.getElementById("frameTN");
                 var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
                 var s = "";
