@@ -7,7 +7,8 @@
 <style>
   html, body {
     margin: 0; padding: 0; font-family: sans-serif; background: #fff;
-    max-width: 100%; overflow-x: hidden;
+    max-width: 100%;
+    overflow: hidden;
   }
   #container {
     max-width: 800px;
@@ -301,8 +302,8 @@
     }
   };
   nextBtn.onclick = () => {
-    localStorage.removeItem("ketqua-tracnghiem");
-    localStorage.removeItem("score-tracnghiem");
+    localStorage.removeItem("ketqua_tracnghiem");
+    localStorage.removeItem("score_tracnghiem");
     if(currentIndex < questions.length - 1){
       currentIndex++;
       renderQuestion(currentIndex);
