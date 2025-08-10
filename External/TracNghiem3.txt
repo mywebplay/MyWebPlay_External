@@ -301,7 +301,7 @@
             <br />
             <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
             <span id="listFile" style="color:red;background-color:white;white-space: pre-line;">Chưa có file được tải lên</span>
-            <img src="/Image_Play/waiting.gif" id="waiting" style="display:none;width:5%;" title="Thử click vào đây để kiểm tra tình trạng các file của bạn" />
+            <img src="/Image_Play/waiting.gif" id="waiting" style="display:none;width:5%;" title="Thử rê chuột vào đây để kiểm tra tình trạng các file của bạn" />
             <br />
             <button id="btnStart" onclick="lambai()">Bắt đầu làm bài</button>
         </div>
@@ -402,7 +402,7 @@
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
 
-            document.getElementById("waiting").addEventListener("click", () => {
+            document.getElementById("waiting").addEventListener("mouseenter", () => {
                 var frameTN = document.getElementById("frameTN");
                 var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
                 var s = "";
