@@ -284,9 +284,9 @@
         <h1>Play Your Karaoke - Online <span class="highlight">(phiên bản thường)</span></h1>
 
         <div class="section">
-            <p><a href="#" onclick="demoKaraoke()">Tham khảo bản karaoke demo có sẵn trên hệ thống</a></p>
+            <p><a style="cursor: pointer;" onclick="demoKaraoke()">Tham khảo bản karaoke demo có sẵn trên hệ thống</a></p>
             <p></p>
-            <p><a href="#" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
+            <p><a style="cursor: pointer;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
             <br />
             <p>
                 <a href="/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
