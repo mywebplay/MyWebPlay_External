@@ -130,3 +130,7 @@ ONLY_HOME
 /Home/ToPlayKaraoke
 ||
 <@@path:https://mywebplay.github.io/MyWebPlay_External/Html_Play/30.txt@@>
+#3275#
+/Home/PlayTracNghiem---POST
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/Html_Play/31.txt@@>
