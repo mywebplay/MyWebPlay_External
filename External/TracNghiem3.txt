@@ -402,24 +402,24 @@
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
 
-            document.getElementById("waiting").addEventListener("mouseenter", () => {
                 var frameTN = document.getElementById("frameTN");
                 var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
-                var s = "";
-                for (var i = 0; i < input.files.length; i++) {
-                    s += input.files[i].name;
-                    if (i < input.files.length - 1) {
-                        s += "\n";
+                input.addEventListener("change", () => {
+                    var s = "";
+                    for (var i = 0; i < input.files.length; i++) {
+                        s += input.files[i].name;
+                        if (i < input.files.length - 1) {
+                            s += "\n";
+                        }
                     }
-                }
-                if (s == "") {
-                    s = "Chưa có file được tải lên";
-                }
-                document.getElementById("listFile").textContent = s;
-                document.getElementById("listFile").style.display = "inline-block";
-                document.getElementById("btnStart").style.display = "inline-block";
-                document.getElementById("waiting").style.display = "none";
-            });
+                    if (s == "") {
+                        s = "Chưa có file được tải lên";
+                    }
+                    document.getElementById("listFile").textContent = s;
+                    document.getElementById("listFile").style.display = "inline-block";
+                    document.getElementById("btnStart").style.display = "inline-block";
+                    document.getElementById("waiting").style.display = "none";
+                });
 
             /*
             const iframeStart = document.getElementById("start");
