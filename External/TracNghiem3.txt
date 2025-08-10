@@ -300,7 +300,7 @@
             <a id="uFile" style="cursor: pointer; color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
             <br />
             <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
-            <span id="listFile" style="color:red;background-color:white;">Chưa có file được tải lên</span>
+            <span id="listFile" style="color:red;background-color:white;white-space: pre-line;">Chưa có file được tải lên</span>
             <img src="/Image_Play/waiting.gif" id="waiting" style="display:none;width:5%;" />
             <br />
             <button id="btnStart" onclick="lambai()">Bắt đầu làm bài</button>
@@ -410,13 +410,13 @@
                 for (var i = 0; i < input.files.length; i++) {
                     s += input.files[i].name;
                     if (i < input.files.length - 1) {
-                        s += "<br />";
+                        s += "\n";
                     }
                 }
                 if (s == "") {
                     s = "Chưa có file được tải lên";
                 }
-                document.getElementById("listFile").innerHTML = s;
+                document.getElementById("listFile").textContent = s;
                 document.getElementById("listFile").style.display = "inline-block";
                 document.getElementById("btnStart").style.display = "inline-block";
                 document.getElementById("waiting").style.display = "none";
