@@ -107,7 +107,7 @@
 <body>
 
 <div id="container" style="display:none;">
-  <div id="score">Điểm: 0</div>
+  <div id="score">Điểm của bạn: 0/10</div>
   <div id="question-content"></div>
   <div id="nav-buttons">
     <button id="prevBtn" class="arrow-btn" title="Câu trước">&larr;</button>
@@ -143,9 +143,9 @@
 
   // Hiển thị điểm
   if(scoreData && !isNaN(scoreData)){
-    scoreDiv.textContent = `Điểm: ${scoreData}`;
+    scoreDiv.textContent = `Điểm của bạn: ${scoreData}/10`;
   } else {
-    scoreDiv.textContent = 'Điểm: 0';
+    scoreDiv.textContent = 'Điểm của bạn: 0/10';
   }
 
   // Parse dữ liệu raw HTML trong ketqua_tracnghiem
@@ -242,8 +242,8 @@
     if(!q) return;
 
     // Tiêu đề câu hỏi
-    let html = `<div class="question-title">${q.title}/10</div>`;
-    html += `<div class="question-text">${q.question}/10</div>`;
+    let html = `<div class="question-title">${q.title}</div>`;
+    html += `<div class="question-text">${q.question}</div>`;
 
     // Render 4 đáp án với màu nền theo yêu cầu
     const letters = ['A','B','C','D'];
