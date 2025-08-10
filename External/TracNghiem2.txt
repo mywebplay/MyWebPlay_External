@@ -249,13 +249,13 @@
                             window.location.href = "/Home/TronMau";
                             break;
                         case "TracNghiem":
-                            window.location.href = "/Home/TracNghiemX_Multiple";
+                            window.location.href = "/trac-nghiem-index";
                             break;
                         case "Question":
                             window.location.href = "/Home/PlayQuestion_Multiple";
                             break;
                         case "Karaoke":
-                            window.location.href = "/Home/ToPlayKaraoke";
+                            window.location.href = "/karaoke";
                             break;
                     }
                 });
