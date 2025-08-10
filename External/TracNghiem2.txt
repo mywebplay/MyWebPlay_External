@@ -341,21 +341,6 @@
                 }, 60000);
             });
             */
-
-            function toanmanhinh()
-            {
-                document.documentElement.requestFullscreen();
-            }
-
-            document.body.addEventListener("click", function () {
-                toanmanhinh();
-            });
-
-            document.addEventListener("fullscreenchange", function () {
-                if (!document.fullscreenElement) {
-                    ketthuc();
-                }
-            });
         </script>
     </body>
 </html>
