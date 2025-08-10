@@ -301,6 +301,7 @@
             <br />
             <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
             <span id="listFile" style="color:red;background-color:white;">Chưa có file được tải lên</span>
+            <img src="/Image_Play/waiting.gif" id="waiting" style="display:none;" />
             <br />
             <button onclick="lambai()">Bắt đầu làm bài</button>
         </div>
@@ -394,6 +395,8 @@
             }
 
             function uploadfile() {
+                document.getElementById("listFile").style.display = "none";
+                document.getElementById("waiting").style.display = "flex";
                 var frameTN = document.getElementById("frameTN");
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
@@ -413,6 +416,8 @@
                     s = "Chưa có file được tải lên";
                 }
                 document.getElementById("listFile").innerHTML = s;
+                document.getElementById("listFile").style.display = "flex";
+                document.getElementById("waiting").style.display = "none";
             });
 
             /*
