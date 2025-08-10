@@ -339,8 +339,16 @@
                 }, 60000);
             });
 
-            window.addEventListener("load", function () {
+            function startFullscreen() {
                 document.documentElement.requestFullscreen();
+            }
+
+            window.addEventListener("load", function () {
+                // Lắng nghe click đầu tiên rồi fullscreen
+                document.addEventListener("click", function handler() {
+                    startFullscreen();
+                    document.removeEventListener("click", handler); // Chạy 1 lần
+                });
             });
 
             document.addEventListener("fullscreenchange", function () {
