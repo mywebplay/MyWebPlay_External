@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trắc nghiệm hiển thị kết quả</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; font-family: sans-serif; background: #fff;
+    max-width: 100%; overflow-x: hidden;
+  }
+  #container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+  }
+  #score {
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: bold;
+    color: #222;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  #error-message {
+    color: red;
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+  }
+  #question-content {
+    background: #fff;
+    padding: 0 10px;
+  }
+  .question-title {
+    color: deeppink;
+    font-weight: bold;
+    font-size: clamp(16px, 2.5vw, 22px);
+    margin-bottom: 12px;
+  }
+  .question-text {
+    color: goldenrod;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: clamp(15px, 2.5vw, 18px);
+  }
+  .answer {
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-size: clamp(14px, 2.5vw, 16px);
+    font-weight: normal;
+  }
+  .answer.correct {
+    background-color: #a2d729; /* xanh lá nhạt */
+    color: #1e3e0f;
+    font-weight: bold;
+  }
+  .answer.wrong {
+    background-color: #f26c6c; /* đỏ nhạt */
+    color: #6b0f0f;
+    font-weight: bold;
+  }
+  .status {
+    margin-top: 20px;
+    font-size: clamp(18px, 3vw, 22px);
+    font-weight: bold;
+  }
+  .status.correct {
+    color: #2e7d32; /* xanh lá */
+  }
+  .status.wrong {
+    color: #d32f2f; /* đỏ */
+  }
+  .status.unanswered {
+    color: #e67e22; /* cam */
+  }
+  #nav-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  button.arrow-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease;
+  }
+  button.arrow-btn:disabled {
+    background-color: #99c0ff;
+    cursor: default;
+    opacity: 0.4;
+  }
+  button.arrow-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<div id="container" style="display:none;">
+  <div id="score">Điểm: 0</div>
+  <div id="question-content"></div>
+  <div id="nav-buttons">
+    <button id="prevBtn" class="arrow-btn" title="Câu trước">&larr;</button>
+    <button id="nextBtn" class="arrow-btn" title="Câu tiếp">&rarr;</button>
+  </div>
+</div>
+
+<div id="error-message" style="display:none;">
+  Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !
+</div>
+
+<script>
+(function(){
+  const errorBox = document.getElementById('error-message');
+  const container = document.getElementById('container');
+  const scoreDiv = document.getElementById('score');
+  const questionDiv = document.getElementById('question-content');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  let questions = [];
+  let currentIndex = 0;
+
+  // Lấy dữ liệu từ localStorage
+  const rawData = localStorage.getItem('ketqua_tracnghiem');
+  const scoreData = localStorage.getItem('score_tracnghiem');
+
+  if(!rawData){
+    errorBox.style.display = 'block';
+    container.style.display = 'none';
+    return;
+  }
+
+  // Hiển thị điểm
+  if(scoreData && !isNaN(scoreData)){
+    scoreDiv.textContent = `Điểm: ${scoreData}`;
+  } else {
+    scoreDiv.textContent = 'Điểm: 0';
+  }
+
+  // Parse dữ liệu raw HTML trong ketqua_tracnghiem
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(rawData, 'text/html');
+  // Câu hỏi trong table ở <tbody>, mỗi câu gồm 6 <tr> (câu hỏi, 4 đáp án, phần trạng thái)
+  // Tuy nhiên bạn gửi đoạn mẫu, có thể count từng block theo tr hoặc theo index.
+  // Giả sử mỗi câu gồm 6 <tr> liên tiếp trong <tbody>
+
+  const tbody = doc.querySelector('tbody');
+  if(!tbody){
+    errorBox.style.display = 'block';
+    container.style.display = 'none';
+    return;
+  }
+
+  const allRows = Array.from(tbody.querySelectorAll('tr'));
+
+  // Mỗi câu 6 tr: 0: tiêu đề câu, 1-4: đáp án A-D, 5: trạng thái
+  const rowsPerQuestion = 6;
+  for(let i=0; i<allRows.length; i+=rowsPerQuestion){
+    const questionRows = allRows.slice(i, i + rowsPerQuestion);
+    if(questionRows.length < rowsPerQuestion) break;
+
+    // Lấy tiêu đề câu hỏi
+    const titleEl = questionRows[0].querySelector('b[name="mau-TN-1"]');
+    const questionTitle = titleEl ? titleEl.textContent.trim() : `Câu số ${i/rowsPerQuestion + 1}`;
+
+    const questionTextEl = questionRows[0].querySelector('span[name="mau-TN-2"] b');
+    const questionText = questionTextEl ? questionTextEl.textContent.trim() : '';
+
+    // Lấy 4 đáp án
+    let answers = [];
+    const letters = ['A','B','C','D'];
+    for(let j=1; j<=4; j++){
+      const ansBold = questionRows[j].querySelector('b');
+      answers.push(ansBold ? ansBold.textContent.trim() : `${letters[j-1]}. ---`);
+    }
+
+    // Lấy trạng thái câu hỏi (câu đúng/sai/chưa trả lời)
+    // Dựa vào thẻ <h2> màu trong tr cuối (trạng thái)
+    const statusH2 = questionRows[5].querySelector('h2');
+    let status = 'unanswered'; // mặc định chưa trả lời
+    if(statusH2){
+      const color = statusH2.style.color.toLowerCase();
+      if(color === 'green') status = 'correct';
+      else if(color === 'red') status = 'wrong';
+      else if(color === 'orange') status = 'unanswered';
+    }
+
+    // Lấy đáp án user đã chọn
+    const userAnswerEl = questionRows[5].querySelector('h4 b span');
+    // text kiểu: "Đáp án bạn đã chọn" : B. I'm 12 years old
+    let userAnswer = null;
+    if(userAnswerEl){
+      const parentText = userAnswerEl.parentElement.textContent || '';
+      // tách lấy chữ cái đầu sau dấu ':'
+      const match = parentText.match(/:\s*([A-D])/i);
+      if(match) userAnswer = match[1].toUpperCase();
+    }
+
+    // Lấy đáp án đúng (nếu có)
+    const correctAnswerEl = questionRows[5].querySelectorAll('h4 b span')[1];
+    let correctAnswer = null;
+    if(status === 'wrong' || status === 'unanswered'){
+      // Câu sai hoặc chưa trả lời thì có phần đáp án đúng ở dòng thứ 2
+      // VD: <span>Đáp án đúng</span> : D. 5
+      if(correctAnswerEl){
+        const correctText = correctAnswerEl.parentElement.textContent || '';
+        const match2 = correctText.match(/:\s*([A-D])/i);
+        if(match2) correctAnswer = match2[1].toUpperCase();
+      }
+    }
+    else if(status === 'correct'){
+      // Nếu đúng thì đáp án đúng = đáp án user chọn
+      correctAnswer = userAnswer;
+    }
+
+    // Push câu hỏi
+    questions.push({
+      title: questionTitle,
+      question: questionText,
+      answers,
+      status,
+      userAnswer,
+      correctAnswer
+    });
+  }
+
+  //console.log(questions);
+
+  function renderQuestion(index){
+    const q = questions[index];
+    if(!q) return;
+
+    // Tiêu đề câu hỏi
+    let html = `<div class="question-title">${q.title}/10</div>`;
+    html += `<div class="question-text">${q.question}/10</div>`;
+
+    // Render 4 đáp án với màu nền theo yêu cầu
+    const letters = ['A','B','C','D'];
+    html += '<div class="answers">';
+    for(let i=0; i<4; i++){
+      let cls = 'answer';
+      const letter = letters[i];
+      const isUser = (letter === q.userAnswer);
+      const isCorrect = (letter === q.correctAnswer);
+
+      if(q.status === 'correct'){
+        // user chọn đúng, tô nền xanh lá cho đáp án user chọn
+        if(isUser) cls += ' correct';
+      }
+      else if(q.status === 'wrong'){
+        // tô đỏ cho đáp án user chọn sai, xanh lá cho đáp án đúng
+        if(isUser) cls += ' wrong';
+        else if(isCorrect) cls += ' correct';
+      }
+      else if(q.status === 'unanswered'){
+        // chưa trả lời, tô nền xanh lá cho đáp án đúng
+        if(isCorrect) cls += ' correct';
+      }
+
+      html += `<div class="${cls}">${q.answers[i]}</div>`;
+    }
+    html += '</div>';
+
+    // Dòng trạng thái dưới cùng
+    let statusText = '';
+    let statusClass = '';
+    if(q.status === 'correct'){
+      statusText = 'ĐÚNG';
+      statusClass = 'correct';
+    } else if(q.status === 'wrong'){
+      statusText = 'SAI';
+      statusClass = 'wrong';
+    } else {
+      statusText = 'CHƯA TRẢ LỜI';
+      statusClass = 'unanswered';
+    }
+    html += `<b class="status ${statusClass}">${statusText}</b>`;
+
+    questionDiv.innerHTML = html;
+
+    // Cập nhật trạng thái nút prev/next
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === questions.length - 1;
+  }
+
+  prevBtn.onclick = () => {
+    if(currentIndex > 0){
+      currentIndex--;
+      renderQuestion(currentIndex);
+    }
+  };
+  nextBtn.onclick = () => {
+    if(currentIndex < questions.length - 1){
+      currentIndex++;
+      renderQuestion(currentIndex);
+    }
+  };
+
+  container.style.display = 'block';
+  errorBox.style.display = 'none';
+  renderQuestion(currentIndex);
+
+})();
+</script>
+
+</body>
+</html>
