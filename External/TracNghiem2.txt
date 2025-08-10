@@ -227,7 +227,7 @@
             <button onclick="ketthuc()">Xem kết quả</button>
             <p>Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!</p>
         </div>
-        <iframe id="start" src="/" style="display: none;"></iframe>
+       <!-- <iframe id="start" src="/" style="display: none;"></iframe> -->
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
