@@ -339,7 +339,10 @@
                 }, 60000);
             });
 
-            document.documentElement.requestFullscreen();
+            window.addEventListener("load", function () {
+                document.documentElement.requestFullscreen();
+            });
+
             document.addEventListener("fullscreenchange", function () {
                 if (!document.fullscreenElement) {
                     ketthuc();
