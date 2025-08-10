@@ -297,6 +297,10 @@
             };
         }
 
+            document.body.addEventListener("click", () => {
+                  window.parent.toanmanhinh();
+            });
+
         window.getDataDapAn = getDataDapAn;
         initTracNghiem();
     })();
