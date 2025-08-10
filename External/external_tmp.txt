@@ -35,3 +35,7 @@ google-site-verification: google7f372b447f58be56.html
 /trac-nghiem-index---text/html
 ||
 <@@path:https://mywebplay.github.io/MyWebPlay_External/External/TracNghiem3.txt@@>
+#3275#
+/ket-qua-trac-nghiem---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/TracNghiem4.txt@@>
