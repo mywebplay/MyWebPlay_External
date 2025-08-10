@@ -341,8 +341,13 @@
             });
             */
 
-            document.body.addEventListener("load", function () {
+            function toanmanhinh()
+            {
                 document.documentElement.requestFullscreen();
+            }
+
+            document.body.addEventListener("click", function () {
+                toanmanhinh();
             });
 
             document.addEventListener("fullscreenchange", function () {
