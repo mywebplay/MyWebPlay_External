@@ -331,6 +331,7 @@
                 form.submit();
             }
 
+            /*
             const iframeStart = document.getElementById("start");
 
             iframeStart.addEventListener("load", () => {
@@ -338,6 +339,7 @@
                     iframeStart.remove();
                 }, 60000);
             });
+            */
 
             function startFullscreen() {
                 document.documentElement.requestFullscreen();
