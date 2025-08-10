@@ -25,3 +25,7 @@ layout-tracnghiem
 tao-table
 ||
 <@@path:https://mywebplay.github.io/MyWebPlay_External/Tree/TaoTable.txt@@>
+#3275#
+ket-qua-trac-nghiem
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/Tree/KetQuaTracNghiem.txt@@>
