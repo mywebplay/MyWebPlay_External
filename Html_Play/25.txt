@@ -9,9 +9,7 @@
 
         // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
         const originalHTML = el.innerHTML;
-        if (!originalHTML.includes("<iframe")) {
-            localStorage.setItem("tracnghiem_layout", originalHTML);
-        }
+        localStorage.setItem("tracnghiem_layout", originalHTML);
 
         if (localStorage.getItem("tracnghiem_info") == null) {
             var data = {
