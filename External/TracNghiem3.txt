@@ -297,7 +297,11 @@
             <b>Thời gian làm bài (phút) :</b>
             <input type="number" id="timeTN" min="1" max="1200" />
             <b>Đưa tất cả các file trắc nghiệm (chương bài học) của bạn vào cùng 1 thư mục sau đó sẽ dễ dàng kéo tất cả các file vào đây... :</b>
-            <a id="uFile" href="#" style="color: aqua;" title="Không có file được tải lên" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm (rê chuột vào đây để biết trạng thái và danh sách các file đã upload)</a>
+            <a id="uFile" href="#" style="color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
+            <br />
+            <b style="color:blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
+            <br />
+            <span id="listFile" style="color:red;">Chưa có file được tải lên</span>
             <br />
             <button onclick="lambai()">Bắt đầu làm bài</button>
         </div>
@@ -403,13 +407,13 @@
                 for (var i = 0; i < input.files.length; i++) {
                     s += input.files[i].name;
                     if (i < input.files.length - 1) {
-                        s += ", ";
+                        s += "<br />";
                     }
                 }
                 if (s == "") {
-                    s = "Không có file được tải lên";
+                    s = "Chưa có file được tải lên";
                 }
-                link.title = s;
+                document.getElementById("listFile").value = s;
             });
 
             /*
