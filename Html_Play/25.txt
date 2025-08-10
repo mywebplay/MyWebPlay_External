@@ -5,10 +5,12 @@
     }
     (function () {
         const el = document.getElementById("custom737");
+       console.log(el);
         if (!el) return;
 
         // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
         const originalHTML = el.innerHTML;
+       console.log(originalHTML)
         localStorage.setItem("tracnghiem_layout", originalHTML);
 
         if (localStorage.getItem("tracnghiem_info") == null) {
