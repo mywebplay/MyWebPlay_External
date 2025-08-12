@@ -5,4 +5,12 @@
 <script>
 document.getElementById("custom1657").style.color= "yellow";
 document.querySelector("form").target = "_top";
+
+var xemFileOld = xemfile;
+
+xemfile = function()
+{
+   xemFileOld();
+   parent.hoantatchonfile();
+}
 </script>
