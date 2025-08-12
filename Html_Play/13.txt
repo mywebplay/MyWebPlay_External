@@ -6,16 +6,19 @@
 document.getElementById("custom1657").style.color= "yellow";
 document.querySelector("form").target = "_top";
 
-var xemFileOld = xemfile;
-
-xemfile = function(e) {
-  xemFileOld(e);
-  
-  // Gọi parent.hoantattaifile() chỉ khi chưa gọi trong lần này
-  if (!xemfile._isCalling) {
-    xemfile._isCalling = true;
-    parent.hoantattaifile();
-    xemfile._isCalling = false;
-  }
-};
+     function xemfile(event)
+    {
+        var ulx = document.getElementById("ulx");
+        ulx.innerHTML = "";
+    
+        var files = event.target.files;
+    
+        for (var i=0; i< files.length; i++)
+        {
+            var item = document.createElement("li");
+            item.innerHTML = files[i].name;
+            ulx.appendChild(item);
+        }
+        parent.hoantattaifile();
+    }
 </script>
