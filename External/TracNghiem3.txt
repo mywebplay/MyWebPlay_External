@@ -408,7 +408,7 @@
                 frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
             }
 
-            document.getElementById("waiting").addEventListener("mouseenter", () => {
+            function hoantattaifile() {
                 var frameTN = document.getElementById("frameTN");
                 var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
                 var s = "";
@@ -425,7 +425,7 @@
                 document.getElementById("listFile").style.display = "inline-block";
                 document.getElementById("btnStart").style.display = "inline-block";
                 document.getElementById("waiting").style.display = "none";
-            });
+            }
 
             /*
                         const iframeStart = document.getElementById("start");
