@@ -8,9 +8,9 @@ document.querySelector("form").target = "_top";
 
 var xemFileOld = xemfile;
 
-xemfile = function()
+xemfile = function(e)
 {
-   xemFileOld();
+   xemFileOld(e);
    parent.hoantattaifile();
 }
 </script>
