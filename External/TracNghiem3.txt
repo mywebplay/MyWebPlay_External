@@ -367,7 +367,8 @@
                     document.getElementById("partTN").style.display = "";
                 } else {
                     setInterval(function () {
-                        if (localStorage.getItem("tracnghiem_layout") != null && localStorage.getItem("time_tracnghiem") != null) {
+                        if (localStorage.getItem("tracnghiem_layout") != null) {
+                            localStorage.setItem("time_tracnghiem", document.getElementById("timeTN").value);
                             document.location.replace("/trac-nghiem");
                             return;
                         }
