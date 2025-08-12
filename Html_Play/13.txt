@@ -8,9 +8,14 @@ document.querySelector("form").target = "_top";
 
 var xemFileOld = xemfile;
 
-xemfile = function(e)
-{
-   xemFileOld(e);
-   parent.hoantattaifile();
-}
+xemfile = function(e) {
+  xemFileOld(e);
+  
+  // Gọi parent.hoantattaifile() chỉ khi chưa gọi trong lần này
+  if (!xemfile._isCalling) {
+    xemfile._isCalling = true;
+    parent.hoantattaifile();
+    xemfile._isCalling = false;
+  }
+};
 </script>
