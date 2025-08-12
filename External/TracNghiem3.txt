@@ -366,7 +366,15 @@
                                 document.getElementById("loadingSpinner").style.display = "none";
                                 document.getElementById("partTN").style.display = "";
                             } else {
-                                document.location.replace("/trac-nghiem");
+setInterval(function()
+{
+if (localStorage.getItem("tracnghiem_layout") != null)
+{
+document.location.replace("/trac-nghiem");
+return;
+}
+}, 10);
+                                
                             }
                         });
 
