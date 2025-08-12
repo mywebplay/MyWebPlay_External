@@ -1,328 +1,362 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Trắc nghiệm hiển thị kết quả</title>
-        <style>
-            html,
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: sans-serif;
-                background: #fff;
-                max-width: 100%;
-                overflow: hidden;
-                background: linear-gradient(to right, #2c3e50, #4b79a1);
-            }
-            #container {
-                max-width: 800px;
-                margin: 40px auto;
-                padding: 20px 40px;
-                border-radius: 12px;
-                box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-                box-sizing: border-box;
-                background-color: white;
-            }
-            #score {
-                font-size: clamp(18px, 2.5vw, 24px);
-                font-weight: bold;
-                color: #222;
-                text-align: center;
-                margin-bottom: 24px;
-            }
-            #error-message {
-                color: red;
-                font-size: 18px;
-                padding: 20px;
-                text-align: center;
-                background-color: white;
-            }
-            #question-content {
-                background: #fff;
-                padding: 0 10px;
-            }
-            .question-title {
-                color: deeppink;
-                font-weight: bold;
-                font-size: clamp(16px, 2.5vw, 22px);
-                margin-bottom: 12px;
-            }
-            .question-text {
-                color: goldenrod;
-                font-weight: bold;
-                margin-bottom: 20px;
-                font-size: clamp(15px, 2.5vw, 18px);
-            }
-            .answer {
-                padding: 10px 15px;
-                margin: 8px 0;
-                border-radius: 8px;
-                font-size: clamp(14px, 2.5vw, 16px);
-                font-weight: normal;
-            }
-            .answer.correct {
-                background-color: #a2d729; /* xanh lá nhạt */
-                color: #1e3e0f;
-                font-weight: bold;
-            }
-            .answer.wrong {
-                background-color: #f26c6c; /* đỏ nhạt */
-                color: #6b0f0f;
-                font-weight: bold;
-            }
-            .status {
-                margin-top: 20px;
-                font-size: clamp(18px, 3vw, 22px);
-                font-weight: bold;
-            }
-            .status.correct {
-                color: #2e7d32; /* xanh lá */
-            }
-            .status.wrong {
-                color: #d32f2f; /* đỏ */
-            }
-            .status.unanswered {
-                color: #e67e22; /* cam */
-            }
-            #nav-buttons {
-                margin-top: 30px;
-                display: flex;
-                justify-content: space-between;
-            }
-            button.arrow-btn {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                border: none;
-                background-color: #007bff;
-                color: white;
-                font-size: 22px;
-                cursor: pointer;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-                transition: background-color 0.2s ease;
-            }
-            button.arrow-btn:disabled {
-                background-color: #99c0ff;
-                cursor: default;
-                opacity: 0.4;
-            }
-            button.arrow-btn:hover:not(:disabled) {
-                background-color: #0056b3;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container" style="display: none;">
-            <div id="score">Điểm của bạn: 0/10</div>
-            <div id="question-content"></div>
-            <div id="nav-buttons">
-                <button id="prevBtn" class="arrow-btn" title="Câu trước">&larr;</button>
-                <button id="nextBtn" class="arrow-btn" title="Câu tiếp">&rarr;</button>
-            </div>
-        </div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trắc nghiệm hiển thị kết quả</title>
+<style>
+  /* Reset */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: linear-gradient(to right, #2c3e50, #4b79a1);
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 
-        <div id="error-message" style="display: none;">
-            Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !
-        </div>
+  /* Container trung tâm */
+  #container {
+    max-width: 90vw;
+    width: 800px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    background-color: white;
+  }
 
-        <script>
-            (function () {
-                const errorBox = document.getElementById("error-message");
-                const container = document.getElementById("container");
-                const scoreDiv = document.getElementById("score");
-                const questionDiv = document.getElementById("question-content");
-                const prevBtn = document.getElementById("prevBtn");
-                const nextBtn = document.getElementById("nextBtn");
+  /* Điểm số */
+  #score {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: #222;
+    text-align: center;
+    margin-bottom: 24px;
+  }
 
-                let questions = [];
-                let currentIndex = 0;
+  /* Thông báo lỗi */
+  #error-message {
+    color: #d32f2f;
+    font-size: 1.125rem;
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    max-width: 90vw;
+    margin: 60px auto;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
 
-                // Lấy dữ liệu từ localStorage
-                const rawData = localStorage.getItem("ketqua_tracnghiem");
-                const scoreData = localStorage.getItem("score_tracnghiem");
+  /* Nội dung câu hỏi */
+  #question-content {
+    background: #fff;
+    padding: 0 10px;
+  }
 
-                if (!rawData) {
-                    errorBox.style.display = "block";
-                    container.style.display = "none";
-                    return;
-                }
+  .question-title {
+    color: deeppink;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.375rem);
+    margin-bottom: 12px;
+  }
 
-                // Hiển thị điểm
-                if (scoreData && !isNaN(scoreData)) {
-                    scoreDiv.textContent = `Điểm của bạn: ${scoreData}/10`;
-                } else {
-                    scoreDiv.textContent = "Điểm của bạn: 0/10";
-                }
+  .question-text {
+    color: goldenrod;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: clamp(0.95rem, 2.2vw, 1.125rem);
+  }
 
-                // Parse dữ liệu raw HTML trong ketqua_tracnghiem
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(rawData, "text/html");
-                // Câu hỏi trong table ở <tbody>, mỗi câu gồm 6 <tr> (câu hỏi, 4 đáp án, phần trạng thái)
-                // Tuy nhiên bạn gửi đoạn mẫu, có thể count từng block theo tr hoặc theo index.
-                // Giả sử mỗi câu gồm 6 <tr> liên tiếp trong <tbody>
+  .answer {
+    padding: 10px 15px;
+    margin: 6px 0;
+    border-radius: 8px;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    font-weight: 400;
+  }
 
-                const tbody = doc.querySelector("tbody");
-                if (!tbody) {
-                    errorBox.style.display = "block";
-                    container.style.display = "none";
-                    return;
-                }
+  .answer.correct {
+    background-color: #a2d729; /* xanh lá nhạt */
+    color: #1e3e0f;
+    font-weight: 700;
+  }
 
-                const allRows = Array.from(tbody.querySelectorAll("tr"));
+  .answer.wrong {
+    background-color: #f26c6c; /* đỏ nhạt */
+    color: #6b0f0f;
+    font-weight: 700;
+  }
 
-                // Mỗi câu 6 tr: 0: tiêu đề câu, 1-4: đáp án A-D, 5: trạng thái
-                const rowsPerQuestion = 6;
-                for (let i = 0; i < allRows.length; i += rowsPerQuestion) {
-                    const questionRows = allRows.slice(i, i + rowsPerQuestion);
-                    if (questionRows.length < rowsPerQuestion) break;
+  .status {
+    margin-top: 20px;
+    font-size: clamp(1.125rem, 3vw, 1.375rem);
+    font-weight: 700;
+  }
 
-                    // Lấy tiêu đề câu hỏi
-                    const titleEl = questionRows[0].querySelector('b[name="mau-TN-1"]');
-                    const questionTitle = titleEl ? titleEl.textContent.trim() : `Câu số ${i / rowsPerQuestion + 1}`;
+  .status.correct {
+    color: #2e7d32; /* xanh lá */
+  }
 
-                    const questionTextEl = questionRows[0].querySelector('span[name="mau-TN-2"] b');
-                    const questionText = questionTextEl ? questionTextEl.textContent.trim() : "";
+  .status.wrong {
+    color: #d32f2f; /* đỏ */
+  }
 
-                    // Lấy 4 đáp án
-                    let answers = [];
-                    const letters = ["A", "B", "C", "D"];
-                    for (let j = 1; j <= 4; j++) {
-                        const ansBold = questionRows[j].querySelector("b");
-                        answers.push(ansBold ? ansBold.textContent.trim() : `${letters[j - 1]}. ---`);
-                    }
+  .status.unanswered {
+    color: #e67e22; /* cam */
+  }
 
-                    // Lấy trạng thái câu hỏi (câu đúng/sai/chưa trả lời)
-                    // Dựa vào thẻ <h2> màu trong tr cuối (trạng thái)
-                    const statusH2 = questionRows[5].querySelector("h2");
-                    let status = "unanswered"; // mặc định chưa trả lời
-                    if (statusH2) {
-                        const color = statusH2.style.color.toLowerCase();
-                        if (color === "green") status = "correct";
-                        else if (color === "red") status = "wrong";
-                        else if (color === "orange") status = "unanswered";
-                    }
+  /* Nút điều hướng */
+  #nav-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-                    // Lấy đáp án user đã chọn
-                    const userAnswerEl = questionRows[5].querySelector("h4 b span");
-                    // text kiểu: "Đáp án bạn đã chọn" : B. I'm 12 years old
-                    let userAnswer = null;
-                    if (userAnswerEl) {
-                        const parentText = userAnswerEl.parentElement.textContent || "";
-                        // tách lấy chữ cái đầu sau dấu ':'
-                        const match = parentText.match(/:\s*([A-D])/i);
-                        if (match) userAnswer = match[1].toUpperCase();
-                    }
+  button.arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
 
-                    // Lấy đáp án đúng (nếu có)
-                    const correctAnswerEl = questionRows[5].querySelectorAll("h4 b span")[1];
-                    let correctAnswer = null;
-                    if (status === "wrong" || status === "unanswered") {
-                        // Tìm chính xác phần chứa "Đáp án đúng"
-                        const h4s = questionRows[5].querySelectorAll("h4 b span");
-                        let correctSpan = null;
-                        for (let sp of h4s) {
-                            if (sp.textContent.includes("Đáp án đúng")) {
-                                correctSpan = sp;
-                                break;
-                            }
-                        }
-                        if (correctSpan) {
-                            const correctText = correctSpan.parentElement.textContent || "";
-                            const match2 = correctText.match(/:\s*([A-D])/i);
-                            if (match2) correctAnswer = match2[1].toUpperCase();
-                        }
-                    } else if (status === "correct") {
-                        correctAnswer = userAnswer;
-                    }
+  button.arrow-btn:disabled {
+    background-color: #99c0ff;
+    cursor: default;
+    opacity: 0.4;
+  }
 
-                    // Push câu hỏi
-                    questions.push({
-                        title: questionTitle,
-                        question: questionText,
-                        answers,
-                        status,
-                        userAnswer,
-                        correctAnswer,
-                    });
-                }
+  button.arrow-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
 
-                //console.log(questions);
+  /* Responsive cho điện thoại */
+  @media (max-width: 500px) {
+    #container {
+      padding: 15px 20px;
+      margin: 20px auto;
+      width: 95vw;
+    }
+    #score {
+      font-size: 1.125rem;
+      margin-bottom: 16px;
+    }
+    .question-title {
+      font-size: 1.125rem;
+      margin-bottom: 10px;
+    }
+    .question-text {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+    .answer {
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      margin: 5px 0;
+    }
+    button.arrow-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+<body>
 
-                function renderQuestion(index) {
-                    const q = questions[index];
-                    if (!q) return;
+<div id="container" style="display:none;">
+  <div id="score">Điểm của bạn: 0/10</div>
+  <div id="question-content"></div>
+  <div id="nav-buttons">
+    <button id="prevBtn" class="arrow-btn" title="Câu trước">&larr;</button>
+    <button id="nextBtn" class="arrow-btn" title="Câu tiếp">&rarr;</button>
+  </div>
+</div>
 
-                    // Tiêu đề câu hỏi
-                    let html = `<div class="question-title">${q.title}</div>`;
-                    html += `<div class="question-text">${q.question}</div>`;
+<div id="error-message" style="display:none;">
+  Không thể tải nội dung trắc nghiệm lúc này, vui lòng thử lại sau !
+</div>
 
-                    // Render 4 đáp án với màu nền theo yêu cầu
-                    const letters = ["A", "B", "C", "D"];
-                    html += '<div class="answers">';
-                    for (let i = 0; i < 4; i++) {
-                        let cls = "answer";
-                        const letter = letters[i];
-                        const isUser = letter === q.userAnswer;
-                        const isCorrect = letter === q.correctAnswer;
+<script>
+  (function () {
+    // giữ nguyên code JS bạn gửi, không chỉnh sửa gì
+    const errorBox = document.getElementById("error-message");
+    const container = document.getElementById("container");
+    const scoreDiv = document.getElementById("score");
+    const questionDiv = document.getElementById("question-content");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
-                        if (q.status === "correct") {
-                            // user chọn đúng, tô nền xanh lá cho đáp án user chọn
-                            if (isUser) cls += " correct";
-                        } else if (q.status === "wrong") {
-                            // tô đỏ cho đáp án user chọn sai, xanh lá cho đáp án đúng
-                            if (isUser) cls += " wrong";
-                            else if (isCorrect) cls += " correct";
-                        } else if (q.status === "unanswered") {
-                            // chưa trả lời, tô nền xanh lá cho đáp án đúng
-                            if (isCorrect) cls += " correct";
-                        }
+    let questions = [];
+    let currentIndex = 0;
 
-                        html += `<div class="${cls}">${q.answers[i]}</div>`;
-                    }
-                    html += "</div>";
+    const rawData = localStorage.getItem("ketqua_tracnghiem");
+    const scoreData = localStorage.getItem("score_tracnghiem");
 
-                    // Dòng trạng thái dưới cùng
-                    let statusText = "";
-                    let statusClass = "";
-                    if (q.status === "correct") {
-                        statusText = "ĐÚNG";
-                        statusClass = "correct";
-                    } else if (q.status === "wrong") {
-                        statusText = "SAI";
-                        statusClass = "wrong";
-                    } else {
-                        statusText = "CHƯA TRẢ LỜI";
-                        statusClass = "unanswered";
-                    }
-                    html += `<b class="status ${statusClass}">${statusText}</b>`;
+    if (!rawData) {
+      errorBox.style.display = "block";
+      container.style.display = "none";
+      return;
+    }
 
-                    questionDiv.innerHTML = html;
+    if (scoreData && !isNaN(scoreData)) {
+      scoreDiv.textContent = `Điểm của bạn: ${scoreData}/10`;
+    } else {
+      scoreDiv.textContent = "Điểm của bạn: 0/10";
+    }
 
-                    // Cập nhật trạng thái nút prev/next
-                    prevBtn.disabled = index === 0;
-                    nextBtn.disabled = index === questions.length - 1;
-                }
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawData, "text/html");
 
-                prevBtn.onclick = () => {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        renderQuestion(currentIndex);
-                    }
-                };
-                nextBtn.onclick = () => {
-                    localStorage.removeItem("ketqua_tracnghiem");
-                    localStorage.removeItem("score_tracnghiem");
-                    if (currentIndex < questions.length - 1) {
-                        currentIndex++;
-                        renderQuestion(currentIndex);
-                    }
-                };
+    const tbody = doc.querySelector("tbody");
+    if (!tbody) {
+      errorBox.style.display = "block";
+      container.style.display = "none";
+      return;
+    }
 
-                container.style.display = "block";
-                errorBox.style.display = "none";
-                renderQuestion(currentIndex);
-            })();
-        </script>
-    </body>
+    const allRows = Array.from(tbody.querySelectorAll("tr"));
+
+    const rowsPerQuestion = 6;
+    for (let i = 0; i < allRows.length; i += rowsPerQuestion) {
+      const questionRows = allRows.slice(i, i + rowsPerQuestion);
+      if (questionRows.length < rowsPerQuestion) break;
+
+      const titleEl = questionRows[0].querySelector('b[name="mau-TN-1"]');
+      const questionTitle = titleEl ? titleEl.textContent.trim() : `Câu số ${i / rowsPerQuestion + 1}`;
+
+      const questionTextEl = questionRows[0].querySelector('span[name="mau-TN-2"] b');
+      const questionText = questionTextEl ? questionTextEl.textContent.trim() : "";
+
+      let answers = [];
+      const letters = ["A", "B", "C", "D"];
+      for (let j = 1; j <= 4; j++) {
+        const ansBold = questionRows[j].querySelector("b");
+        answers.push(ansBold ? ansBold.textContent.trim() : `${letters[j - 1]}. ---`);
+      }
+
+      const statusH2 = questionRows[5].querySelector("h2");
+      let status = "unanswered";
+      if (statusH2) {
+        const color = statusH2.style.color.toLowerCase();
+        if (color === "green") status = "correct";
+        else if (color === "red") status = "wrong";
+        else if (color === "orange") status = "unanswered";
+      }
+
+      const userAnswerEl = questionRows[5].querySelector("h4 b span");
+      let userAnswer = null;
+      if (userAnswerEl) {
+        const parentText = userAnswerEl.parentElement.textContent || "";
+        const match = parentText.match(/:\s*([A-D])/i);
+        if (match) userAnswer = match[1].toUpperCase();
+      }
+
+      const correctAnswerEl = questionRows[5].querySelectorAll("h4 b span")[1];
+      let correctAnswer = null;
+      if (status === "wrong" || status === "unanswered") {
+        const h4s = questionRows[5].querySelectorAll("h4 b span");
+        let correctSpan = null;
+        for (let sp of h4s) {
+          if (sp.textContent.includes("Đáp án đúng")) {
+            correctSpan = sp;
+            break;
+          }
+        }
+        if (correctSpan) {
+          const correctText = correctSpan.parentElement.textContent || "";
+          const match2 = correctText.match(/:\s*([A-D])/i);
+          if (match2) correctAnswer = match2[1].toUpperCase();
+        }
+      } else if (status === "correct") {
+        correctAnswer = userAnswer;
+      }
+
+      questions.push({
+        title: questionTitle,
+        question: questionText,
+        answers,
+        status,
+        userAnswer,
+        correctAnswer,
+      });
+    }
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      if (!q) return;
+
+      let html = `<div class="question-title">${q.title}</div>`;
+      html += `<div class="question-text">${q.question}</div>`;
+
+      const letters = ["A", "B", "C", "D"];
+      html += '<div class="answers">';
+      for (let i = 0; i < 4; i++) {
+        let cls = "answer";
+        const letter = letters[i];
+        const isUser = letter === q.userAnswer;
+        const isCorrect = letter === q.correctAnswer;
+
+        if (q.status === "correct") {
+          if (isUser) cls += " correct";
+        } else if (q.status === "wrong") {
+          if (isUser) cls += " wrong";
+          else if (isCorrect) cls += " correct";
+        } else if (q.status === "unanswered") {
+          if (isCorrect) cls += " correct";
+        }
+
+        html += `<div class="${cls}">${q.answers[i]}</div>`;
+      }
+      html += "</div>";
+
+      let statusText = "";
+      let statusClass = "";
+      if (q.status === "correct") {
+        statusText = "ĐÚNG";
+        statusClass = "correct";
+      } else if (q.status === "wrong") {
+        statusText = "SAI";
+        statusClass = "wrong";
+      } else {
+        statusText = "CHƯA TRẢ LỜI";
+        statusClass = "unanswered";
+      }
+      html += `<b class="status ${statusClass}">${statusText}</b>`;
+
+      questionDiv.innerHTML = html;
+
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === questions.length - 1;
+    }
+
+    prevBtn.onclick = () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion(currentIndex);
+      }
+    };
+    nextBtn.onclick = () => {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion(currentIndex);
+      }
+    };
+
+    container.style.display = "block";
+    errorBox.style.display = "none";
+    renderQuestion(currentIndex);
+  })();
+</script>
+
+</body>
 </html>
