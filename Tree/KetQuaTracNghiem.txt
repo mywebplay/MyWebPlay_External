@@ -344,6 +344,8 @@
       }
     };
     nextBtn.onclick = () => {
+      localStorage.removeItem("ketqua_tracnghiem");
+      localStorage.removeItem("score_tracnghiem");
       if (currentIndex < questions.length - 1) {
         currentIndex++;
         renderQuestion(currentIndex);
