@@ -11,6 +11,6 @@ var xemFileOld = xemfile;
 xemfile = function()
 {
    xemFileOld();
-   parent.hoantatchonfile();
+   parent.hoantattaifile();
 }
 </script>
