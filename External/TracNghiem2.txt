@@ -217,18 +217,24 @@
 
         <iframe id="frame" src="/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
 
-        <div class="divOnTop">
+        <div class="divOnTop" id="partTime">
             <span style="color: blue; text-align: center;" id="custom749">
                 <h2 id="Time">00 : 00 : 00</h2>
             </span>
         </div>
 
-        <div>
+        <div id="partResult">
             <button onclick="ketthuc()">Xem kết quả</button>
             <p>Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!</p>
         </div>
        <!-- <iframe id="start" src="/" style="display: none;"></iframe> -->
         <script>
+            if (localStorage.getItem("tracnghiem_layout") == null)
+            {
+                document.getElementById("partTime").remove();
+                document.getElementById("partResult").remove();
+            }
+            
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
                 document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
