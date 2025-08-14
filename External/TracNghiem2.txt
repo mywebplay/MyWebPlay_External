@@ -154,7 +154,7 @@
                 border-radius: 12px;
                 padding: 12px 32px;
                 display: block;
-                margin: -20px auto 15px;
+                margin: -30px auto 15px;
                 transition: background 0.3s, transform 0.2s;
                 max-width: 300px;
                 width: 90%;
