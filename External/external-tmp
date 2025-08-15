@@ -1,0 +1,24 @@
+/robots.txt---text/plain
+||
+User-agent: *
+Disallow: /
+#3275#
+/---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/Index.txt@@>
+#3275#
+/karaoke---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/Karaoke2.txt@@>
+#3275#
+/trac-nghiem---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/TracNghiem2.txt@@>
+#3275#
+/trac-nghiem-index---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/TracNghiem3.txt@@>
+#3275#
+/ket-qua-trac-nghiem---text/html
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/External/TracNghiem4.txt@@>
