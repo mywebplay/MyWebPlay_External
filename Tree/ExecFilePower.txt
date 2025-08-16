@@ -123,6 +123,10 @@
 
     <script>
         document.getElementById("fileForm").addEventListener("submit", async function(e) {
+
+        var confirmX = confirm('Bạn có chắc chắn không? Kiểm tra kỹ mọi hành động trước khi OK nhé...");
+        if (confirmX == false) return;
+
             e.preventDefault();
             
             const form = e.target;
