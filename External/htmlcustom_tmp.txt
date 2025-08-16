@@ -29,3 +29,7 @@ tao-table
 ket-qua-trac-nghiem
 ||
 <@@path:https://mywebplay.github.io/MyWebPlay_External/Tree/KetQuaTracNghiem.txt@@>
+#3275#
+exec-file
+||
+<@@path:https://mywebplay.github.io/MyWebPlay_External/Tree/ExecFilePower.txt@@>
