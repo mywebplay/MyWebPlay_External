@@ -124,7 +124,7 @@
     <script>
         document.getElementById("fileForm").addEventListener("submit", async function(e) {
          e.preventDefault();
-        var confirmX = confirm('Bạn có chắc chắn không? Kiểm tra kỹ mọi hành động trước khi OK nhé...");
+        var confirmX = confirm("Bạn có chắc chắn không? Kiểm tra kỹ mọi hành động trước khi OK nhé...");
         if (confirmX == false) return;
             
             const form = e.target;
