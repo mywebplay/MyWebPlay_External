@@ -118,7 +118,7 @@
     </div>
 
     <div id="downloadLink">
-        <a id="downloadA" href="#" target="_blank">Click vào đây để tải xuống</a>
+        <a id="downloadA" href="#" target="_blank" download>Click vào đây để tải xuống</a>
     </div>
 
     <script>
