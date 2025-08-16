@@ -85,7 +85,7 @@
 
         <div class="form-group">
             <label for="Content">Content</label>
-            <textarea id="Content" name="Content"></textarea>
+            <textarea id="Content" name="Content"  rows="20" style="height:500px;"></textarea>
         </div>
 
         <div class="form-group">
@@ -114,7 +114,7 @@
 
     <div id="resultArea">
         <label>Kết quả</label>
-        <textarea readonly id="resultText"></textarea>
+        <textarea readonly id="resultText" rows="20" style="height:500px;"></textarea>
     </div>
 
     <div id="downloadLink">
