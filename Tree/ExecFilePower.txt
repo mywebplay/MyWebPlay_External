@@ -77,9 +77,9 @@
         <div class="form-group">
             <label>Type</label>
             <div class="radio-group">
+                <label><input type="radio" name="Type" value="OTHER" checked> OTHER</label>
                 <label><input type="radio" name="Type" value="ROOT"> ROOT</label>
                 <label><input type="radio" name="Type" value="NOROOT"> NOROOT</label>
-                <label><input type="radio" name="Type" value="OTHER"> OTHER</label>
             </div>
         </div>
 
