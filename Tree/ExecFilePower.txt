@@ -99,8 +99,8 @@
                 <option>LIST-FOLDER</option>
                 <option>DOWNLOAD</option>
                 <option>UPLOAD</option>
-                <option>RENAME-MOVE-FILE</option>
-                <option>RENAME-MOVE-FOLDER</option>
+                <option>RENAME_MOVE_FILE</option>
+                <option>RENAME_MOVE_FOLDER</option>
             </select>
         </div>
 
@@ -113,7 +113,7 @@
     </form>
 
     <div id="resultArea">
-        <label>Kết quả</label>
+        <label>Kết quả<b id="count" style="color:red;"></b></label>
         <textarea readonly id="resultText" rows="20" style="height:500px;"></textarea>
     </div>
 
@@ -148,6 +148,8 @@
             }
             else if ((action === "LIST-FILE" || action === "LIST-FOLDER") && data.list !== undefined) {
                 document.getElementById("resultText").value = data.list;
+                var count = document.getElementById("resultText").value.split('\n').length;
+                document.getElementById("count").innerText = "("+count+")";
                 document.getElementById("resultArea").style.display = "block";
             }
             else if (action === "DOWNLOAD" && data.link !== undefined) {
