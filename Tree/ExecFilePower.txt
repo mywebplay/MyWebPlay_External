@@ -113,7 +113,7 @@
     </form>
 
     <div id="resultArea">
-        <label>Kết quả<b id="count" style="color:red;"></b></label>
+        <label>Kết quả <b id="count" style="color:red;"></b></label>
         <textarea readonly id="resultText" rows="20" style="height:500px;"></textarea>
     </div>
 
