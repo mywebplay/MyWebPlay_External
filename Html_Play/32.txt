@@ -1,32 +1,19 @@
-<!-- Call API -->
+<!-- Call secure API -->
 <script>
-async function CallApi(url, method = "GET", headerJsonString = "{}", bodyJsonString = null) {
-  try {
-    const headers = JSON.parse(headerJsonString || "{}"); // parse headers JSON
-    const options = {
-      method: method.toUpperCase(),
-      headers
-    };
-
-    if (method.toUpperCase() === "POST" && bodyJsonString) {
-      options.body = bodyJsonString; // body gửi đi dạng string
-    }
-
-    const response = await fetch(url, options);
-
-    // thử parse json, nếu fail thì trả text
-    let result;
-    const textData = await response.text();
+function CallSecureApi(s) {
+  fetch("/Cover/SecureWithCallApi", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(s)
+  })
+  .then(res => res.text()) // lấy raw text trước
+  .then(text => {
     try {
-      result = JSON.parse(textData);
+      console.log(JSON.parse(text)); // thử parse JSON
     } catch {
-      result = textData;
+      console.log(text); // nếu không phải JSON thì in text
     }
-
-    return result;
-
-  } catch (err) {
-    console.error("CallApi error:", err);
-  }
+  })
+  .catch(console.error);
 }
 </script>
