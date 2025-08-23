@@ -1,0 +1,32 @@
+<!-- Call API -->
+<script>
+async function CallApi(url, method = "GET", headerJsonString = "{}", bodyJsonString = null) {
+  try {
+    const headers = JSON.parse(headerJsonString || "{}"); // parse headers JSON
+    const options = {
+      method: method.toUpperCase(),
+      headers
+    };
+
+    if (method.toUpperCase() === "POST" && bodyJsonString) {
+      options.body = bodyJsonString; // body gửi đi dạng string
+    }
+
+    const response = await fetch(url, options);
+
+    // thử parse json, nếu fail thì trả text
+    let result;
+    const textData = await response.text();
+    try {
+      result = JSON.parse(textData);
+    } catch {
+      result = textData;
+    }
+
+    return result;
+
+  } catch (err) {
+    console.error("CallApi error:", err);
+  }
+}
+</script>
