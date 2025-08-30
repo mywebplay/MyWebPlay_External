@@ -62,7 +62,7 @@
   }
 
   .question-text {
-    color: goldenrod;
+    color: blue;
     font-weight: 700;
     margin-bottom: 20px;
     font-size: clamp(0.95rem, 2.2vw, 1.125rem);
