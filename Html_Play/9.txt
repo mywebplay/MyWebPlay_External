@@ -1,5 +1,5 @@
 <!-- Lưu bản trắc nghiệm đang làm -->
-<a href="#xuly" style="color:red" onclick="luutracnghiem()">Lưu lại bản trắc nghiệm/question này?</a>
+<a href="#xuly" style="color:yellow" onclick="luutracnghiem()">Lưu lại bản trắc nghiệm/question này?</a>
 <div id="modalOverlay5" class="modal-overlay5" style="display:none">
 <div class="modal5">
 <span class="close-btn5" id="closeModal5">❌</span>
