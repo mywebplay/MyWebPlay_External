@@ -1,7 +1,6 @@
-<!-- Call secure API -->
 <script>
 function CallSecureApi(s) {
-  fetch("/Cover/SecureWithCallApi", {
+  return fetch("/Cover/SecureWithCallApi", { // <-- thêm return
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(s)
@@ -16,4 +15,11 @@ function CallSecureApi(s) {
   })
   .catch(console.error);
 }
+
+async function CallSecureApi_Data(s) {
+  var re = await CallSecureApi(s);
+  console.log(re); // đây sẽ in ra dữ liệu thực sự
+  return re;
+}
+
 </script>
