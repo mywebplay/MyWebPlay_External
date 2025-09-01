@@ -6,7 +6,7 @@
 <h2 style="color:red">LƯU LẠI TRẮC NGHIỆM/QUESTION</h2>
 <p style="color:blue">Nhập tên trắc nghiệm bạn muốn lưu (cho dễ phân biệt) : </p>
 <p><input type="text" id="txtLuuTN" size="30" /></p>
-<p><button style="color:green" onclick="luuTN()"><b>SAVE</b></button></p>
+<p><button id="saveTN" style="color:green" onclick="luuTN()"><b>SAVE</b></button></p>
 </div>
 </div>
 <script>
