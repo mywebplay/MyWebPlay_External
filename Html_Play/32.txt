@@ -1,3 +1,4 @@
+<!-- Call Secure Api -->
 <script>
 function CallSecureApi(s) {
   return fetch("/Cover/SecureWithCallApi", { // <-- thêm return
