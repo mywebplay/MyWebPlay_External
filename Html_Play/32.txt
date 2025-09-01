@@ -9,9 +9,9 @@ function CallSecureApi(s) {
   .then(res => res.text()) // lấy raw text trước
   .then(text => {
     try {
-      console.log(JSON.parse(text)); // thử parse JSON
+      return JSON.parse(text); // thử parse JSON
     } catch {
-      console.log(text); // nếu không phải JSON thì in text
+      return text; // nếu không phải JSON thì in text
     }
   })
   .catch(console.error);
