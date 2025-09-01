@@ -103,7 +103,7 @@ ht = new Map(parsed);
 }
 
 var select = document.getElementById("chonTN");
-
+select.innerHTML = "";
 for (var key of ht.keys()) {
 var option = document.createElement("option");
 option.value = key;
