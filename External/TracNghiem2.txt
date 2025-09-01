@@ -145,7 +145,7 @@
                 border: none;
             }
 
-            button {
+            #ketqua {
                 background: #1abc9c;
                 color: white;
                 font-size: 1rem;
@@ -224,7 +224,7 @@
         </div>
 
         <div id="partResult">
-            <button onclick="ketthuc()">Xem kết quả</button>
+            <button id="ketqua" onclick="ketthuc()">Xem kết quả</button>
             <p>Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!</p>
         </div>
        <!-- <iframe id="start" src="/" style="display: none;"></iframe> -->
