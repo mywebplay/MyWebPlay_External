@@ -1,9 +1,9 @@
 <!-- Chọn bài trắc nghiệm đã lưu -->
-<a href="#xuly" style="color:red" onclick="luutracnghiem()">Chọn bài trắc nghiệm/question có sẵn?</a>
+<a href="#xuly" style="color:yellow" onclick="luutracnghiem()">Chọn bài trắc nghiệm/question có sẵn?</a>
 <div id="modalOverlay6" class="modal-overlay6" style="display:none">
 <div class="modal6">
 <span class="close-btn6" id="closeModal6">❌</span>
-<h2 style="color:yellow">CHỌN TRẮC NGHIỆM/QUESTION ĐÃ LƯU</h2>
+<h2 style="color:red">CHỌN TRẮC NGHIỆM/QUESTION ĐÃ LƯU</h2>
 <input id="isJP" type="checkbox" /><b style="color:purple">Tự động chuyển đổi câu trả lời thành các kí tự Japan</b>
 <p><select id="chonTN"><select></p><a style="color:blue" onclick="xoaallTN()" href="#xuly">Xoá tất cả</a>
 <p><button style="color:green" onclick="lambainhe()"><b>BẮT ĐẦU LÀM BÀI</b></button></p>
