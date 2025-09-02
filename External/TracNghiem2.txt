@@ -214,7 +214,7 @@
             Làm bài trắc nghiệm - Online
             <span class="highlight">(phiên bản thường)</span>
         </h1>
-
+        <@@path:https://mywebplay.github.io/MyWebPlay_External/Html_Play/9.txt@@>
         <iframe id="frame" src="/Cover/CustomerPagePlay?code=layout-tracnghiem"></iframe>
 
         <div class="divOnTop" id="partTime">
