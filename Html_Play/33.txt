@@ -1,6 +1,23 @@
 <script>
-const params = new URLSearchParams(window.location.search);
-let statusCode = params.get("statusCode");
+
+async function getStatusCode() {
+  const params = new URLSearchParams(window.location.search);
+  let statusCode = params.get("statusCode");
+
+  if (statusCode == null) {
+    try {
+      const res = await fetch(window.location.href, { method: "HEAD" });
+      statusCode = res.status.toString();
+    } catch (err) {
+      console.error("Error:", err);
+      statusCode = null;
+    }
+  }
+
+  return statusCode;
+}
+
+let statusCode = await getStatusCode();
 
 if (statusCode == null)
 {
