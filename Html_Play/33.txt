@@ -1,40 +1,38 @@
 <script>
-const params = new URLSearchParams(window.location.search);
-let statusCode = params.get("statusCode");
+async function getStatusCode() {
+  const params = new URLSearchParams(window.location.search);
+  let statusCode = params.get("statusCode");
+
+  if (statusCode == null) {
+    try {
+      const res = await fetch(window.location.href, { method: "HEAD" });
+      statusCode = res.status.toString();
+    } catch (err) {
+      console.error("Fetch error:", err);
+      statusCode = null;
+    }
+  }
+
+  return statusCode;
+}
 
 function updateImage(statusCode) {
-  let url = "";
-  switch(statusCode) {
-    case "404":
-      url="/Image_Play/error.gif";
-      break;
-    case "410":
-      url="https://mywebplay.github.io/images/webremove.png";
-      break;
-    case "503":
-      url="https://mywebplay.github.io/images/fixweb.png";
-      break;
-    case "403":
-      url="https://mywebplay.github.io/images/blockweb.png";
-      break;
-    default:
-      url="/Image_Play/error.gif";
-      break;
-  }
-  document.getElementsByName("myVideo")[0].src = url;
+  const map = {
+    "404": "/Image_Play/error.gif",
+    "410": "https://mywebplay.github.io/images/webremove.png",
+    "503": "https://mywebplay.github.io/images/fixweb.png",
+    "403": "https://mywebplay.github.io/images/blockweb.png"
+  };
+
+  // fallback về ảnh mặc định nếu không có code hoặc code không map
+  const url = map[statusCode] || "/Image_Play/error.gif";
+
+  const imgEl = document.querySelector('[name="myVideo"]');
+  if (imgEl) imgEl.src = url;
 }
 
-if (statusCode == null) {
-  fetch(window.location.href, { method: "HEAD" })
-    .then(res => {
-      statusCode = res.status.toString();
-      updateImage(statusCode);
-    })
-    .catch(err => {
-      console.error(err);
-      updateImage(null);
-    });
-} else {
+(async () => {
+  const statusCode = await getStatusCode();
   updateImage(statusCode);
-}
+})();
 </script>
