@@ -1,6 +1,18 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 const statusCode = params.get("statusCode");
+
+if (statusCode == null)
+{
+fetch(window.location.href, { method: "HEAD" })
+  .then(res => {
+    statusCode = res.status.toString();
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
+
 var url = "";
 switch(statusCode)
 {
