@@ -1,58 +1,40 @@
 <script>
+const params = new URLSearchParams(window.location.search);
+let statusCode = params.get("statusCode");
 
-async function getStatusCode() {
-  const params = new URLSearchParams(window.location.search);
-  let statusCode = params.get("statusCode");
-
-  if (statusCode == null) {
-    try {
-      const res = await fetch(window.location.href, { method: "HEAD" });
-      statusCode = res.status.toString();
-    } catch (err) {
-      console.error("Error:", err);
-      statusCode = null;
-    }
-  }
-
-  return statusCode;
-}
-
-let statusCode = await getStatusCode();
-
-if (statusCode == null)
-{
-fetch(window.location.href, { method: "HEAD" })
-  .then(res => {
-    statusCode = res.status.toString();
-  })
-  .catch(err => {
-    console.error(err);
-  });
-}
-
-var url = "";
-switch(statusCode)
-{
-   case "404":
+function updateImage(statusCode) {
+  let url = "";
+  switch(statusCode) {
+    case "404":
       url="/Image_Play/error.gif";
       break;
-
     case "410":
       url="https://mywebplay.github.io/images/webremove.png";
       break;
-
-     case "503":
+    case "503":
       url="https://mywebplay.github.io/images/fixweb.png";
       break;
-
-      case "403":
+    case "403":
       url="https://mywebplay.github.io/images/blockweb.png";
       break;
-
-      default:
+    default:
       url="/Image_Play/error.gif";
       break;
+  }
+  document.getElementsByName("myVideo")[0].src = url;
 }
 
-document.getElementsByName("myVideo")[0].src = url;
+if (statusCode == null) {
+  fetch(window.location.href, { method: "HEAD" })
+    .then(res => {
+      statusCode = res.status.toString();
+      updateImage(statusCode);
+    })
+    .catch(err => {
+      console.error(err);
+      updateImage(null);
+    });
+} else {
+  updateImage(statusCode);
+}
 </script>
