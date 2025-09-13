@@ -1,21 +1,4 @@
 <script>
-async function getStatusCode() {
-  const params = new URLSearchParams(window.location.search);
-  let statusCode = params.get("statusCode");
-
-  if (statusCode == null) {
-    try {
-      const res = await fetch(window.location.href, { method: "HEAD" });
-      statusCode = res.status.toString();
-    } catch (err) {
-      console.error("Fetch error:", err);
-      statusCode = null;
-    }
-  }
-
-  return statusCode;
-}
-
 function updateImage(statusCode) {
   const map = {
     "404": "/Image_Play/error.gif",
@@ -32,7 +15,6 @@ function updateImage(statusCode) {
 }
 
 (async () => {
-  const statusCode = await getStatusCode();
   updateImage(statusCode);
 })();
 </script>
