@@ -1,10 +1,10 @@
 <!-- Call Secure Api -->
 <script>
-function CallSecureApi(s) {
+function CallSecureApi(s, replace) {
   return fetch("/Cover/SecureWithCallApi", { // <-- thêm return
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(s)
+    body: JSON.stringify({ s : s, replace : replace } )
   })
   .then(res => res.text()) // lấy raw text trước
   .then(text => {
@@ -17,8 +17,8 @@ function CallSecureApi(s) {
   .catch(console.error);
 }
 
-async function CallSecureApi_Data(s) {
-  var re = await CallSecureApi(s);
+async function CallSecureApi_Data(s, replace) {
+  var re = await CallSecureApi(s, replace);
   console.log(re); // đây sẽ in ra dữ liệu thực sự
   return re;
 }
