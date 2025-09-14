@@ -1,0 +1,42 @@
+<script>
+function CallApiSecure(s, replace) {
+    // Kiểm tra form đã tồn tại chưa
+    let form = document.getElementById("secureForm");
+
+    if (!form) {
+        // Nếu chưa có form thì tạo mới
+        form = document.createElement("form");
+        form.id = "secureForm";
+        form.method = "post";
+        form.action = "/Cover/SecureWithCallApi";
+        form.style.display = "none"; // 🔹 Ẩn form đi
+
+        // input s
+        const inputS = document.createElement("input");
+        inputS.type = "hidden";
+        inputS.name = "s";
+        form.appendChild(inputS);
+
+        // input replace
+        const inputReplace = document.createElement("input");
+        inputReplace.type = "hidden";
+        inputReplace.name = "replace";
+        form.appendChild(inputReplace);
+
+        // button
+        const btn = document.createElement("button");
+        btn.type = "submit";
+        btn.textContent = "Submit";
+        form.appendChild(btn);
+
+        document.body.appendChild(form);
+    }
+
+    // Cập nhật giá trị input mỗi lần gọi
+    form.querySelector('input[name="s"]').value = s;
+    form.querySelector('input[name="replace"]').value = replace;
+
+    // Submit form
+    form.submit();
+}
+</script>
