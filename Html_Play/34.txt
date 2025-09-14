@@ -8,7 +8,7 @@ function CallApiSecure(s, replace) {
         form = document.createElement("form");
         form.id = "secureForm";
         form.method = "post";
-        form.action = "/Cover/SecureWithCallApi";
+        form.action = "/Cover/SecureWithCallApi2";
         form.style.display = "none"; // 🔹 Ẩn form đi
 
         // input s
