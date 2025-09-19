@@ -303,6 +303,7 @@
             }
 
             function ketthuc() {
+                localStorage.setItem("newlayout_ketquaTN", "OK");
                 document.exitFullscreen();
                 var frame = document.getElementById("frame").contentWindow.getDataDapAn();
             }
