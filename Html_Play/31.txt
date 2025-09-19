@@ -9,5 +9,6 @@ var score = document.getElementById("custom742").innerText.replaceAll('Điểm �
 localStorage.setItem("score_tracnghiem", score);
 localStorage.remove("newlayout_ketquaTN");
 window.location.replace("/ket-qua-trac-nghiem");
+window.location.reload();
 }
 </script>
