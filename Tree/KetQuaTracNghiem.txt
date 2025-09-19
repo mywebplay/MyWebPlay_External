@@ -10,21 +10,23 @@
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* không cuộn */
 }
 
-  /* Container trung tâm */
-  #container {
-    max-width: 90vw;
-    width: 800px;
-    margin: 40px auto;
-    padding: 20px 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-    background-color: white;
-  }
+#container {
+  height: clamp(110vh, 150vh, 200vh); /* min = 110% màn hình, max = 200% */
+  max-width: 90vw;
+  width: 800px;
+  margin: auto;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
   /* Điểm số */
   #score {
