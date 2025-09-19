@@ -8,6 +8,6 @@ localStorage.setItem("ketqua_tracnghiem", ketqua);
 var score = document.getElementById("custom742").innerText.replaceAll('Điểm Đánh Giá : ','').replaceAll('/10','');
 localStorage.setItem("score_tracnghiem", score);
 localStorage.remove("newlayout_ketquaTN");
-window.location.replace("/ket-qua-trac-nghiem");
+window.location.href = "/ket-qua-trac-nghiem";
 }
 </script>
