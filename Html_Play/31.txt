@@ -1,7 +1,6 @@
 <script>
 if (localStorage.getItem("newlayout_ketquaTN") == "OK")
 {
-history.replaceState(null, '', '/ket-qua-trac-nghiem');
 document.body.style.display = "none";
 var ketqua = document.getElementById("custom737").outerHTML;
 localStorage.setItem("ketqua_tracnghiem", ketqua);
