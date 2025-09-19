@@ -1,12 +1,28 @@
-<!-- layout bảng trắc nghiệm (ko tràn hết ra ngoài) -->
 <script>
-if (window.location.pathname == '/trac-nghiem-index')
-{
+(function () {
+    let path;
+
+    try {
+        if (window.top !== window.self) {
+            // đang trong iframe
+            path = window.top.location.pathname;
+        } else {
+            // không phải iframe
+            path = window.location.pathname;
+        }
+    } catch (e) {
+        // fallback nếu cross-origin
+        path = window.location.pathname;
+    }
+
+    // chỉ chạy khi path = /trac-nghiem-index
+    if (path !== '/trac-nghiem-index') return;
+
     if (document.getElementById("custom1633")) {
         document.getElementById("custom1633").style.display = "none";
     }
+
     (function () {
-        if (window.location.pathname != '/trac-nghiem-index') return;
         const el = document.getElementById("custom737");
         if (!el) return;
 
@@ -46,13 +62,13 @@ if (window.location.pathname == '/trac-nghiem-index')
         // Tạo khối HTML bên dưới iframe
         const wrapper = document.createElement("div");
         wrapper.innerHTML = `
-    <button onclick="hayquaX()">Xem kết quả</button>
-    <br />
-    <p style="color:deeppink">
-      Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!
-    </p>
-    <br />
-  `;
+            <button onclick="hayquaX()">Xem kết quả</button>
+            <br />
+            <p style="color:deeppink">
+                Lưu ý: kiểm tra thật kỹ toàn bộ bài làm trước khi xem kết quả!
+            </p>
+            <br />
+        `;
 
         // ✅ Chỉ chèn nếu chưa có
         const existedIframe = document.querySelector('iframe[src*="layout-tracnghiem"]');
@@ -66,17 +82,13 @@ if (window.location.pathname == '/trac-nghiem-index')
         document.getElementById("OKX").click();
     }
 
-localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
-document.getElementById("frameTN").style.display = "flex";
-}
+    localStorage.setItem(
+        "time_tracnghiem",
+        document.getElementById("custom747").innerText
+            .replaceAll("Thời gian làm bài : ", "")
+            .split("phút")[0]
+            .trim()
+    );
+    document.getElementById("frameTN").style.display = "flex";
+})();
 </script>
-<iframe id="frameTN" src="/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;display:none;"> </iframe>
-
-<style>
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-    }
-</style>
