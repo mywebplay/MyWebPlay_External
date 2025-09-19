@@ -1,5 +1,7 @@
 <!-- layout bảng trắc nghiệm (ko tràn hết ra ngoài) -->
 <script>
+if (window.location.pathname == '/trac-nghiem-index')
+{
     if (document.getElementById("custom1633")) {
         document.getElementById("custom1633").style.display = "none";
     }
@@ -62,9 +64,9 @@
     function hayquaX() {
         document.getElementById("OKX").click();
     }
-</script>
-<script>
-    localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
+
+localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
+}
 </script>
 <iframe src="/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;"> </iframe>
 
