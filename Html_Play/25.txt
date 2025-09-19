@@ -67,9 +67,10 @@ if (window.location.pathname == '/trac-nghiem-index')
     }
 
 localStorage.setItem("time_tracnghiem", document.getElementById("custom747").innerText.replaceAll("Thời gian làm bài : ", "").split("phút")[0].trim());
+document.getElementById("frameTN").style.display = "flex";
 }
 </script>
-<iframe src="/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;"> </iframe>
+<iframe id="frameTN" src="/trac-nghiem" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 9999;display:none;"> </iframe>
 
 <style>
     html,
