@@ -6,7 +6,7 @@ var ketqua = document.getElementById("custom737").outerHTML;
 localStorage.setItem("ketqua_tracnghiem", ketqua);
 var score = document.getElementById("custom742").innerText.replaceAll('Điểm Đánh Giá : ','').replaceAll('/10','');
 localStorage.setItem("score_tracnghiem", score);
-localStorage.remove("newlayout_ketquaTN");
+localStorage.removeItem("newlayout_ketquaTN");
 parent.location.href = "/ket-qua-trac-nghiem";
 }
 </script>
