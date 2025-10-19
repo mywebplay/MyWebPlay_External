@@ -11,9 +11,10 @@
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
+    border : 2px solid blue;
   }
   th, td {
-    border: 1px solid #ccc;
+    border: 2px solid black;
     padding: 6px 8px;
     word-wrap: break-word;
     white-space: normal;
