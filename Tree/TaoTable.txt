@@ -34,10 +34,46 @@
 <body>
 
 <input type="text" id="searchInput" placeholder="Tìm kiếm..." autocomplete="off" />
-
+<br />
+<br />
+<button onclick="downloadCSV()" style="color:red;"><b>Tải CSV</b></button>
+<br />
+<br />
 <div id="tableContainer"></div>
 
 <script>
+function downloadCSV() {
+  const table = document.querySelector("#tableContainer table");
+  if (!table) {
+    alert("Không tìm thấy table trong #tableContainer");
+    return;
+  }
+
+  const rows = table.querySelectorAll("tr");
+  let csv = [];
+
+  rows.forEach(row => {
+    const cols = row.querySelectorAll("th, td");
+    let rowData = [];
+
+    cols.forEach(col => {
+      // Escape dấu phẩy & xuống dòng trong text
+      let text = col.innerText.replace(/"/g, '""');
+      rowData.push('"' + text + '"');
+    });
+
+    csv.push(rowData.join(","));
+  });
+
+  const blob = new Blob([csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "data.csv";
+  a.click();
+}
+
 (() => {
   const rawData = localStorage.getItem("tableX");
   if (!rawData || !rawData.trim()) {
