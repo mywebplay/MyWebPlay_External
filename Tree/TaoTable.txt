@@ -49,7 +49,7 @@ function sendmail()
    var data = document.getElementById("tableContainer").outerHTML;
    localStorage.setItem("data_message", data);
    localStorage.setItem("data_isHTML", "true");
-   window.location.href = "/Cover/CustomerPagePlay?code=sendmail";
+   window.open("/Cover/CustomerPagePlay?code=sendmail", "_blank");
 }
 
 function downloadCSV() {
