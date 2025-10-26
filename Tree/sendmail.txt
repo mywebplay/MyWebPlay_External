@@ -36,17 +36,17 @@
 </style>
 <b>Nhập email : </b>
 <br />
-<input type="text" id="mail" style="width: 600px;" />
+<input type="text" id="mail" style="width: 600px;" autocomplete="off" />
 <br />
 <b>Nhập subject : </b>
 <br />
-<input type="text" id="subject" style="width: 600px;" />
+<input type="text" id="subject" style="width: 600px;" autocomplete="off" />
 <br />
 <b>Nhập nội dung : </b>
 <br />
-<textarea id="message" cols="200" rows="20"></textarea>
+<textarea id="message" cols="200" rows="20" autocomplete="off"></textarea>
 <br />
-<input id="isHTML" type="checkbox" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
+<input id="isHTML" type="checkbox" autocomplete="off" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
 <br />
 <input type="file" id="files" multiple />
 <br /><br />
@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // xoá sau một nhịp render → không bị giật mất dữ liệu
     setTimeout(() => {
-        // localStorage.removeItem("data_subject");
-       // localStorage.removeItem("data_message");
-        //localStorage.removeItem("data_isHTML");
+       localStorage.removeItem("data_subject");
+       localStorage.removeItem("data_message");
+       localStorage.removeItem("data_isHTML");
     }, 0);
 });
 
