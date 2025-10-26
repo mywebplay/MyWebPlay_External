@@ -31,6 +31,7 @@
 <canvas id="canvas"></canvas>
 <h1 id="tapX">Vui lòng đợi khoảng chừng 5s rồi tap vào màn hình 😁</h1>
 <script>
+const audio = document.getElementById("audio"); 
 const params = new URLSearchParams(window.location.search);
 
 if (params.has('link')) {
