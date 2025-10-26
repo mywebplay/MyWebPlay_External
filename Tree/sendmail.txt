@@ -34,15 +34,15 @@
     border-radius: 6px;
   }
 </style>
-<b>Nhập email : <b>
+<b>Nhập email : </b>
 <br />
 <input type="text" id="mail" style="width: 600px;" />
 <br />
-<b>Nhập subject : <b>
+<b>Nhập subject : </b>
 <br />
 <input type="text" id="subject" style="width: 600px;" />
 <br />
-<b>Nhập nội dung : <b>
+<b>Nhập nội dung : </b>
 <br />
 <textarea id="message" cols="200" rows="20"></textarea>
 <br />
