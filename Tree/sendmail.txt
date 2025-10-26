@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // xoá sau một nhịp render → không bị giật mất dữ liệu
     setTimeout(() => {
-        localStorage.removeItem("data_subject");
-        localStorage.removeItem("data_message");
-        localStorage.removeItem("data_isHTML");
+        // localStorage.removeItem("data_subject");
+       // localStorage.removeItem("data_message");
+        //localStorage.removeItem("data_isHTML");
     }, 0);
 });
 
