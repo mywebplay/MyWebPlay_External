@@ -1,3 +1,39 @@
+<style>
+  /* Modal overlay */
+  #modal_view {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none; /* Ẩn mặc định */
+    z-index: 9999;
+    overflow-y: auto; /* Scroll nếu nội dung dài */
+  }
+
+  /* Nội dung modal */
+  #modal_body {
+    background: #fff;
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 60px 20px 20px; /* Xích nội dung để tránh đè nút close */
+  }
+
+  /* Nút đóng */
+  #btn_close_modal {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    padding: 6px;
+    cursor: pointer;
+  }
+  #btn_close_modal:hover {
+    background: rgba(0,0,0,0.1);
+    border-radius: 6px;
+  }
+</style>
 <b>Nhập email : <b>
 <br />
 <input type="text" id="mail" style="width: 600px;" />
@@ -10,11 +46,32 @@
 <br />
 <textarea id="message" cols="200" rows="20"></textarea>
 <br />
-<input id="isHTML" type="checkbox" /><b style="color:blue">Is body mail HTML</b>
+<input id="isHTML" type="checkbox" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()">Xem trước HTML</button>
 <br />
 <input type="file" id="files" multiple />
 <br /><br />
 <button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
+<div id="modal_view">
+  <button id="btn_close_modal" onclick="closeModalView()">❌</button>
+  <div id="modal_body">
+    <div id="modal_data"></div>
+  </div>
+</div>
+
+<script>
+  function showModalView() {
+    // Gán nội dung trước
+    document.getElementById("modal_data").innerHTML =
+        document.getElementById("message").value;
+
+    // Rồi mới bật modal
+    document.getElementById("modal_view").style.display = "block";
+  }
+
+  function closeModalView() {
+    document.getElementById("modal_view").style.display = "none";
+  }
+</script>
 <script>
 if (localStorage.getItem("data_subject") != null)
 {
