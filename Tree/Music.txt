@@ -31,14 +31,6 @@
 <canvas id="canvas"></canvas>
 <h1 id="tapX">Vui lòng đợi khoảng chừng 5s rồi tap vào màn hình 😁</h1>
 <script>
-const audio = document.getElementById("audio"); 
-const params = new URLSearchParams(window.location.search);
-
-if (params.has('link')) {
-    const link = params.get('link');
-    document.getElementById("linkmp3").src = link;
-}
-
 document.body.addEventListener('click', function () {
   audio.play();
 });
@@ -46,6 +38,13 @@ var loaded = 0;
 setInterval(function()
 {
 if (loaded == 1) return;
+
+const params = new URLSearchParams(window.location.search);
+
+if (params.has('link')) {
+    const link = params.get('link');
+    document.getElementById("linkmp3").src = link;
+}
 
  const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
