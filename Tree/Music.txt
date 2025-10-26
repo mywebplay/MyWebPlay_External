@@ -39,13 +39,6 @@ setInterval(function()
 {
 if (loaded == 1) return;
 
-const params = new URLSearchParams(window.location.search);
-
-if (params.has('link')) {
-    const link = params.get('link');
-    document.getElementById("linkmp3").src = link;
-}
-
  const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const audio = document.getElementById('audio');
@@ -61,6 +54,14 @@ if (params.has('link')) {
 
     const bufferLength = analyser.fftSize;
     const dataArray = new Uint8Array(bufferLength);
+
+const params = new URLSearchParams(window.location.search);
+
+if (params.has('link')) {
+    const link = params.get('link');
+    document.getElementById("linkmp3").src = link;
+   audio.load();
+}
 
     function drawWaveform() {
       requestAnimationFrame(drawWaveform);
