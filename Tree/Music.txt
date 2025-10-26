@@ -25,7 +25,7 @@
     }
 </style>
 
-<audio id="audio" hidden autoplay>
+<audio id="audio" hidden>
   <source id="linkmp3" src="http://normalwebbasic.somee.com/karaoke_Example/ExamKara/NhacDemo.mp3" type="audio/mp3">
 </audio>
 <canvas id="canvas"></canvas>
