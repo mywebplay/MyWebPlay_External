@@ -26,11 +26,18 @@
 </style>
 
 <audio id="audio" hidden autoplay>
-  <source src="http://normalwebbasic.somee.com/karaoke_Example/ExamKara/NhacDemo.mp3" type="audio/mp3">
+  <source id="linkmp3" src="http://normalwebbasic.somee.com/karaoke_Example/ExamKara/NhacDemo.mp3" type="audio/mp3">
 </audio>
 <canvas id="canvas"></canvas>
 <h1 id="tapX">Vui lòng đợi khoảng chừng 5s rồi tap vào màn hình 😁</h1>
 <script>
+const params = new URLSearchParams(window.location.search);
+
+if (params.has('link')) {
+    const link = params.get('link');
+    document.getElementById("linkmp3").src = link;
+}
+
 document.body.addEventListener('click', function () {
   audio.play();
 });
