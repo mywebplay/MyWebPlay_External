@@ -37,6 +37,9 @@ var mail = document.getElementById("mail").value;
 var subject = document.getElementById("subject").value;
 var message = document.getElementById("message").value;
 var isHTML = document.getElementById("isHTML").checked;
+localStorage.removeItem("data_subject");
+localStorage.removeItem("data_message");
+localStorage.removeItem("data_isHTML");
 
 var input = document.getElementById('files');
 var files = input.files;
