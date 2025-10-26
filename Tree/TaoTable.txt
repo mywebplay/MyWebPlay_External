@@ -37,11 +37,21 @@
 <br />
 <br />
 <button onclick="downloadCSV()" style="color:red;"><b>Tải CSV</b></button>
+<button onclick="sendmail()" style="color:blue;"><b>SEND MAIL (OPERATOR)</b></button>
 <br />
 <br />
 <div id="tableContainer"></div>
 
 <script>
+function sendmail()
+{
+   localStorage.setItem("data_subject", "{" + window.location.hostname + "} - Backup dữ liệu ? về cho admin");
+   var data = document.getElementById("tableContainer").outerHTML;
+   localStorage.setItem("data_message", data);
+   localStorage.setItem("data_isHTML", "true");
+   window.location.href = "/Cover/CustomerPagePlay?code=sendmail";
+}
+
 function downloadCSV() {
   const table = document.querySelector("#tableContainer table");
   if (!table) {
