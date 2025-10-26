@@ -16,6 +16,24 @@
 <br /><br />
 <button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
 <script>
+if (localStorage.getItem("data_subject") != null)
+{
+   document.getElementById("subject").value = localStorage.getItem("data_subject");
+   localStorage.removeItem("data_subject");
+}
+
+if (localStorage.getItem("data_message") != null)
+{
+   document.getElementById("message").value = localStorage.getItem("data_message");
+   localStorage.removeItem("data_message");
+}
+
+if (localStorage.getItem("data_isHTML") != null)
+{
+   document.getElementById("isHTML").checked = true;
+   localStorage.removeItem("data_isHTML");
+}
+
 async function sendmail()
 {
 var mail = document.getElementById("mail").value;
