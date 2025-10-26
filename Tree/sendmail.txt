@@ -73,21 +73,23 @@
   }
 </script>
 <script>
-const sub = localStorage.getItem("data_subject");
-const msg = localStorage.getItem("data_message");
-const html = localStorage.getItem("data_isHTML");
+document.addEventListener("DOMContentLoaded", () => {
+    const sub = localStorage.getItem("data_subject");
+    const msg = localStorage.getItem("data_message");
+    const html = localStorage.getItem("data_isHTML");
 
-if (sub !== null || msg !== null || html !== null) {
+    // gán vào textbox
     if (sub !== null) document.getElementById("subject").value = sub;
     if (msg !== null) document.getElementById("message").value = msg;
     if (html === "true") document.getElementById("isHTML").checked = true;
 
+    // xoá sau một nhịp render → không bị giật mất dữ liệu
     setTimeout(() => {
         localStorage.removeItem("data_subject");
         localStorage.removeItem("data_message");
         localStorage.removeItem("data_isHTML");
     }, 0);
-}
+});
 
 async function sendmail()
 {
