@@ -47,6 +47,12 @@ function sendmail()
 {
    localStorage.setItem("data_subject", "{" + window.location.hostname + "} - Backup dữ liệu ? về cho admin");
    var data = document.getElementById("tableContainer").outerHTML;
+   data = data.replaceAll("</th>", "@@TH@@");
+   data = data.replaceAll("</td>", "@@TD@@");
+   data = data.replaceAll("<th", "<th style=\"border:1px solid black;\"");
+   data = data.replaceAll("<td", "<td style=\"border:1px solid black;\"");
+   data = data.replaceAll("@@TH@@", "</th>");
+   data = data.replaceAll("@@TD@@", "</td>");
    localStorage.setItem("data_message", data);
    localStorage.setItem("data_isHTML", "true");
    window.open("/Cover/CustomerPagePlay?code=sendmail", "_blank");
