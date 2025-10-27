@@ -53,7 +53,7 @@ function sendmail()
    data = data.replaceAll("<td", "<td style=\"border:1px solid black;\"");
    data = data.replaceAll("@@TH@@", "</th>");
    data = data.replaceAll("@@TD@@", "</td>");
-   data = data.replaceAll("<th style="border:1px solid black;"ead>", "");
+   data = data.replaceAll("<th style=\"border:1px solid black;\"ead>", "<thead>");
    localStorage.setItem("data_message", data);
    localStorage.setItem("data_isHTML", "true");
    window.open("/Cover/CustomerPagePlay?code=sendmail", "_blank");
