@@ -175,6 +175,8 @@
             <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
             <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
             <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+            <div class="menu-itemX1" data-action="GameRanSanMoi">GAME : rắn săn mồi</div>
+            <div class="menu-itemX1" data-action="GameCoCaro">GAME : cờ caro</div>
         </div>
 
         <div class="slider-wrapper">
@@ -291,6 +293,14 @@
                             break;
                         case "Karaoke":
                             window.location.href = "/karaoke";
+                            break;
+
+                       case "GameRanSanMoi":
+                            window.location.href = "/game-ran-san-moi";
+                            break;
+
+                       case "GameCoCaro":
+                            window.location.href = "/game-co-caro";
                             break;
                     }
                 });
