@@ -218,12 +218,12 @@
               transform: scale(1.05);
             }
             
-            .modal .btn-yes {
+            .modal .btn-no {
               background-color: #22c55e;
               color: white;
             }
             
-            .modal .btn-no {
+            .modal .btn-yes {
               background-color: #ef4444;
               color: white;
             }
@@ -308,8 +308,8 @@
             <button class="close-btn" onclick="closemodal1()">❌</button>
             <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
             <div>
-              <button class="btn-yes" onclick="yes1()">RỒI</button>
               <button class="btn-no" onclick="no1()">CHƯA</button>
+              <button class="btn-yes" onclick="yes1()">RỒI</button>
             </div>
           </div>
         </div>
