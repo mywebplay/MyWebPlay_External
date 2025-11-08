@@ -262,7 +262,7 @@
             <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
             <div class="menu-itemX1" data-action="GameRanSanMoi" style="color:yellow;">GAME : rắn săn mồi</div>
             <div class="menu-itemX1" data-action="GameCoCaro" style="color:yellow;">GAME : cờ caro</div>
-            <div class="menu-itemX1" data-action="Studocu" style="color:yellow;">Lấy PDF tài liệu từ Studocu (studocu.vn: 🔒)</div>
+            <div class="menu-itemX1" data-action="Studocu" style="color:yellow;">Lấy PDF tài liệu từ Studocu (studocu.vn - 🔒)</div>
         </div>
 
         <div class="slider-wrapper">
