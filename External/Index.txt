@@ -159,6 +159,91 @@
                 height: 30px; /* to hơn */
                 fill: white;
             }
+
+            /* ===== Modal Styles ===== */
+            .backdrop {
+              position: fixed;
+              inset: 0;
+              background: rgba(0, 0, 0, 0.7);
+              display: none;
+              align-items: center;
+              justify-content: center;
+              z-index: 9999;
+            }
+            
+            .backdrop.show {
+              display: flex;
+            }
+            
+            .modal {
+              background: #fff;
+              border-radius: 12px;
+              padding: 24px 32px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+              position: relative;
+              max-width: 400px;
+              text-align: center;
+              animation: pop 0.25s ease-out;
+            }
+            
+            @keyframes pop {
+              from {
+                opacity: 0;
+                transform: scale(0.9);
+              }
+              to {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+            
+            .modal h3 {
+              color: #dc2626; /* đỏ */
+              margin-top: 0;
+              margin-bottom: 24px;
+            }
+            
+            .modal button {
+              border: none;
+              padding: 10px 22px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: 500;
+              margin: 0 8px;
+              transition: background 0.2s, transform 0.1s;
+            }
+            
+            .modal button:hover {
+              transform: scale(1.05);
+            }
+            
+            .modal .btn-yes {
+              background-color: #22c55e;
+              color: white;
+            }
+            
+            .modal .btn-no {
+              background-color: #ef4444;
+              color: white;
+            }
+            
+            /* Nút đóng (❌) */
+            .modal .close-btn {
+              position: absolute;
+              top: 10px;
+              right: 14px;
+              background: transparent;
+              border: none;
+              font-size: 22px;
+              cursor: pointer;
+              color: #6b7280;
+            }
+            
+            .modal .close-btn:hover {
+              color: #000;
+            }
+
         </style>
     </head>
     <body>
@@ -218,7 +303,16 @@
             </button>
         </div>
         <iframe id="start" src="/" style="display: none;"></iframe>
-
+        <div class="backdrop" id="modal1">
+          <div class="modal">
+            <button class="close-btn" onclick="closemodal1()">❌</button>
+            <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
+            <div>
+              <button class="btn-yes" onclick="yes1()">YES</button>
+              <button class="btn-no" onclick="no1()">NO</button>
+            </div>
+          </div>
+        </div>
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -305,7 +399,7 @@
                             break;
 
                        case "Studocu":
-                            window.location.href = "/lay-tai-lieu-tu-stoducu";
+                            showmodal1();
                             break;
                     }
                 });
@@ -318,6 +412,16 @@
                     iframeStart.remove();
                 }, 60000);
             });
+
+            function yes1()
+            {
+                window.location.href = "/lay-tai-lieu-tu-stoducu";
+            }
+
+            function no1()
+            {
+                window.location.href = "/xac-thuc-1";
+            }
         </script>
     </body>
 </html>
