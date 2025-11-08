@@ -424,6 +424,8 @@
             }
 
             function showmodal1() {
+               const menu = document.getElementById("menuX1");
+               menu.classList.remove("showX1");
               document.getElementById("modal1").classList.add("show");
             }
             
