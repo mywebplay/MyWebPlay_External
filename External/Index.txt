@@ -308,8 +308,8 @@
             <button class="close-btn" onclick="closemodal1()">❌</button>
             <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
             <div>
-              <button class="btn-yes" onclick="yes1()">YES</button>
-              <button class="btn-no" onclick="no1()">NO</button>
+              <button class="btn-yes" onclick="yes1()">RỒI</button>
+              <button class="btn-no" onclick="no1()">CHƯA</button>
             </div>
           </div>
         </div>
