@@ -422,6 +422,15 @@
             {
                 window.location.href = "/xac-thuc-1";
             }
+
+            function showmodal1() {
+              document.getElementById("modal1").classList.add("show");
+            }
+            
+            function closemodal1() {
+              document.getElementById("modal1").classList.remove("show");
+            }
+
         </script>
     </body>
 </html>
