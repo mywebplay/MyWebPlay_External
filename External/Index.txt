@@ -313,6 +313,16 @@
             </div>
           </div>
         </div>
+        <div class="backdrop" id="modal2">
+          <div class="modal">
+            <button class="close-btn" onclick="closemodal2()">❌</button>
+            <h3>Mời bạn chọn giao diện sử dụng?</h3>
+            <div>
+              <button class="btn-no" onclick="cu2()">CŨ</button>
+              <button class="btn-yes" onclick="moi2()">MỚI</button>
+            </div>
+          </div>
+        </div>
         <script>
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -381,13 +391,13 @@
                             window.location.href = "/Home/TronMau";
                             break;
                         case "TracNghiem":
-                            window.location.href = "/trac-nghiem-index";
+                            showmodal2('/Home/TracNghiemX_Multiple', '/trac-nghiem-index');
                             break;
                         case "Question":
                             window.location.href = "/Home/PlayQuestion_Multiple";
                             break;
                         case "Karaoke":
-                            window.location.href = "/karaoke";
+                            showmodal2('/Home/ToPlayKaraoke', '/karaoke');
                             break;
 
                        case "GameRanSanMoi":
@@ -431,6 +441,32 @@
             
             function closemodal1() {
               document.getElementById("modal1").classList.remove("show");
+            }
+
+            let urlChooseOld = "";
+            let urlChooseNew = "";
+            function showmodal2(urlOld, urlNew) {
+               urlChooseOld = urlOld;
+               urlChooseNew = urlNew;
+               const menu = document.getElementById("menuX1");
+               menu.classList.remove("showX1");
+              document.getElementById("modal2").classList.add("show");
+            }
+            
+            function closemodal2() {
+              urlChooseOld = "";
+              urlChooseNew = "";
+              document.getElementById("modal2").classList.remove("show");
+            }
+
+            function cu2()
+            {
+              window.location.href = urlChooseOld;
+            }
+
+            function moi2()
+            {
+              window.location.href = urlChooseNew;
             }
 
         </script>
