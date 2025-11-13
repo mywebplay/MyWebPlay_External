@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Game Né Vật Thể</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #87cefa, #00bfff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  h1 {
+    margin: 10px 0;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  }
+
+  #scoreboard {
+    font-size: 1.2rem;
+    background: rgba(255,255,255,0.7);
+    padding: 8px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+  }
+
+  #game-container {
+    position: relative;
+    width: 90vw;
+    max-width: 400px;
+    height: 70vh;
+    background: linear-gradient(to top, #228B22, #32CD32);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid #fff;
+  }
+
+  #player {
+    position: absolute;
+    bottom: 10px;
+    width: 50px;
+    height: 50px;
+    background: url('https://i.imgur.com/5QK1Z6g.png') center/cover no-repeat;
+    border-radius: 50%;
+  }
+
+  .obstacle {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: url('https://i.imgur.com/YuVh83Q.png') center/cover no-repeat;
+    border-radius: 50%;
+  }
+
+  button {
+    margin-top: 15px;
+    background: #ffcc00;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #caa400;
+    transition: transform 0.1s;
+  }
+  button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #caa400;
+  }
+</style>
+</head>
+<body>
+<h1>🚀 Game Né Vật Thể</h1>
+<div id="scoreboard">Điểm: <span id="score">0</span></div>
+<div id="game-container">
+  <div id="player"></div>
+</div>
+<button id="start">Bắt đầu</button>
+
+<script>
+const container = document.getElementById('game-container');
+const player = document.getElementById('player');
+const startBtn = document.getElementById('start');
+const scoreEl = document.getElementById('score');
+
+let playerX = 0;
+let playerWidth = 50;
+let containerWidth = container.clientWidth;
+let obstacles = [];
+let score = 0;
+let gameOver = false;
+let spawnInterval = 1500; // ms
+let fallSpeed = 2; // px/frame
+let spawnTimer, gameLoopTimer;
+
+// khởi tạo player
+function resetPlayer() {
+  playerX = (containerWidth - playerWidth)/2;
+  player.style.left = playerX + 'px';
+}
+
+// di chuyển player
+function movePlayer(dx) {
+  playerX += dx;
+  if(playerX < 0) playerX = 0;
+  if(playerX > containerWidth - playerWidth) playerX = containerWidth - playerWidth;
+  player.style.left = playerX + 'px';
+}
+
+// tạo vật thể
+function spawnObstacle() {
+  if(gameOver) return;
+  const obs = document.createElement('div');
+  obs.classList.add('obstacle');
+  obs.style.left = Math.random() * (containerWidth - 40) + 'px';
+  obs.style.top = '-40px';
+  container.appendChild(obs);
+  obstacles.push(obs);
+
+  // tăng độ khó dần
+  if(fallSpeed < 10) fallSpeed += 0.05; // rơi nhanh hơn
+  if(spawnInterval > 400) spawnInterval -= 10; // xuất hiện dày hơn
+
+  spawnTimer = setTimeout(spawnObstacle, spawnInterval);
+}
+
+// kiểm tra va chạm
+function checkCollision() {
+  for(let obs of obstacles){
+    const obsRect = obs.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+    if(!(obsRect.bottom < playerRect.top || obsRect.top > playerRect.bottom || 
+         obsRect.right < playerRect.left || obsRect.left > playerRect.right)){
+      endGame();
+    }
+  }
+}
+
+// cập nhật vật thể
+function updateObstacles() {
+  for(let i=obstacles.length-1; i>=0; i--){
+    const obs = obstacles[i];
+    let top = parseFloat(obs.style.top);
+    top += fallSpeed;
+    obs.style.top = top + 'px';
+    if(top > container.clientHeight){
+      container.removeChild(obs);
+      obstacles.splice(i,1);
+      score++;
+      scoreEl.textContent = score;
+    }
+  }
+  checkCollision();
+}
+
+// game loop
+function gameLoop() {
+  if(gameOver) return;
+  updateObstacles();
+  gameLoopTimer = requestAnimationFrame(gameLoop);
+}
+
+// kết thúc game
+function endGame() {
+  gameOver = true;
+  clearTimeout(spawnTimer);
+  cancelAnimationFrame(gameLoopTimer);
+  alert(`💥 Bạn bị trúng vật thể! Điểm: ${score}`);
+}
+
+// sự kiện điều khiển
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft') movePlayer(-20);
+  if(e.key === 'ArrowRight') movePlayer(20);
+});
+
+// touch SP
+let touchStartX = null;
+container.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+container.addEventListener('touchmove', e => {
+  if(touchStartX === null) return;
+  let touchX = e.touches[0].clientX;
+  let dx = touchX - touchStartX;
+  movePlayer(dx);
+  touchStartX = touchX;
+});
+container.addEventListener('touchend', e => { touchStartX = null; });
+
+// bắt đầu game
+startBtn.addEventListener('click', () => {
+  // reset
+  obstacles.forEach(o=>container.removeChild(o));
+  obstacles = [];
+  score = 0;
+  scoreEl.textContent = score;
+  fallSpeed = 2;
+  spawnInterval = 1500;
+  gameOver = false;
+  resetPlayer();
+  spawnObstacle();
+  gameLoop();
+});
+
+setInterval(function () {
+  document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+  document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+  document.querySelectorAll("center").forEach((el) => el.remove());
+  document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+}, 10);
+</script>
+</body>
+</html>
