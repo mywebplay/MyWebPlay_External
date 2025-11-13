@@ -154,6 +154,7 @@
     }
 
     function resetGame(){
+      openFullScreen();
       if(moveTimer) clearInterval(moveTimer);
       const startX = Math.floor(cols/2);
       const startY = Math.floor(rows/2);
@@ -167,6 +168,10 @@
       draw();
       updateScoreboard();
     }
+
+    document.addEventListener('dblclick', function() {
+        closeFullScreen();
+    });
 
     function spawnFood(){
       const occupied = new Set(snake.map(p => p.x+','+p.y));
@@ -211,6 +216,32 @@
     }
 
     function isOpposite(a,b){ return a.x===-b.x && a.y===-b.y; }
+
+    function openFullScreen() {
+        const elem = document.documentElement; // Toàn bộ trang
+    
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+            elem.msRequestFullscreen();
+        }
+    }
+
+    function closeFullScreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
 
     function draw(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
