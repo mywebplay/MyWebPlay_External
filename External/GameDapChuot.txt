@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐹 Đập Chuột 🐹</title>
+<style>
+  * { box-sizing: border-box; user-select: none; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #b4ecb4, #87d68d);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    margin-bottom: 5px;
+    color: #2d2d2d;
+    text-shadow: 1px 1px 3px #fff;
+  }
+
+  #scoreboard {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.7);
+    padding: 8px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  #game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 90vw;
+    max-width: 400px;
+  }
+
+  .hole {
+    aspect-ratio: 1 / 1;
+    background: #5a3921;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.3);
+  }
+
+  .mole {
+    width: 70%;
+    height: 70%;
+    background: url('https://i.imgur.com/ohY2tDd.png') center/contain no-repeat;
+    position: absolute;
+    bottom: -100%;
+    left: 15%;
+    transition: bottom 0.15s ease-out;
+  }
+
+  .hole.up .mole {
+    bottom: 15%;
+  }
+
+  button {
+    margin-top: 20px;
+    background: #ffcc00;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #caa400;
+    transition: transform 0.1s;
+  }
+
+  button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #caa400;
+  }
+
+  @media (max-width: 600px) {
+    #game {
+      gap: 8px;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>🐹 Game Đập Chuột 🐹</h1>
+  <div id="scoreboard">Điểm: <span id="score">0</span></div>
+  <div id="game"></div>
+  <button id="start">Bắt đầu</button>
+
+<script>
+const game = document.getElementById("game");
+const scoreEl = document.getElementById("score");
+const startBtn = document.getElementById("start");
+let score = 0;
+let lastHole;
+let timeUp = false;
+let gameTimer;
+
+for (let i = 0; i < 9; i++) {
+  const hole = document.createElement("div");
+  hole.className = "hole";
+  const mole = document.createElement("div");
+  mole.className = "mole";
+  hole.appendChild(mole);
+  game.appendChild(hole);
+}
+
+const holes = document.querySelectorAll(".hole");
+
+function randomHole() {
+  const idx = Math.floor(Math.random() * holes.length);
+  const hole = holes[idx];
+  if (hole === lastHole) return randomHole(); // tránh trùng
+  lastHole = hole;
+  return hole;
+}
+
+function peep() {
+  const time = Math.random() * 800 + 400; // 400–1200ms
+  const hole = randomHole();
+  hole.classList.add("up");
+  setTimeout(() => {
+    hole.classList.remove("up");
+    if (!timeUp) peep();
+  }, time);
+}
+
+function startGame() {
+  score = 0;
+  scoreEl.textContent = score;
+  timeUp = false;
+  startBtn.disabled = true;
+  peep();
+  clearTimeout(gameTimer);
+  gameTimer = setTimeout(() => {
+    timeUp = true;
+    startBtn.disabled = false;
+    alert(`Hết giờ! Bạn đạt ${score} điểm 🐹`);
+  }, 15000); // 15 giây
+}
+
+setInterval(function () {
+    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+    document.querySelectorAll("center").forEach((el) => el.remove());
+    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+}, 10);
+
+function bonk(e) {
+  if (!e.isTrusted) return; // tránh cheat
+  const hole = this.classList.contains("hole") ? this : this.parentElement;
+  if (!hole.classList.contains("up")) return;
+  hole.classList.remove("up");
+  score++;
+  scoreEl.textContent = score;
+}
+
+holes.forEach(h => {
+  h.addEventListener("click", bonk);
+  h.addEventListener("touchstart", bonk);
+});
+
+startBtn.addEventListener("click", startGame);
+</script>
+</body>
+</html>
