@@ -95,7 +95,6 @@ let fallSpeed = 2;
 let spawnTimer, gameLoopTimer;
 
 const playerWidth = container.clientWidth * 0.12;
-const obstacleWidth = container.clientWidth * 0.1;
 
 // khởi tạo player
 function resetPlayer() {
@@ -117,14 +116,26 @@ function spawnObstacle() {
   if(gameOver) return;
   const obs = document.createElement('div');
   obs.classList.add('obstacle');
-  obs.style.left = Math.random() * (container.clientWidth - obstacleWidth) + 'px';
+
+  // tăng kích thước theo điểm, nhưng giới hạn
+  let baseSize = 10;
+  let maxSize = 16;
+  let sizeIncrement = 0.05;
+  let size = baseSize + score * sizeIncrement;
+  if(size > maxSize) size = maxSize;
+  obs.style.width = size + '%';
+  obs.style.height = size + '%';
+
+  obs.style.left = Math.random() * (container.clientWidth - (container.clientWidth*size/100)) + 'px';
   obs.style.top = '-10%';
   container.appendChild(obs);
   obstacles.push(obs);
 
   // tăng độ khó dần
-  if(fallSpeed < 10) fallSpeed += 0.05; 
-  if(spawnInterval > 400) spawnInterval -= 10; 
+  fallSpeed = 2 + score * 0.05; 
+  if(fallSpeed > 6) fallSpeed = 6;
+  spawnInterval = 1500 - score * 5;
+  if(spawnInterval < 600) spawnInterval = 600;
 
   spawnTimer = setTimeout(spawnObstacle, spawnInterval);
 }
@@ -171,7 +182,7 @@ function endGame() {
   gameOver = true;
   clearTimeout(spawnTimer);
   cancelAnimationFrame(gameLoopTimer);
-  alert(`💥 GAME OVER: Bạn đã bị trúng vật thể!\nĐiểm của bạn: ${score}`);
+  alert(`💥 Bạn bị trúng vật thể! Điểm: ${score}`);
   startBtn.disabled = false;
 }
 
