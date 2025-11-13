@@ -52,7 +52,7 @@
   .mole {
     width: 70%;
     height: 70%;
-    background: url('https://i.imgur.com/ohY2tDd.png') center/contain no-repeat;
+    background: url('https://png.pngtree.com/png-clipart/20250111/original/pngtree-cute-cartoon-rat-or-mouse-png-image_19082557.png') center/contain no-repeat;
     position: absolute;
     bottom: -100%;
     left: 15%;
