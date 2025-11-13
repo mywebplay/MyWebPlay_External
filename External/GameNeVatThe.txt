@@ -15,13 +15,11 @@
     height: 100vh;
     overflow: hidden;
   }
-
   h1 {
     margin: 10px 0;
     color: #fff;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
   }
-
   #scoreboard {
     font-size: 1.2rem;
     background: rgba(255,255,255,0.7);
@@ -30,7 +28,6 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     margin-bottom: 10px;
   }
-
   #game-container {
     position: relative;
     width: 90vw;
@@ -41,24 +38,22 @@
     overflow: hidden;
     border: 3px solid #fff;
   }
-
   #player {
     position: absolute;
     bottom: 10px;
-    width: 50px;
-    height: 50px;
+    width: 12%;
+    aspect-ratio: 1;
     background: url('https://png.pngtree.com/png-vector/20230909/ourmid/pngtree-illustration-of-a-big-smile-png-image_10012453.png') center/cover no-repeat;
     border-radius: 50%;
   }
-
   .obstacle {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 10%;
+    aspect-ratio: 1;
     background: url('https://img.freepik.com/premium-psd/round-black-bomb-transparent-background_679658-60904.jpg') center/cover no-repeat;
     border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
-
   button {
     margin-top: 15px;
     background: #ffcc00;
@@ -92,26 +87,28 @@ const startBtn = document.getElementById('start');
 const scoreEl = document.getElementById('score');
 
 let playerX = 0;
-let playerWidth = 50;
-let containerWidth = container.clientWidth;
 let obstacles = [];
 let score = 0;
 let gameOver = false;
-let spawnInterval = 1500; // ms
-let fallSpeed = 2; // px/frame
+let spawnInterval = 1500; 
+let fallSpeed = 2;
 let spawnTimer, gameLoopTimer;
+
+const playerWidth = container.clientWidth * 0.12;
+const obstacleWidth = container.clientWidth * 0.1;
 
 // khởi tạo player
 function resetPlayer() {
-  playerX = (containerWidth - playerWidth)/2;
+  playerX = (container.clientWidth - playerWidth)/2;
   player.style.left = playerX + 'px';
 }
 
 // di chuyển player
 function movePlayer(dx) {
+  dx = Math.max(Math.min(dx, 30), -30); // giới hạn tốc độ vuốt SP
   playerX += dx;
   if(playerX < 0) playerX = 0;
-  if(playerX > containerWidth - playerWidth) playerX = containerWidth - playerWidth;
+  if(playerX > container.clientWidth - playerWidth) playerX = container.clientWidth - playerWidth;
   player.style.left = playerX + 'px';
 }
 
@@ -120,26 +117,27 @@ function spawnObstacle() {
   if(gameOver) return;
   const obs = document.createElement('div');
   obs.classList.add('obstacle');
-  obs.style.left = Math.random() * (containerWidth - 40) + 'px';
-  obs.style.top = '-40px';
+  obs.style.left = Math.random() * (container.clientWidth - obstacleWidth) + 'px';
+  obs.style.top = '-10%';
   container.appendChild(obs);
   obstacles.push(obs);
 
   // tăng độ khó dần
-  if(fallSpeed < 10) fallSpeed += 0.05; // rơi nhanh hơn
-  if(spawnInterval > 400) spawnInterval -= 10; // xuất hiện dày hơn
+  if(fallSpeed < 10) fallSpeed += 0.05; 
+  if(spawnInterval > 400) spawnInterval -= 10; 
 
   spawnTimer = setTimeout(spawnObstacle, spawnInterval);
 }
 
 // kiểm tra va chạm
 function checkCollision() {
+  const playerRect = player.getBoundingClientRect();
   for(let obs of obstacles){
     const obsRect = obs.getBoundingClientRect();
-    const playerRect = player.getBoundingClientRect();
     if(!(obsRect.bottom < playerRect.top || obsRect.top > playerRect.bottom || 
          obsRect.right < playerRect.left || obsRect.left > playerRect.right)){
       endGame();
+      break;
     }
   }
 }
@@ -150,8 +148,8 @@ function updateObstacles() {
     const obs = obstacles[i];
     let top = parseFloat(obs.style.top);
     top += fallSpeed;
-    obs.style.top = top + 'px';
-    if(top > container.clientHeight){
+    obs.style.top = top + '%';
+    if(top > 100){
       container.removeChild(obs);
       obstacles.splice(i,1);
       score++;
@@ -173,7 +171,8 @@ function endGame() {
   gameOver = true;
   clearTimeout(spawnTimer);
   cancelAnimationFrame(gameLoopTimer);
-  alert(`💥 Bạn bị trúng vật thể! Điểm: ${score}`);
+  alert(`💥 GAME OVER: Bạn đã bị trúng vật thể!\nĐiểm của bạn: ${score}`);
+  startBtn.disabled = false;
 }
 
 // sự kiện điều khiển
@@ -198,7 +197,6 @@ container.addEventListener('touchend', e => { touchStartX = null; });
 
 // bắt đầu game
 startBtn.addEventListener('click', () => {
-  // reset
   obstacles.forEach(o=>container.removeChild(o));
   obstacles = [];
   score = 0;
@@ -207,16 +205,10 @@ startBtn.addEventListener('click', () => {
   spawnInterval = 1500;
   gameOver = false;
   resetPlayer();
+  startBtn.disabled = true;
   spawnObstacle();
   gameLoop();
 });
-
-setInterval(function () {
-  document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
-  document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
-  document.querySelectorAll("center").forEach((el) => el.remove());
-  document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
-}, 10);
 </script>
 </body>
 </html>
