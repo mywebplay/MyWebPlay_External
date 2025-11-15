@@ -50,7 +50,7 @@
     position: absolute;
     width: 10%;
     aspect-ratio: 1;
-    background: url('https://img.freepik.com/premium-psd/round-black-bomb-transparent-background_679658-60904.jpg') center/cover no-repeat;
+    background: url('https://p7.hiclipart.com/preview/971/103/738/time-bomb-explosion-explosive-weapon-bomb.jpg') center/cover no-repeat;
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
