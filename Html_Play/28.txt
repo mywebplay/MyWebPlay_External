@@ -12,7 +12,7 @@
 var loadxong1 = 0;
 setInterval(function()
 {
-if (loadxong1 == 1 || document.readyState != "complete") return;
+if (loadxong1 == 1 || document.readyState != "complete" || @@ IsAdmin @@ == 'True') return;
 // Lấy phần tử modal và overlay
 const modalOverlay2 = document.getElementById("modalOverlay2");
 const closeBtn2 = document.getElementById("closeModal2");
