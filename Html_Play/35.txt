@@ -1,3 +1,3 @@
-<scipt>
+<script>
 document.getElementById("custom547").style.color = sang == 0 ? "white" : "black";
 </script>
