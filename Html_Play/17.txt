@@ -51,7 +51,7 @@
       padding: 10px;
       border-radius: 8px;
       min-width: 120px;
-      z-index: 9999;
+      z-index: 100;
     }
 
     #menuX1.showX1 {
@@ -66,6 +66,11 @@
       background: black;
     }
 
+    #hinhanhmenu
+   {
+     cursor: pointer;
+   }
+
     .menu-itemX1:hover {
       background: #007bff;
       color: white;
@@ -75,7 +80,7 @@
 
 if (document.getElementById("custom11"))
 {
-document.getElementById("custom11").innerHTML = "<img src=\"https://banner2.cleanpng.com/20180628/zaz/aayj9bx5v.webp\" alt=\"Menu\" style=\"width:40px; height:40px;\"><span></span><span></span><span></span><span></span>";
+document.getElementById("custom11").innerHTML = "<img id=\"hinhanhmenu\" src=\"https://banner2.cleanpng.com/20180628/zaz/aayj9bx5v.webp\" alt=\"Menu\" style=\"width:40px; height:40px;\"><span></span><span></span><span></span><span></span>";
 document.getElementById("custom11").onclick = function()
 {
  const menu = document.getElementById('menuX1');
