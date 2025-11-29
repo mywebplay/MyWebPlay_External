@@ -293,7 +293,7 @@
                 <div class="slide">
                     <h1>📕 Lấy PDF tài liệu từ trang web studocu.vn</h1>
                     <p>
-                        Bạn đang có một đường link dẫn đến một tài liệu từ trang web studocu.vn?<br />
+                        Bạn đang có một đường link dẫn đến tài liệu từ trang web studocu.vn?<br />
                         - Bạn chỉ có thể xem trực tiếp tài liệu trên trang web stoducu.<br />
                         - Mỗi lần download, hệ thống studocu sẽ yêu cầu bạn upload ít nhất 3 file của bạn thì mới cho phép tải xuống file.<br />
                         - Một số tài liệu Premium (trả phí) hoặc khi reload trang, một số trang của tài liệu bị làm mờ.<br />
