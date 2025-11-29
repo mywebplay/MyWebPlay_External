@@ -295,10 +295,11 @@
                     <p>
                         Bạn đang có một đường link dẫn đến một tài liệu từ trang web studocu.vn?<br />
                         - Bạn chỉ có thể xem trực tiếp tài liệu trên trang web stoducu.<br />
-                        - Mỗi lần download, hệ thống studocu sẽ yêu cầu bạn tải ít nhất 3 file của bạn thì mới cho phép tải file.<br />
+                        - Mỗi lần download, hệ thống studocu sẽ yêu cầu bạn upload ít nhất 3 file của bạn thì mới cho phép tải xuống file.<br />
                         - Một số tài liệu Premium (trả phí) hoặc khi reload trang, một số trang của tài liệu bị làm mờ.<br />
                         - Bạn không còn cách nào khác ngoài việc chụp màn hình.<br />
-                        => Với tính năng này (đây là một dạng trick và hack), 1 mẹo để convert tài liệu trên trang web studocu và tải xuống PDF hoàn toàn miễn phí!
+                        ...<br />
+                        => Với tính năng này (đây là một dạng trick và hack), một mẹo để convert tài liệu trên web studocu và tải xuống PDF hoàn toàn miễn phí!
                     </p>
                 </div>
                 <div class="slide">
