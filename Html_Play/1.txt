@@ -9,7 +9,7 @@ z-index: 9999; /* đảm bảo luôn trên cùng nếu cần */
 </style>
 <select id="fixedSelect" onchange="changevitri()">
 <option value="0"></option>
-<option value="custom115">Lên đầu trang</option>
+<option value="linkread6">Lên đầu trang</option>
 <option value="come-39">Sửa email/megaIO</option>
 <option value="come-52">Upload file max size</option>
 <option value="custom180">Bảng thông tin</option>
