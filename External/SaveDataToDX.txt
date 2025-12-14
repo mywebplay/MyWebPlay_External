@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Regist Data Secure Save To DX</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: #fff;
+            padding: 24px;
+            width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #007bff;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Regist Data Secure To DX</h2>
+
+    <div class="form-group">
+        <label>Type</label>
+        <input type="text" id="type" value="READ_PART" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Host</label>
+        <select id="path">
+            <!-- option để sẵn, bạn sửa sau -->
+            <option value="IX6EBR784bG+M0XaJreIY7fMnc1QDb3QQcoOjzop5fUZYIjuJmQDTy+enpXr204VDpnBMrf8FFePgWXLrp6rZA==">HOST API</option>
+            <option value="fWpFG2g5SBuxG5Km0x0Pjlpe7fQfbpXuCdyl0FadNF9wBCqljZNQf1g/kTdboNRw6D3V0pew5GEutRTYJBkA+Q==">HOST NORMAL</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>IsExternal</label>
+        <input type="text" id="IsExternal" value="true" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Path</label>
+        <select id="path">
+            <!-- option để sẵn, bạn sửa sau -->
+            <option value="WQFBht4m8C7kDbcei8f1o1TERC9Ro/qWgZZVwc75DruIFcfITHE8eMLTtDMcHJ8TxQ0I+SN0X6LDYIFVhJKOQdX1bC7IkziHiJ9kvJKkPYq4i00tjShhG38MU9gA5c1S7vxc/NlSu6puighZvNSjC+ukt/a16YkwDa1NTFV/AScXtIFmHIGa2zU+RrUCo2/oU3TaFWa13qSpOb65SyHggkJAev9E0PssMmLs66AW/n2ODt0SKLMyiZS1eOLRFhHcfPeHjjyMyQOoTXQXJqx6X23kvQAB/jiq+fCi0pjSIpplpg+84m71Fxp7SNctHDWdcuhxKabkSVQgjP2cMJbnejCRmygcBV7EnMbR19MowvoX8INmu3k3UXa9Tr4+lkIVacUi+b3kUv4j6P2JwGEl/Zse1K2RIIaGEsYyUvdV0yyf7c2gQcuQ6Zf0Y3+bieBK9gopOZYgRR+pkXfoghL4mMJ8CEKBbtN05Au065t0hUU1iRgLY7IItewDfD7CD++7NOHUCyUU0Xe9mcGl4YtJGhirzF3MpPGUYpNI5zcn+s49pu+7pzB8HHZzR9Pl2hi9Tv5E8D+F1VGGPGyj8QIPNtKpbtu2y1M94nOdAf9y1TeWeeWW42VbgQW5bqLryCu+YbQpBfUXKua4IZhVYRWkmlbuPZ4eKOZ6VzKxZDLK4h4a4wHHKhsKJWFiGazFtYPHZe73lYjGvq/oeIip7wZu/l3HYS1ZzBGPTs5kPesIoIGm8hXYBFPQP0K/WARzu4AxCIW70ChmQKyFFsUh2hHm6eGv/Xy4oi599f5jtcbFF+V+fEFEsWvFZ/Catmv3QWINoBuq3Jy6sqSZjy0qHNz19jE2tHq8Rdjwe5ITSXos2Ks=">ListIPComeToHereTheFirst (API)</option>
+            <option value="WQFBht4m8C7kDbcei8f1o1TERC9Ro/qWgZZVwc75DruIFcfITHE8eMLTtDMcHJ8TxQ0I+SN0X6LDYIFVhJKOQdX1bC7IkziHiJ9kvJKkPYq4i00tjShhG38MU9gA5c1S7vxc/NlSu6puighZvNSjC+ukt/a16YkwDa1NTFV/AScXtIFmHIGa2zU+RrUCo2/oU3TaFWa13qSpOb65SyHggkJAev9E0PssMmLs66AW/n2ODt0SKLMyiZS1eOLRFhHcfPeHjjyMyQOoTXQXJqx6X23kvQAB/jiq+fCi0pjSIpplpg+84m71Fxp7SNctHDWdcuhxKabkSVQgjP2cMJbnejCRmygcBV7EnMbR19MowvoX8INmu3k3UXa9Tr4+lkIVacUi+b3kUv4j6P2JwGEl/Zse1K2RIIaGEsYyUvdV0yyf7c2gQcuQ6Zf0Y3+bieBK9gopOZYgRR+pkXfoghL4mMJ8CEKBbtN05Au065t0hUU1iRgLY7IItewDfD7CD++7OXNEqARSxO1UGOPJoEMslQdMTNQYUl/zwdmavJrjZXHA/JiysFceSgWovT3GU8az3wd+u9Py2WQveOOnK0irjwv1ltT9iSAnJ/zk0hnfZ5ERZF4Zeue/LPwfKdEPCp3f75Nwxv4qdHxZ9I0FGKsl2/T0B6qwECTh7ep8KS0QajyhuZ0/LnI/Wuzna+2cIM1yfszIbdOReSmGycPlenqRyA1vvVIE/iDax+b6TizQl5y2r1GNPOr9zb0X782U5J9bPy4zpQPttZRUAO65EwrmS+FbEiSNyKR0LOUQFd46dac=">ListIPComeHere (API)</option>
+            <option value="WQFBht4m8C7kDbcei8f1o1TERC9Ro/qWgZZVwc75DruIFcfITHE8eMLTtDMcHJ8TxQ0I+SN0X6LDYIFVhJKOQdX1bC7IkziHiJ9kvJKkPYq4i00tjShhG38MU9gA5c1S7vxc/NlSu6puighZvNSjC+ukt/a16YkwDa1NTFV/ASecjnWjgPDqIkNlO6/Um5IRCiyhQnLxVqPlvxHYLLBfW44ssOkJ7Og8by6aaDlllC0MI4bIQZqHnWUZCxiGwpEsD8IQSu6D4GZPw5b5dFBs9cuzUfzVCQtAaJYHkIz7u9/klk4wRDpRGgbRoUA5b0qXhbCIL14QdsnqObOswB+ny7FI9dMW4Nnhy+jzIYTRHC7zpBCo4kfjG5A9tGpnT0vJ0N3HMjh+tgD7iLWwPSvVP6dfwYjoxfzsVgqXHMpAQApnOrJxrV25VgnxYIK8m33QqaV7TXxmfHKvZKahA9PNqKAPG5HkDCWDVTaGFEw7SMLx+UQZHqwBAk5RIYM3zHBsIT3bnqH0M9Bm3pYTSrR5pOb5bz8blZbGupuMWxLVcywZwWc/AO4Re+124/5egcWgr8DAr4RUvFL22pnG+DsHLd0cXa93KEQyDtKZd3R+iZJhXnojP0veymJOOM2wwPCGgRjmd14AIM87XJdAfc9mKHyqukRx9p6CbYe5E5UdyxYwF+4VUZT1zbeHmUOUkLAF6sQyKfdvhOZBYuZ7DIewCdd68lf3IqxDOS9FyHF6aH4ndqi7f9b0FSbrHz13+icCStx37lx/50Pf0nej++BA1eYV/PkdPgod8rsWh0+Fo4sWFqJdSPXLHsdjhvxbwpEqF6Br5o8I6soVc8WQdYeOTWV3J80M3uu9wVNEeBc24ag=">ListIPComeToHereTheFirst (NORMAL)</option>
+            <option value="WQFBht4m8C7kDbcei8f1o1TERC9Ro/qWgZZVwc75DruIFcfITHE8eMLTtDMcHJ8TxQ0I+SN0X6LDYIFVhJKOQdX1bC7IkziHiJ9kvJKkPYq4i00tjShhG38MU9gA5c1S7vxc/NlSu6puighZvNSjC+ukt/a16YkwDa1NTFV/ASecjnWjgPDqIkNlO6/Um5IRCiyhQnLxVqPlvxHYLLBfW44ssOkJ7Og8by6aaDlllC0MI4bIQZqHnWUZCxiGwpEsD8IQSu6D4GZPw5b5dFBs9cuzUfzVCQtAaJYHkIz7u9/klk4wRDpRGgbRoUA5b0qXhbCIL14QdsnqObOswB+ny7FI9dMW4Nnhy+jzIYTRHC7zpBCo4kfjG5A9tGpnT0vJ0N3HMjh+tgD7iLWwPSvVP6dfwYjoxfzsVgqXHMpAQApnOrJxrV25VgnxYIK8m33QqaV7TXxmfHKvZKahA9PNqKAPG5HkDCWDVTaGFEw7SMLx+UQZHqwBAk5RIYM3zHBsIT3bnqH0M9Bm3pYTSrR5pOb5bz8blZbGupuMWxLVcyxco77C5btwGDGPGCHNwZlVoXUEihYwCXpinrtPXIAH13WzsBT8M761DxX3JLCqyM5VcjvO/gKJzt9rF6c0s9r4RlSucfE4nA3Uixv8mfMuSsslT1kdZfbsXoKAoIqcptqyE+lkysWCLv5K9+zlgpB3FeH7YX9kygO+tuN+Yga/xACr09IaBF1rv1QHcm5FJNbA95TKWmLVVbep1ycJVk5HPMxEtPMtzXahfQjwzIzuVY8+gqnpujoZrYVoJhKvTrh31gKl5y3Z3Om5KQ85WMga3DGlONJ1QrNveDg/k16rx4NqYjgyz/IjVZ5C5ViTMsw=">ListIPComeHere (NORMAL)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Split 1</label>
+        <input type="text" id="split1" value="[R-PLAY][N-PLAY]" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Split 2</label>
+        <input type="text" id="split2" value="[T-PLAY]" readonly>
+    </div>
+
+    <button onclick="callApi()">Hành động</button>
+</div>
+
+<script>
+    async function callApi() {
+        const formData = new FormData();
+        formData.append("type", document.getElementById("type").value);
+        formData.append("Host", document.getElementById("Host").value);
+		formData.append("IsExternal", document.getElementById("IsExternal").value);
+		formData.append("path", document.getElementById("path").value);
+        formData.append("split1", document.getElementById("split1").value);
+        formData.append("split2", document.getElementById("split2").value);
+
+        try {
+            const response = await fetch("/Cover/RegistForSecure", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.result === true) {
+                alert("Thành công!");
+            }
+        } catch (err) {
+			alert("Đã xảy ra lỗi!");
+            console.log("API error:", err);
+        }
+    }
+</script>
+
+</body>
+</html>
