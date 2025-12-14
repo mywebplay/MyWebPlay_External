@@ -76,7 +76,7 @@
 
     <div class="form-group">
         <label>Host</label>
-        <select id="path">
+        <select id="Host">
             <!-- option để sẵn, bạn sửa sau -->
             <option value="IX6EBR784bG+M0XaJreIY7fMnc1QDb3QQcoOjzop5fUZYIjuJmQDTy+enpXr204VDpnBMrf8FFePgWXLrp6rZA==">HOST API</option>
             <option value="fWpFG2g5SBuxG5Km0x0Pjlpe7fQfbpXuCdyl0FadNF9wBCqljZNQf1g/kTdboNRw6D3V0pew5GEutRTYJBkA+Q==">HOST NORMAL</option>
