@@ -109,11 +109,12 @@
         <input type="text" id="split2" value="[T-PLAY]" readonly>
     </div>
 
-    <button onclick="callApi()">Hành động</button>
+    <button id="action" onclick="callApi()">Hành động</button>
 </div>
 
 <script>
     async function callApi() {
+        document.getElementById("action").disabled = true;
         const formData = new FormData();
         formData.append("type", document.getElementById("type").value);
         formData.append("Host", document.getElementById("Host").value);
@@ -132,10 +133,12 @@
 
             if (data.result === true) {
                 alert("Thành công!");
+				document.getElementById("action").disabled = false;
             }
         } catch (err) {
 			alert("Đã xảy ra lỗi!");
             console.log("API error:", err);
+            document.getElementById("action").disabled = false;
         }
     }
 
