@@ -78,8 +78,8 @@
         <label>Path</label>
         <select id="path">
             <!-- option để sẵn, bạn sửa sau -->
-            <option value="EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/wlnYdO/zeWsz1SF58PhjLmH4V0RChu4y3RuHSxoE1utQacthSXfDqLN8ZXGlyg9DqkFMzKa9zb5wPGA7LhI/pFgaKy2KVUEN75KFx9NOO1cR615VKUZPaP3WBAOi2NyPiGT3Pc0EI0GIPPiCtulTp5UoKYsFVN13u/JfNrot+2MAKDGXRC7evNVni+q/9NLxAjL1AjjoQdJ2jaYcodza7vpkHlQn21LP8DCk7zfK8CBTKPcDI923tOzIEFx8R4NroNYkR+5IGO7BBW4IyhABC">ListIPComeToHereTheFirst</option>
-  			<option value="EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/wlnYdO/zeWsz1SF58PhjLmH4V0RChu4y3RuHSxoE1utQacthSXfDqLN8ZXGlyg9DqkFMzKa9zb5wPGA7LhI/pFgaKy2KVUEN75KFx9NOO1cR615VKUZPaP3WBAOi2NyPiGT3Pc0EI0GIPPiCtulTpcmF4IFfsTMi2/4qB06JQETAZavXOBe+gd2uTKRHichjwpxfqVhmHM5fheSYws7nsIxzCfMrkIbD2NplbRryQ1AtEdU6qrD0p1sszQYqmxas=">ListIPComeHere</option>
+            <option value="e2vGA8MtU7nzn9YxWFyXztliJpoIMmp7JFLrcGKhONfxgoAv0Z+KzrDtkFXGikzjQjXzNKbeG5sGDAFdkrksP7n6+trCAH3QpxMyjv4/cSTZfujqaMCWoH8RHOhIJ4VdmVikaTxAGyjKDtnJJ1PUTecRSSWhHriEueFlfVCXQ1xN4MDWaFtKTgPWlj8PYceGTGdctgwrjgsC5yo30MUlCSgaVFeHUnIK7OdHL1RHoB9vJUKRSTq0oRlT5tM2uO8VPm+7EzTzObQHawPinaf+GLQCaML+A6ptW/w/MysxUpQv22hk7d6qoSndUG/uenFL">ListIPComeToHereTheFirst</option>
+  			<option value="e2vGA8MtU7nzn9YxWFyXztliJpoIMmp7JFLrcGKhONfxgoAv0Z+KzrDtkFXGikzjQjXzNKbeG5sGDAFdkrksP7n6+trCAH3QpxMyjv4/cSTZfujqaMCWoH8RHOhIJ4VdmVikaTxAGyjKDtnJJ1PUTecRSSWhHriEueFlfVCXQ1xN4MDWaFtKTgPWlj8PYceGtgPH4YTETJBQyskCxAi939keLe3UnBQaqGFrGY5Z0Q0zGgrOfK3j77SBmDjHqHZvJThlbOuZ+0Tn2R2w069A2pzn7ltuxWhjBikRjcFtadc=">ListIPComeHere</option>
         </select>
     </div>
 
