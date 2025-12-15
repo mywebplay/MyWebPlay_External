@@ -84,6 +84,14 @@
     </div>
 
     <div class="form-group">
+        <label>Column Count</label>
+        <select id="colCount">
+            <option value="4">ListIPComeToHereTheFirst (4)</option>
+  			<option value="3">ListIPComeHere (3)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label>Split 1</label>
         <input type="text" id="split1" value="[R-PLAY][N-PLAY]" readonly>
     </div>
@@ -104,6 +112,7 @@
 		formData.append("path", document.getElementById("path").value);
         formData.append("split1", document.getElementById("split1").value);
         formData.append("split2", document.getElementById("split2").value);
+		formData.append("colCount", document.getElementById("colCount").value);
 
         try {
             const response = await fetch("/Cover/RegistForSecure", {
