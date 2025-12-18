@@ -86,11 +86,12 @@
         </select>
     </div>
 
-    <button id="action" onclick="callApi()">Hành động</button>
+    <button id="action" onclick="callApi(event)">Hành động</button>
 </div>
 
 <script>
-    async function callApi() {
+    async function callApi(e) {
+		e.preventDefault();
         document.getElementById("action").disabled = true;
         const formData = new FormData();
         formData.append("type", "READ_PART");
