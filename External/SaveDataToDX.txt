@@ -96,7 +96,7 @@
         const formData = new FormData();
         formData.append("type", "READ_PART");
 		formData.append("path", document.getElementById("path").value);
-        formData.append("split1", "[R-PLAY][N-PLAY]");
+        formData.append("split1", "[N-PLAY]");
         formData.append("split2", "[T-PLAY]");
 		formData.append("colCount", document.getElementById("colCount").value);
 		formData.append("boquafirst", "true");
