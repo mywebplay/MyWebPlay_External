@@ -92,6 +92,7 @@
             <label for="Action">Action</label>
             <select id="Action" name="Action">
                 <option>WRITE</option>
+                <option>CONTINUE_WRITE</option>
                 <option>REMOVE-FILE</option>
                 <option>REMOVE-FOLER</option>
                 <option>READ</option>
