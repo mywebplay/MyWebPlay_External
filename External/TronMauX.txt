@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Trộn màu | MyWebPlay</title>
+    <meta name="description" content="Công thức trộn hai màu - Thử trộn hai màu lại với nhau để xem nó sẽ ra màu gì mới?" />
+    <meta name="keywords" content="trộn màu, mywebplay, normalwebbasic" />
+    <meta name="author" content="Bùi Văn Luật" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(to right, #2c3e50, #4b79a1);
+            color: #f5f5f5;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffeb3b;
+            margin: 25px 0 15px;
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== HAMBURGER MENU (TỪ FILE MAU – GIỮ NGUYÊN) ===== */
+        #custom11 {
+            width: 40px;
+            height: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 7px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        #custom11 span {
+            height: 4px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        #menuX1 {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            top: 60px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            min-width: 200px;
+            z-index: 150;
+        }
+
+        #menuX1.showX1 {
+            display: flex;
+        }
+
+        .menu-itemX1 {
+            padding: 12px;
+            cursor: pointer;
+            color: white;
+            user-select: none;
+        }
+
+        .menu-itemX1:hover {
+            background: #007bff;
+        }
+
+        /* ===== CSS CHỈ LÀM ĐẸP CHO TRỘN MÀU ===== */
+        input,
+        select,
+        button {
+            padding: 6px;
+            border-radius: 6px;
+            border: none;
+            margin: 4px;
+            font-size: 0.95rem;
+        }
+
+        input[list] {
+            width: 220px;
+        }
+
+        button {
+            background: #1abc9c;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        .box100 {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #fff;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        .half {
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+
+        .box50 {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #fff;
+            margin: 6px auto;
+        }
+    </style>
+</head>
+
+<body onload="hienthimau()">
+
+    <!-- HAMBURGER -->
+    <div id="custom11">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div id="menuX1">
+        <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
+        <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
+        <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
+        <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+    </div>
+
+    <!-- TITLE -->
+    <h1>Trộn hai màu với nhau</h1>
+
+    <!-- ===== BODY THEO MAU – NỘI DUNG TRỘN MÀU ===== -->
+
+    <div style="text-align:center">
+        Chọn màu thứ nhất :
+        <input id="color1" type="color">
+        <button onclick="xemmamau()">Xem mã màu này</button>
+    </div>
+
+    <div style="text-align:center">
+        Chọn màu thứ hai :
+        <input id="color2" type="color">
+        <button onclick="tronmau()">Trộn hai màu này</button>
+    </div>
+
+    <div id="ketqua1" class="box100">
+        <div id="ketqua2" class="half"></div>
+    </div>
+
+    <hr>
+
+    <!-- SELECT 1 -->
+    <div style="text-align:center">
+        <input list="dl1" placeholder="Gõ để lọc màu…" oninput="syncToSelect(this,0)">
+        <datalist id="dl1"></datalist>
+
+        <select name="select" onchange="xemmau()" style="display:none;"></select>
+        <div name="xem" class="box50"></div>
+    </div>
+
+    <!-- SELECT 2 -->
+    <div style="text-align:center">
+        <input list="dl2" placeholder="Gõ để lọc màu…" oninput="syncToSelect(this,1)">
+        <datalist id="dl2"></datalist>
+
+        <select name="select" onchange="xemmau()" style="display:none;"></select>
+        <div name="xem" class="box50"></div>
+    </div>
+
+    <button onclick="mixmau()" style="display:block;margin:10px auto">
+        Trộn hai màu
+    </button>
+
+    <div id="kq1" class="box100">
+        <div id="kq2" class="half"></div>
+    </div>
+
+    <!-- ===== JS TRỘN MÀU (NGUYÊN BẢN FILE TronMau – KHÔNG SỬA LOGIC) ===== -->
+    <script>
+        function xemmamau() {
+            var color = document.getElementById("color1");
+            alert("Mã màu bạn đã chọn : " + color.value);
+        }
+
+        function tronmau() {
+            var color1 = document.getElementById("color1");
+            var color2 = document.getElementById("color2");
+            var div1 = document.getElementById("ketqua1");
+            var div2 = document.getElementById("ketqua2");
+
+            div1.style.backgroundColor = color1.value;
+            div2.style.backgroundColor = color2.value;
+        }
+
+        function mixmau() {
+            var select = document.getElementsByName("select");
+            var div1 = document.getElementById("kq1");
+            var div2 = document.getElementById("kq2");
+
+            div1.style.backgroundColor = select[0].value;
+            div2.style.backgroundColor = select[1].value;
+        }
+
+        function hienthimau() {
+            var s =
+                "aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray slategrey darkturquoise darkviolet firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen";
+
+            var x = s.split(" ");
+            var select = document.getElementsByName("select");
+            var dl1 = document.getElementById("dl1");
+            var dl2 = document.getElementById("dl2");
+
+            for (var i = 0; i < x.length; i++) {
+                select[0].add(new Option(x[i], x[i]));
+                select[1].add(new Option(x[i], x[i]));
+                dl1.appendChild(new Option(x[i], x[i]));
+                dl2.appendChild(new Option(x[i], x[i]));
+            }
+        }
+
+        function xemmau() {
+            var xem = document.getElementsByName("xem");
+            var select = document.getElementsByName("select");
+
+            xem[0].style.backgroundColor = select[0].value;
+            xem[1].style.backgroundColor = select[1].value;
+        }
+    </script>
+
+    <!-- ===== JS PHỤ: SYNC INPUT → SELECT (ƯU TIÊN MATCH ĐẦU) ===== -->
+    <script>
+        function syncToSelect(input, index) {
+            var val = input.value.toLowerCase();
+            var select = document.getElementsByName("select")[index];
+            var opts = Array.from(select.options).map(o => o.value);
+
+            var found = opts.find(v => v.toLowerCase().startsWith(val));
+            if (!found) {
+                found = opts.find(v => v.toLowerCase().includes(val));
+            }
+
+            if (found) {
+                select.value = found;
+                xemmau();
+            }
+        }
+    </script>
+
+    <!-- ===== JS XOÁ SOMEe + MENU (NGUYÊN BẢN FILE MAU) ===== -->
+    <script>
+        setInterval(function () {
+            document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el => el.remove());
+            document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el => el.remove());
+            document.querySelectorAll("center").forEach(el => el.remove());
+            document.querySelectorAll("div[style='height: 65px;']").forEach(el => el.remove());
+        }, 10);
+
+        const menuBtn = document.getElementById("custom11");
+        const menu = document.getElementById("menuX1");
+
+        menuBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            menu.classList.toggle("showX1");
+        });
+
+        document.addEventListener("click", e => {
+            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                menu.classList.remove("showX1");
+            }
+        });
+
+        document.querySelectorAll(".menu-itemX1").forEach(item => {
+            item.addEventListener("click", () => {
+                const action = item.dataset.action;
+                switch (action) {
+                    case "TronMau":
+                        window.location.href = "/Home/TronMau";
+                        break;
+                    case "TracNghiem":
+                        window.location.href = "/trac-nghiem-index";
+                        break;
+                    case "Question":
+                        window.location.href = "/Home/PlayQuestion_Multiple";
+                        break;
+                    case "Karaoke":
+                        window.location.href = "/karaoke";
+                        break;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
