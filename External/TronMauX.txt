@@ -170,7 +170,7 @@
     <div style="text-align:center">
         Chọn màu thứ nhất :
         <input id="color1" type="color">
-        <button onclick="xemmamau()">Xem mã màu này</button>
+        <button onclick="xemmamau()"  style="display:none;">Xem mã màu này</button>
     </div>
 
     <div style="text-align:center">
