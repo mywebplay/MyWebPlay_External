@@ -170,12 +170,14 @@
     <div style="text-align:center">
         Chọn màu thứ nhất :
         <input id="color1" type="color">
-        <button onclick="xemmamau()"  style="display:none;">Xem mã màu này</button>
     </div>
 
     <div style="text-align:center">
         Chọn màu thứ hai :
         <input id="color2" type="color">
+    </div>
+
+    <div style="text-align:center">
         <button onclick="tronmau()">Trộn hai màu này</button>
     </div>
 
