@@ -402,7 +402,7 @@
                     const action = item.dataset.action;
                     switch (action) {
                         case "TronMau":
-                            window.location.href = "/Home/TronMau";
+                            showmodal2('/Home/TronMau', '/tron-mau');
                             break;
                         case "TracNghiem":
                             showmodal2('/Home/TracNghiemX_Multiple', '/trac-nghiem-index');
