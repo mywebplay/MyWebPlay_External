@@ -173,7 +173,7 @@
                                 const action = item.dataset.action;
                                 switch (action) {
                                     case "TronMau":
-                                        window.location.href = "/Home/TronMau";
+                                        window.location.href = "/tron-mau";
                                         break;
                                     case "TracNghiem":
                                         window.location.href = "/trac-nghiem-index";
