@@ -189,7 +189,7 @@
 
     <!-- SELECT 1 -->
     <div style="text-align:center">
-        <input list="dl1" placeholder="Gõ để lọc màu…" oninput="syncToSelect(this,0)">
+        <input list="dl1" placeholder="Gõ để lọc màu…" onchange="syncToSelect(this,0)">
         <datalist id="dl1"></datalist>
 
         <select name="select" onchange="xemmau()" style="display:none;"></select>
@@ -198,7 +198,7 @@
 
     <!-- SELECT 2 -->
     <div style="text-align:center">
-        <input list="dl2" placeholder="Gõ để lọc màu…" oninput="syncToSelect(this,1)">
+        <input list="dl2" placeholder="Gõ để lọc màu…" onchange="syncToSelect(this,1)">
         <datalist id="dl2"></datalist>
 
         <select name="select" onchange="xemmau()" style="display:none;"></select>
