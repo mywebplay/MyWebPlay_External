@@ -16,6 +16,7 @@ var loadxong6 = 0;
 setInterval(function()
 {
 document.getElementById("menu").style.display = "none";
+document.getElementById("sae").style.color = "red";
 if (loadxong6 == 1 || document.getElementById("music").paused || document.getElementById("error").style.display != "none") return;
 
 // Lấy phần tử modal và overlay
