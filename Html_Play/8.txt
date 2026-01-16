@@ -9,7 +9,7 @@
 </div>
 <script>
 var menu = document.getElementById("menu").innerHTML;
-document.getElementById("menu").remove();
+document.getElementById("menu").innerHTML = "";
 var closeBtn8 = null;
 var modalOverlay8 = null;
 var modal8 = null;
