@@ -13,7 +13,7 @@
     transform: translateX(-50%);
     width: 50px;
     height: 25px;
-    background: linear-gradient(135deg, #2E3A8C, #4B6CB7);
+    background: linear-gradient(to right, #3B3F9F, #5F6EEA);
     color: white;
     display: flex;
     align-items: center;
@@ -41,7 +41,7 @@
     top: -100%;
     left: 0;
     width: 100%;
-    background: linear-gradient(135deg, #2E3A8C, #4B6CB7);
+    background: linear-gradient(to right, #3B3F9F, #5F6EEA);
     color: white;
     padding: 15px 20px 10px;
     transition: top 0.4s ease;
