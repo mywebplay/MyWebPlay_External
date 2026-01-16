@@ -57,7 +57,10 @@ modalOverlay8.style.display = "none";
 };
 
 document.getElementById("menuX").innerHTML = menu + "<br /><span style=\"background-color:yellow;color:red;\">Nếu nhạc chưa tải xong và tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁</span>";
+if (document.getElementById("xanhla") != null)
+{
 document.getElementById("xanhla").remove();
+}
 modalOverlay8.style.display = "flex"; // Đảm bảo modal sẽ hiển thị ngay
 modal8.style.display = "block";
 doimau_Save();
