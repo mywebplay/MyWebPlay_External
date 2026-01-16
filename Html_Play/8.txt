@@ -9,13 +9,13 @@
 </div>
 <script>
 var menu = document.getElementById("menu").innerHTML;
-document.getElementById("menu").style.display = "none";
 var closeBtn8 = null;
 var modalOverlay8 = null;
 var modal8 = null;
 var loadxong6 = 0;
 setInterval(function()
 {
+document.getElementById("menu").style.display = "none";
 if (loadxong6 == 1 || document.getElementById("music").paused || document.getElementById("error").style.display != "none") return;
 
 // Lấy phần tử modal và overlay
