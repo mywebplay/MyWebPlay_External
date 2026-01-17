@@ -157,64 +157,48 @@ body {
 </script>
 <script>
 (() => {
-    const BLACK_THRESHOLD = 50; // càng thấp càng "đen"
     const NEW_COLOR = "#ffffff";
+    const BLACK_THRESHOLD = 40; // càng nhỏ càng sát đen
 
-    function isNearBlack(rgb) {
-        const m = rgb.match(/\d+/g);
+    function isBlack(color) {
+        if (!color) return false;
+
+        /* nếu là chữ (black) */
+        if (color === "black") return true;
+
+        /* rgb / rgba */
+        const m = color.match(/\d+/g);
         if (!m || m.length < 3) return false;
+
         const [r, g, b] = m.map(Number);
-        return r < BLACK_THRESHOLD && g < BLACK_THRESHOLD && b < BLACK_THRESHOLD;
+        return r <= BLACK_THRESHOLD && g <= BLACK_THRESHOLD && b <= BLACK_THRESHOLD;
     }
 
-    function hasExplicitColor(el) {
-        // 1️⃣ inline style
-        if (el.style && el.style.color) return true;
-
-        // 2️⃣ CSS rule gán trực tiếp cho element
-        const sheets = document.styleSheets;
-        for (let sheet of sheets) {
-            let rules;
-            try {
-                rules = sheet.cssRules;
-            } catch {
-                continue; // cross-origin stylesheet
-            }
-            for (let rule of rules) {
-                if (!rule.selectorText || !rule.style?.color) continue;
-                try {
-                    if (el.matches(rule.selectorText)) {
-                        return true;
-                    }
-                } catch {}
-            }
-        }
-        return false;
-    }
-
-    function processElement(el) {
-        if (!el || el.children.length) return;
+    function handle(el) {
+        // chỉ xử lý element chứa text trực tiếp
+        if (!el.firstChild || el.children.length > 0) return;
 
         const cs = getComputedStyle(el);
-        if (!isNearBlack(cs.color)) return;
+        const color = cs.color;
 
-        if (hasExplicitColor(el)) return;
-
-        el.style.color = NEW_COLOR;
+        // rule của bạn
+        if (isBlack(color)) {
+            el.style.color = NEW_COLOR;
+        }
     }
 
     function scan() {
-        document.querySelectorAll("body *").forEach(processElement);
+        document.querySelectorAll("body *").forEach(handle);
     }
 
     scan();
 
-    /* theo dõi text load sau */
-    const observer = new MutationObserver(scan);
-    observer.observe(document.body, {
+    // xử lý nội dung load sau (AJAX, JS)
+    new MutationObserver(scan).observe(document.body, {
         childList: true,
         subtree: true
     });
 })();
 </script>
+
 
