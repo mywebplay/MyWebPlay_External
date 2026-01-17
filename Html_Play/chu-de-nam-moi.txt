@@ -1,18 +1,31 @@
 <style>
 :root {
-    --tet-gold: #ffd700;
-    --tet-red: #b30000;
-    --bg-light: radial-gradient(circle at top, #ffdf6b, #b30000 70%);
-    --bg-dark: radial-gradient(circle at top, #9a6a00, #3a0000 75%);
+    /* màu Tết đã làm dịu */
+    --tet-gold: #f5d76e;
+    --tet-red: #7a1212;
+
+    /* nền an toàn cho chữ đen + trắng */
+    --bg-light:
+        linear-gradient(rgba(255,255,255,.18), rgba(0,0,0,.18)),
+        radial-gradient(circle at top, #f2d98c, #7a1212 72%);
+
+    --bg-dark:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+        radial-gradient(circle at top, #b08900, #2a0000 78%);
 }
 
 /* ===== BODY ===== */
 body {
     background: var(--bg-light);
+    background-attachment: fixed;
     overflow-x: hidden;
 }
+
+/* dark mode */
 @media (prefers-color-scheme: dark) {
-    body { background: var(--bg-dark); }
+    body {
+        background: var(--bg-dark);
+    }
 }
 
 /* ===== HAPPY NEW YEAR ===== */
@@ -22,62 +35,74 @@ body {
     margin: auto;
     width: max-content;
     height: max-content;
+
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 900;
+    letter-spacing: 2px;
+
     color: var(--tet-gold);
     opacity: 0;
     z-index: 9999;
     pointer-events: none;
     white-space: nowrap;
+
+    /* giảm cháy sáng */
     text-shadow:
-        0 0 25px rgba(255,215,0,.9),
-        0 0 60px rgba(255,215,0,.8),
-        0 0 120px rgba(255,215,0,.6);
+        0 0 12px rgba(245,215,110,.8),
+        0 0 30px rgba(245,215,110,.6),
+        0 0 60px rgba(245,215,110,.4);
 }
 
 .tet-center-text.on {
-    animation: textPulse 3s linear forwards;
+    animation: textPulse 3s ease-in-out forwards;
 }
 
 @keyframes textPulse {
-    0%   { opacity: 0; transform: scale(.6); }
-    10%  { opacity: 1; transform: scale(1.4); }
-    70%  { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(.85); }
+    0%   { opacity: 0; transform: scale(.7); }
+    15%  { opacity: 1; transform: scale(1.3); }
+    75%  { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(.9); }
 }
 
-/* ===== HOA MAI ===== */
+/* ===== HOA MAI / ĐÀO ===== */
 .petal {
     position: fixed;
     top: -20px;
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     background: var(--tet-gold);
     border-radius: 50%;
-    opacity: .8;
+    opacity: .65;
     z-index: 1;
     pointer-events: none;
     animation: fall linear infinite;
 }
+
 @keyframes fall {
-    to { transform: translateY(110vh) rotate(720deg); }
+    to {
+        transform: translateY(110vh) rotate(540deg);
+    }
 }
 
 /* ===== ĐOM ĐÓM ===== */
 .spark {
     position: fixed;
-    width: 4px;
-    height: 4px;
-    background: #fff6a0;
+    width: 3px;
+    height: 3px;
+    background: #fff4b0;
     border-radius: 50%;
-    opacity: .8;
+    opacity: .6;
     z-index: 1;
     pointer-events: none;
-    box-shadow: 0 0 12px #fff6a0;
+
+    box-shadow: 0 0 10px rgba(255,244,176,.8);
     animation: float linear infinite;
 }
+
 @keyframes float {
-    to { transform: translateY(-120vh); }
+    to {
+        transform: translateY(-120vh);
+    }
 }
 
 /* ===== PHÁO HOA ===== */
@@ -89,10 +114,17 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 2;
+
+    /* dịu hơn để không lấn chữ */
+    opacity: .8;
     animation: explode 1.2s ease-out forwards;
 }
+
 @keyframes explode {
-    to { transform: translate(var(--x), var(--y)); opacity: 0; }
+    to {
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+    }
 }
 </style>
 
@@ -155,50 +187,3 @@ body {
     setInterval(fireworkBurst, 900);
 })();
 </script>
-<script>
-(() => {
-    const NEW_COLOR = "#ffffff";
-    const BLACK_THRESHOLD = 40; // càng nhỏ càng sát đen
-
-    function isBlack(color) {
-        if (!color) return false;
-
-        /* nếu là chữ (black) */
-        if (color === "black") return true;
-
-        /* rgb / rgba */
-        const m = color.match(/\d+/g);
-        if (!m || m.length < 3) return false;
-
-        const [r, g, b] = m.map(Number);
-        return r <= BLACK_THRESHOLD && g <= BLACK_THRESHOLD && b <= BLACK_THRESHOLD;
-    }
-
-    function handle(el) {
-        // chỉ xử lý element chứa text trực tiếp
-        if (!el.firstChild || el.children.length > 0) return;
-
-        const cs = getComputedStyle(el);
-        const color = cs.color;
-
-        // rule của bạn
-        if (isBlack(color)) {
-            el.style.color = NEW_COLOR;
-        }
-    }
-
-    function scan() {
-        document.querySelectorAll("body *").forEach(handle);
-    }
-
-    scan();
-
-    // xử lý nội dung load sau (AJAX, JS)
-    new MutationObserver(scan).observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-})();
-</script>
-
-
