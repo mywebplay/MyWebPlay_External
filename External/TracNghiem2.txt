@@ -351,10 +351,10 @@
         </script>
  <script>
 
-     var loadix = false;
+     var loadixX = false;
     setInterval(function()
     {
-        if (loadix == true) return;
+        if (loadixX == true) return;
 
          var formData = new FormData();
               formData.append("website", "ExternalX");  formData.append("method", 'GET');
@@ -402,11 +402,11 @@
                     });
 
 
-                    loadix = true; if (document.body) { document.body.style.visibility= "visible";  document.getElementById("laloly").style.display = "none"; }
+                    loadixX = true; if (document.body) { document.body.style.visibility= "visible";  document.getElementById("laloly").style.display = "none"; }
                 }
                  else
                 {
-                     document.getElementById("html_play").style.display = "none"; loadix = true; if (document.body) { document.body.style.visibility= "visible";  document.getElementById("laloly").style.display = "none"; }
+                     document.getElementById("html_play").style.display = "none"; loadixX = true; if (document.body) { document.body.style.visibility= "visible";  document.getElementById("laloly").style.display = "none"; }
                 }
             }
          });
