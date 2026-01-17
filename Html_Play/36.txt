@@ -3,3 +3,32 @@ document.getElementById("custom5").style.display = "none";
 document.getElementById("current").style.display = "none";
 document.getElementById("logo").style.display = "none";
 </script>
+<style>
+#ID-Y {
+    width: 300px;
+    border: none;
+    border-bottom: 2px dotted #000;
+    outline: none;
+    font-size: 16px;
+    padding: 4px 2px;
+    background: transparent;
+}
+
+#ID-Y::placeholder {
+    color: #999;
+}
+
+#MSSV-Y {
+    width: 300px;
+    border: none;
+    border-bottom: 2px dotted #000;
+    outline: none;
+    font-size: 16px;
+    padding: 4px 2px;
+    background: transparent;
+}
+
+#MSSV-Y::placeholder {
+    color: #999;
+}
+</style>
