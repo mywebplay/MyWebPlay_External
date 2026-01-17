@@ -50,7 +50,7 @@
     position: absolute;
     width: 10%;
     aspect-ratio: 1;
-    background: url('https://toppng.com/uploads/preview/evil-laugh-emoji-11549849423qujuvcs6m8.png') center/cover no-repeat;
+    background: url('https://cdn.imgbin.com/20/17/12/scary-face-evil-face-with-sharp-teeth-df2nJqNs.jpg') center/cover no-repeat;
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
