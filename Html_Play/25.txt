@@ -15,20 +15,26 @@
         path = window.location.pathname;
     }
 
+alert('111');
     // chỉ chạy khi path = /trac-nghiem-index
     if (path !== '/trac-nghiem-index') return;
+
+alert('222');
 
     if (document.getElementById("custom1633")) {
         document.getElementById("custom1633").style.display = "none";
     }
 
     (function () {
+alert('333');
         const el = document.getElementById("custom737");
         if (!el) return;
 
         // Lưu HTML gốc vào localStorage (nếu chưa lưu trước đó)
         const originalHTML = el.innerHTML;
         localStorage.setItem("tracnghiem_layout", originalHTML);
+
+alert('444');
 
         if (localStorage.getItem("tracnghiem_info") == null) {
             var data = {
