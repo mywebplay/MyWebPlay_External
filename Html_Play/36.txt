@@ -5,31 +5,44 @@ document.getElementById("logo").style.display = "none";
 document.getElementById("nenta").style.backgroundColor = "rgb(9, 23, 37)";
 </script>
 <style>
-#ID-Y {
-    width: 300px;
-    border: none;
-    border-bottom: 2px dotted #000;
-    outline: none;
-    font-size: 16px;
-    padding: 4px 2px;
-    background: transparent;
-}
-
-#ID-Y::placeholder {
-    color: #999;
-}
-
+#ID-Y,
 #MSSV-Y {
-    width: 300px;
+    width: 100%;
+    box-sizing: border-box;
+
     border: none;
-    border-bottom: 2px dotted #000;
     outline: none;
-    font-size: 16px;
-    padding: 4px 2px;
     background: transparent;
+
+    /* tự theo màu chữ body (trắng/đen) */
+    color: currentColor;
+
+    font-size: 16px;
+    padding: 6px 4px;
+
+    /* dòng chấm điền giấy thủ tục */
+    background-image: repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent 8px,
+        currentColor 8px,
+        currentColor 10px
+    );
+    background-position: bottom;
+    background-size: 10px 2px;
+    background-repeat: repeat-x;
 }
 
+/* placeholder cũng đổi màu theo theme */
+#ID-Y::placeholder,
 #MSSV-Y::placeholder {
-    color: #999;
+    color: currentColor;
+    opacity: 0.4;
+}
+
+/* khi focus – nhìn rõ đang điền */
+#ID-Y:focus,
+#MSSV-Y:focus {
+    background-size: 10px 3px;
 }
 </style>
