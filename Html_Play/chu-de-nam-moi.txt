@@ -155,3 +155,66 @@ body {
     setInterval(fireworkBurst, 900);
 })();
 </script>
+<script>
+(() => {
+    const BLACK_THRESHOLD = 50; // càng thấp càng "đen"
+    const NEW_COLOR = "#ffffff";
+
+    function isNearBlack(rgb) {
+        const m = rgb.match(/\d+/g);
+        if (!m || m.length < 3) return false;
+        const [r, g, b] = m.map(Number);
+        return r < BLACK_THRESHOLD && g < BLACK_THRESHOLD && b < BLACK_THRESHOLD;
+    }
+
+    function hasExplicitColor(el) {
+        // 1️⃣ inline style
+        if (el.style && el.style.color) return true;
+
+        // 2️⃣ CSS rule gán trực tiếp cho element
+        const sheets = document.styleSheets;
+        for (let sheet of sheets) {
+            let rules;
+            try {
+                rules = sheet.cssRules;
+            } catch {
+                continue; // cross-origin stylesheet
+            }
+            for (let rule of rules) {
+                if (!rule.selectorText || !rule.style?.color) continue;
+                try {
+                    if (el.matches(rule.selectorText)) {
+                        return true;
+                    }
+                } catch {}
+            }
+        }
+        return false;
+    }
+
+    function processElement(el) {
+        if (!el || el.children.length) return;
+
+        const cs = getComputedStyle(el);
+        if (!isNearBlack(cs.color)) return;
+
+        if (hasExplicitColor(el)) return;
+
+        el.style.color = NEW_COLOR;
+    }
+
+    function scan() {
+        document.querySelectorAll("body *").forEach(processElement);
+    }
+
+    scan();
+
+    /* theo dõi text load sau */
+    const observer = new MutationObserver(scan);
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
+</script>
+
