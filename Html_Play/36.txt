@@ -1,0 +1,4 @@
+<script>
+document.getElementById("nenta").style.display = "none";
+document.getElementById("current").style.display = "none";
+</script>
