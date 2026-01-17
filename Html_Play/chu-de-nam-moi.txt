@@ -1,0 +1,106 @@
+<!-- ===== TET NEW YEAR BLOCK ===== -->
+<style>
+:root {
+    --tet-red: #b30000;
+    --tet-gold: #ffd700;
+    --bg-light: linear-gradient(135deg, #b30000, #ffb703);
+    --bg-dark: linear-gradient(135deg, #5a0000, #8a5a00);
+}
+
+.tet-wrapper {
+    position: relative;
+    padding: 60px 20px;
+    border-radius: 18px;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    background: var(--bg-light);
+}
+
+@media (prefers-color-scheme: dark) {
+    .tet-wrapper {
+        background: var(--bg-dark);
+    }
+}
+
+.tet-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--tet-gold);
+    text-shadow: 0 0 12px rgba(0,0,0,.5);
+    margin-bottom: 10px;
+}
+
+.tet-wish {
+    font-size: 1.15rem;
+    opacity: .95;
+    margin-bottom: 15px;
+}
+
+.tet-year {
+    font-size: 2.3rem;
+    font-weight: bold;
+    color: var(--tet-gold);
+}
+
+/* Phúc – Lộc */
+.tet-symbol {
+    position: absolute;
+    top: 20px;
+    font-size: 3.2rem;
+    opacity: .18;
+    user-select: none;
+}
+.tet-symbol.left { left: 20px; }
+.tet-symbol.right { right: 20px; }
+
+/* hoa mai */
+.tet-petal {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    background: var(--tet-gold);
+    border-radius: 50%;
+    opacity: .8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+</style>
+
+<div class="tet-wrapper">
+    <div class="tet-symbol left">福</div>
+    <div class="tet-symbol right">禄</div>
+
+    <h1 class="tet-title">🎉 Chúc Mừng Năm Mới 🎉</h1>
+    <div class="tet-wish">
+        An Khang – Thịnh Vượng – Vạn Sự Như Ý
+    </div>
+    <div class="tet-year" id="tetYear"></div>
+</div>
+
+<script>
+(() => {
+    /* năm hiện tại */
+    document.getElementById("tetYear").textContent =
+        "Xuân " + new Date().getFullYear();
+
+    /* tạo hoa mai rơi */
+    const wrapper = document.querySelector(".tet-wrapper");
+
+    for (let i = 0; i < 12; i++) {
+        const petal = document.createElement("span");
+        petal.className = "tet-petal";
+        petal.style.left = Math.random() * 100 + "%";
+        petal.style.animationDuration = 5 + Math.random() * 6 + "s";
+        petal.style.opacity = 0.5 + Math.random() * 0.5;
+        wrapper.appendChild(petal);
+    }
+})();
+</script>
+<!-- ===== END TET BLOCK ===== -->
