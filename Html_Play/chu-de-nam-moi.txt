@@ -2,35 +2,63 @@
 :root {
     --tet-red: #b30000;
     --tet-gold: #ffd700;
-    --tet-bg-light: radial-gradient(circle at top, #ffcc00, #b30000 70%);
-    --tet-bg-dark: radial-gradient(circle at top, #9a6a00, #5a0000 75%);
+    --bg-light: radial-gradient(circle at top, #ffdd55, #b30000 70%);
+    --bg-dark: radial-gradient(circle at top, #9a6a00, #4a0000 75%);
 }
 
-/* ===== ÁP THẲNG BODY ===== */
+/* ===== BODY NỀN TẾT ===== */
 body {
-    position: relative;
-    background: var(--tet-bg-light);
+    background: var(--bg-light);
     overflow-x: hidden;
 }
-
 @media (prefers-color-scheme: dark) {
     body {
-        background: var(--tet-bg-dark);
+        background: var(--bg-dark);
     }
 }
 
-/* ===== CHỮ PHÚC LỘC TRANG TRÍ ===== */
-.tet-symbol {
+/* ===== CHỮ HAPPY NEW YEAR ===== */
+.tet-center-text {
     position: fixed;
-    top: 20px;
-    font-size: 4rem;
-    opacity: .15;
-    z-index: 0;
-    user-select: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 800;
+    color: var(--tet-gold);
+    text-shadow:
+        0 0 15px rgba(255,215,0,.8),
+        0 0 35px rgba(255,215,0,.6),
+        0 0 60px rgba(255,215,0,.4);
+    opacity: 0;
+    z-index: 9999;
     pointer-events: none;
+    white-space: nowrap;
 }
-.tet-symbol.left { left: 20px; }
-.tet-symbol.right { right: 20px; }
+
+/* animation xuất hiện */
+.tet-center-text.show {
+    animation: tetFlash 1.6s ease-out forwards;
+}
+
+@keyframes tetFlash {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
 
 /* ===== HOA MAI / ĐÀO ===== */
 .tet-petal {
@@ -43,9 +71,7 @@ body {
     opacity: .8;
     z-index: 0;
     pointer-events: none;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation: fall linear infinite;
 }
 
 @keyframes fall {
@@ -67,52 +93,55 @@ body {
 }
 
 @keyframes explode {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
+    to {
         transform: scale(8);
         opacity: 0;
     }
 }
 </style>
 
-<!-- ký tự trang trí -->
-<div class="tet-symbol left">福</div>
-<div class="tet-symbol right">禄</div>
+<div class="tet-center-text" id="tetText"></div>
 
 <script>
 (() => {
-    /* ===== HOA RƠI ===== */
-    const PETAL_COUNT = 30;
+    /* ===== TEXT NĂM MỚI ===== */
+    const year = new Date().getFullYear();
+    const textEl = document.getElementById("tetText");
+    textEl.textContent = `HAPPY NEW YEAR ${year}`;
 
-    for (let i = 0; i < PETAL_COUNT; i++) {
+    function showText() {
+        textEl.classList.remove("show");
+        void textEl.offsetWidth; // reset animation
+        textEl.classList.add("show");
+    }
+
+    /* lâu lâu mới hiện */
+    setInterval(() => {
+        if (Math.random() > 0.65) showText();
+    }, 4000);
+
+    /* ===== HOA RƠI ===== */
+    for (let i = 0; i < 30; i++) {
         const petal = document.createElement("span");
         petal.className = "tet-petal";
         petal.style.left = Math.random() * 100 + "vw";
         petal.style.animationDuration = 6 + Math.random() * 8 + "s";
-        petal.style.animationDelay = Math.random() * 5 + "s";
+        petal.style.animationDelay = Math.random() * 6 + "s";
         petal.style.opacity = 0.4 + Math.random() * 0.6;
         petal.style.transform = `scale(${0.6 + Math.random()})`;
         document.body.appendChild(petal);
     }
 
     /* ===== PHÁO HOA ===== */
-    function createFirework() {
-        const fw = document.createElement("div");
-        fw.className = "firework";
-        fw.style.left = Math.random() * 100 + "vw";
-        fw.style.top = 10 + Math.random() * 40 + "vh";
-        fw.style.background =
-            Math.random() > 0.5 ? "#ffd700" : "#ffef99";
-
-        document.body.appendChild(fw);
-        setTimeout(() => fw.remove(), 1200);
-    }
-
     setInterval(() => {
-        if (Math.random() > 0.6) createFirework();
+        if (Math.random() > 0.6) {
+            const fw = document.createElement("div");
+            fw.className = "firework";
+            fw.style.left = Math.random() * 100 + "vw";
+            fw.style.top = 10 + Math.random() * 40 + "vh";
+            document.body.appendChild(fw);
+            setTimeout(() => fw.remove(), 1200);
+        }
     }, 700);
 })();
 </script>
