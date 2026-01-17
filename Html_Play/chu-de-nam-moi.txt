@@ -1,34 +1,37 @@
 <style>
 /* ================== ROOT ================== */
 :root {
-    --tet-light-bg: linear-gradient(
+    --tet-bg: linear-gradient(
         180deg,
-        #fffdf7 0%,
-        #fff4d6 35%,
-        #ffe8a3 100%
+        #ffffff 0%,
+        #fff9ec 30%,
+        #fff2cf 70%,
+        #ffebad 100%
     );
 
-    --tet-dark-bg: linear-gradient(
-        180deg,
-        #1a1a1a 0%,
-        #222 40%,
-        #2a2a2a 100%
-    );
-
-    --tet-gold: #f5c542;
+    --tet-gold: #f3c440;
 }
 
 /* ================== BODY ================== */
 body {
-    background: var(--tet-light-bg);
+    background: var(--tet-bg);
     overflow-x: hidden;
+    position: relative;
 }
 
-/* Dark mode: ưu tiên chữ trắng */
-@media (prefers-color-scheme: dark) {
-    body {
-        background: var(--tet-dark-bg);
-    }
+/* ================== TET OVERLAY (KHÔNG GIẾT CHỮ) ================== */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    background-image:
+        radial-gradient(circle, rgba(243,196,64,.25) 2px, transparent 3px),
+        radial-gradient(circle, rgba(243,196,64,.15) 1px, transparent 2px);
+
+    background-size: 60px 60px, 120px 120px;
 }
 
 /* ================== HAPPY NEW YEAR ================== */
@@ -49,9 +52,9 @@ body {
     pointer-events: none;
 
     text-shadow:
-        0 0 10px rgba(245,197,66,.8),
-        0 0 30px rgba(245,197,66,.6),
-        0 0 60px rgba(245,197,66,.4);
+        0 0 10px rgba(243,196,64,.8),
+        0 0 25px rgba(243,196,64,.6),
+        0 0 60px rgba(243,196,64,.4);
 }
 
 .tet-center-text.on {
@@ -60,30 +63,9 @@ body {
 
 @keyframes textPulse {
     0%   { opacity: 0; transform: scale(.7); }
-    15%  { opacity: 1; transform: scale(1.2); }
+    15%  { opacity: 1; transform: scale(1.3); }
     70%  { opacity: 1; transform: scale(1); }
     100% { opacity: 0; transform: scale(.9); }
-}
-
-/* ================== HOA MAI ================== */
-.petal {
-    position: fixed;
-    top: -20px;
-    width: 8px;
-    height: 8px;
-    background: #ffd966;
-    border-radius: 50%;
-    opacity: .85;
-    z-index: 1;
-    pointer-events: none;
-
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(720deg);
-    }
 }
 
 /* ================== ĐOM ĐÓM ================== */
@@ -91,23 +73,37 @@ body {
     position: fixed;
     width: 3px;
     height: 3px;
-    background: #fff2b2;
+    background: #ffe9a3;
+    border-radius: 50%;
+    opacity: .6;
+    z-index: 1;
+    pointer-events: none;
+
+    box-shadow: 0 0 6px rgba(255,233,163,.8);
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    to { transform: translateY(-120vh); }
+}
+
+/* ================== HOA MAI RƠI ================== */
+.petal {
+    position: fixed;
+    top: -20px;
+    width: 7px;
+    height: 7px;
+    background: #ffd966;
     border-radius: 50%;
     opacity: .7;
     z-index: 1;
     pointer-events: none;
 
-    box-shadow:
-        0 0 6px #fff2b2,
-        0 0 12px rgba(255,242,178,.6);
-
-    animation: float linear infinite;
+    animation: fall linear infinite;
 }
 
-@keyframes float {
-    to {
-        transform: translateY(-120vh);
-    }
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); }
 }
 
 /* ================== PHÁO HOA ================== */
@@ -117,10 +113,10 @@ body {
     height: 4px;
     background: var(--tet-gold);
     border-radius: 50%;
-    pointer-events: none;
     z-index: 2;
+    pointer-events: none;
 
-    box-shadow: 0 0 8px rgba(245,197,66,.8);
+    box-shadow: 0 0 8px rgba(243,196,64,.8);
     animation: explode 1.2s ease-out forwards;
 }
 
