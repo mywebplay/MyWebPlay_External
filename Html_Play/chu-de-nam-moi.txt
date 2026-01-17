@@ -1,121 +1,110 @@
+<!-- ===== TẾT OVERLAY – COPY 1 LẦN ===== -->
+<div class="tet-center-text" id="tetText">
+    🎉 HAPPY NEW YEAR <span id="tetYear"></span> 🎉
+</div>
+
 <style>
-/* ================== ROOT ================== */
-:root {
-    --tet-bg: linear-gradient(
+/* ================== BACKGROUND TẾT (ƯU TIÊN TEXT ĐEN) ================== */
+body {
+    background: linear-gradient(
         180deg,
         #ffffff 0%,
-        #fffdf7 40%,
-        #fff9eb 100%
+        #fffdf8 40%,
+        #fff9ee 100%
     );
-
-    --tet-accent: #f1c232;
-}
-
-/* ================== BODY ================== */
-body {
-    background: var(--tet-bg);
     overflow-x: hidden;
     position: relative;
 }
 
-/* ================== OVERLAY TẾT NHẸ ================== */
+/* ================== HẠT TẾT TRANG TRÍ NHẸ ================== */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 0;
     pointer-events: none;
-
+    z-index: 0;
     background-image:
-        radial-gradient(circle, rgba(241,194,50,.18) 2px, transparent 3px);
-
-    background-size: 90px 90px;
+        radial-gradient(circle, rgba(241,194,50,.18) 2px, transparent 3px),
+        radial-gradient(circle, rgba(241,194,50,.1) 1px, transparent 2px);
+    background-size: 80px 80px, 140px 140px;
 }
 
-/* ================== HAPPY NEW YEAR ================== */
+/* ================== HAPPY NEW YEAR GIỮA MÀN HÌNH ================== */
 .tet-center-text {
     position: fixed;
     inset: 0;
     margin: auto;
     width: max-content;
     height: max-content;
-
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 900;
     white-space: nowrap;
-
     color: #e6b800;
     opacity: 0;
     z-index: 9999;
     pointer-events: none;
-
     text-shadow:
-        0 0 6px rgba(230,184,0,.6),
-        0 0 18px rgba(230,184,0,.4);
+        0 0 6px rgba(230,184,0,.5),
+        0 0 18px rgba(230,184,0,.35);
 }
 
 .tet-center-text.on {
-    animation: textPulse 3s ease-out forwards;
+    animation: tetPulse 3s ease-out forwards;
 }
 
-@keyframes textPulse {
-    0%   { opacity: 0; transform: scale(.8); }
-    20%  { opacity: 1; transform: scale(1.15); }
+@keyframes tetPulse {
+    0%   { opacity: 0; transform: scale(.75); }
+    20%  { opacity: 1; transform: scale(1.25); }
     80%  { opacity: 1; transform: scale(1); }
     100% { opacity: 0; transform: scale(.95); }
 }
 
-/* ================== HOA MAI (ÍT – NHẸ) ================== */
+/* ================== HOA MAI RƠI ================== */
 .petal {
     position: fixed;
     top: -20px;
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     background: #f7d774;
     border-radius: 50%;
-    opacity: .5;
-    z-index: 1;
+    opacity: .6;
     pointer-events: none;
-
+    z-index: 1;
     animation: fall linear infinite;
 }
-
 @keyframes fall {
     to { transform: translateY(110vh) rotate(720deg); }
 }
 
-/* ================== ĐOM ĐÓM (RẤT NHẸ) ================== */
+/* ================== ĐOM ĐÓM BAY ================== */
 .spark {
     position: fixed;
-    width: 2px;
-    height: 2px;
-    background: #f5e6a3;
+    width: 3px;
+    height: 3px;
+    background: #fff1b8;
     border-radius: 50%;
-    opacity: .4;
-    z-index: 1;
+    opacity: .45;
     pointer-events: none;
-
+    z-index: 1;
+    box-shadow: 0 0 6px rgba(255,241,184,.6);
     animation: float linear infinite;
 }
-
 @keyframes float {
     to { transform: translateY(-120vh); }
 }
 
-/* ================== PHÁO HOA (ÍT – KHÔNG CHÓI) ================== */
+/* ================== PHÁO HOA ================== */
 .firework {
     position: fixed;
-    width: 3px;
-    height: 3px;
+    width: 4px;
+    height: 4px;
     background: #f1c232;
     border-radius: 50%;
-    z-index: 2;
     pointer-events: none;
-
-    opacity: .7;
+    z-index: 2;
+    box-shadow: 0 0 8px rgba(241,194,50,.7);
     animation: explode 1.2s ease-out forwards;
 }
-
 @keyframes explode {
     to {
         transform: translate(var(--x), var(--y));
@@ -124,62 +113,54 @@ body::before {
 }
 </style>
 
-<div class="tet-center-text" id="tetText"></div>
-
 <script>
-(() => {
-    /* ===== TEXT ===== */
-    const text = document.getElementById("tetText");
-    text.textContent = `HAPPY NEW YEAR ${new Date().getFullYear()}`;
+/* ===== SET NĂM TỰ ĐỘNG ===== */
+document.getElementById("tetYear").textContent = new Date().getFullYear();
 
-    function loopText() {
-        text.classList.remove("on");
-        void text.offsetWidth;
-        text.classList.add("on");
+/* ===== HAPPY NEW YEAR CHỚP LIÊN TỤC ===== */
+const tetText = document.getElementById("tetText");
+setInterval(() => {
+    tetText.classList.add("on");
+    setTimeout(() => tetText.classList.remove("on"), 3000);
+}, 3000);
+
+/* ===== HOA MAI ===== */
+for (let i = 0; i < 40; i++) {
+    const p = document.createElement("div");
+    p.className = "petal";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = 8 + Math.random() * 6 + "s";
+    document.body.appendChild(p);
+}
+
+/* ===== ĐOM ĐÓM ===== */
+for (let i = 0; i < 50; i++) {
+    const s = document.createElement("div");
+    s.className = "spark";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.top = Math.random() * 100 + "vh";
+    s.style.animationDuration = 6 + Math.random() * 6 + "s";
+    document.body.appendChild(s);
+}
+
+/* ===== PHÁO HOA ===== */
+setInterval(() => {
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.top = Math.random() * 100 + "vh";
+    f.style.setProperty("--x", (Math.random() * 200 - 100) + "px");
+    f.style.setProperty("--y", (Math.random() * 200 - 100) + "px");
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1300);
+}, 900);
+
+/* ===== CỨU CHỮ TRẮNG NHẸ (KHÔNG ĐỔI MÀU) ===== */
+document.querySelectorAll("*").forEach(el => {
+    const c = getComputedStyle(el).color;
+    if (c === "rgb(255, 255, 255)") {
+        el.style.textShadow = "0 0 2px rgba(0,0,0,.35)";
     }
-    loopText();
-    setInterval(loopText, 3000);
-
-    /* ===== HOA MAI ===== */
-    for (let i = 0; i < 40; i++) {
-        const p = document.createElement("span");
-        p.className = "petal";
-        p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = 6 + Math.random() * 10 + "s";
-        p.style.opacity = 0.4 + Math.random() * 0.6;
-        p.style.transform = `scale(${0.6 + Math.random()})`;
-        document.body.appendChild(p);
-    }
-
-    /* ===== ĐOM ĐÓM ===== */
-    for (let i = 0; i < 35; i++) {
-        const s = document.createElement("span");
-        s.className = "spark";
-        s.style.left = Math.random() * 100 + "vw";
-        s.style.top = 100 + Math.random() * 100 + "vh";
-        s.style.animationDuration = 8 + Math.random() * 12 + "s";
-        s.style.opacity = 0.3 + Math.random() * 0.7;
-        document.body.appendChild(s);
-    }
-
-    /* ===== PHÁO HOA ===== */
-    function fireworkBurst() {
-        const x = Math.random() * innerWidth;
-        const y = Math.random() * innerHeight * 0.5;
-
-        for (let i = 0; i < 24; i++) {
-            const fw = document.createElement("div");
-            fw.className = "firework";
-            const angle = (Math.PI * 2 / 24) * i;
-            fw.style.left = x + "px";
-            fw.style.top = y + "px";
-            fw.style.setProperty("--x", Math.cos(angle) * 120 + "px");
-            fw.style.setProperty("--y", Math.sin(angle) * 120 + "px");
-            document.body.appendChild(fw);
-            setTimeout(() => fw.remove(), 1200);
-        }
-    }
-
-    setInterval(fireworkBurst, 900);
-})();
+});
 </script>
+<!-- ===== END TẾT OVERLAY ===== -->
