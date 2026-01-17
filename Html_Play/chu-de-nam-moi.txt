@@ -1,24 +1,18 @@
 <style>
 /* ================== ROOT ================== */
 :root {
-    --tet-bg: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #fffdf7 40%,
-        #fff9eb 100%
-    );
-
     --tet-accent: #f1c232;
 }
 
 /* ================== BODY ================== */
+/* KHÔNG ép nền nữa */
 body {
-    background: var(--tet-bg);
+    background: transparent;
     overflow-x: hidden;
     position: relative;
 }
 
-/* ================== OVERLAY TẾT NHẸ ================== */
+/* ================== OVERLAY TẾT NHẸ (TRANSPARENT) ================== */
 body::before {
     content: "";
     position: fixed;
@@ -26,6 +20,7 @@ body::before {
     z-index: 0;
     pointer-events: none;
 
+    /* chỉ là hạt trang trí, không làm tối nền */
     background-image:
         radial-gradient(circle, rgba(241,194,50,.18) 2px, transparent 3px);
 
@@ -65,7 +60,7 @@ body::before {
     100% { opacity: 0; transform: scale(.95); }
 }
 
-/* ================== HOA MAI (ÍT – NHẸ) ================== */
+/* ================== HOA MAI ================== */
 .petal {
     position: fixed;
     top: -20px;
@@ -76,7 +71,6 @@ body::before {
     opacity: .5;
     z-index: 1;
     pointer-events: none;
-
     animation: fall linear infinite;
 }
 
@@ -84,7 +78,7 @@ body::before {
     to { transform: translateY(110vh) rotate(720deg); }
 }
 
-/* ================== ĐOM ĐÓM (RẤT NHẸ) ================== */
+/* ================== ĐOM ĐÓM ================== */
 .spark {
     position: fixed;
     width: 2px;
@@ -94,7 +88,6 @@ body::before {
     opacity: .4;
     z-index: 1;
     pointer-events: none;
-
     animation: float linear infinite;
 }
 
@@ -102,7 +95,7 @@ body::before {
     to { transform: translateY(-120vh); }
 }
 
-/* ================== PHÁO HOA (ÍT – KHÔNG CHÓI) ================== */
+/* ================== PHÁO HOA ================== */
 .firework {
     position: fixed;
     width: 3px;
@@ -111,7 +104,6 @@ body::before {
     border-radius: 50%;
     z-index: 2;
     pointer-events: none;
-
     opacity: .7;
     animation: explode 1.2s ease-out forwards;
 }
