@@ -1,4 +1,5 @@
 <script>
 document.getElementById("custom5").style.display = "none";
 document.getElementById("current").style.display = "none";
+document.getElementById("logo").style.display = "none";
 </script>
