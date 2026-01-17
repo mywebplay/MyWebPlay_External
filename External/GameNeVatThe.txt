@@ -50,7 +50,7 @@
     position: absolute;
     width: 10%;
     aspect-ratio: 1;
-    background: url('https://cdn.imgbin.com/20/17/12/scary-face-evil-face-with-sharp-teeth-df2nJqNs.jpg') center/cover no-repeat;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/5/50/Black_colour.jpg') center/cover no-repeat;
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
@@ -73,7 +73,7 @@
 </style>
 </head>
 <body>
-<h1 style="color:red">🚀 Game Né Vật Thể</h1>
+<h1>🚀 Game Né Vật Thể</h1>
 <div id="scoreboard">Điểm: <span id="score">0</span></div>
 <div id="game-container">
   <div id="player"></div>
