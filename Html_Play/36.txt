@@ -2,6 +2,7 @@
 document.getElementById("custom5").style.display = "none";
 document.getElementById("current").style.display = "none";
 document.getElementById("logo").style.display = "none";
+document.getElementById("nenta").style.backgroundColor = "rgb(9, 23, 37)";
 </script>
 <style>
 #ID-Y {
