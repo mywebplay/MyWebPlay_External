@@ -1,62 +1,98 @@
 <style>
 :root {
     --tet-gold: #ffd700;
-    --bg-light: radial-gradient(circle at top, #ffdd55, #b30000 70%);
-    --bg-dark: radial-gradient(circle at top, #9a6a00, #4a0000 75%);
+    --tet-red: #b30000;
+    --bg-light: radial-gradient(circle at top, #ffdf6b, #b30000 70%);
+    --bg-dark: radial-gradient(circle at top, #9a6a00, #3a0000 75%);
 }
 
-/* nền Tết */
+/* ===== BODY ===== */
 body {
     background: var(--bg-light);
     overflow-x: hidden;
 }
 @media (prefers-color-scheme: dark) {
-    body {
-        background: var(--bg-dark);
-    }
+    body { background: var(--bg-dark); }
 }
 
-/* HAPPY NEW YEAR */
+/* ===== HAPPY NEW YEAR ===== */
 .tet-center-text {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    font-size: clamp(2.5rem, 7vw, 6rem);
+    inset: 0;
+    margin: auto;
+    width: max-content;
+    height: max-content;
+    font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 900;
     color: var(--tet-gold);
-    text-shadow:
-        0 0 20px rgba(255,215,0,.9),
-        0 0 45px rgba(255,215,0,.7),
-        0 0 80px rgba(255,215,0,.5);
     opacity: 0;
     z-index: 9999;
     pointer-events: none;
     white-space: nowrap;
+    text-shadow:
+        0 0 25px rgba(255,215,0,.9),
+        0 0 60px rgba(255,215,0,.8),
+        0 0 120px rgba(255,215,0,.6);
 }
 
-/* bật */
 .tet-center-text.on {
-    animation: showText 3s ease-in-out forwards;
+    animation: textPulse 3s linear forwards;
 }
 
-@keyframes showText {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
-    }
-    15% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.25);
-    }
-    80% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.85);
-    }
+@keyframes textPulse {
+    0%   { opacity: 0; transform: scale(.6); }
+    10%  { opacity: 1; transform: scale(1.4); }
+    70%  { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(.85); }
+}
+
+/* ===== HOA MAI ===== */
+.petal {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    background: var(--tet-gold);
+    border-radius: 50%;
+    opacity: .8;
+    z-index: 1;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); }
+}
+
+/* ===== ĐOM ĐÓM ===== */
+.spark {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #fff6a0;
+    border-radius: 50%;
+    opacity: .8;
+    z-index: 1;
+    pointer-events: none;
+    box-shadow: 0 0 12px #fff6a0;
+    animation: float linear infinite;
+}
+@keyframes float {
+    to { transform: translateY(-120vh); }
+}
+
+/* ===== PHÁO HOA ===== */
+.firework {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: var(--tet-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    animation: explode 1.2s ease-out forwards;
+}
+@keyframes explode {
+    to { transform: translate(var(--x), var(--y)); opacity: 0; }
 }
 </style>
 
@@ -64,17 +100,58 @@ body {
 
 <script>
 (() => {
-    const textEl = document.getElementById("tetText");
-    textEl.textContent = `HAPPY NEW YEAR ${new Date().getFullYear()}`;
+    /* ===== TEXT ===== */
+    const text = document.getElementById("tetText");
+    text.textContent = `HAPPY NEW YEAR ${new Date().getFullYear()}`;
 
-    function loop() {
-        textEl.classList.remove("on");
-        void textEl.offsetWidth; // reset animation
-        textEl.classList.add("on");
+    function loopText() {
+        text.classList.remove("on");
+        void text.offsetWidth;
+        text.classList.add("on");
+    }
+    loopText();
+    setInterval(loopText, 3000);
+
+    /* ===== HOA MAI ===== */
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement("span");
+        p.className = "petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 6 + Math.random() * 10 + "s";
+        p.style.opacity = 0.4 + Math.random() * 0.6;
+        p.style.transform = `scale(${0.6 + Math.random()})`;
+        document.body.appendChild(p);
     }
 
-    /* chạy liên tục: bật → 3s → tắt → bật lại */
-    loop();
-    setInterval(loop, 3000);
+    /* ===== ĐOM ĐÓM ===== */
+    for (let i = 0; i < 35; i++) {
+        const s = document.createElement("span");
+        s.className = "spark";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = 100 + Math.random() * 100 + "vh";
+        s.style.animationDuration = 8 + Math.random() * 12 + "s";
+        s.style.opacity = 0.3 + Math.random() * 0.7;
+        document.body.appendChild(s);
+    }
+
+    /* ===== PHÁO HOA ===== */
+    function fireworkBurst() {
+        const x = Math.random() * innerWidth;
+        const y = Math.random() * innerHeight * 0.5;
+
+        for (let i = 0; i < 24; i++) {
+            const fw = document.createElement("div");
+            fw.className = "firework";
+            const angle = (Math.PI * 2 / 24) * i;
+            fw.style.left = x + "px";
+            fw.style.top = y + "px";
+            fw.style.setProperty("--x", Math.cos(angle) * 120 + "px");
+            fw.style.setProperty("--y", Math.sin(angle) * 120 + "px");
+            document.body.appendChild(fw);
+            setTimeout(() => fw.remove(), 1200);
+        }
+    }
+
+    setInterval(fireworkBurst, 900);
 })();
 </script>
