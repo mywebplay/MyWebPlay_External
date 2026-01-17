@@ -73,7 +73,7 @@
 </style>
 </head>
 <body>
-<h1>🚀 Game Né Vật Thể</h1>
+<h1 style="color:red">🚀 Game Né Vật Thể</h1>
 <div id="scoreboard">Điểm: <span id="score">0</span></div>
 <div id="game-container">
   <div id="player"></div>
