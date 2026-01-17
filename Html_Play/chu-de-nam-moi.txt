@@ -1,34 +1,37 @@
 <style>
+/* ================== ROOT ================== */
 :root {
-    /* màu Tết đã làm dịu */
-    --tet-gold: #f5d76e;
-    --tet-red: #7a1212;
+    --tet-light-bg: linear-gradient(
+        180deg,
+        #fffdf7 0%,
+        #fff4d6 35%,
+        #ffe8a3 100%
+    );
 
-    /* nền an toàn cho chữ đen + trắng */
-    --bg-light:
-        linear-gradient(rgba(255,255,255,.18), rgba(0,0,0,.18)),
-        radial-gradient(circle at top, #f2d98c, #7a1212 72%);
+    --tet-dark-bg: linear-gradient(
+        180deg,
+        #1a1a1a 0%,
+        #222 40%,
+        #2a2a2a 100%
+    );
 
-    --bg-dark:
-        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-        radial-gradient(circle at top, #b08900, #2a0000 78%);
+    --tet-gold: #f5c542;
 }
 
-/* ===== BODY ===== */
+/* ================== BODY ================== */
 body {
-    background: var(--bg-light);
-    background-attachment: fixed;
+    background: var(--tet-light-bg);
     overflow-x: hidden;
 }
 
-/* dark mode */
+/* Dark mode: ưu tiên chữ trắng */
 @media (prefers-color-scheme: dark) {
     body {
-        background: var(--bg-dark);
+        background: var(--tet-dark-bg);
     }
 }
 
-/* ===== HAPPY NEW YEAR ===== */
+/* ================== HAPPY NEW YEAR ================== */
 .tet-center-text {
     position: fixed;
     inset: 0;
@@ -38,64 +41,66 @@ body {
 
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 900;
-    letter-spacing: 2px;
+    white-space: nowrap;
 
     color: var(--tet-gold);
     opacity: 0;
     z-index: 9999;
     pointer-events: none;
-    white-space: nowrap;
 
-    /* giảm cháy sáng */
     text-shadow:
-        0 0 12px rgba(245,215,110,.8),
-        0 0 30px rgba(245,215,110,.6),
-        0 0 60px rgba(245,215,110,.4);
+        0 0 10px rgba(245,197,66,.8),
+        0 0 30px rgba(245,197,66,.6),
+        0 0 60px rgba(245,197,66,.4);
 }
 
 .tet-center-text.on {
-    animation: textPulse 3s ease-in-out forwards;
+    animation: textPulse 3s ease-out forwards;
 }
 
 @keyframes textPulse {
     0%   { opacity: 0; transform: scale(.7); }
-    15%  { opacity: 1; transform: scale(1.3); }
-    75%  { opacity: 1; transform: scale(1); }
+    15%  { opacity: 1; transform: scale(1.2); }
+    70%  { opacity: 1; transform: scale(1); }
     100% { opacity: 0; transform: scale(.9); }
 }
 
-/* ===== HOA MAI / ĐÀO ===== */
+/* ================== HOA MAI ================== */
 .petal {
     position: fixed;
     top: -20px;
-    width: 9px;
-    height: 9px;
-    background: var(--tet-gold);
+    width: 8px;
+    height: 8px;
+    background: #ffd966;
     border-radius: 50%;
-    opacity: .65;
+    opacity: .85;
     z-index: 1;
     pointer-events: none;
+
     animation: fall linear infinite;
 }
 
 @keyframes fall {
     to {
-        transform: translateY(110vh) rotate(540deg);
+        transform: translateY(110vh) rotate(720deg);
     }
 }
 
-/* ===== ĐOM ĐÓM ===== */
+/* ================== ĐOM ĐÓM ================== */
 .spark {
     position: fixed;
     width: 3px;
     height: 3px;
-    background: #fff4b0;
+    background: #fff2b2;
     border-radius: 50%;
-    opacity: .6;
+    opacity: .7;
     z-index: 1;
     pointer-events: none;
 
-    box-shadow: 0 0 10px rgba(255,244,176,.8);
+    box-shadow:
+        0 0 6px #fff2b2,
+        0 0 12px rgba(255,242,178,.6);
+
     animation: float linear infinite;
 }
 
@@ -105,7 +110,7 @@ body {
     }
 }
 
-/* ===== PHÁO HOA ===== */
+/* ================== PHÁO HOA ================== */
 .firework {
     position: fixed;
     width: 4px;
@@ -115,8 +120,7 @@ body {
     pointer-events: none;
     z-index: 2;
 
-    /* dịu hơn để không lấn chữ */
-    opacity: .8;
+    box-shadow: 0 0 8px rgba(245,197,66,.8);
     animation: explode 1.2s ease-out forwards;
 }
 
