@@ -135,17 +135,34 @@ body::before {
 
 <script>
 (() => {
-    /* ===== TEXT ===== */
+    /* ===== TEXT (CHỈ 3 LẦN) ===== */
     const text = document.getElementById("tetText");
     text.textContent = `HAPPY NEW YEAR ${new Date().getFullYear()}`;
 
-    function loopText() {
+    let showCount = 0;
+    const maxShow = 3;
+
+    function playText() {
+        if (showCount >= maxShow) {
+            text.remove(); // xoá hẳn khỏi DOM
+            return;
+        }
+
         text.classList.remove("on");
-        void text.offsetWidth;
+        void text.offsetWidth; // reset animation
         text.classList.add("on");
+
+        showCount++;
     }
-    loopText();
-    setInterval(loopText, 3000);
+
+    playText();
+    const textTimer = setInterval(() => {
+        if (showCount >= maxShow) {
+            clearInterval(textTimer);
+        } else {
+            playText();
+        }
+    }, 3000);
 
     /* ===== HOA MAI ===== */
     for (let i = 0; i < 40; i++) {
@@ -169,7 +186,7 @@ body::before {
         document.body.appendChild(s);
     }
 
-    /* ===== PHÁO HOA ===== */
+    /* ===== PHÁO HOA (GIỮ NGUYÊN) ===== */
     function fireworkBurst() {
         const x = Math.random() * innerWidth;
         const y = Math.random() * innerHeight * 0.5;
