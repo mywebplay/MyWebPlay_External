@@ -155,8 +155,8 @@
                 background: rgba(255, 255, 255, 0.7);
             }
             #nextBtn svg {
-                width: 50px; /* to hơn */
-                height: 50px; /* to hơn */
+                width: 30px; /* to hơn */
+                height: 30px; /* to hơn */
                 fill: white;
             }
 
