@@ -97,9 +97,7 @@ html, body {
 </div>
 
 <script>
-const text = `Tài liệu PDF học tập mục đích chỉ để giải trí dành cho cộng đồng fan,
-được biên soạn nội dung từ bộ phim hoạt hình tuổi thơ
-"Winx - công chúa phép thuật" 😅`;
+const text = `Tài liệu PDF học tập mục đích chỉ để giải trí dành cho cộng đồng fan, được biên soạn nội dung từ bộ phim hoạt hình tuổi thơ "Winx - công chúa phép thuật" 😅`;
 
 const el = document.getElementById("typing");
 let i = 0;
