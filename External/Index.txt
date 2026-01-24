@@ -337,6 +337,23 @@
                 transition: opacity 1.2s ease, transform 1.2s ease;
             }
 
+            /* màu chữ riêng */
+            .brand-main {
+                color: #8fd3ff;
+                text-shadow:
+                    0 0 12px rgba(143,211,255,0.9),
+                    0 0 28px rgba(143,211,255,0.9);
+            }
+            
+            .brand-sub {
+                margin-top: 10px;
+                font-size: 1.4rem;
+                letter-spacing: 6px;
+                color: #f5d76e;
+                text-shadow:
+                    0 0 10px rgba(245,215,110,0.8),
+                    0 0 22px rgba(245,215,110,0.9);
+            }
         </style>
     </head>
     <body>
@@ -344,8 +361,10 @@
             <div id="intro-bg"></div>
         
             <div id="intro-title">
-                <h1>MyWebPlay</h1>
-                <span>— Bùi Văn Luật —</span>
+                <h1>
+                    <span class="brand-main">MyWebPlay</span>
+                </h1>
+                <span class="brand-sub">BVL</span>
             </div>
         
             <div class="intro-half intro-left"></div>
