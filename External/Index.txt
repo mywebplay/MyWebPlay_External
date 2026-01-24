@@ -367,12 +367,13 @@
                 0 0 140px rgba(90,160,255,0.95);
         
             animation: glowHard 1.5s ease-in-out infinite;
+            font-size: 100%;
         }
         
         /* BÙI VĂN LUẬT – VÀNG GẮT */
         .brand-sub {
             margin-top: 22px;
-            font-size: 3rem;
+            font-size: 100%;
             letter-spacing: 8px;
             font-weight: 800;
         
@@ -512,11 +513,11 @@
                     if (!intro) return;
         
                     // mở màn
-                   // intro.classList.add("open");
+                    intro.classList.add("open");
         
                     // sau khi animation xong thì xoá luôn intro
                     setTimeout(function () {
-                        //intro.remove();
+                        intro.remove();
                     }, 1200); // phải > thời gian animation CSS
                 }, 1000); // chờ 1 giây trước khi mở
             });
