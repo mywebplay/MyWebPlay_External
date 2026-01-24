@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>[Không đáp án] 400 câu hỏi dạng trắc nghiệm WinxClub - chỉ để vui | MyWebPlay</title>
+        <meta name="description" content="[Không đáp án] 400 câu hỏi dạng trắc nghiệm WinxClub - chỉ để vui | MyWebPlay" />
+        <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, trắc nghiệm" />
+        <meta name="author" content="Bùi Văn Luật" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://drive.google.com/file/d/11ufX5pnsdINYJjyCNC70gQN2xBN8Pfqs/view?usp=sharing"></iframe>
+</body>
+</html>
