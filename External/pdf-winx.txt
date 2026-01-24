@@ -8,7 +8,7 @@
         <meta name="description" content="Biên soạn nội dung bộ phim hoạt hình tuổi thơ Công chúa phép thuật Winx, và cho ra mắt bộ PDF tài liệu học tập lấy từ nội dung của phim dành cho fan 😅" />
         <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, pdf, winxclub fan love" />
         <meta name="author" content="Bùi Văn Luật" />
-   <style>
+<style>
 html, body {
     margin: 0;
     width: 100%;
@@ -29,15 +29,43 @@ html, body {
     position: fixed;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 26px;
     z-index: 1;
 }
 
+/* Bảng đen */
+.board {
+    width: 720px;
+    max-width: 90%;
+    padding: 28px 32px;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #111 0px,
+            #111 28px,
+            #1f1f1f 29px
+        );
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.6);
+    color: #eaeaea;
+    font-size: 20px;
+    line-height: 28px;
+    font-family: "Courier New", monospace;
+}
+
+/* chữ gõ */
+#typing {
+    white-space: pre-wrap;
+}
+
+/* nút */
 .big-btn {
     text-decoration: none;
-    padding: 30px 54px;
-    font-size: 32px;
+    padding: 26px 52px;
+    font-size: 30px;
     font-weight: 700;
     color: #fff;
     background: linear-gradient(135deg, #ffcc33, #ff8800);
@@ -48,20 +76,44 @@ html, body {
 
 @keyframes bounce {
     0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-16px); }
+    50% { transform: translateY(-14px); }
 }
 </style>
 </head>
 <body>
-    <div class="bg"></div>
+<div class="bg"></div>
 
 <div class="center">
+
+    <div class="board">
+        <div id="typing"></div>
+    </div>
+
     <a class="big-btn"
-       href="https://drive.google.com/drive/folders/1SYqmMyU3nESsF2ddadEg8f3pdcJmrHbF?usp=drive_link"
-       target="_blank">
+       href="https://drive.google.com/drive/folders/1SYqmMyU3nESsF2ddadEg8f3pdcJmrHbF?usp=drive_link">
         🚀 Đi đến tài liệu ngay
     </a>
+
 </div>
+
+<script>
+const text = `Tài liệu PDF học tập mục đích chỉ để giải trí dành cho cộng đồng fan,
+được biên soạn nội dung từ bộ phim hoạt hình tuổi thơ
+"Winx - công chúa phép thuật" 😅`;
+
+const el = document.getElementById("typing");
+let i = 0;
+
+function type() {
+    if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 45); // tốc độ gõ (chậm vừa)
+    }
+}
+
+type();
+</script>
 <script>
  setInterval(function () {
             document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el => el.remove());
