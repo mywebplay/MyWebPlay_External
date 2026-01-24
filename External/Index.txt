@@ -291,12 +291,12 @@
             }
             
             #intro-title h1 {
-                font-size: 3.5rem;
+                font-size: 100%;
             }
             
             #intro-title span {
                 margin-top: 12px;
-                font-size: 1.3rem;
+                font-size: 90%;
                 opacity: 0.9;
             }
             
@@ -518,8 +518,8 @@
                     // sau khi animation xong thì xoá luôn intro
                     setTimeout(function () {
                         intro.remove();
-                    }, 1200); // phải > thời gian animation CSS
-                }, 1000); // chờ 1 giây trước khi mở
+                    }, 2200); // phải > thời gian animation CSS
+                }, 2000); // chờ 2 giây trước khi mở
             });
         </script>
         <script>
