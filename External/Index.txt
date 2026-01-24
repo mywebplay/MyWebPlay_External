@@ -244,45 +244,110 @@
               color: #000;
             }
 
-            /* ===== INTRO CURTAIN (OVERLAY ONLY) ===== */
+            /* ===== INTRO SCREEN CINEMATIC ===== */
             #intro-screen {
                 position: fixed;
                 inset: 0;
                 z-index: 9999999;
                 pointer-events: none;
+                overflow: hidden;
             }
             
+            /* nền màn */
+            #intro-bg {
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(circle at center, rgba(120,180,255,0.35), transparent 60%),
+                    linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            }
+            
+            /* chữ giữa */
+            #intro-title {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-align: center;
+                color: #e6f3ff;
+                text-shadow:
+                    0 0 10px rgba(255,255,255,0.6),
+                    0 0 25px rgba(120,180,255,0.8);
+                animation: glow 1.8s ease-in-out infinite alternate;
+            }
+            
+            #intro-title h1 {
+                font-size: 3.5rem;
+            }
+            
+            #intro-title span {
+                margin-top: 12px;
+                font-size: 1.3rem;
+                opacity: 0.9;
+            }
+            
+            /* lấp lánh */
+            @keyframes glow {
+                from {
+                    text-shadow:
+                        0 0 8px rgba(255,255,255,0.4),
+                        0 0 18px rgba(120,180,255,0.6);
+                }
+                to {
+                    text-shadow:
+                        0 0 14px rgba(255,255,255,0.8),
+                        0 0 32px rgba(120,180,255,1);
+                }
+            }
+            
+            /* 2 cánh màn */
             .intro-half {
                 position: absolute;
                 top: 0;
                 width: 50%;
                 height: 100%;
-                background: radial-gradient(circle at center, #111 0%, #000 75%);
-                transition: transform 3s ease-in-out;
+                background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+                transition: transform 2.8s ease-in-out;
             }
             
             .intro-left {
                 left: 0;
-                box-shadow: inset -40px 0 60px rgba(0,0,0,0.9);
+                box-shadow: inset -40px 0 80px rgba(0,0,0,0.9);
             }
             
             .intro-right {
                 right: 0;
-                box-shadow: inset 40px 0 60px rgba(0,0,0,0.9);
+                box-shadow: inset 40px 0 80px rgba(0,0,0,0.9);
             }
             
+            /* mở màn */
             #intro-screen.open .intro-left {
                 transform: translateX(-100%);
             }
-            
             #intro-screen.open .intro-right {
                 transform: translateX(100%);
+            }
+            #intro-screen.open #intro-title {
+                opacity: 0;
+                transform: scale(0.92);
+                transition: opacity 1.2s ease, transform 1.2s ease;
             }
 
         </style>
     </head>
     <body>
-        <div id="intro-screen">
+       <div id="intro-screen">
+            <div id="intro-bg"></div>
+        
+            <div id="intro-title">
+                <h1>MyWebPlay</h1>
+                <span>— Bùi Văn Luật —</span>
+            </div>
+        
             <div class="intro-half intro-left"></div>
             <div class="intro-half intro-right"></div>
         </div>
@@ -382,7 +447,7 @@
                 setTimeout(function () {
                     var intro = document.getElementById("intro-screen");
                     if (intro) intro.classList.add("open");
-                }, 10000); // 10 giây
+                }, 3000); // 3 giây
             });
         </script>
         <script>
