@@ -512,13 +512,13 @@
                     if (!intro) return;
         
                     // mở màn
-                    intro.classList.add("open");
+                   // intro.classList.add("open");
         
                     // sau khi animation xong thì xoá luôn intro
                     setTimeout(function () {
-                        intro.remove();
-                    }, 3200); // phải > thời gian animation CSS
-                }, 3000); // chờ 3 giây trước khi mở
+                        //intro.remove();
+                    }, 1200); // phải > thời gian animation CSS
+                }, 1000); // chờ 1 giây trước khi mở
             });
         </script>
         <script>
