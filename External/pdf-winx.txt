@@ -8,20 +8,32 @@
         <meta name="description" content="Biên soạn nội dung bộ phim hoạt hình tuổi thơ Công chúa phép thuật Winx, và cho ra mắt bộ PDF tài liệu học tập lấy từ nội dung của phim dành cho fan 😅" />
         <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, pdf, winxclub fan love" />
         <meta name="author" content="Bùi Văn Luật" />
-    <style>
+   <style>
         html, body {
             margin: 0;
-            padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
 
+        /* Ảnh nền mờ */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiWJnlN2c-M6AFgsFvDotK0sNY4XHSNfBdPgPXbekzJLa0AfKMZ3QxMQlBpGUv5h-I6F8u8PnHDn-CnL5oIsE42EJdlt4mkuQUw2LoQHV5z8OxsvFfW-FjufgGH8jzvb3JI8DdyCAfDDQ/s1600/uRjNNs7j0UA.jpg") center / cover no-repeat;
+            filter: blur(8px);
+            transform: scale(1.05); /* tránh viền trắng do blur */
+            z-index: 0;
+        }
+
         iframe {
+            position: relative;
+            z-index: 1;
             width: 100vw;
             height: 100vh;
             border: none;
-            display: block;
+            background: transparent;
         }
     </style>
 </head>
