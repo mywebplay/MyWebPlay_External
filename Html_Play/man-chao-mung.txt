@@ -183,7 +183,7 @@
                     setTimeout(function () {
                         intro.remove();
                         tix = true;
-                    }, 2200); // phải > thời gian animation CSS
-                }, 2000); // chờ 2 giây trước khi mở
+                    }, 3200); // phải > thời gian animation CSS
+                }, 3000); // chờ 3 giây trước khi mở
             }, 10);
         </script>
