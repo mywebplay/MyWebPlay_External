@@ -1,0 +1,186 @@
+<style>
+          #intro-title::before {
+                content: "";
+                position: absolute;
+                width: 520px;
+                height: 260px;
+                background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+                filter: blur(8px);
+                z-index: -1;
+            }
+
+            /* ===== INTRO SCREEN CINEMATIC ===== */
+            #intro-screen {
+                position: fixed;
+                inset: 0;
+                z-index: 9999999;
+                pointer-events: none;
+                overflow: hidden;
+            }
+            
+            /* nền màn */
+            #intro-bg {
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(circle at center, rgba(120,180,255,0.35), transparent 60%),
+                    linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            }
+            
+            /* chữ giữa */
+            #intro-title {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-align: center;
+                color: #e6f3ff;
+                text-shadow:
+                    0 0 10px rgba(255,255,255,0.6),
+                    0 0 25px rgba(120,180,255,0.8);
+                animation: glow 1.8s ease-in-out infinite alternate;
+            }
+            
+            #intro-title h1 {
+                font-size: 100%;
+            }
+            
+            #intro-title span {
+                margin-top: 12px;
+                font-size: 100%;
+                opacity: 0.9;
+            }
+            
+            /* lấp lánh */
+            @keyframes glow {
+                from {
+                    text-shadow:
+                        0 0 8px rgba(255,255,255,0.4),
+                        0 0 18px rgba(120,180,255,0.6);
+                }
+                to {
+                    text-shadow:
+                        0 0 14px rgba(255,255,255,0.8),
+                        0 0 32px rgba(120,180,255,1);
+                }
+            }
+            
+            /* 2 cánh màn */
+            .intro-half {
+                position: absolute;
+                top: 0;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+                transition: transform 2.8s ease-in-out;
+            }
+            
+            .intro-left {
+                left: 0;
+                box-shadow: inset -40px 0 80px rgba(0,0,0,0.9);
+            }
+            
+            .intro-right {
+                right: 0;
+                box-shadow: inset 40px 0 80px rgba(0,0,0,0.9);
+            }
+            
+            /* mở màn */
+            #intro-screen.open .intro-left {
+                transform: translateX(-100%);
+            }
+            #intro-screen.open .intro-right {
+                transform: translateX(100%);
+            }
+            #intro-screen.open #intro-title {
+                opacity: 0;
+                transform: scale(0.92);
+                transition: opacity 1.2s ease, transform 1.2s ease;
+            }
+
+          #intro-title h1 {
+            font-size: 7rem;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        /* MYWEBPLAY – TRẮNG GẮT */
+        .brand-main {
+            color: #ffffff;
+            font-weight: 900;
+            letter-spacing: 4px;
+        
+            text-shadow:
+                0 0 6px rgba(255,255,255,1),
+                0 0 18px rgba(255,255,255,1),
+                0 0 40px rgba(140,210,255,1),
+                0 0 80px rgba(120,190,255,1),
+                0 0 140px rgba(90,160,255,0.95);
+        
+            animation: glowHard 1.5s ease-in-out infinite;
+            font-size: 100%;
+        }
+        
+        /* BÙI VĂN LUẬT – VÀNG GẮT */
+        .brand-sub {
+            margin-top: 22px;
+            font-size: 100%;
+            letter-spacing: 8px;
+            font-weight: 800;
+        
+            color: #fff8cc;
+            text-shadow:
+                0 0 6px rgba(255,248,204,1),
+                0 0 18px rgba(255,230,160,1),
+                0 0 40px rgba(255,210,120,1),
+                0 0 80px rgba(255,190,80,1),
+                0 0 140px rgba(255,170,50,0.95);
+        
+            animation: glowHardGold 1.8s ease-in-out infinite;
+        }
+        
+        @keyframes glowHard {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.8); }
+            100% { filter: brightness(1); }
+        }
+        
+        @keyframes glowHardGold {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+</style>
+       <div id="intro-screen">
+            <div id="intro-bg"></div>
+        
+            <div id="intro-title">
+                <h1>
+                    <span class="brand-main">MyWebPlay</span>
+                </h1>
+                <span class="brand-sub">(⭐ Bùi Văn Luật ⭐)</span>
+            </div>
+        
+            <div class="intro-half intro-left"></div>
+            <div class="intro-half intro-right"></div>
+        </div>
+        <script>
+            window.addEventListener("load", function () {
+                setTimeout(function () {
+                    var intro = document.getElementById("intro-screen");
+                    if (!intro) return;
+        
+                    // mở màn
+                    intro.classList.add("open");
+        
+                    // sau khi animation xong thì xoá luôn intro
+                    setTimeout(function () {
+                        intro.remove();
+                    }, 2200); // phải > thời gian animation CSS
+                }, 2000); // chờ 2 giây trước khi mở
+            });
+        </script>
