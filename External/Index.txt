@@ -337,22 +337,62 @@
                 transition: opacity 1.2s ease, transform 1.2s ease;
             }
 
-            /* màu chữ riêng */
-            .brand-main {
-                color: #8fd3ff;
-                text-shadow:
-                    0 0 12px rgba(143,211,255,0.9),
-                    0 0 28px rgba(143,211,255,0.9);
+           /* ===== INTRO TEXT – BRIGHT & SPARKLE ===== */
+
+            #intro-title h1 {
+                font-size: 4.8rem;
+                margin: 0;
+                line-height: 1;
             }
             
-            .brand-sub {
-                margin-top: 10px;
-                font-size: 1.4rem;
-                letter-spacing: 6px;
-                color: #f5d76e;
+            /* MyWebPlay */
+            .brand-main {
+                color: #ffffff;
+                font-weight: 700;
                 text-shadow:
-                    0 0 10px rgba(245,215,110,0.8),
-                    0 0 22px rgba(245,215,110,0.9);
+                    0 0 12px rgba(255,255,255,0.9),
+                    0 0 30px rgba(140,200,255,1),
+                    0 0 60px rgba(100,180,255,0.9);
+                animation: shimmerMain 2s linear infinite;
+            }
+            
+            /* BVL */
+            .brand-sub {
+                margin-top: 18px;
+                font-size: 2.2rem;
+                letter-spacing: 8px;
+                font-weight: 600;
+                color: #fff6c5;
+                text-shadow:
+                    0 0 10px rgba(255,246,197,0.9),
+                    0 0 28px rgba(255,215,100,1),
+                    0 0 55px rgba(255,200,80,0.9);
+                animation: shimmerSub 2.4s ease-in-out infinite;
+            }
+            
+            /* shimmer effect */
+            @keyframes shimmerMain {
+                0% {
+                    filter: brightness(1);
+                }
+                50% {
+                    filter: brightness(1.4);
+                }
+                100% {
+                    filter: brightness(1);
+                }
+            }
+            
+            @keyframes shimmerSub {
+                0% {
+                    filter: brightness(1);
+                }
+                50% {
+                    filter: brightness(1.6);
+                }
+                100% {
+                    filter: brightness(1);
+                }
             }
         </style>
     </head>
@@ -364,7 +404,7 @@
                 <h1>
                     <span class="brand-main">MyWebPlay</span>
                 </h1>
-                <span class="brand-sub">BVL</span>
+                <span class="brand-sub">(⭐ Bùi Văn Luật ⭐)</span>
             </div>
         
             <div class="intro-half intro-left"></div>
