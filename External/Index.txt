@@ -296,7 +296,7 @@
             
             #intro-title span {
                 margin-top: 12px;
-                font-size: 90%;
+                font-size: 100%;
                 opacity: 0.9;
             }
             
