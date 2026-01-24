@@ -169,7 +169,9 @@
             <div class="intro-half intro-right"></div>
         </div>
         <script>
-            window.addEventListener("load", function () {
+          var tix = false;
+           setInterval(function () {
+                if (tix == true) return;
                 setTimeout(function () {
                     var intro = document.getElementById("intro-screen");
                     if (!intro) return;
@@ -180,7 +182,8 @@
                     // sau khi animation xong thì xoá luôn intro
                     setTimeout(function () {
                         intro.remove();
+                        tix = true;
                     }, 2200); // phải > thời gian animation CSS
                 }, 2000); // chờ 2 giây trước khi mở
-            });
+            }, 10);
         </script>
