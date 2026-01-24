@@ -244,6 +244,16 @@
               color: #000;
             }
 
+            #intro-title::before {
+                content: "";
+                position: absolute;
+                width: 520px;
+                height: 260px;
+                background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+                filter: blur(8px);
+                z-index: -1;
+            }
+
             /* ===== INTRO SCREEN CINEMATIC ===== */
             #intro-screen {
                 position: fixed;
@@ -337,66 +347,57 @@
                 transition: opacity 1.2s ease, transform 1.2s ease;
             }
 
-           /* ===== INTRO TEXT – MAX POWER ===== */
-
-            #intro-title h1 {
-                font-size: 7rem;
-                margin: 0;
-                line-height: 1;
-            }
-            
-            /* MyWebPlay – TRẮNG + XANH, RẤT SÁNG */
-            .brand-main {
-                color: #ffffff;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 3px;
-            
-                text-shadow:
-                    0 0 12px rgba(255,255,255,1),
-                    0 0 30px rgba(120,200,255,1),
-                    0 0 60px rgba(120,200,255,1),
-                    0 0 120px rgba(80,160,255,0.95);
-            
-                animation: glowPulse 1.6s ease-in-out infinite,
-                           lightSweep 3.5s linear infinite;
-            }
-            
-            /* BVL – VÀNG KIM, RẤT NỔI */
-            .brand-sub {
-                margin-top: 22px;
-                font-size: 3.1rem;
-                letter-spacing: 10px;
-                font-weight: 700;
-            
-                color: #fff3b0;
-                text-shadow:
-                    0 0 14px rgba(255,243,176,1),
-                    0 0 36px rgba(255,210,120,1),
-                    0 0 70px rgba(255,190,80,0.95),
-                    0 0 120px rgba(255,170,60,0.9);
-            
-                animation: glowPulseGold 2s ease-in-out infinite;
-            }
-            
-            /* nhịp sáng */
-            @keyframes glowPulse {
-                0%   { filter: brightness(1); }
-                50%  { filter: brightness(1.5); }
-                100% { filter: brightness(1); }
-            }
-            
-            @keyframes glowPulseGold {
-                0%   { filter: brightness(1); }
-                50%  { filter: brightness(1.7); }
-                100% { filter: brightness(1); }
-            }
-            
-            /* ánh sáng quét */
-            @keyframes lightSweep {
-                0%   { text-shadow-position: -200%; }
-                100% { text-shadow-position: 200%; }
-            }
+          #intro-title h1 {
+            font-size: 7rem;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        /* MYWEBPLAY – TRẮNG GẮT */
+        .brand-main {
+            color: #ffffff;
+            font-weight: 900;
+            letter-spacing: 4px;
+        
+            text-shadow:
+                0 0 6px rgba(255,255,255,1),
+                0 0 18px rgba(255,255,255,1),
+                0 0 40px rgba(140,210,255,1),
+                0 0 80px rgba(120,190,255,1),
+                0 0 140px rgba(90,160,255,0.95);
+        
+            animation: glowHard 1.5s ease-in-out infinite;
+        }
+        
+        /* BÙI VĂN LUẬT – VÀNG GẮT */
+        .brand-sub {
+            margin-top: 22px;
+            font-size: 3rem;
+            letter-spacing: 8px;
+            font-weight: 800;
+        
+            color: #fff8cc;
+            text-shadow:
+                0 0 6px rgba(255,248,204,1),
+                0 0 18px rgba(255,230,160,1),
+                0 0 40px rgba(255,210,120,1),
+                0 0 80px rgba(255,190,80,1),
+                0 0 140px rgba(255,170,50,0.95);
+        
+            animation: glowHardGold 1.8s ease-in-out infinite;
+        }
+        
+        @keyframes glowHard {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.8); }
+            100% { filter: brightness(1); }
+        }
+        
+        @keyframes glowHardGold {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
         </style>
     </head>
     <body>
@@ -505,12 +506,21 @@
           </div>
         </div>
         <script>
-            window.addEventListener("load", function () {
-                setTimeout(function () {
-                    var intro = document.getElementById("intro-screen");
-                    if (intro) intro.classList.add("open");
-                }, 3000); // 3 giây
-            });
+            <script>
+                window.addEventListener("load", function () {
+                    setTimeout(function () {
+                        var intro = document.getElementById("intro-screen");
+                        if (!intro) return;
+            
+                        // mở màn
+                        intro.classList.add("open");
+            
+                        // sau khi animation xong thì xoá luôn intro
+                        setTimeout(function () {
+                            intro.remove();
+                        }, 3200); // phải > thời gian animation CSS
+                    }, 3000); // chờ 3 giây trước khi mở
+                });
         </script>
         <script>
             setInterval(function () {
