@@ -26,6 +26,6 @@
     </style>
 </head>
 <body>
-    <iframe src="https://drive.google.com/file/d/11ufX5pnsdINYJjyCNC70gQN2xBN8Pfqs/view?usp=sharing"></iframe>
+    <iframe src="https://drive.google.com/file/d/11ufX5pnsdINYJjyCNC70gQN2xBN8Pfqs/view"></iframe>
 </body>
 </html>
