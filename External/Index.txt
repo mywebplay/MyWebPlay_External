@@ -506,21 +506,20 @@
           </div>
         </div>
         <script>
-            <script>
-                window.addEventListener("load", function () {
+            window.addEventListener("load", function () {
+                setTimeout(function () {
+                    var intro = document.getElementById("intro-screen");
+                    if (!intro) return;
+        
+                    // mở màn
+                    intro.classList.add("open");
+        
+                    // sau khi animation xong thì xoá luôn intro
                     setTimeout(function () {
-                        var intro = document.getElementById("intro-screen");
-                        if (!intro) return;
-            
-                        // mở màn
-                        intro.classList.add("open");
-            
-                        // sau khi animation xong thì xoá luôn intro
-                        setTimeout(function () {
-                            intro.remove();
-                        }, 3200); // phải > thời gian animation CSS
-                    }, 3000); // chờ 3 giây trước khi mở
-                });
+                        intro.remove();
+                    }, 3200); // phải > thời gian animation CSS
+                }, 3000); // chờ 3 giây trước khi mở
+            });
         </script>
         <script>
             setInterval(function () {
