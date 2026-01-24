@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[Không đáp án] 400 câu hỏi dạng trắc nghiệm WinxClub - chỉ để vui | MyWebPlay</title>
-        <meta name="description" content="[Không đáp án] 400 câu hỏi dạng trắc nghiệm WinxClub - chỉ để vui | MyWebPlay" />
-        <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, trắc nghiệm" />
+        <title>PDF tài liệu học tập vui - WinxClub Fan Love | MyWebPlay</title>
+        <meta name="description" content="Biên soạn nội dung bộ phim hoạt hình tuổi thơ Công chúa phép thuật Winx, và cho ra mắt bộ PDF tài liệu học tập lấy từ nội dung của phim dành cho fan 😅" />
+        <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, pdf, winxclub fan love" />
         <meta name="author" content="Bùi Văn Luật" />
     <style>
         html, body {
@@ -26,6 +26,6 @@
     </style>
 </head>
 <body>
-    <iframe src="https://drive.google.com/file/d/11ufX5pnsdINYJjyCNC70gQN2xBN8Pfqs/view"></iframe>
+    <iframe src="https://drive.google.com/drive/folders/1SYqmMyU3nESsF2ddadEg8f3pdcJmrHbF"></iframe>
 </body>
 </html>
