@@ -8,6 +8,7 @@
         <meta name="description" content="Biên soạn nội dung bộ phim hoạt hình tuổi thơ Công chúa phép thuật Winx, và cho ra mắt bộ PDF tài liệu học tập lấy từ nội dung của phim dành cho fan 😅" />
         <meta name="keywords" content="mywebplay, normalwebbasic, winxclub, pdf, winxclub fan love" />
         <meta name="author" content="Bùi Văn Luật" />
+        <meta name="robots" content="index, follow">
 <style>
 html, body {
     margin: 0;
