@@ -242,7 +242,7 @@
   </div>
   <br>
   <span style="background-color:yellow;color:red;">
-    Nếu nhạc chưa tải xong và tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁
+    Nếu nhạc chưa tải xong hoặc tiến trình chữ chạy không khớp, hãy thử nhấn nút [Khởi động lại] vài lần nhé 😁
   </span>
 </div>
 <script>
