@@ -120,7 +120,7 @@
     <div class="intro-half intro-right"></div>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+setInterval(function () {
     const intro = document.getElementById("intro-screen");
     if (!intro) return;
 
@@ -133,5 +133,5 @@ document.addEventListener("DOMContentLoaded", function () {
             intro.remove();
         }, 3000); // > 2.8s curtain animation
     }, 3000);
-});
+}, 10);
 </script>
