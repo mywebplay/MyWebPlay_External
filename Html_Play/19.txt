@@ -334,13 +334,13 @@ doimauY();
 function doikichthuoc123()
 {
 document.getElementById("kichthuoc").value = document.getElementById("kichthuoc123").value;
-doimaunenX();
+doikichthuoc();
 }
 
 function doimaunenX123()
 {
 document.getElementById("maunenX").value = document.getElementById("maunenX123").value;
-doikichthuoc();
+doimaunenX();
 }
 
 function kieudem123()
