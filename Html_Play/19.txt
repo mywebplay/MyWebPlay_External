@@ -222,6 +222,12 @@
       <span id="menuan" style="display:none"></span>
     </div>
 
+    <div class="inline-group">
+      <label>Thay đổi màu nền cho đoạn text:</label>
+      <input type="color" class="input-full" id="maunenX123" onchange="doimaunenX123()">
+      <a href="#xuly" onclick="xoamaunen()"><b style="color:red">Làm mờ nền/Xoá màu nền</b></a>
+    </div>
+
     <div style="grid-column: 1 / -1">
       <b style="color:yellow">Nhấn phím [SPACE] để trải nghiệm toàn màn hình.</b>
     </div>
@@ -328,6 +334,12 @@ doimauY();
 function doikichthuoc123()
 {
 document.getElementById("kichthuoc").value = document.getElementById("kichthuoc123").value;
+doimaunenX();
+}
+
+function doimaunenX123()
+{
+document.getElementById("maunenX").value = document.getElementById("maunenX123").value;
 doikichthuoc();
 }
 
