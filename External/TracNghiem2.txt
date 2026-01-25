@@ -357,7 +357,7 @@
         if (loadix == true) return;
 
          var formData = new FormData();
-              formData.append("website", "ExternalX");  formData.append("method", 'GET');
+              formData.append("website", "/trac-nghiem-2");  formData.append("method", 'GET');
         
          $.ajax({
             url: "/Admin/ShowHtmlPlay",
