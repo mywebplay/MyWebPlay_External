@@ -9,22 +9,17 @@
                 z-index: -1;
             }
 
-            /* ===== INTRO SCREEN CINEMATIC ===== */
-            #intro-screen {
-                position: fixed;
-                inset: 0;
-                z-index: 9999999;
-                pointer-events: none;
-                overflow: hidden;
-            }
-            
+            /* ===== INTRO SCREEN CINEMATIC ===== */            
             /* nền màn */
-            #intro-bg {
+            #intro-screen {
                 position: absolute;
                 inset: 0;
                 background:
                     radial-gradient(circle at center, rgba(120,180,255,0.35), transparent 60%),
                     linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                pointer-events: none;
+                overflow: hidden;
+                z-index: 9999999;
             }
             
             /* chữ giữa */
@@ -156,8 +151,6 @@
         }
 </style>
        <div id="intro-screen">
-            <div id="intro-bg"></div>
-        
             <div id="intro-title">
                 <h1>
                     <span class="brand-main">MyWebPlay</span>
