@@ -335,7 +335,7 @@
         if (loadix == true) return;
 
          var formData = new FormData();
-              formData.append("website", "ExternalX");  formData.append("method", 'GET');
+              formData.append("website", "/tron-mau");  formData.append("method", 'GET');
         
          $.ajax({
             url: "/Admin/ShowHtmlPlay",
