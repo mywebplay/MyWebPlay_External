@@ -48,7 +48,7 @@
 <br />
 <input id="isHTML" type="checkbox" autocomplete="off" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
 <br />
-<input type="file" id="files" multiple />
+<input type="file" id="files" multiple />&nbsp;&nbsp;<input type="checkbox" id="sendFile" /><b style="color:blue">Upload file lên server MegaIO</b>
 <br /><br />
 <button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
 <div id="modal_view">
@@ -59,7 +59,7 @@
 </div>
 
 <script>
-  function showModalView() {
+  function showModalView() {<
     // Gán nội dung trước
     document.getElementById("modal_data").innerHTML =
         document.getElementById("message").value;
@@ -114,7 +114,7 @@ for (var i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
 }
 
-fetch("/Home/SendMailSave1", {
+fetch("/Home/SendMailSave1?isUploadFileMegaIO=" + (document.getElementById("sendFile").checked ? "true" : "false"), {
 method: "POST",
 body: formData
 })
