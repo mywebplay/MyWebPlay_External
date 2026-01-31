@@ -48,7 +48,7 @@
 <br />
 <input id="isHTML" type="checkbox" autocomplete="off" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
 <br />
-<input type="file" id="files" multiple />&nbsp;&nbsp;<input type="checkbox" id="sendFile" /><b style="color:blue">Upload file lên server MegaIO</b>
+<input type="file" id="files" multiple /><input type="checkbox" id="sendFile" /><b style="color:darkgreen">Upload file lên server MegaIO</b>
 <br /><br />
 <button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
 <div id="modal_view">
