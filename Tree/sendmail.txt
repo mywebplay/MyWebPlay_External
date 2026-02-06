@@ -59,7 +59,7 @@
 </div>
 
 <script>
-  function showModalView() {<
+  function showModalView() {
     // Gán nội dung trước
     document.getElementById("modal_data").innerHTML =
         document.getElementById("message").value;
