@@ -122,7 +122,7 @@ body: formData
 .then(data => {
 if (data.result == true)
 {
-alert("Đã gửi mail thành công.");
+alert("Tiến trình gửi e-mail hiện đang được xử lý!");
 }
 });
 }
