@@ -9,7 +9,4 @@
   <url>
     <loc>http://normalwebbasic.somee.com/karaoke</loc>
   </url>
-  <url>
-    <loc>http://normalwebbasic.somee.com/pdf-winx-club</loc>
-  </url>
 </urlset>
