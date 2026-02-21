@@ -118,7 +118,7 @@
 </style>
 </head>
 <body>
- <img src="https://png.pngtree.com/png-clipart/20190902/original/pngtree-cartoon-hammer-png-download-png-image_4402979.jpg" class="hammer" id="hammer">
+ <img src="https://i.pinimg.com/736x/e6/ba/e8/e6bae819f14c7adfe6ba46ff4cce6bd7.jpg" class="hammer" id="hammer" style="position:fixed; width:64px; pointer-events:none; z-index:9999; transform:translate(-50%,-50%);">
   <h1>🐹 Game Đập Chuột 🐹</h1>
   <div id="top-bar">
     <div id="scoreboard">Điểm: <span id="score">0</span></div>
