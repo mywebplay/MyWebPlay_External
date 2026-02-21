@@ -237,10 +237,15 @@ document.addEventListener("mousemove", e => {
 });
 
 document.addEventListener("click", () => {
-    hammer.style.transform = "rotate(30deg)";
+
+    hammer.style.transition = "transform 0.05s ease-in";
+    hammer.style.transform = "rotate(70deg) translateY(20px) scale(1.1)";
+
     setTimeout(() => {
-        hammer.style.transform = "rotate(0deg)";
-    }, 100);
+        hammer.style.transition = "transform 0.08s ease-out";
+        hammer.style.transform = "rotate(0deg) translateY(0px) scale(1)";
+    }, 60);
+
 });
 </script>
  <script>
