@@ -74,7 +74,7 @@
     border-radius: 50%;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
+    cursor: none;
     box-shadow: inset 0 5px 10px rgba(0,0,0,0.3);
   }
 
@@ -118,7 +118,7 @@
 </style>
 </head>
 <body>
- <img src="https://i.pinimg.com/736x/05/8c/96/058c960d45cd66829b585eae3224a271.jpg" class="hammer" id="hammer">
+ <img src="https://png.pngtree.com/png-clipart/20190902/original/pngtree-cartoon-hammer-png-download-png-image_4402979.jpg" class="hammer" id="hammer">
   <h1>🐹 Game Đập Chuột 🐹</h1>
   <div id="top-bar">
     <div id="scoreboard">Điểm: <span id="score">0</span></div>
