@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🐹 Game Đập Chuột 🐹</title>
 <style>
+/* Hiệu ứng đập */
+.hole.hit {
+    transform: scale(0.9);
+    transition: transform 0.1s;
+}
+
   * { box-sizing: border-box; user-select: none; }
   body {
     font-family: 'Segoe UI', sans-serif;
@@ -14,7 +20,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: none;
   }
+
+.hammer {
+    position: fixed;
+    width: 64px;
+    pointer-events: none;
+    transform-origin: top left;
+    transition: transform 0.1s;
+}
 
   h1 {
     margin-bottom: 5px;
@@ -103,6 +118,7 @@
 </style>
 </head>
 <body>
+ <img src="https://i.pinimg.com/736x/05/8c/96/058c960d45cd66829b585eae3224a271.jpg" class="hammer" id="hammer">
   <h1>🐹 Game Đập Chuột 🐹</h1>
   <div id="top-bar">
     <div id="scoreboard">Điểm: <span id="score">0</span></div>
@@ -211,6 +227,21 @@ holes.forEach(h => {
 });
 
 startBtn.addEventListener("click", startGame);
+</script>
+<script>
+const hammer = document.getElementById("hammer");
+
+document.addEventListener("mousemove", e => {
+    hammer.style.left = e.pageX + "px";
+    hammer.style.top = e.pageY + "px";
+});
+
+document.addEventListener("click", () => {
+    hammer.style.transform = "rotate(30deg)";
+    setTimeout(() => {
+        hammer.style.transform = "rotate(0deg)";
+    }, 100);
+});
 </script>
  <script>
 
