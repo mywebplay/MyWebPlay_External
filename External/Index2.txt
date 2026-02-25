@@ -282,6 +282,14 @@ function yes1(){window.location.href="/lay-tai-lieu-tu-stoducu";}
 function no1(){window.location.href="/xac-thuc-1";}
 function showmodal1(){document.getElementById("modal1").classList.add("show");}
 function showmodal2(o,n){urlChooseOld=o;urlChooseNew=n;document.getElementById("modal2").classList.add("show");}
+function closemodal1() {
+              document.getElementById("modal1").classList.remove("show");
+            }
+  function closemodal2() {
+              urlChooseOld = "";
+              urlChooseNew = "";
+              document.getElementById("modal2").classList.remove("show");
+            }
 function cu2(){window.location.href=urlChooseOld;}
 function moi2(){window.location.href=urlChooseNew;}
 let urlChooseOld="",urlChooseNew="";
