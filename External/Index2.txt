@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyWebPlay</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Trang chủ | MyWebPlay</title>
+<meta name="description" content="MyWebPlay cung cấp các dịch vụ cơ bản, đơn giản và bình thường - miễn phí dành cho bạn!" />
+<meta name="keywords" content="mywebplay, normalwebbasic" />
+<meta name="author" content="Bùi Văn Luật" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
