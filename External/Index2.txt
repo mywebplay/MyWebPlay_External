@@ -224,21 +224,27 @@ footer{
   </div>
 </div>
 
-<div class="backdrop" id="modal1">
-  <div class="modal">
-    <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
-    <button class="btn-no" onclick="no1()">CHƯA</button>
-    <button class="btn-yes" onclick="yes1()">RỒI</button>
-  </div>
-</div>
-
-<div class="backdrop" id="modal2">
-  <div class="modal">
-    <h3>Mời bạn chọn giao diện sử dụng?</h3>
-    <button class="btn-no" onclick="cu2()">CŨ</button>
-    <button class="btn-yes" onclick="moi2()">MỚI</button>
-  </div>
-</div>
+<iframe id="start" src="/" style="display: none;"></iframe>
+        <div class="backdrop" id="modal1">
+          <div class="modal">
+            <button class="close-btn" onclick="closemodal1()">❌</button>
+            <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
+            <div>
+              <button class="btn-no" onclick="no1()">CHƯA</button>
+              <button class="btn-yes" onclick="yes1()">RỒI</button>
+            </div>
+          </div>
+        </div>
+        <div class="backdrop" id="modal2">
+          <div class="modal">
+            <button class="close-btn" onclick="closemodal2()">❌</button>
+            <h3>Mời bạn chọn giao diện sử dụng?</h3>
+            <div>
+              <button class="btn-no" onclick="cu2()">CŨ</button>
+              <button class="btn-yes" onclick="moi2()">MỚI</button>
+            </div>
+          </div>
+        </div>
 
 <!-- GIỮ NGUYÊN TOÀN BỘ JS CỦA BẠN BÊN DƯỚI -->
 <div id="html_play"></div>
