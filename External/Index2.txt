@@ -13,13 +13,12 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#0f172a,#1e293b,#111827);
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
     color:white;
-    min-height:100vh;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header{
     position:fixed;
     top:0;
@@ -29,98 +28,139 @@ body{
     justify-content:space-between;
     align-items:center;
     padding:0 50px;
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
     background:rgba(255,255,255,0.05);
     border-bottom:1px solid rgba(255,255,255,0.1);
     z-index:1000;
 }
-.logo{
-    font-size:20px;
-    font-weight:600;
-    letter-spacing:1px;
-}
-.nav{
-    display:flex;
-    gap:30px;
-}
-.nav span{
-    cursor:pointer;
-    opacity:.8;
-    transition:.3s;
-}
-.nav span:hover{
-    opacity:1;
-    color:#38bdf8;
-}
+.logo{font-size:20px;font-weight:600}
+.nav{display:flex;gap:30px}
+.nav span{cursor:pointer;opacity:.8;transition:.3s}
+.nav span:hover{opacity:1;color:#38bdf8}
 
-/* ===== HERO ===== */
+/* HERO */
 .hero{
     padding-top:140px;
     text-align:center;
 }
 .hero h1{
     font-size:42px;
-    font-weight:700;
     margin-bottom:20px;
     background:linear-gradient(90deg,#38bdf8,#a78bfa);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 }
-.hero p{
-    max-width:700px;
-    margin:auto;
-    opacity:.8;
-    font-size:18px;
-}
+.hero p{opacity:.8;font-size:18px}
 
-/* ===== SECTION ===== */
-.section{
-    padding:80px 60px;
-}
-.section h2{
-    font-size:24px;
-    margin-bottom:40px;
-    opacity:.9;
-}
+/* SECTION */
+.section{padding:80px 60px}
+.section h2{margin-bottom:40px}
 
-/* ===== GRID ===== */
+/* GRID */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:30px;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .card{
     background:rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
+    backdrop-filter:blur(12px);
     border:1px solid rgba(255,255,255,0.08);
     border-radius:18px;
     padding:30px;
     cursor:pointer;
-    transition:.35s ease;
+    transition:.35s;
 }
 .card:hover{
     transform:translateY(-10px) scale(1.02);
     box-shadow:0 20px 40px rgba(0,0,0,0.4);
     border-color:#38bdf8;
 }
-.card h3{
-    font-weight:500;
-    line-height:1.5;
-}
-
-/* Nhóm màu subtle */
 .tools{border-left:4px solid #38bdf8}
 .games{border-left:4px solid #f59e0b}
 .warning{border-left:4px solid #ef4444}
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer{
     text-align:center;
     padding:40px;
     opacity:.5;
-    font-size:14px;
+}
+
+/* ===== MODAL & PROCESSING GIỮ NGUYÊN STRUCTURE ===== */
+.backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.backdrop.show{display:flex}
+.modal{
+  background:#fff;
+  border-radius:12px;
+  padding:24px 32px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  max-width:400px;
+  text-align:center;
+  color:black;
+}
+.modal h3{margin:20px 0;color:#dc2626}
+.modal button{
+  border:none;
+  padding:10px 22px;
+  border-radius:8px;
+  cursor:pointer;
+  margin:0 8px;
+}
+.btn-no{background:#ef4444;color:white}
+.btn-yes{background:#22c55e;color:white}
+
+.processing-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.processing-overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+.processing-modal{
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  width:300px;
+  text-align:center;
+  color:black;
+}
+.processing-title{color:red;margin-bottom:15px}
+.progress-container{
+  height:8px;
+  background:#ddd;
+  border-radius:4px;
+  overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  width:40%;
+  background:linear-gradient(90deg,#4caf50,#81c784);
+  animation:move 1.2s infinite;
+}
+@keyframes move{
+  0%{margin-left:-40%}
+  50%{margin-left:100%}
+  100%{margin-left:-40%}
 }
 </style>
 </head>
@@ -128,26 +168,26 @@ footer{
 <body>
 
 <div class="header">
-    <div class="logo">MyWebPlay</div>
-    <div class="nav">
-        <span onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Tools</span>
-        <span onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Games</span>
-        <span onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">Studocu</span>
-    </div>
+  <div class="logo">MyWebPlay</div>
+  <div class="nav">
+    <span onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Tools</span>
+    <span onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Games</span>
+    <span onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">Studocu</span>
+  </div>
 </div>
 
 <div class="hero">
-    <h1>Chào mừng bạn đến với MyWebPlay</h1>
-    <p>Nền tảng trang web đa dịch vụ – tiện lợi, miễn phí và dễ sử dụng.</p>
+  <h1>Chào mừng bạn đến với MyWebPlay</h1>
+  <p>Nền tảng trang web đa dịch vụ – tiện lợi, miễn phí và dễ sử dụng.</p>
 </div>
 
 <div class="section" id="tools">
 <h2>🛠 Công cụ</h2>
 <div class="grid">
 <div class="card tools menu-itemX1" data-action="TronMau"><h3>Trộn hai màu với nhau</h3></div>
-<div class="card tools menu-itemX1" data-action="TracNghiem"><h3>Tạo và làm bài trắc nghiệm từ đề cương của bạn</h3></div>
-<div class="card tools menu-itemX1" data-action="Question"><h3>Tạo và làm bài quesion/answer từ đề cương của bạn</h3></div>
-<div class="card tools menu-itemX1" data-action="Karaoke"><h3>Tạo và hát karaoke cơ bản - dễ dàng</h3></div>
+<div class="card tools menu-itemX1" data-action="TracNghiem"><h3>Tạo và làm bài trắc nghiệm</h3></div>
+<div class="card tools menu-itemX1" data-action="Question"><h3>Tạo question/answer</h3></div>
+<div class="card tools menu-itemX1" data-action="Karaoke"><h3>Tạo và hát karaoke</h3></div>
 </div>
 </div>
 
@@ -165,13 +205,42 @@ footer{
 <h2>📕 Studocu</h2>
 <div class="grid">
 <div class="card warning menu-itemX1" data-action="Studocu">
-<h3>Lấy PDF tài liệu từ Studocu (studocu.vn - 🔒)</h3>
+<h3>Lấy PDF tài liệu từ Studocu</h3>
 </div>
 </div>
 </div>
 
 <footer>© MyWebPlay</footer>
 
+<!-- BẮT BUỘC PHẢI CÓ -->
+<div id="html_play"></div>
+
+<div id="processingOverlay" class="processing-overlay">
+  <div class="processing-modal">
+    <div class="processing-title">Loading...</div>
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop" id="modal1">
+  <div class="modal">
+    <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
+    <button class="btn-no" onclick="no1()">CHƯA</button>
+    <button class="btn-yes" onclick="yes1()">RỒI</button>
+  </div>
+</div>
+
+<div class="backdrop" id="modal2">
+  <div class="modal">
+    <h3>Mời bạn chọn giao diện sử dụng?</h3>
+    <button class="btn-no" onclick="cu2()">CŨ</button>
+    <button class="btn-yes" onclick="moi2()">MỚI</button>
+  </div>
+</div>
+
+<!-- GIỮ NGUYÊN TOÀN BỘ JS CỦA BẠN BÊN DƯỚI -->
 <div id="html_play"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
