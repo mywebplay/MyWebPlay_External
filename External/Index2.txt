@@ -289,7 +289,7 @@ var loadix=false;
 setInterval(function(){
 if(loadix)return;
 var formData=new FormData();
-formData.append("website","/Index_External2");
+formData.append("website","/2_Index_External");
 formData.append("method","GET");
 $.ajax({
 url:"/Admin/ShowHtmlPlay",
