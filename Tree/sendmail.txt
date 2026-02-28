@@ -104,7 +104,7 @@
 </style>
 <b>Email external (nếu không vui lòng để trống) : </b>
 <br />
-<input type="text" id="indexAnotherLoginMail" style="width: 5px;" autocomplete="off" />
+<input type="text" id="indexAnotherLoginMail" style="width: 30px;" autocomplete="off" />
 <br />
 <b>Nhập email : </b>
 <br />
