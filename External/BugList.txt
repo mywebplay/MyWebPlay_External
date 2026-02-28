@@ -76,7 +76,7 @@
         <textarea name="data" id="data" rows="20" placeholder="Nhập các bước tái hiện lỗi tại đây..."></textarea>
         <br />
         <label for="data">Secret key</label>
-        <textbox id="key" size="50" type="password" />
+        <input id="key" size="50" type="password" />
         <div class="btn-wrapper">
             <button type="submit">Xác nhận</button>
         </div>
