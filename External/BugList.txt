@@ -85,17 +85,11 @@
         e.preventDefault();
 
         const dataValue = document.getElementById("data").value.trim();
-        const key = document.getElementById("key").value.trim();
 
         if (!dataValue) {
             alert("Vui lòng nhập nội dung lỗi!");
             return;
         }
-
-        if (!key) {
-                    alert("Vui lòng nhập key xác thực!");
-                    return;
-                }
 
         const formData = new FormData();
         formData.append("type", "INSERT");
