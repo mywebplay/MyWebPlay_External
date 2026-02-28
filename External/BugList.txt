@@ -121,6 +121,7 @@
             if (result.data === true) {
                 alert("Sucessful!");
                 document.getElementById("data").value = "";
+                document.getElementById("key").value = "";
             } else {
                 alert("Error!");
             }
