@@ -102,6 +102,10 @@
     border-radius: 6px;
   }
 </style>
+<b>Email external (nếu không vui lòng để trống) : </b>
+<br />
+<input type="text" id="indexAnotherLoginMail" style="width: 5px;" autocomplete="off" />
+<br />
 <b>Nhập email : </b>
 <br />
 <input type="text" id="mail" style="width: 600px;" autocomplete="off" />
@@ -173,6 +177,7 @@ showProcessingModal();
 var mail = document.getElementById("mail").value;
 var subject = document.getElementById("subject").value;
 var message = document.getElementById("message").value;
+var indexAnotherLoginMail = document.getElementById("indexAnotherLoginMail").value;
 var isHTML = document.getElementById("isHTML").checked;
 localStorage.removeItem("data_subject");
 localStorage.removeItem("data_message");
@@ -186,6 +191,7 @@ formData.append("txtEmail", mail);
 formData.append("txtMessage", message);
 formData.append("txtSubject", subject);
 formData.append("isBodyHTML", "" + isHTML);
+formData.append("indexAnotherLoginMail", "" + indexAnotherLoginMail);
 
 for (var i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
