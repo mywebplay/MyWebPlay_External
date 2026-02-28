@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Error/Bug</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: red;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 20em;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-wrapper {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>INSERT ERROR/BUG LIST</h1>
+
+    <form id="bugForm">
+        <label for="data">Các bước tái hiện lỗi</label>
+        <textarea name="data" id="data" rows="20" placeholder="Nhập các bước tái hiện lỗi tại đây..."></textarea>
+
+        <div class="btn-wrapper">
+            <button type="submit">Xác nhận</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("bugForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const dataValue = document.getElementById("data").value.trim();
+
+        if (!dataValue) {
+            alert("Vui lòng nhập nội dung lỗi!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("type", "INSERT");
+        formData.append("data", dataValue);
+        formData.append("txtTB", "oYN+ffTcSd8DNuCDeMmUbn3KYMmYls42ThXL9T763zI=");
+        formData.append("key", "mywebplay");
+
+        try {
+            const response = await fetch("/Cover/ExcuteDX", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("Network error");
+            }
+
+            const result = await response.json();
+
+            if (result.data === true) {
+                alert("Sucessful!");
+                document.getElementById("data").value = "";
+            } else {
+                alert("Error!");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Error!");
+        }
+    });
+</script>
+
+</body>
+</html>
