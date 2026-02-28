@@ -102,7 +102,7 @@
 
         const formData = new FormData();
         formData.append("type", "INSERT");
-        formData.append("data", dataValue);
+        formData.append("data", "N'" + dataValue + "'");
         formData.append("txtTB", "vQT/I303+sCj8W/C/ht3bDfmotXT8CyT1UP0srpYPpE=");
         formData.append("key", key);
 
