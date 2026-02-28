@@ -74,7 +74,9 @@
     <form id="bugForm">
         <label for="data">Các bước tái hiện lỗi</label>
         <textarea name="data" id="data" rows="20" placeholder="Nhập các bước tái hiện lỗi tại đây..."></textarea>
-
+        <br />
+        <label for="data">Secret key</label>
+        <textbox id="key" size="50" type="password" />
         <div class="btn-wrapper">
             <button type="submit">Xác nhận</button>
         </div>
@@ -86,17 +88,23 @@
         e.preventDefault();
 
         const dataValue = document.getElementById("data").value.trim();
+        const key = document.getElementById("key").value.trim();
 
         if (!dataValue) {
             alert("Vui lòng nhập nội dung lỗi!");
             return;
         }
 
+        if (!key) {
+                    alert("Vui lòng nhập key xác thực!");
+                    return;
+                }
+
         const formData = new FormData();
         formData.append("type", "INSERT");
         formData.append("data", dataValue);
         formData.append("txtTB", "oYN+ffTcSd8DNuCDeMmUbn3KYMmYls42ThXL9T763zI=");
-        formData.append("key", "mywebplay");
+        formData.append("key", key);
 
         try {
             const response = await fetch("/Cover/ExcuteDX", {
@@ -122,6 +130,13 @@
             alert("Error!");
         }
     });
+
+setInterval(function () {
+    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+    document.querySelectorAll("center").forEach((el) => el.remove());
+    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+}, 10);
 </script>
 
 </body>
