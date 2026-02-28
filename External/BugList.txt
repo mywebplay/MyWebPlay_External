@@ -74,9 +74,6 @@
     <form id="bugForm">
         <label for="data">Các bước tái hiện lỗi</label>
         <textarea name="data" id="data" rows="20" placeholder="Nhập các bước tái hiện lỗi tại đây..."></textarea>
-        <br />
-        <label for="data">Secret key</label>
-        <input id="key" size="50" type="password" />
         <div class="btn-wrapper">
             <button type="submit">Xác nhận</button>
         </div>
@@ -103,8 +100,7 @@
         const formData = new FormData();
         formData.append("type", "INSERT");
         formData.append("data", dataValue);
-        formData.append("txtTB", "oYN+ffTcSd8DNuCDeMmUbn3KYMmYls42ThXL9T763zI=");
-        formData.append("key", key);
+        formData.append("txtTB", "vQT/I303+sCj8W/C/ht3bDfmotXT8CyT1UP0srpYPpE=");
 
         try {
             const response = await fetch("/Cover/ExcuteDX", {
