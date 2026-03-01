@@ -172,7 +172,10 @@ footer{
   <div class="nav">
     <span onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Tools</span>
     <span onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Games</span>
-    <span onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">Studocu</span>
+    <@@hideshow_context:"Referer": "https://www.google.com/"----YES----CONTAINS
+    #3275_5828_1#
+        <span onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">Studocu</span>
+    @@>
   </div>
 </div>
 
@@ -201,14 +204,17 @@ footer{
 </div>
 </div>
 
-<div class="section" id="docs">
-<h2>📕 Studocu</h2>
-<div class="grid">
-<div class="card warning menu-itemX1" data-action="Studocu">
-<h3>Lấy PDF tài liệu từ Studocu</h3>
-</div>
-</div>
-</div>
+<@@hideshow_context:"Referer": "https://www.google.com/"----YES----CONTAINS
+#3275_5828_2#
+    <div class="section" id="docs">
+    <h2>📕 Studocu</h2>
+    <div class="grid">
+    <div class="card warning menu-itemX1" data-action="Studocu">
+    <h3>Lấy PDF tài liệu từ Studocu</h3>
+    </div>
+    </div>
+    </div>
+@@>
 
 <footer>© MyWebPlay</footer>
 
