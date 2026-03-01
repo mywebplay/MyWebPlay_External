@@ -173,7 +173,7 @@ footer{
     <span onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Tools</span>
     <span onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Games</span>
     <@@hideshow_context:"Referer": "https://www.google.com/"----YES----CONTAINS
-    #3275_5828_1#
+#3275_5828_1#
         <span onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">Studocu</span>
     @@>
   </div>
