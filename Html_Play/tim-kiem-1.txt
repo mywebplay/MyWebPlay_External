@@ -4,7 +4,7 @@ const placeholders = [
     "Nhập từ khoá tìm kiếm theo host",
     "Nhập từ khoá tìm kiếm theo ngày truy cập",
     "Nhập từ khoá tìm kiếm theo thông tin truy cập",
-    "Nhập từ khoá tìm kiếm theo trạng thái",
+    "Nhập từ khoá tìm kiếm theo trạng thái"
 ];
 
 for (let i = 0; i < placeholders.length; i++) {
