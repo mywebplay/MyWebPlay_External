@@ -1,0 +1,12 @@
+<script>
+const placeholders = [
+    "Nhập từ khoá tìm kiếm theo địa chỉ mail gửi",
+    "Nhập từ khoá tìm kiếm theo địa chỉ mail nhận",
+    "Nhập từ khoá tìm kiếm theo subject mail",
+    "Nhập từ khoá tìm kiếm theo body mail"
+];
+
+for (let i = 0; i < placeholders.length; i++) {
+    document.getElementById("txtParam" + i).placeholder = placeholders[i];
+}
+</script>
