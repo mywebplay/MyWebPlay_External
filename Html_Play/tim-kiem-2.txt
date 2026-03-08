@@ -1,0 +1,12 @@
+<script>
+const placeholders = [
+    "Nhập từ khoá tìm kiếm theo địa chỉ IP",
+    "Nhập từ khoá tìm kiếm theo thông tin user",
+    "Nhập từ khoá tìm kiếm theo ngày truy cập lần đầu",
+    "Nhập từ khoá tìm kiếm theo mã hoá nhận danh"
+];
+
+for (let i = 0; i < placeholders.length; i++) {
+    document.getElementById("txtParam" + i).placeholder = placeholders[i];
+}
+</script>
