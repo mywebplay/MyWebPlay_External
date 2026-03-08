@@ -8,5 +8,6 @@ const placeholders = [
 
 for (let i = 0; i < placeholders.length; i++) {
     document.getElementById("txtParam" + i).placeholder = placeholders[i];
+    document.getElementById("txtParam" + i).title = placeholders[i];
 }
 </script>
