@@ -1,0 +1,11 @@
+<script>
+  function DanhDau(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "grey";
+      }
+  }
+
+  DanhDau([4]);
+</script>
