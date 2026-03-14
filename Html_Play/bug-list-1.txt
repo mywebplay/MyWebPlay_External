@@ -11,6 +11,6 @@
 
 //---------------------------------------
 
-document.getElementById("dlCsv").disenabled = true;
+document.getElementById("dlCsv").disabled = true;
 
 </script>
