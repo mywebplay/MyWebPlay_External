@@ -37,6 +37,7 @@ function getCellText(cell)
 
 function downloadCSV_New()
 {
+alert('abc');
     const table = document.querySelector("#tableContainer table");
 
     if (!table)
