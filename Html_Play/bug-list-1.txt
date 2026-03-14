@@ -66,13 +66,6 @@ function downloadCSV_New()
     a.click();
 }
 
-window.addEventListener("load", function()
-{
-    var btn = document.getElementById("dlCsv");
+document.getElementById("dlCsv").onclick = downloadCSV_New;
 
-    if (btn)
-    {
-        btn.onclick = downloadCSV_New;
-    }
-});
 </script>
