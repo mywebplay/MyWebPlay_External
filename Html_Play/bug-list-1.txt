@@ -9,4 +9,81 @@
 
   DanhDau([1,3,5]);
 
+//---------------------------------------
+
+function getCellText(cell)
+{
+    // clone để không phá DOM
+    const clone = cell.cloneNode(true);
+
+    // <br> -> newline
+    clone.querySelectorAll("br").forEach(el =>
+        el.replaceWith("\n")
+    );
+
+    // <hr> -> newline
+    clone.querySelectorAll("hr").forEach(el =>
+        el.replaceWith("\n")
+    );
+
+    // lấy text
+    let text = clone.textContent || "";
+
+    // escape dấu " cho CSV
+    text = text.replace(/"/g, '""');
+
+    return text;
+}
+
+function downloadCSV_New()
+{
+    const table = document.querySelector("#tableContainer table");
+
+    if (!table)
+    {
+        alert("Không tìm thấy table");
+        return;
+    }
+
+    let csv = [];
+
+    const rows = table.querySelectorAll("tr");
+
+    rows.forEach(row =>
+    {
+        const cols = row.querySelectorAll("th,td");
+
+        if (cols.length === 0) return;
+
+        let rowData = [];
+
+        cols.forEach(col =>
+        {
+            let text = getCellText(col);
+
+            rowData.push('"' + text + '"');
+        });
+
+        csv.push(rowData.join(","));
+    });
+
+    const BOM = "\uFEFF";
+
+    const blob = new Blob(
+        [BOM + csv.join("\r\n")],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById("dlCsv").onclick = downloadCSV_New;
+
 </script>
