@@ -1,0 +1,20 @@
+<!-- Login temp admin (đăng nhập tạm thời - chỉ xem) -->
+<br />
+<a href="#xuly" onclick="LoginTemp()">Đăng nhập tạm thời (chỉ xem)</a>
+<br /><br />
+<script>
+function LoginTemp() {
+
+    var key = prompt("Nhập mã bí mật để đăng nhập tạm thời");
+
+    if (key === null) return;
+
+    var form = document.createElement("form");
+    form.method = "post";
+    form.action = "/Admin/LoginAdminTemp?key=" + encodeURIComponent(key) + "&isChange=true";
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+}
+</script>
