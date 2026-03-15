@@ -3,7 +3,7 @@
   {
       for (var i = 0; i < indes.length; i++)
       {
-        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "grey";
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "burlywood";
       }
   }
 
