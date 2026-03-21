@@ -2,40 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Memory Card Game 🧠</title>
+<title>Memory Picture Game 🧠</title>
 <style>
 body {
-  font-family: Arial;
-  text-align: center;
+  margin: 0;
+  overflow: hidden; /* ❌ chặn scroll */
   background: #222;
   color: white;
+  font-family: Arial;
 }
 
-h2 { margin-top: 10px; }
-
-/* GRID AUTO */
 .grid {
   display: grid;
-  gap: 10px;
-  justify-content: center;
-  margin: 20px auto;
-  max-width: 500px;
-
-  /* auto chia cột */
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  width: 100vw;
+  height: 100vh;
+  gap: 6px;
+  padding: 6px;
+  box-sizing: border-box;
 }
 
 .card {
   width: 100%;
-  aspect-ratio: 1/1;
-  perspective: 1000px;
-  cursor: pointer;
+  height: 100%;
+  perspective: 800px;
 }
 
 .inner {
   width: 100%;
   height: 100%;
-  position: relative;
   transition: transform 0.4s;
   transform-style: preserve-3d;
 }
@@ -48,7 +42,7 @@ h2 { margin-top: 10px; }
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 8px;
   backface-visibility: hidden;
 }
 
@@ -65,13 +59,10 @@ h2 { margin-top: 10px; }
 </head>
 <body>
 
-<h2>Memory Card</h2>
-<p>Lượt: <span id="moves">0</span></p>
-
 <div class="grid" id="grid"></div>
 
 <script>
-// 👉 bạn chỉnh list này
+// 👉 danh sách ảnh của bạn (100 ảnh cũng ok)
 const images = [
 "https://picsum.photos/id/1/200/200.png",
 "https://picsum.photos/id/2/200/200.png",
@@ -184,68 +175,84 @@ const images = [
 "https://picsum.photos/id/100/200/200.png"
 ];
 
-// duplicate + shuffle
-let cards = [...images, ...images]
-  .sort(() => Math.random() - 0.5);
-
 const grid = document.getElementById("grid");
 
-let first = null;
-let lock = false;
-let moves = 0;
-let matched = 0;
+function init() {
+  grid.innerHTML = "";
 
-document.getElementById("moves").innerText = moves;
+  const W = window.innerWidth;
+  const H = window.innerHeight;
 
-cards.forEach((img) => {
-  let card = document.createElement("div");
-  card.className = "card";
+  const cardSize = 80; // kích thước ước lượng
 
-  card.innerHTML = `
-    <div class="inner">
-      <div class="front"></div>
-      <div class="back" style="background-image:url('${img}')"></div>
-    </div>
-  `;
+  let cols = Math.floor(W / cardSize);
+  let rows = Math.floor(H / cardSize);
 
-  card.dataset.img = img;
-  card.onclick = () => flip(card);
+  let total = cols * rows;
 
-  grid.appendChild(card);
-});
+  // phải là số chẵn
+  if (total % 2 !== 0) total--;
 
-function flip(card) {
-  if (lock || card.classList.contains("flip")) return;
+  let pairs = total / 2;
 
-  card.classList.add("flip");
+  // random ảnh
+  let shuffled = [...images].sort(() => 0.5 - Math.random());
+  let selected = shuffled.slice(0, pairs);
 
-  if (!first) {
-    first = card;
-  } else {
-    moves++;
-    document.getElementById("moves").innerText = moves;
+  let cards = [...selected, ...selected]
+    .sort(() => 0.5 - Math.random());
 
-    if (first.dataset.img === card.dataset.img) {
-      matched += 2;
-      first = null;
+  // set grid
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
-      if (matched === cards.length) {
-        setTimeout(() => {
-          alert("🎉 You done!");
-          location.reload();
-        }, 300);
+  let first = null;
+  let lock = false;
+
+  cards.forEach(img => {
+    let card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="inner">
+        <div class="front"></div>
+        <div class="back" style="background-image:url('${img}')"></div>
+      </div>
+    `;
+
+    card.dataset.img = img;
+
+    card.onclick = () => {
+      if (lock || card.classList.contains("flip")) return;
+
+      card.classList.add("flip");
+
+      if (!first) {
+        first = card;
+      } else {
+        if (first.dataset.img === card.dataset.img) {
+          first = null;
+        } else {
+          lock = true;
+          setTimeout(() => {
+            first.classList.remove("flip");
+            card.classList.remove("flip");
+            first = null;
+            lock = false;
+          }, 600);
+        }
       }
-    } else {
-      lock = true;
-      setTimeout(() => {
-        first.classList.remove("flip");
-        card.classList.remove("flip");
-        first = null;
-        lock = false;
-      }, 700);
-    }
-  }
+    };
+
+    grid.appendChild(card);
+  });
 }
+
+init();
+
+// 👉 resize lại nếu đổi kích thước màn hình
+window.addEventListener("resize", () => {
+  init();
+});
 
 setInterval(function () {
     document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
