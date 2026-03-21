@@ -201,6 +201,10 @@ footer{
 <div class="card games menu-itemX1" data-action="GameCoCaro"><h3>GAME : cờ caro</h3></div>
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
 <div class="card games menu-itemX1" data-action="GameNeVatThe"><h3>GAME : né tránh vật thể</h3></div>
+<div class="card games menu-itemX1" data-action="Game2048"><h3>GAME : 2048</h3></div>
+<div class="card games menu-itemX1" data-action="GameFlappyBird"><h3>GAME : flappy bird</h3></div>
+<div class="card games menu-itemX1" data-action="GameTyping"><h3>GAME : typing ⌨</h3></div>
+<div class="card games menu-itemX1" data-action="GameMemory"><h3>GAME : memory card</h3></div>
 </div>
 </div>
 
@@ -279,6 +283,10 @@ case "GameRanSanMoi":window.location.href="/game-ran-san-moi";break;
 case "GameCoCaro":window.location.href="/game-co-caro";break;
 case "GameDapChuot":window.location.href="/game-dap-chuot";break;
 case "GameNeVatThe":window.location.href="/game-ne-tranh-vat-the";break;
+case "Game2048":window.location.href="/game-2048";break;
+case "GameFlappyBird":window.location.href="/game-flappy-bird";break;
+case "GameTyping":window.location.href="/game-typing";break;
+case "GameMemory":window.location.href="/game-memory";break;
 case "Studocu":showmodal1();break;
 }
 });
