@@ -4,61 +4,135 @@
 <meta charset="UTF-8">
 <title>Memory Card Game 🧠</title>
 <style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #222;
+  color: white;
+}
+
+h2 { margin-top: 10px; }
+
+/* GRID AUTO */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 80px);
   gap: 10px;
   justify-content: center;
+  margin: 20px auto;
+  max-width: 500px;
+
+  /* auto chia cột */
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
 }
+
 .card {
-  width: 80px;
-  height: 80px;
-  background: gray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
+  width: 100%;
+  aspect-ratio: 1/1;
+  perspective: 1000px;
   cursor: pointer;
+}
+
+.inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.4s;
+  transform-style: preserve-3d;
+}
+
+.card.flip .inner {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  backface-visibility: hidden;
+}
+
+.front {
+  background: #444;
+}
+
+.back {
+  transform: rotateY(180deg);
+  background-size: cover;
+  background-position: center;
 }
 </style>
 </head>
 <body>
 
-<h2>Memory Game</h2>
+<h2>Memory Card</h2>
+<p>Lượt: <span id="moves">0</span></p>
+
 <div class="grid" id="grid"></div>
 
 <script>
-let values = ["A","A","B","B","C","C","D","D"];
-values.sort(()=>Math.random()-0.5);
+// 👉 bạn chỉnh list này
+const images = [
+  "https://picsum.photos/id/1011/200",
+  "https://picsum.photos/id/1025/200",
+  "https://picsum.photos/id/1035/200",
+  "https://picsum.photos/id/1043/200",
+  "https://picsum.photos/id/1050/200"
+];
 
-let first = null;
-let lock = false;
+// duplicate + shuffle
+let cards = [...images, ...images]
+  .sort(() => Math.random() - 0.5);
 
 const grid = document.getElementById("grid");
 
-values.forEach((val,i)=>{
+let first = null;
+let lock = false;
+let moves = 0;
+let matched = 0;
+
+document.getElementById("moves").innerText = moves;
+
+cards.forEach((img) => {
   let card = document.createElement("div");
   card.className = "card";
-  card.dataset.value = val;
+
+  card.innerHTML = `
+    <div class="inner">
+      <div class="front"></div>
+      <div class="back" style="background-image:url('${img}')"></div>
+    </div>
+  `;
+
+  card.dataset.img = img;
   card.onclick = () => flip(card);
+
   grid.appendChild(card);
 });
 
-function flip(card){
-  if(lock || card.innerText) return;
+function flip(card) {
+  if (lock || card.classList.contains("flip")) return;
 
-  card.innerText = card.dataset.value;
+  card.classList.add("flip");
 
-  if(!first){
+  if (!first) {
     first = card;
   } else {
-    if(first.dataset.value === card.dataset.value){
+    moves++;
+    document.getElementById("moves").innerText = moves;
+
+    if (first.dataset.img === card.dataset.img) {
+      matched += 2;
       first = null;
+
+      if (matched === cards.length) {
+        setTimeout(() => alert("🎉 You Win!"), 300);
+      }
     } else {
       lock = true;
-      setTimeout(()=>{
-        first.innerText = "";
-        card.innerText = "";
+      setTimeout(() => {
+        first.classList.remove("flip");
+        card.classList.remove("flip");
         first = null;
         lock = false;
       }, 700);
