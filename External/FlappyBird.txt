@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Flappy Bird Pro</title>
+<title>Flappy Bird Game🐤</title>
 <style>
 body {
   margin: 0;
