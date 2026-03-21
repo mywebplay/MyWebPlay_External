@@ -2,16 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Memory Picture Game 🧠</title>
+<title>Game Memory Picture 🖼</title>
+
 <style>
 body {
   margin: 0;
-  overflow: hidden; /* ❌ chặn scroll */
+  overflow: hidden;
   background: #222;
-  color: white;
   font-family: Arial;
+  color: white;
 }
 
+/* GRID */
 .grid {
   display: grid;
   width: 100vw;
@@ -21,10 +23,12 @@ body {
   box-sizing: border-box;
 }
 
+/* CARD */
 .card {
   width: 100%;
   height: 100%;
   perspective: 800px;
+  cursor: pointer;
 }
 
 .inner {
@@ -55,127 +59,189 @@ body {
   background-size: cover;
   background-position: center;
 }
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 6px;
+}
 </style>
 </head>
+
 <body>
+
+<!-- MODAL -->
+<div id="startModal" class="modal">
+  <div class="box">
+    <h2>🧠 Game Hình Ảnh Trí Nhớ</h2>
+    <p>Lật 2 thẻ để tìm cặp giống nhau</p>
+    <p>Ghi nhớ vị trí để chiến thắng</p>
+    <p>Nhấn <b>SPACE</b> hoặc nút bên dưới để bắt đầu</p>
+    <button onclick="startGame()">Bắt đầu</button>
+  </div>
+</div>
 
 <div class="grid" id="grid"></div>
 
 <script>
-// 👉 danh sách ảnh của bạn (100 ảnh cũng ok)
+// 👉 bạn có thể thay bằng 100 ảnh của bạn
 const images = [
-"https://picsum.photos/id/1/200/200",
-"https://picsum.photos/id/2/200/200",
-"https://picsum.photos/id/3/200/200",
-"https://picsum.photos/id/4/200/200",
-"https://picsum.photos/id/5/200/200",
-"https://picsum.photos/id/6/200/200",
-"https://picsum.photos/id/7/200/200",
-"https://picsum.photos/id/8/200/200",
-"https://picsum.photos/id/9/200/200",
-"https://picsum.photos/id/10/200/200",
+"https://picsum.photos/id/1/200/200.png",
+"https://picsum.photos/id/2/200/200.png",
+"https://picsum.photos/id/3/200/200.png",
+"https://picsum.photos/id/4/200/200.png",
+"https://picsum.photos/id/5/200/200.png",
+"https://picsum.photos/id/6/200/200.png",
+"https://picsum.photos/id/7/200/200.png",
+"https://picsum.photos/id/8/200/200.png",
+"https://picsum.photos/id/9/200/200.png",
+"https://picsum.photos/id/10/200/200.png",
 
-"https://picsum.photos/id/11/200/200",
-"https://picsum.photos/id/12/200/200",
-"https://picsum.photos/id/13/200/200",
-"https://picsum.photos/id/14/200/200",
-"https://picsum.photos/id/15/200/200",
-"https://picsum.photos/id/16/200/200",
-"https://picsum.photos/id/17/200/200",
-"https://picsum.photos/id/18/200/200",
-"https://picsum.photos/id/19/200/200",
-"https://picsum.photos/id/20/200/200",
+"https://picsum.photos/id/11/200/200.png",
+"https://picsum.photos/id/12/200/200.png",
+"https://picsum.photos/id/13/200/200.png",
+"https://picsum.photos/id/14/200/200.png",
+"https://picsum.photos/id/15/200/200.png",
+"https://picsum.photos/id/16/200/200.png",
+"https://picsum.photos/id/17/200/200.png",
+"https://picsum.photos/id/18/200/200.png",
+"https://picsum.photos/id/19/200/200.png",
+"https://picsum.photos/id/20/200/200.png",
 
-"https://picsum.photos/id/21/200/200",
-"https://picsum.photos/id/22/200/200",
-"https://picsum.photos/id/23/200/200",
-"https://picsum.photos/id/24/200/200",
-"https://picsum.photos/id/25/200/200",
-"https://picsum.photos/id/26/200/200",
-"https://picsum.photos/id/27/200/200",
-"https://picsum.photos/id/28/200/200",
-"https://picsum.photos/id/29/200/200",
-"https://picsum.photos/id/30/200/200",
+"https://picsum.photos/id/21/200/200.png",
+"https://picsum.photos/id/22/200/200.png",
+"https://picsum.photos/id/23/200/200.png",
+"https://picsum.photos/id/24/200/200.png",
+"https://picsum.photos/id/25/200/200.png",
+"https://picsum.photos/id/26/200/200.png",
+"https://picsum.photos/id/27/200/200.png",
+"https://picsum.photos/id/28/200/200.png",
+"https://picsum.photos/id/29/200/200.png",
+"https://picsum.photos/id/30/200/200.png",
 
-"https://picsum.photos/id/31/200/200",
-"https://picsum.photos/id/32/200/200",
-"https://picsum.photos/id/33/200/200",
-"https://picsum.photos/id/34/200/200",
-"https://picsum.photos/id/35/200/200",
-"https://picsum.photos/id/36/200/200",
-"https://picsum.photos/id/37/200/200",
-"https://picsum.photos/id/38/200/200",
-"https://picsum.photos/id/39/200/200",
-"https://picsum.photos/id/40/200/200",
+"https://picsum.photos/id/31/200/200.png",
+"https://picsum.photos/id/32/200/200.png",
+"https://picsum.photos/id/33/200/200.png",
+"https://picsum.photos/id/34/200/200.png",
+"https://picsum.photos/id/35/200/200.png",
+"https://picsum.photos/id/36/200/200.png",
+"https://picsum.photos/id/37/200/200.png",
+"https://picsum.photos/id/38/200/200.png",
+"https://picsum.photos/id/39/200/200.png",
+"https://picsum.photos/id/40/200/200.png",
 
-"https://picsum.photos/id/41/200/200",
-"https://picsum.photos/id/42/200/200",
-"https://picsum.photos/id/43/200/200",
-"https://picsum.photos/id/44/200/200",
-"https://picsum.photos/id/45/200/200",
-"https://picsum.photos/id/46/200/200",
-"https://picsum.photos/id/47/200/200",
-"https://picsum.photos/id/48/200/200",
-"https://picsum.photos/id/49/200/200",
-"https://picsum.photos/id/50/200/200",
+"https://picsum.photos/id/41/200/200.png",
+"https://picsum.photos/id/42/200/200.png",
+"https://picsum.photos/id/43/200/200.png",
+"https://picsum.photos/id/44/200/200.png",
+"https://picsum.photos/id/45/200/200.png",
+"https://picsum.photos/id/46/200/200.png",
+"https://picsum.photos/id/47/200/200.png",
+"https://picsum.photos/id/48/200/200.png",
+"https://picsum.photos/id/49/200/200.png",
+"https://picsum.photos/id/50/200/200.png",
 
-"https://picsum.photos/id/51/200/200",
-"https://picsum.photos/id/52/200/200",
-"https://picsum.photos/id/53/200/200",
-"https://picsum.photos/id/54/200/200",
-"https://picsum.photos/id/55/200/200",
-"https://picsum.photos/id/56/200/200",
-"https://picsum.photos/id/57/200/200",
-"https://picsum.photos/id/58/200/200",
-"https://picsum.photos/id/59/200/200",
-"https://picsum.photos/id/60/200/200",
+"https://picsum.photos/id/51/200/200.png",
+"https://picsum.photos/id/52/200/200.png",
+"https://picsum.photos/id/53/200/200.png",
+"https://picsum.photos/id/54/200/200.png",
+"https://picsum.photos/id/55/200/200.png",
+"https://picsum.photos/id/56/200/200.png",
+"https://picsum.photos/id/57/200/200.png",
+"https://picsum.photos/id/58/200/200.png",
+"https://picsum.photos/id/59/200/200.png",
+"https://picsum.photos/id/60/200/200.png",
 
-"https://picsum.photos/id/61/200/200",
-"https://picsum.photos/id/62/200/200",
-"https://picsum.photos/id/63/200/200",
-"https://picsum.photos/id/64/200/200",
-"https://picsum.photos/id/65/200/200",
-"https://picsum.photos/id/66/200/200",
-"https://picsum.photos/id/67/200/200",
-"https://picsum.photos/id/68/200/200",
-"https://picsum.photos/id/69/200/200",
-"https://picsum.photos/id/70/200/200",
+"https://picsum.photos/id/61/200/200.png",
+"https://picsum.photos/id/62/200/200.png",
+"https://picsum.photos/id/63/200/200.png",
+"https://picsum.photos/id/64/200/200.png",
+"https://picsum.photos/id/65/200/200.png",
+"https://picsum.photos/id/66/200/200.png",
+"https://picsum.photos/id/67/200/200.png",
+"https://picsum.photos/id/68/200/200.png",
+"https://picsum.photos/id/69/200/200.png",
+"https://picsum.photos/id/70/200/200.png",
 
-"https://picsum.photos/id/71/200/200",
-"https://picsum.photos/id/72/200/200",
-"https://picsum.photos/id/73/200/200",
-"https://picsum.photos/id/74/200/200",
-"https://picsum.photos/id/75/200/200",
-"https://picsum.photos/id/76/200/200",
-"https://picsum.photos/id/77/200/200",
-"https://picsum.photos/id/78/200/200",
-"https://picsum.photos/id/79/200/200",
-"https://picsum.photos/id/80/200/200",
+"https://picsum.photos/id/71/200/200.png",
+"https://picsum.photos/id/72/200/200.png",
+"https://picsum.photos/id/73/200/200.png",
+"https://picsum.photos/id/74/200/200.png",
+"https://picsum.photos/id/75/200/200.png",
+"https://picsum.photos/id/76/200/200.png",
+"https://picsum.photos/id/77/200/200.png",
+"https://picsum.photos/id/78/200/200.png",
+"https://picsum.photos/id/79/200/200.png",
+"https://picsum.photos/id/80/200/200.png",
 
-"https://picsum.photos/id/81/200/200",
-"https://picsum.photos/id/82/200/200",
-"https://picsum.photos/id/83/200/200",
-"https://picsum.photos/id/84/200/200",
-"https://picsum.photos/id/85/200/200",
-"https://picsum.photos/id/86/200/200",
-"https://picsum.photos/id/87/200/200",
-"https://picsum.photos/id/88/200/200",
-"https://picsum.photos/id/89/200/200",
-"https://picsum.photos/id/90/200/200",
+"https://picsum.photos/id/81/200/200.png",
+"https://picsum.photos/id/82/200/200.png",
+"https://picsum.photos/id/83/200/200.png",
+"https://picsum.photos/id/84/200/200.png",
+"https://picsum.photos/id/85/200/200.png",
+"https://picsum.photos/id/86/200/200.png",
+"https://picsum.photos/id/87/200/200.png",
+"https://picsum.photos/id/88/200/200.png",
+"https://picsum.photos/id/89/200/200.png",
+"https://picsum.photos/id/90/200/200.png",
 
-"https://picsum.photos/id/91/200/200",
-"https://picsum.photos/id/92/200/200",
-"https://picsum.photos/id/93/200/200",
-"https://picsum.photos/id/94/200/200",
-"https://picsum.photos/id/95/200/200",
-"https://picsum.photos/id/96/200/200",
-"https://picsum.photos/id/97/200/200",
-"https://picsum.photos/id/98/200/200",
-"https://picsum.photos/id/99/200/200",
-"https://picsum.photos/id/100/200/200"
+"https://picsum.photos/id/91/200/200.png",
+"https://picsum.photos/id/92/200/200.png",
+"https://picsum.photos/id/93/200/200.png",
+"https://picsum.photos/id/94/200/200.png",
+"https://picsum.photos/id/95/200/200.png",
+"https://picsum.photos/id/96/200/200.png",
+"https://picsum.photos/id/97/200/200.png",
+"https://picsum.photos/id/98/200/200.png",
+"https://picsum.photos/id/99/200/200.png",
+"https://picsum.photos/id/100/200/200.png"
 ];
 
 const grid = document.getElementById("grid");
+
+let started = false;
+let first = null;
+let lock = false;
+
+// START
+function startGame() {
+  document.getElementById("startModal").style.display = "none";
+  started = true;
+  init();
+}
+
+// SPACE cũng start
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") {
+    if (!started) startGame();
+  }
+});
 
 function init() {
   grid.innerHTML = "";
@@ -183,30 +249,32 @@ function init() {
   const W = window.innerWidth;
   const H = window.innerHeight;
 
-  const cardSize = 80; // kích thước ước lượng
+  const cardSize = 80;
 
   let cols = Math.floor(W / cardSize);
   let rows = Math.floor(H / cardSize);
 
   let total = cols * rows;
-
-  // phải là số chẵn
   if (total % 2 !== 0) total--;
 
   let pairs = total / 2;
 
-  // random ảnh
-  let shuffled = [...images].sort(() => 0.5 - Math.random());
+  // đảm bảo đủ ảnh
+  let pool = [];
+  while (pool.length < pairs) {
+    pool = pool.concat(images);
+  }
+
+  let shuffled = pool.sort(() => 0.5 - Math.random());
   let selected = shuffled.slice(0, pairs);
 
   let cards = [...selected, ...selected]
     .sort(() => 0.5 - Math.random());
 
-  // set grid
   grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
-  let first = null;
-  let lock = false;
+  first = null;
+  lock = false;
 
   cards.forEach(img => {
     let card = document.createElement("div");
@@ -222,6 +290,7 @@ function init() {
     card.dataset.img = img;
 
     card.onclick = () => {
+      if (!started) return;
       if (lock || card.classList.contains("flip")) return;
 
       card.classList.add("flip");
@@ -247,11 +316,9 @@ function init() {
   });
 }
 
-init();
-
-// 👉 resize lại nếu đổi kích thước màn hình
+// resize lại nếu đổi màn hình
 window.addEventListener("resize", () => {
-  init();
+  if (started) init();
 });
 
 setInterval(function () {
