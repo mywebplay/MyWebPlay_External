@@ -182,9 +182,23 @@ function gameOver() {
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // 🐦 Vẽ chim bằng emoji (đỡ xấu 😆)
+  // 🐦 Vẽ chim (flip + rotate)
+  ctx.save();
+
+  // di chuyển đến tâm chim
+  ctx.translate(bird.x + 12, bird.y + 12);
+
+  // xoay theo velocity (bay lên ngẩng, rơi chúi)
+  ctx.rotate(bird.velocity * 0.05);
+
+  // lật ngang để quay sang phải
+  ctx.scale(-1, 1);
+
+  // vẽ emoji
   ctx.font = "24px Arial";
-  ctx.fillText("🐦", bird.x, bird.y + 20);
+  ctx.fillText("🐦", -12, 10);
+
+  ctx.restore();
 
   // pipes
   ctx.fillStyle = "green";
