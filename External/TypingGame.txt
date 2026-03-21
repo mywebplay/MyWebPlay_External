@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Typing Game ⌨</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial;
+  background: #111;
+  color: white;
+}
+
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.word {
+  position: absolute;
+  font-size: 20px;
+  color: #0f0;
+}
+
+#inputBox {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  font-size: 18px;
+  width: 200px;
+}
+
+#score {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+</style>
+</head>
+<body>
+
+<div id="score">Score: 0</div>
+<div id="game"></div>
+<input id="inputBox" placeholder="Type here..." autofocus />
+
+<script>
+const wordsList = ["html","css","javascript","game","code","win","play","fun","typing","fast"];
+const game = document.getElementById("game");
+const input = document.getElementById("inputBox");
+const scoreText = document.getElementById("score");
+
+let words = [];
+let score = 0;
+
+function spawnWord() {
+  let text = wordsList[Math.floor(Math.random() * wordsList.length)];
+  let el = document.createElement("div");
+  el.className = "word";
+  el.innerText = text;
+  el.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  el.style.top = "0px";
+
+  game.appendChild(el);
+
+  words.push({ el: el, text: text, y: 0 });
+}
+
+function update() {
+  words.forEach(w => {
+    w.y += 1.5;
+    w.el.style.top = w.y + "px";
+
+    if (w.y > window.innerHeight) {
+      alert("Game Over! Score: " + score);
+      location.reload();
+    }
+  });
+}
+
+function checkInput() {
+  let val = input.value.trim();
+
+  words.forEach((w, i) => {
+    if (w.text === val) {
+      game.removeChild(w.el);
+      words.splice(i, 1);
+      score++;
+      scoreText.innerText = "Score: " + score;
+      input.value = "";
+    }
+  });
+}
+
+input.addEventListener("input", checkInput);
+
+setInterval(spawnWord, 2000);
+setInterval(update, 30);
+</script>
+
+</body>
+</html>
