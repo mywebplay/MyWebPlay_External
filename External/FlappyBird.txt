@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Flappy Bird Game 🐦</title>
+<title>Flappy Bird Pro</title>
 <style>
 body {
   margin: 0;
@@ -11,7 +11,7 @@ body {
 }
 
 canvas {
-  background: skyblue;
+  background: linear-gradient(#70c5ce, #ffffff);
   display: block;
   margin: auto;
 }
@@ -32,7 +32,7 @@ canvas {
 .box {
   background: white;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 300px;
 }
 
@@ -40,23 +40,30 @@ button {
   padding: 10px 20px;
   margin-top: 10px;
   cursor: pointer;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 6px;
+}
+
+button:hover {
+  background: #45a049;
 }
 </style>
 </head>
 <body>
 
-<!-- Modal Start -->
+<!-- START MODAL -->
 <div id="startModal" class="modal">
   <div class="box">
-    <h2>Hướng dẫn</h2>
-    <p>Nhấn SPACE để bay lên</p>
-    <p>Tránh các ống màu xanh</p>
-    <p>Bay càng lâu càng tốt 😎</p>
+    <h2>🐤 Flappy Bird</h2>
+    <p>Nhấn <b>SPACE</b> để bay</p>
+    <p>Tránh ống xanh</p>
     <button onclick="startGame()">Bắt đầu</button>
   </div>
 </div>
 
-<!-- Modal Game Over -->
+<!-- GAME OVER MODAL -->
 <div id="gameOverModal" class="modal" style="display:none;">
   <div class="box">
     <h2>Game Over</h2>
@@ -94,20 +101,39 @@ function restartGame() {
   running = true;
 }
 
+// CONTROL (Space all-in-one)
 document.addEventListener("keydown", e => {
-  if (e.code === "Space" && running) {
+  if (e.code !== "Space") return;
+
+  e.preventDefault();
+
+  // Start
+  if (document.getElementById("startModal").style.display !== "none") {
+    startGame();
+    return;
+  }
+
+  // Restart
+  if (document.getElementById("gameOverModal").style.display !== "none") {
+    restartGame();
+    return;
+  }
+
+  // Jump
+  if (running) {
     bird.velocity = -7;
   }
 });
 
 function spawnPipe() {
-  let gap = 130;
+  let gap = 140;
   let top = Math.random() * 200 + 50;
 
   pipes.push({
     x: canvas.width,
     top: top,
-    bottom: top + gap
+    bottom: top + gap,
+    passed: false
   });
 }
 
@@ -127,9 +153,9 @@ function update() {
 
   for (let p of pipes) {
     if (
-      bird.x + 20 > p.x &&
+      bird.x + 24 > p.x &&
       bird.x < p.x + 50 &&
-      (bird.y < p.top || bird.y + 20 > p.bottom)
+      (bird.y < p.top || bird.y + 24 > p.bottom)
     ) {
       gameOver();
     }
@@ -156,16 +182,20 @@ function gameOver() {
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(bird.x, bird.y, 20, 20);
+  // 🐦 Vẽ chim bằng emoji (đỡ xấu 😆)
+  ctx.font = "24px Arial";
+  ctx.fillText("🐦", bird.x, bird.y + 20);
 
+  // pipes
   ctx.fillStyle = "green";
   pipes.forEach(p => {
     ctx.fillRect(p.x, 0, 50, p.top);
     ctx.fillRect(p.x, p.bottom, 50, canvas.height);
   });
 
+  // score
   ctx.fillStyle = "black";
+  ctx.font = "16px Arial";
   ctx.fillText("Score: " + score, 10, 20);
 }
 
