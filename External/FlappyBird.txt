@@ -70,7 +70,7 @@ button:hover {
 <div id="startModal" class="modal">
   <div class="box">
     <h2>🐤 Flappy Bird</h2>
-    <p>Nhấn <b>SPACE</b> để bay</p>
+    <p>Nhấn <b>SPACE</b> để bay/di chuyển (nếu là trên PC/Laptop) hoặc tap vào màn hình (nếu là điện thoại/smart phone)</p>
     <p>Tránh ống xanh</p>
     <button onclick="startGame()">Bắt đầu</button>
   </div>
@@ -143,48 +143,18 @@ document.addEventListener("keydown", e => {
 
   e.preventDefault();
 
-  // Start
-  if (document.getElementById("startModal").style.display !== "none") {
-    startGame();
-    return;
-  }
-
-  // Restart
-  if (document.getElementById("gameOverModal").style.display !== "none") {
-    restartGame();
-    return;
-  }
-
   // Jump
   if (running) {
     bird.velocity = -7;
   }
 });
 
-/* ✅ thêm: double tap mobile */
-let lastTap = 0;
 document.addEventListener("touchend", function(e) {
-  let now = new Date().getTime();
-  let diff = now - lastTap;
 
-  if (diff < 300 && diff > 0) {
-    // giả lập space
-    if (document.getElementById("startModal").style.display !== "none") {
-      startGame();
-      return;
-    }
-
-    if (document.getElementById("gameOverModal").style.display !== "none") {
-      restartGame();
-      return;
-    }
-
-    if (running) {
-      bird.velocity = -7;
-    }
+  if (running) {
+    bird.velocity = -7;
   }
 
-  lastTap = now;
 });
 
 function spawnPipe() {
