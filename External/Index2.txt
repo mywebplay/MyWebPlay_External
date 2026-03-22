@@ -201,15 +201,19 @@ footer{
 <div class="card games menu-itemX1" data-action="GameCoCaro"><h3>GAME : cờ caro</h3></div>
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
 <div class="card games menu-itemX1" data-action="GameNeVatThe"><h3>GAME : né tránh vật thể</h3></div>
-<div class="card games menu-itemX1" data-action="Game2048"><h3>GAME : 2048</h3></div>
 <div class="card games menu-itemX1" data-action="GameFlappyBird"><h3>GAME : flappy bird</h3></div>
+
+<@@hideshow_context:"User-Agent"\s*:\s*".*(iPhone|iPad|iPod|Android|Mobile|Tablet).*"----NO----REGEX
+#3275_5828_2#
+<div class="card games menu-itemX1" data-action="Game2048"><h3>GAME : 2048</h3></div>
 <div class="card games menu-itemX1" data-action="GameTyping"><h3>GAME : typing ⌨</h3></div>
 <div class="card games menu-itemX1" data-action="GameMemory"><h3>GAME : memory card</h3></div>
+@@>
 </div>
 </div>
 
 <@@hideshow_context:"Referer": "https://www.google.com/"----YES----CONTAINS
-#3275_5828_2#
+#3275_5828_3#
     <div class="section" id="docs">
     <h2>📕 Studocu</h2>
     <div class="grid">
