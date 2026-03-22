@@ -71,7 +71,7 @@ button:hover {
   <div class="box">
     <h2>🐤 Flappy Bird</h2>
     <p>Nhấn <b>SPACE</b> để bay/di chuyển (nếu là trên PC/Laptop) hoặc tap vào màn hình (nếu là điện thoại/smart phone)</p>
-    <p>Tránh ống xanh</p>
+    <p>Tránh va chạm với các đường ống màu xanh và vượt qua các chướng ngại vật</p>
     <button onclick="startGame()">Bắt đầu</button>
   </div>
 </div>
