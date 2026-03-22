@@ -198,7 +198,6 @@ footer{
 <h2>🎮 Mini Games</h2>
 <div class="grid">
 <div class="card games menu-itemX1" data-action="GameRanSanMoi"><h3>GAME : rắn săn mồi</h3></div>
-<div class="card games menu-itemX1" data-action="GameCoCaro"><h3>GAME : cờ caro</h3></div>
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
 <div class="card games menu-itemX1" data-action="GameNeVatThe"><h3>GAME : né tránh vật thể</h3></div>
 <div class="card games menu-itemX1" data-action="GameFlappyBird"><h3>GAME : flappy bird</h3></div>
@@ -208,6 +207,7 @@ footer{
 <div class="card games menu-itemX1" data-action="Game2048"><h3>GAME : 2048</h3></div>
 <div class="card games menu-itemX1" data-action="GameTyping"><h3>GAME : typing ⌨</h3></div>
 <div class="card games menu-itemX1" data-action="GameMemory"><h3>GAME : memory card</h3></div>
+<div class="card games menu-itemX1" data-action="GameCoCaro"><h3>GAME : cờ caro</h3></div>
 @@>
 </div>
 </div>
