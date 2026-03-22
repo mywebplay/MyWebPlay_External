@@ -48,7 +48,27 @@ body {
 <input id="inputBox" placeholder="Type here..." autofocus />
 
 <script>
-const wordsList = ["html","css","javascript","game","code","win","play","fun","typing","fast"];
+const wordsList = [
+"html","css","javascript","game","code","win","play","fun","typing","fast",
+
+"slow","quick","speed","keyboard","mouse","screen","browser","window","input","output",
+"click","press","enter","space","shift","control","alt","escape","delete","insert",
+
+"function","variable","constant","object","array","string","number","boolean","null","undefined",
+"loop","condition","switch","case","break","continue","return","async","await","promise",
+
+"random","shuffle","select","filter","map","reduce","sort","search","find","replace",
+"create","update","delete","render","display","layout","design","style","color","theme",
+
+"button","modal","popup","overlay","animation","transition","transform","rotate","scale","translate",
+"responsive","adaptive","mobile","desktop","tablet","resolution","viewport","dimension","pixel","ratio",
+
+"performance","optimization","efficiency","memory","storage","database","server","client","network","protocol",
+"security","encryption","authentication","authorization","session","cookie","token","firewall","privacy","protection",
+
+"challenge","difficulty","strategy","solution","algorithm","complexity","recursive","iteration","calculation","evaluation",
+"understanding","knowledge","experience","improvement","development","programming","engineering","architecture","framework","library"
+];
 const game = document.getElementById("game");
 const input = document.getElementById("inputBox");
 const scoreText = document.getElementById("score");
