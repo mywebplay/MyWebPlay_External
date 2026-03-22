@@ -10,10 +10,23 @@ body {
   font-family: Arial;
 }
 
+/* ✅ thêm: chặn scroll + full màn hình */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 canvas {
   background: linear-gradient(#70c5ce, #ffffff);
   display: block;
   margin: auto;
+}
+
+/* ✅ thêm: canvas full screen */
+#game {
+  width: 100vw;
+  height: 100vh;
 }
 
 /* MODAL */
@@ -90,13 +103,36 @@ function init() {
 
 init();
 
+/* ✅ thêm: resize canvas theo màn hình */
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+/* ✅ thêm: fullscreen */
+function goFullScreen() {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+}
+
 function startGame() {
   document.getElementById("startModal").style.display = "none";
+
+  /* ✅ thêm */
+  goFullScreen();
+
   running = true;
 }
 
 function restartGame() {
   document.getElementById("gameOverModal").style.display = "none";
+
+  /* ✅ thêm */
+  goFullScreen();
+
   init();
   running = true;
 }
@@ -123,6 +159,32 @@ document.addEventListener("keydown", e => {
   if (running) {
     bird.velocity = -7;
   }
+});
+
+/* ✅ thêm: double tap mobile */
+let lastTap = 0;
+document.addEventListener("touchend", function(e) {
+  let now = new Date().getTime();
+  let diff = now - lastTap;
+
+  if (diff < 300 && diff > 0) {
+    // giả lập space
+    if (document.getElementById("startModal").style.display !== "none") {
+      startGame();
+      return;
+    }
+
+    if (document.getElementById("gameOverModal").style.display !== "none") {
+      restartGame();
+      return;
+    }
+
+    if (running) {
+      bird.velocity = -7;
+    }
+  }
+
+  lastTap = now;
 });
 
 function spawnPipe() {
@@ -185,29 +247,21 @@ function draw() {
   // 🐦 Vẽ chim (flip + rotate)
   ctx.save();
 
-  // di chuyển đến tâm chim
   ctx.translate(bird.x + 12, bird.y + 12);
-
-  // xoay theo velocity (bay lên ngẩng, rơi chúi)
   ctx.rotate(bird.velocity * 0.05);
-
-  // lật ngang để quay sang phải
   ctx.scale(-1, 1);
 
-  // vẽ emoji
   ctx.font = "24px Arial";
   ctx.fillText("🐦", -12, 10);
 
   ctx.restore();
 
-  // pipes
   ctx.fillStyle = "green";
   pipes.forEach(p => {
     ctx.fillRect(p.x, 0, 50, p.top);
     ctx.fillRect(p.x, p.bottom, 50, canvas.height);
   });
 
-  // score
   ctx.fillStyle = "black";
   ctx.font = "16px Arial";
   ctx.fillText("Score: " + score, 10, 20);
@@ -220,6 +274,14 @@ function loop() {
 }
 
 loop();
+
+/* ✅ thêm: cảnh báo xoay màn hình */
+window.addEventListener("orientationchange", function() {
+  setTimeout(() => {
+    alert("Có vẻ bạn đang thực hiện thay đổi độ rộng màn hình bằng cách xoay ngang/dọc thiết bị và điều đó có nghĩa game cần phải khởi động lại ngay bây giờ.");
+    location.reload();
+  }, 300);
+});
 
 setInterval(function () {
     document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
