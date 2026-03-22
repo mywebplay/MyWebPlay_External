@@ -22,6 +22,7 @@ body {
   position: absolute;
   font-size: 20px;
   color: #0f0;
+  white-space: nowrap;
 }
 
 #inputBox {
@@ -39,6 +40,27 @@ body {
   top: 10px;
   left: 10px;
 }
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -47,56 +69,98 @@ body {
 <div id="game"></div>
 <input id="inputBox" placeholder="Type here..." autofocus />
 
-<script>
-const wordsList = [
-"html","css","javascript","game","code","win","play","fun","typing","fast",
+<!-- MODAL -->
+<div id="gameOverModal" class="modal">
+  <div class="box">
+    <h2>Game Over</h2>
+    <p id="finalScore"></p>
+    <button onclick="location.reload()">Chơi lại</button>
+  </div>
+</div>
 
+<script>
+const wordsList = [/* giữ nguyên list của bạn */ 
+"html","css","javascript","game","code","win","play","fun","typing","fast",
 "slow","quick","speed","keyboard","mouse","screen","browser","window","input","output",
 "click","press","enter","space","shift","control","alt","escape","delete","insert",
-
 "function","variable","constant","object","array","string","number","boolean","null","undefined",
 "loop","condition","switch","case","break","continue","return","async","await","promise",
-
 "random","shuffle","select","filter","map","reduce","sort","search","find","replace",
 "create","update","delete","render","display","layout","design","style","color","theme",
-
 "button","modal","popup","overlay","animation","transition","transform","rotate","scale","translate",
 "responsive","adaptive","mobile","desktop","tablet","resolution","viewport","dimension","pixel","ratio",
-
 "performance","optimization","efficiency","memory","storage","database","server","client","network","protocol",
 "security","encryption","authentication","authorization","session","cookie","token","firewall","privacy","protection",
-
 "challenge","difficulty","strategy","solution","algorithm","complexity","recursive","iteration","calculation","evaluation",
 "understanding","knowledge","experience","improvement","development","programming","engineering","architecture","framework","library"
 ];
+
 const game = document.getElementById("game");
 const input = document.getElementById("inputBox");
 const scoreText = document.getElementById("score");
 
 let words = [];
 let score = 0;
+let gameOver = false;
+
+// 👉 giới hạn số chữ theo màn hình
+function getMaxWords() {
+  let perRow = Math.floor(window.innerWidth / 120);
+  let rows = Math.floor(window.innerHeight / 40);
+  return perRow * rows * 0.6; // giảm bớt để tránh đè
+}
 
 function spawnWord() {
+  if (gameOver) return;
+
+  // ❗ tránh spawn quá nhiều
+  if (words.length > getMaxWords()) return;
+
   let text = wordsList[Math.floor(Math.random() * wordsList.length)];
   let el = document.createElement("div");
   el.className = "word";
   el.innerText = text;
-  el.style.left = Math.random() * (window.innerWidth - 100) + "px";
+
+  let x = Math.random() * (window.innerWidth - 120);
+
+  // ❗ tránh đè chữ (check gần đúng)
+  let safe = false;
+  let tries = 0;
+
+  while (!safe && tries < 20) {
+    safe = true;
+    for (let w of words) {
+      let dx = Math.abs(w.x - x);
+      let dy = Math.abs(w.y - 0);
+      if (dx < 100 && dy < 30) {
+        safe = false;
+        x = Math.random() * (window.innerWidth - 120);
+        break;
+      }
+    }
+    tries++;
+  }
+
+  el.style.left = x + "px";
   el.style.top = "0px";
 
   game.appendChild(el);
 
-  words.push({ el: el, text: text, y: 0 });
+  words.push({ el: el, text: text, y: 0, x: x });
 }
 
 function update() {
+  if (gameOver) return;
+
   words.forEach(w => {
     w.y += 1.5;
     w.el.style.top = w.y + "px";
 
     if (w.y > window.innerHeight) {
-      alert("Game Over! Score: " + score);
-      location.reload();
+      gameOver = true;
+
+      document.getElementById("finalScore").innerText = "Score: " + score;
+      document.getElementById("gameOverModal").style.display = "flex";
     }
   });
 }
@@ -120,6 +184,7 @@ input.addEventListener("input", checkInput);
 setInterval(spawnWord, 2000);
 setInterval(update, 30);
 
+// giữ nguyên đoạn bạn có
 setInterval(function () {
     document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
     document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
