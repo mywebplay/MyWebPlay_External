@@ -89,12 +89,14 @@ function spawnWord() {
   words.push({ el: el, text: text, y: 0 });
 }
 
+let loop = setInterval(update, 16);
+
 function update() {
   words.forEach(w => {
     w.y += 1.5;
-    w.el.style.top = w.y + "px";
 
     if (w.y > window.innerHeight) {
+      clearInterval(loop);
       alert("Game Over! Score: " + score);
       location.reload();
     }
