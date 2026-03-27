@@ -1,4 +1,8 @@
 <style>
+.tab-active {
+  background: #ccc;
+}
+
 .processing-overlay {
     position: fixed;
     inset: 0;
@@ -194,6 +198,17 @@
 function switchTab(tab){
   document.getElementById("tab1").style.display = (tab===1?"block":"none");
   document.getElementById("tab2").style.display = (tab===2?"block":"none");
+
+  // reset
+  document.getElementById("tabBtn1").classList.remove("tab-active");
+  document.getElementById("tabBtn2").classList.remove("tab-active");
+
+  // active
+  if(tab === 1){
+    document.getElementById("tabBtn1").classList.add("tab-active");
+  } else {
+    document.getElementById("tabBtn2").classList.add("tab-active");
+  }
 }
 
 function showModalView(){
