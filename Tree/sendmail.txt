@@ -1,4 +1,9 @@
 <style>
+.tab-active {
+  background: #4CAF50; /* xanh sáng */
+  color: #fff;
+}
+
 .processing-overlay {
     position: fixed;
     inset: 0;
@@ -127,9 +132,20 @@
 </div>
 
 <script>
+switchTab(1);
+
 function switchTab(tab){
   document.getElementById("tab1").style.display = (tab===1?"block":"none");
   document.getElementById("tab2").style.display = (tab===2?"block":"none");
+
+  tabBtn1.classList.remove("tab-active");
+  tabBtn2.classList.remove("tab-active");
+
+  if(tab===1){
+    tabBtn1.classList.add("tab-active");
+  } else {
+    tabBtn2.classList.add("tab-active");
+  }
 }
 
 function showModalView(){
