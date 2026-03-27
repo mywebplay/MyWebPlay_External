@@ -1,9 +1,4 @@
 <style>
-.tab-active {
-  background: #4CAF50; /* xanh sáng */
-  color: #fff;
-}
-
 .processing-overlay {
     position: fixed;
     inset: 0;
@@ -18,159 +13,175 @@
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease;
 }
+
+/* Khi show */
 .processing-overlay.active {
     opacity: 1;
     visibility: visible;
 }
+
 .processing-modal {
     width: 320px;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     text-align: center;
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
 }
+
+.processing-overlay.active .processing-modal {
+    transform: scale(1);
+}
+
 .processing-title {
     color: red;
     font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
 }
+
 .progress-container {
+    position: relative;
     width: 100%;
     height: 8px;
     background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
 }
+
 .progress-bar {
+    position: absolute;
     height: 100%;
     width: 40%;
     background: linear-gradient(90deg, #4caf50, #81c784);
+    border-radius: 4px;
     animation: indeterminate 1.2s infinite ease-in-out;
 }
+
+@keyframes indeterminate {
+    0% { left: -40%; }
+    50% { left: 100%; }
+    100% { left: -40%; }
+}
 </style>
+<style>
+  /* Modal overlay */
+  #modal_view {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none; /* Ẩn mặc định */
+    z-index: 9999;
+    overflow-y: auto; /* Scroll nếu nội dung dài */
+  }
 
-<!-- TAB -->
-<div style="display:flex;">
-  <div id="tabBtn1" onclick="switchTab(1)" style="flex:1;text-align:center;cursor:pointer;">GỬI 1 MAIL ĐƠN LẺ</div>
-  <div id="tabBtn2" onclick="switchTab(2)" style="flex:1;text-align:center;cursor:pointer;">GỬI NHIỀU MAIL CÙNG LÚC</div>
-</div>
-<hr/>
+  /* Nội dung modal */
+  #modal_body {
+    background: #fff;
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 60px 20px 20px; /* Xích nội dung để tránh đè nút close */
+  }
 
-<!-- TAB 1 (GIỮ NGUYÊN) -->
-<div id="tab1">
-
-<b>Email external (nếu không vui lòng để trống) : </b><br />
-<input type="text" id="indexAnotherLoginMail" style="width: 30px;" /><br />
-
-<b>Nhập email : </b><br />
-<input type="text" id="mail" style="width: 600px;" /><br />
-
-<b>Nhập subject : </b><br />
-<input type="text" id="subject" style="width: 600px;" /><br />
-
-<b>Nhập nội dung : </b><br />
-<textarea id="message" cols="200" rows="20"></textarea><br />
-
-<input id="isHTML" type="checkbox" />
-<b style="color:blue">Is body mail HTML</b>
-<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
-
+  /* Nút đóng */
+  #btn_close_modal {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    padding: 6px;
+    cursor: pointer;
+  }
+  #btn_close_modal:hover {
+    background: rgba(0,0,0,0.1);
+    border-radius: 6px;
+  }
+</style>
+<b>Email external (nếu không vui lòng để trống) : </b>
 <br />
-
-<input type="file" id="files" multiple />
-<input type="checkbox" id="sendFile" />
-<b style="color:darkgreen">Upload file lên server MegaIO</b>
-
+<input type="text" id="indexAnotherLoginMail" style="width: 30px;" autocomplete="off" />
+<br />
+<b>Nhập email : </b>
+<br />
+<input type="text" id="mail" style="width: 600px;" autocomplete="off" />
+<br />
+<b>Nhập subject : </b>
+<br />
+<input type="text" id="subject" style="width: 600px;" autocomplete="off" />
+<br />
+<b>Nhập nội dung : </b>
+<br />
+<textarea id="message" cols="200" rows="20" autocomplete="off"></textarea>
+<br />
+<input id="isHTML" type="checkbox" autocomplete="off" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
+<br />
+<input type="file" id="files" multiple /><input type="checkbox" id="sendFile" /><b style="color:darkgreen">Upload file lên server MegaIO</b>
 <br /><br />
-
 <button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
-
-</div>
-
-<!-- TAB 2 -->
-<div id="tab2" style="display:none;">
-
-<b>Tải lên csv data gửi e-mail hàng loạt : </b><br/>
-<input type="file" id="csvFile" accept=".csv"/><br/><br/>
-
-<b>Email external (nếu không vui lòng để trống) : </b><br />
-<input type="text" id="indexAnotherLoginMail_bulk" style="width: 30px;" /><br />
-
-<b>Nhập subject : </b><br />
-<input type="text" id="subject_bulk" style="width: 600px;" /><br />
-
-<b>Nhập nội dung : </b><br />
-<textarea id="message_bulk" cols="200" rows="20"></textarea><br />
-
-<input id="isHTML_bulk" type="checkbox" />
-<b style="color:blue">Is body mail HTML</b>
-<button onclick="previewBulk()" style="color:deeppink;"><b>Xem trước HTML</b></button>
-
-<br />
-
-<input type="file" id="files_bulk" multiple />
-<input type="checkbox" id="sendFile_bulk" />
-<b style="color:darkgreen">Upload file lên server MegaIO</b>
-
-<br /><br />
-
-<button onclick="sendBulkMail()"><b style="color:red">GỬI MAIL HÀNG LOẠT</b></button>
-
-</div>
-
-<!-- MODAL VIEW -->
-<div id="modal_view" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;">
-<button onclick="closeModalView()">X</button>
-<div id="modal_data" style="background:white;padding:20px;"></div>
-</div>
-
-<!-- PROCESS -->
-<div id="processingOverlay" class="processing-overlay">
-  <div class="processing-modal">
-    <div class="processing-title">Đang xử lý</div>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
-    </div>
+<div id="modal_view">
+  <button id="btn_close_modal" onclick="closeModalView()">❌</button>
+  <div id="modal_body">
+    <div id="modal_data"></div>
   </div>
 </div>
-
+<!-- Processing Modal -->
+<div id="processingOverlay" class="processing-overlay">
+    <div class="processing-modal">
+        <div class="processing-title">Đang xử lý</div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+</div>
 <script>
-switchTab(1);
+  function showModalView() {
+    // Gán nội dung trước
+    document.getElementById("modal_data").innerHTML =
+        document.getElementById("message").value;
 
-function switchTab(tab){
-  document.getElementById("tab1").style.display = (tab===1?"block":"none");
-  document.getElementById("tab2").style.display = (tab===2?"block":"none");
-
-  tabBtn1.classList.remove("tab-active");
-  tabBtn2.classList.remove("tab-active");
-
-  if(tab===1){
-    tabBtn1.classList.add("tab-active");
-  } else {
-    tabBtn2.classList.add("tab-active");
+    // Rồi mới bật modal
+    document.getElementById("modal_view").style.display = "block";
   }
-}
 
-function showModalView(){
-  document.getElementById("modal_data").innerHTML =
-      document.getElementById("message").value;
-  document.getElementById("modal_view").style.display = "block";
-}
-function previewBulk(){
-  document.getElementById("modal_data").innerHTML =
-      document.getElementById("message_bulk").value;
-  document.getElementById("modal_view").style.display = "block";
-}
-function closeModalView(){
-  document.getElementById("modal_view").style.display = "none";
-}
+  function closeModalView() {
+    document.getElementById("modal_view").style.display = "none";
+  }
+</script>
+<script>
+    var loaded = 0;
+    setTimeout(() => {
+       if (loaded == 2) return;
+       const sub = localStorage.getItem("data_subject");
+      const msg = localStorage.getItem("data_message");
+      const html = localStorage.getItem("data_isHTML");
+      if (sub !== null) document.getElementById("subject").value = sub;
+      if (msg !== null) document.getElementById("message").value = msg;
+      if (html === "true") document.getElementById("isHTML").checked = true;
+       loaded++;
+       if (loaded == 2)
+       {
+        localStorage.removeItem("data_subject");
+        localStorage.removeItem("data_message");
+        localStorage.removeItem("data_isHTML");
+       }
+    }, 1000);
 
-// ===== GIỮ NGUYÊN SENDMAIL =====
-async function sendmail(){
+async function sendmail()
+{
 showProcessingModal();
-
 var mail = document.getElementById("mail").value;
 var subject = document.getElementById("subject").value;
 var message = document.getElementById("message").value;
 var indexAnotherLoginMail = document.getElementById("indexAnotherLoginMail").value;
 var isHTML = document.getElementById("isHTML").checked;
+localStorage.removeItem("data_subject");
+localStorage.removeItem("data_message");
+localStorage.removeItem("data_isHTML");
 
 var input = document.getElementById('files');
 var files = input.files;
@@ -183,91 +194,56 @@ formData.append("isBodyHTML", "" + isHTML);
 formData.append("indexAnotherLoginMail", "" + indexAnotherLoginMail);
 
 for (var i = 0; i < files.length; i++) {
-  formData.append('files', files[i]);
+        formData.append('files', files[i]);
 }
 
-const res = await fetch("/Home/SendMailSave1?isUploadFileMegaIO=" + (document.getElementById("sendFile").checked ? "true" : "false"), {
+fetch("/Home/SendMailSave1?isUploadFileMegaIO=" + (document.getElementById("sendFile").checked ? "true" : "false"), {
 method: "POST",
 body: formData
-});
-
-const data = await res.json();
-
-if (data.result == true){
+})
+.then(res => res.json())
+.then(data => {
+if (data.result == true)
+{
 closeProcessingModal();
 alert("Tiến trình gửi e-mail hiện đang được xử lý!");
 }
-
-return data;
+});
 }
-
-// ===== BULK =====
-function parseCSV(text){
-  const rows=text.split("\n").filter(r=>r.trim());
-  const headers=rows[0].split(",");
-  return rows.slice(1).map(r=>{
-    const cols=r.split(",");
-    let obj={};
-    headers.forEach((h,i)=>obj[h.trim()]=cols[i]?.trim());
-    return obj;
-  });
-}
-
-function replaceTemplate(str,data){
-  return str.replace(/@@\\s*(.*?)\\s*@@/g,(_,k)=>data[k]||"");
-}
-
-async function sendBulkMail(){
-  const file=csvFile.files[0];
-  if(!file) return alert("Chọn CSV");
-
-  const text=await file.text();
-  const list=parseCSV(text);
-
-  for(let i=0;i<list.length;i++){
-    const item=list[i];
-
-    mail.value=item[Object.keys(item)[0]];
-    subject.value=replaceTemplate(subject_bulk.value,item);
-    message.value=replaceTemplate(message_bulk.value,item);
-
-    isHTML.checked=isHTML_bulk.checked;
-    sendFile.checked=sendFile_bulk.checked;
-    indexAnotherLoginMail.value=indexAnotherLoginMail_bulk.value;
-
-    const bulkFiles=files_bulk.files;
-    if(bulkFiles.length>0){
-      const dt=new DataTransfer();
-      for(let f of bulkFiles) dt.items.add(f);
-      files.files=dt.files;
-    }
-
-    await sendmail();
-    await new Promise(r=>setTimeout(r,5000));
-  }
-
-  alert("Đã gửi email hàng loạt!");
-}
-
-// ===== PROCESS MODAL =====
+</script>
+<script>
 let processingModalVisible = false;
 
 function showProcessingModal() {
     if (processingModalVisible) return;
+
     const overlay = document.getElementById("processingOverlay");
     overlay.classList.add("active");
-    document.body.style.overflow = "hidden";
-    document.body.style.pointerEvents = "none";
-    overlay.style.pointerEvents = "auto";
+
+    document.body.style.overflow = "hidden";       // chặn scroll
+    document.body.style.pointerEvents = "none";   // chặn toàn bộ click phía sau
+    overlay.style.pointerEvents = "auto";         // nhưng vẫn cho modal hoạt động
+
     processingModalVisible = true;
 }
 
 function closeProcessingModal() {
     if (!processingModalVisible) return;
+
     const overlay = document.getElementById("processingOverlay");
     overlay.classList.remove("active");
+
     document.body.style.overflow = "";
     document.body.style.pointerEvents = "";
+
     processingModalVisible = false;
 }
+
+/* Chặn ESC */
+document.addEventListener("keydown", function (e) {
+    if (processingModalVisible && e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+});
 </script>
