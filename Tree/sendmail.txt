@@ -311,5 +311,7 @@ async function sendBulkMail(){
   document.getElementById("processingOverlay").style.display="none";
 
   alert("Đã gửi email hàng loạt!\nSuccess: "+success+"\nError: "+error);
+
+  switchTab(1);
 }
 </script>
