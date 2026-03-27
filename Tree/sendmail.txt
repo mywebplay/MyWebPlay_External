@@ -1,249 +1,245 @@
 <style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  margin: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #555;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab:hover { color: #007bff; }
+
+.tab.active {
+  color: #007bff;
+  border-bottom: 3px solid #007bff;
+}
+
+.hidden { display: none; }
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+textarea { min-height: 180px; }
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-send { background: #e53935; color: white; }
+.btn-preview { background: #ff4081; color: white; }
+
 .processing-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(3px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
-
-/* Khi show */
-.processing-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
+.processing-overlay.active { display: flex; }
 
 .processing-modal {
-    width: 320px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
-    transform: scale(0.95);
-    transition: transform 0.25s ease;
-}
-
-.processing-overlay.active .processing-modal {
-    transform: scale(1);
-}
-
-.processing-title {
-    color: red;
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 20px;
+  width: 320px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
 }
 
 .progress-container {
-    position: relative;
-    width: 100%;
-    height: 8px;
-    background: #e0e0e0;
-    border-radius: 4px;
-    overflow: hidden;
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
 }
 
 .progress-bar {
-    position: absolute;
-    height: 100%;
-    width: 40%;
-    background: linear-gradient(90deg, #4caf50, #81c784);
-    border-radius: 4px;
-    animation: indeterminate 1.2s infinite ease-in-out;
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.3s;
 }
 
-@keyframes indeterminate {
-    0% { left: -40%; }
-    50% { left: 100%; }
-    100% { left: -40%; }
-}
+.stat { margin-top: 10px; }
 </style>
-<style>
-  /* Modal overlay */
-  #modal_view {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: none; /* Ẩn mặc định */
-    z-index: 9999;
-    overflow-y: auto; /* Scroll nếu nội dung dài */
-  }
 
-  /* Nội dung modal */
-  #modal_body {
-    background: #fff;
-    min-height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 60px 20px 20px; /* Xích nội dung để tránh đè nút close */
-  }
+<div class="container">
 
-  /* Nút đóng */
-  #btn_close_modal {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 22px;
-    padding: 6px;
-    cursor: pointer;
-  }
-  #btn_close_modal:hover {
-    background: rgba(0,0,0,0.1);
-    border-radius: 6px;
-  }
-</style>
-<b>Email external (nếu không vui lòng để trống) : </b>
-<br />
-<input type="text" id="indexAnotherLoginMail" style="width: 30px;" autocomplete="off" />
-<br />
-<b>Nhập email : </b>
-<br />
-<input type="text" id="mail" style="width: 600px;" autocomplete="off" />
-<br />
-<b>Nhập subject : </b>
-<br />
-<input type="text" id="subject" style="width: 600px;" autocomplete="off" />
-<br />
-<b>Nhập nội dung : </b>
-<br />
-<textarea id="message" cols="200" rows="20" autocomplete="off"></textarea>
-<br />
-<input id="isHTML" type="checkbox" autocomplete="off" /><b style="color:blue">Is body mail HTML</b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
-<br />
-<input type="file" id="files" multiple /><input type="checkbox" id="sendFile" /><b style="color:darkgreen">Upload file lên server MegaIO</b>
-<br /><br />
-<button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
-<div id="modal_view">
-  <button id="btn_close_modal" onclick="closeModalView()">❌</button>
-  <div id="modal_body">
-    <div id="modal_data"></div>
+<div class="tabs">
+  <div class="tab active" id="tabBtn1" onclick="switchTab(1)">GỬI 1 MAIL ĐƠN LẺ</div>
+  <div class="tab" id="tabBtn2" onclick="switchTab(2)">GỬI NHIỀU MAIL CÙNG LÚC</div>
+</div>
+
+<!-- TAB 1 -->
+<div id="tab1">
+  <!-- GIỮ NGUYÊN JS CŨ: CHỈ GIỮ ID -->
+  <b>Email external (nếu không vui lòng để trống):</b>
+  <input type="text" id="indexAnotherLoginMail" />
+
+  <b>Nhập email:</b>
+  <input type="text" id="mail" />
+
+  <b>Nhập subject:</b>
+  <input type="text" id="subject" />
+
+  <b>Nhập nội dung:</b>
+  <textarea id="message"></textarea>
+
+  <input id="isHTML" type="checkbox" /> Is body mail HTML
+  <button class="btn-preview" onclick="showModalView()">Xem trước HTML</button>
+
+  <br><br>
+
+  <input type="file" id="files" multiple />
+  <input type="checkbox" id="sendFile" /> Upload file lên server MegaIO
+
+  <br><br>
+
+  <button class="btn-send" onclick="sendmail()">SEND MAIL</button>
+</div>
+
+<!-- TAB 2 -->
+<div id="tab2" class="hidden">
+  <b>Tải lên csv data gửi e-mail hàng loạt:</b>
+  <input type="file" id="csvFile" accept=".csv" />
+
+  <b>Nhập subject:</b>
+  <input type="text" id="subject_bulk" />
+
+  <b>Nhập nội dung:</b>
+  <textarea id="message_bulk"></textarea>
+
+  <button class="btn-send" onclick="sendBulkMail()">GỬI MAIL HÀNG LOẠT</button>
+</div>
+
+</div>
+
+<div id="processingOverlay" class="processing-overlay">
+  <div class="processing-modal">
+    <div style="color:red;font-weight:bold">Đang xử lý</div>
+    <h2 id="progressText" style="text-align:center; color:red;">0%</h2>
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+    <div class="stat">Success: <span id="successCount">0</span></div>
+    <div class="stat">Error: <span id="errorCount">0</span></div>
   </div>
 </div>
-<!-- Processing Modal -->
-<div id="processingOverlay" class="processing-overlay">
-    <div class="processing-modal">
-        <div class="processing-title">Đang xử lý</div>
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-</div>
-<script>
-  function showModalView() {
-    // Gán nội dung trước
-    document.getElementById("modal_data").innerHTML =
-        document.getElementById("message").value;
 
-    // Rồi mới bật modal
-    document.getElementById("modal_view").style.display = "block";
+<script>
+function switchTab(tab) {
+  document.getElementById("tab1").classList.toggle("hidden", tab !== 1);
+  document.getElementById("tab2").classList.toggle("hidden", tab !== 2);
+  document.getElementById("tabBtn1").classList.toggle("active", tab === 1);
+  document.getElementById("tabBtn2").classList.toggle("active", tab === 2);
+}
+
+function parseCSV(text) {
+  const rows = text.split("\n").map(r => r.trim()).filter(r => r);
+  const headers = rows[0].split(",");
+  const data = [];
+
+  for (let i = 1; i < rows.length; i++) {
+    const cols = rows[i].split(",");
+    let obj = {};
+    headers.forEach((h, idx) => obj[h.trim()] = cols[idx]?.trim());
+    data.push(obj);
   }
-
-  function closeModalView() {
-    document.getElementById("modal_view").style.display = "none";
-  }
-</script>
-<script>
-    var loaded = 0;
-    setTimeout(() => {
-       if (loaded == 2) return;
-       const sub = localStorage.getItem("data_subject");
-      const msg = localStorage.getItem("data_message");
-      const html = localStorage.getItem("data_isHTML");
-      if (sub !== null) document.getElementById("subject").value = sub;
-      if (msg !== null) document.getElementById("message").value = msg;
-      if (html === "true") document.getElementById("isHTML").checked = true;
-       loaded++;
-       if (loaded == 2)
-       {
-        localStorage.removeItem("data_subject");
-        localStorage.removeItem("data_message");
-        localStorage.removeItem("data_isHTML");
-       }
-    }, 1000);
-
-async function sendmail()
-{
-showProcessingModal();
-var mail = document.getElementById("mail").value;
-var subject = document.getElementById("subject").value;
-var message = document.getElementById("message").value;
-var indexAnotherLoginMail = document.getElementById("indexAnotherLoginMail").value;
-var isHTML = document.getElementById("isHTML").checked;
-localStorage.removeItem("data_subject");
-localStorage.removeItem("data_message");
-localStorage.removeItem("data_isHTML");
-
-var input = document.getElementById('files');
-var files = input.files;
-
-var formData = new FormData();
-formData.append("txtEmail", mail);
-formData.append("txtMessage", message);
-formData.append("txtSubject", subject);
-formData.append("isBodyHTML", "" + isHTML);
-formData.append("indexAnotherLoginMail", "" + indexAnotherLoginMail);
-
-for (var i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
+  return data;
 }
 
-fetch("/Home/SendMailSave1?isUploadFileMegaIO=" + (document.getElementById("sendFile").checked ? "true" : "false"), {
-method: "POST",
-body: formData
-})
-.then(res => res.json())
-.then(data => {
-if (data.result == true)
-{
-closeProcessingModal();
-alert("Tiến trình gửi e-mail hiện đang được xử lý!");
-}
-});
-}
-</script>
-<script>
-let processingModalVisible = false;
-
-function showProcessingModal() {
-    if (processingModalVisible) return;
-
-    const overlay = document.getElementById("processingOverlay");
-    overlay.classList.add("active");
-
-    document.body.style.overflow = "hidden";       // chặn scroll
-    document.body.style.pointerEvents = "none";   // chặn toàn bộ click phía sau
-    overlay.style.pointerEvents = "auto";         // nhưng vẫn cho modal hoạt động
-
-    processingModalVisible = true;
+function replaceTemplate(str, data) {
+  return str.replace(/@@\s*(.*?)\s*@@/g, (_, key) => data[key] || "");
 }
 
-function closeProcessingModal() {
-    if (!processingModalVisible) return;
+async function sendBulkMail() {
+  const file = document.getElementById("csvFile").files[0];
+  if (!file) return alert("Chọn file CSV");
 
-    const overlay = document.getElementById("processingOverlay");
-    overlay.classList.remove("active");
+  const text = await file.text();
+  const list = parseCSV(text);
 
-    document.body.style.overflow = "";
-    document.body.style.pointerEvents = "";
+  let success = 0, error = 0;
+  const total = list.length;
 
-    processingModalVisible = false;
-}
+  document.getElementById("processingOverlay").classList.add("active");
 
-/* Chặn ESC */
-document.addEventListener("keydown", function (e) {
-    if (processingModalVisible && e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
+  for (let i = 0; i < total; i++) {
+    const item = list[i];
+
+    const subject = replaceTemplate(document.getElementById("subject_bulk").value, item);
+    const message = replaceTemplate(document.getElementById("message_bulk").value, item);
+
+    try {
+      let formData = new FormData();
+      formData.append("txtEmail", item[Object.keys(item)[0]]);
+      formData.append("txtSubject", subject);
+      formData.append("txtMessage", message);
+      formData.append("isBodyHTML", "false");
+
+      const res = await fetch("/Home/SendMailSave1", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      if (data.result) success++; else error++;
+    } catch {
+      error++;
     }
-});
+
+    document.getElementById("successCount").innerText = success;
+    document.getElementById("errorCount").innerText = error;
+    document.getElementById("progressBar").style.width = ((i + 1) / total * 100) + "%";
+
+    var percent = Math.round((i + 1) / total * 100);
+
+    var progressBar = document.getElementById("progressBar");
+    var progressText = document.getElementById("progressText");
+    
+    progressBar.style.width = percent + "%";
+    progressText.innerText = percent + "%";
+
+    await new Promise(r => setTimeout(r, 5000));
+  }
+
+  document.getElementById("processingOverlay").classList.remove("active");
+
+  alert(`Đã gửi email hàng loạt!\nSuccess: ${success}\nError: ${error}`);
+}
 </script>
