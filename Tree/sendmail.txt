@@ -177,8 +177,23 @@
 
 <!-- ===== MODAL VIEW ===== -->
 <div id="modal_view" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;">
-<button onclick="closeModalView()">X</button>
-<div id="modal_data" style="background:white;padding:20px;"></div>
+<button onclick="closeModalView()" 
+style="
+  float:right;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:none;
+  background:red;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  line-height:30px;
+  text-align:center;
+">
+  ✕
+</button>
+<div id="modal_data" style="background:white;padding:20px;width:100%;height:100%;"></div>
 </div>
 
 <!-- ===== PROCESS ===== -->
