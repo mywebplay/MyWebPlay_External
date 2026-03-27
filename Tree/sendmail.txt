@@ -1,210 +1,196 @@
-<style>
-body { font-family: Arial; background:#f5f7fb; margin:0; }
-.container { max-width:1000px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; }
-
-.tabs { display:flex; width:100%; }
-.tab {
-  flex:1;
-  text-align:center;
-  padding:15px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#eee;
-}
-.tab.active { background:#007bff; color:#fff; }
-
-.hidden { display:none; }
-
-input, textarea { width:100%; margin:8px 0; padding:8px; }
-button { padding:10px 15px; cursor:pointer; }
-
-.processing-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.4);
-  display:none; justify-content:center; align-items:center;
-}
-.processing-overlay.active { display:flex; }
-.processing-modal { background:#fff; padding:20px; border-radius:10px; width:300px; text-align:center; }
-.progress-container { height:10px; background:#ddd; margin-top:10px; }
-.progress-bar { height:100%; width:0%; background:green; }
-</style>
-
-<div class="container">
-
-<div class="tabs">
-  <div class="tab active" id="tabBtn1" onclick="switchTab(1)">GỬI 1 MAIL ĐƠN LẺ</div>
-  <div class="tab" id="tabBtn2" onclick="switchTab(2)">GỬI NHIỀU MAIL CÙNG LÚC</div>
+<!-- ===== TAB ===== -->
+<div style="display:flex;">
+  <div id="tabBtn1" onclick="switchTab(1)" style="flex:1;cursor:pointer;text-align:center;font-weight:bold;">GỬI 1 MAIL ĐƠN LẺ</div>
+  <div id="tabBtn2" onclick="switchTab(2)" style="flex:1;cursor:pointer;text-align:center;font-weight:bold;">GỬI NHIỀU MAIL CÙNG LÚC</div>
 </div>
+<hr/>
 
-<!-- TAB 1 -->
+<!-- ===== TAB 1 (NGUYÊN BẢN) ===== -->
 <div id="tab1">
 
-<b>Email external:</b>
-<input type="text" id="indexAnotherLoginMail" />
+<b>Email external (nếu không vui lòng để trống) : </b><br />
+<input type="text" id="indexAnotherLoginMail" style="width: 30px;" /><br />
 
-<b>Email:</b>
-<input type="text" id="mail" />
+<b>Nhập email : </b><br />
+<input type="text" id="mail" style="width: 600px;" /><br />
 
-<b>Subject:</b>
-<input type="text" id="subject" />
+<b>Nhập subject : </b><br />
+<input type="text" id="subject" style="width: 600px;" /><br />
 
-<b>Message:</b>
-<textarea id="message"></textarea>
+<b>Nhập nội dung : </b><br />
+<textarea id="message" cols="200" rows="20"></textarea><br />
 
-<input id="isHTML" type="checkbox" /> Is body mail HTML
-<button onclick="showModalView()">Xem trước HTML</button>
+<input id="isHTML" type="checkbox" />
+<b style="color:blue">Is body mail HTML</b>
+<button onclick="showModalView()" style="color:deeppink;"><b>Xem trước HTML</b></button>
+
+<br />
 
 <input type="file" id="files" multiple />
-<input type="checkbox" id="sendFile" /> Upload file lên server MegaIO
+<input type="checkbox" id="sendFile" />
+<b style="color:darkgreen">Upload file lên server MegaIO</b>
 
-<button onclick="sendmail()">SEND MAIL</button>
+<br /><br />
+
+<button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
 
 </div>
 
-<!-- TAB 2 (FULL giống TAB 1 + CSV) -->
-<div id="tab2" class="hidden">
+<!-- ===== TAB 2 ===== -->
+<div id="tab2" style="display:none;">
 
-<b>Tải CSV:</b>
-<input type="file" id="csvFile" />
+<b>Tải lên csv data gửi e-mail hàng loạt : </b><br/>
+<input type="file" id="csvFile" accept=".csv"/><br/><br/>
 
-<b>Email external:</b>
-<input type="text" id="indexAnotherLoginMail_bulk" />
+<b>Email external (nếu không vui lòng để trống) : </b><br />
+<input type="text" id="indexAnotherLoginMail_bulk" style="width: 30px;" /><br />
 
-<b>Subject:</b>
-<input type="text" id="subject_bulk" />
+<b>Nhập subject : </b><br />
+<input type="text" id="subject_bulk" style="width: 600px;" /><br />
 
-<b>Message:</b>
-<textarea id="message_bulk"></textarea>
+<b>Nhập nội dung : </b><br />
+<textarea id="message_bulk" cols="200" rows="20"></textarea><br />
 
-<input id="isHTML_bulk" type="checkbox" /> Is body mail HTML
-<button onclick="previewBulk()">Xem trước HTML</button>
+<input id="isHTML_bulk" type="checkbox" />
+<b style="color:blue">Is body mail HTML</b>
+<button onclick="previewBulk()" style="color:deeppink;"><b>Xem trước HTML</b></button>
+
+<br />
 
 <input type="file" id="files_bulk" multiple />
-<input type="checkbox" id="sendFile_bulk" /> Upload file lên server MegaIO
+<input type="checkbox" id="sendFile_bulk" />
+<b style="color:darkgreen">Upload file lên server MegaIO</b>
 
-<button onclick="sendBulkMail()">GỬI MAIL HÀNG LOẠT</button>
+<br /><br />
+
+<button onclick="sendBulkMail()"><b style="color:red">GỬI MAIL HÀNG LOẠT</b></button>
 
 </div>
 
-</div>
-
-<div id="modal_view" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);">
+<!-- ===== MODAL VIEW ===== -->
+<div id="modal_view" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;">
 <button onclick="closeModalView()">X</button>
-<div id="modal_data"></div>
+<div id="modal_data" style="background:white;padding:20px;"></div>
 </div>
 
-<div id="processingOverlay" class="processing-overlay">
-<div class="processing-modal">
-<div style="color:red">Đang xử lý</div>
-<div class="progress-container">
-<div id="progressBar" class="progress-bar"></div>
-</div>
-<h2 id="progressText" style="text-align:center; color:red;">0%</h2>
-<div>Success: <span id="successCount">0</span></div>
-<div>Error: <span id="errorCount">0</span></div>
-</div>
+<!-- ===== PROCESS ===== -->
+<div id="processingOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;">
+  <div style="background:white;padding:20px;text-align:center;width:300px;margin:auto;margin-top:200px;">
+    <div style="color:red;font-weight:bold">Đang xử lý</div>
+    <div style="height:10px;background:#ddd;margin-top:10px;">
+      <div id="progressBar" style="height:100%;width:0%;background:green;"></div>
+    </div>
+    <h2 id="progressText" style="text-align:center; color:red;">0%</h2>
+    <div>Success: <span id="successCount">0</span></div>
+    <div>Error: <span id="errorCount">0</span></div>
+  </div>
 </div>
 
 <script>
 function switchTab(tab){
- tab1.classList.toggle("hidden",tab!==1);
- tab2.classList.toggle("hidden",tab!==2);
- tabBtn1.classList.toggle("active",tab===1);
- tabBtn2.classList.toggle("active",tab===2);
+  document.getElementById("tab1").style.display = (tab===1?"block":"none");
+  document.getElementById("tab2").style.display = (tab===2?"block":"none");
 }
 
 function showModalView(){
- modal_data.innerHTML = message.value;
- modal_view.style.display="block";
+  document.getElementById("modal_data").innerHTML =
+      document.getElementById("message").value;
+  document.getElementById("modal_view").style.display = "block";
 }
-function closeModalView(){ modal_view.style.display="none"; }
-
 function previewBulk(){
- modal_data.innerHTML = message_bulk.value;
- modal_view.style.display="block";
+  document.getElementById("modal_data").innerHTML =
+      document.getElementById("message_bulk").value;
+  document.getElementById("modal_view").style.display = "block";
+}
+function closeModalView(){
+  document.getElementById("modal_view").style.display = "none";
 }
 
 async function sendmail(){
- var formData=new FormData();
- formData.append("txtEmail",mail.value);
- formData.append("txtSubject",subject.value);
- formData.append("txtMessage",message.value);
- fetch("/Home/SendMailSave1",{method:"POST",body:formData});
+  var formData = new FormData();
+  formData.append("txtEmail", document.getElementById("mail").value);
+  formData.append("txtSubject", document.getElementById("subject").value);
+  formData.append("txtMessage", document.getElementById("message").value);
+
+  const res = await fetch("/Home/SendMailSave1", {
+    method: "POST",
+    body: formData
+  });
+
+  return res.json();
 }
 
 function parseCSV(text){
- const rows=text.split("\n").filter(r=>r.trim());
- const headers=rows[0].split(",");
- return rows.slice(1).map(r=>{
-  const cols=r.split(",");
-  let obj={};
-  headers.forEach((h,i)=>obj[h.trim()]=cols[i]?.trim());
-  return obj;
- });
+  const rows = text.split("\n").filter(r=>r.trim());
+  const headers = rows[0].split(",");
+  return rows.slice(1).map(r=>{
+    const cols = r.split(",");
+    let obj = {};
+    headers.forEach((h,i)=>obj[h.trim()] = cols[i]?.trim());
+    return obj;
+  });
 }
 
 function replaceTemplate(str,data){
- return str.replace(/@@\s*(.*?)\s*@@/g,(_,k)=>data[k]||"");
+  return str.replace(/@@\\s*(.*?)\\s*@@/g,(_,k)=>data[k]||"");
 }
 
 async function sendBulkMail(){
- const file=csvFile.files[0];
- if(!file) return alert("Chọn CSV");
+  const file = document.getElementById("csvFile").files[0];
+  if(!file) return alert("Chọn CSV");
 
- const text=await file.text();
- const list=parseCSV(text);
+  const text = await file.text();
+  const list = parseCSV(text);
 
- let success=0,error=0;
- const total=list.length;
+  let success=0, error=0;
+  const total=list.length;
 
- processingOverlay.classList.add("active");
+  document.getElementById("processingOverlay").style.display="block";
 
- for(let i=0;i<total;i++){
-  const item=list[i];
+  for(let i=0;i<total;i++){
+    const item=list[i];
 
-  document.getElementById("mail").value = item[Object.keys(item)[0]];
+    document.getElementById("mail").value = item[Object.keys(item)[0]];
+    document.getElementById("subject").value =
+      replaceTemplate(document.getElementById("subject_bulk").value,item);
+    document.getElementById("message").value =
+      replaceTemplate(document.getElementById("message_bulk").value,item);
 
-  document.getElementById("subject").value =
-    replaceTemplate(document.getElementById("subject_bulk").value,item);
+    document.getElementById("isHTML").checked =
+      document.getElementById("isHTML_bulk").checked;
 
-  document.getElementById("message").value =
-    replaceTemplate(document.getElementById("message_bulk").value,item);
+    document.getElementById("sendFile").checked =
+      document.getElementById("sendFile_bulk").checked;
 
-  document.getElementById("isHTML").checked =
-    document.getElementById("isHTML_bulk").checked;
+    document.getElementById("indexAnotherLoginMail").value =
+      document.getElementById("indexAnotherLoginMail_bulk").value;
 
-  document.getElementById("sendFile").checked =
-    document.getElementById("sendFile_bulk").checked;
+    const bulkFiles = document.getElementById("files_bulk").files;
+    if(bulkFiles.length>0){
+      const dt = new DataTransfer();
+      for(let f of bulkFiles) dt.items.add(f);
+      document.getElementById("files").files = dt.files;
+    }
 
-  document.getElementById("indexAnotherLoginMail").value =
-    document.getElementById("indexAnotherLoginMail_bulk").value;
+    try{
+      const res = await sendmail();
+      if(res && res.result) success++; else error++;
+    }catch{
+      error++;
+    }
 
-  const bulkFiles = document.getElementById("files_bulk").files;
-  if(bulkFiles.length > 0){
-    const dt = new DataTransfer();
-    for(let f of bulkFiles) dt.items.add(f);
-    document.getElementById("files").files = dt.files;
+    document.getElementById("successCount").innerText = success;
+    document.getElementById("errorCount").innerText = error;
+
+    var percent = Math.round((i+1)/total*100);
+    document.getElementById("progressBar").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+
+    await new Promise(r=>setTimeout(r,5000));
   }
 
-  try{
-    const res = await sendmail();
-    if(res && res.result) success++; else error++;
-  }catch{
-    error++;
-  }
+  document.getElementById("processingOverlay").style.display="none";
 
-  successCount.innerText=success;
-  errorCount.innerText=error;
-
-  var percent=Math.round((i+1)/total*100);
-  progressBar.style.width=percent+"%";
-  progressText.innerText=percent+"%";
-
-  await new Promise(r=>setTimeout(r,5000));
- }
-
- processingOverlay.classList.remove("active");
- alert(`Đã gửi email hàng loạt!
-Success: ${success}
-Error: ${error}`);
+  alert("Đã gửi email hàng loạt!\nSuccess: "+success+"\nError: "+error);
 }
 </script>
