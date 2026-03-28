@@ -285,7 +285,7 @@ if(data.result==true){
 closeProcessingModal();
     if (tab == 1)
     {
-    alert("Tiến trình gửi e-mail hiện đang được xử lý!");
+    alert("Tiến trình gửi e-mail hiện đã được xử lý!");
     }
 }
 return data;
@@ -314,7 +314,7 @@ if(!file || !file.name.toLowerCase().endsWith(".csv")){
   return;
 }
 
-if(!confirm("Bạn có chắc muốn gửi hàng loạt?")) return;
+if(!confirm("Bạn có chắc muốn gửi e-mail hàng loạt?")) return;
 
 const text = await file.text();
 const list = parseCSV(text);
