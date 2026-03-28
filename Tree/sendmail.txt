@@ -163,7 +163,7 @@
 
 <br /><br />
 
-<button onclick="sendmail()"><b style="color:red">SEND MAIL</b></button>
+<button onclick="sendmail(1)"><b style="color:red">SEND MAIL</b></button>
 
 </div>
 
@@ -260,7 +260,7 @@ function closeModalView(){
 }
 
 /* ===== SENDMAIL GIỮ NGUYÊN ===== */
-async function sendmail(){
+async function sendmail(tab){
 showProcessingModal();
 
 var formData = new FormData();
@@ -282,7 +282,10 @@ const data = await res.json();
 
 if(data.result==true){
 closeProcessingModal();
-alert("Tiến trình gửi e-mail hiện đang được xử lý!");
+    if (tab == 1)
+    {
+    alert("Tiến trình gửi e-mail hiện đang được xử lý!");
+    }
 }
 return data;
 }
@@ -328,7 +331,7 @@ for(let i=0;i<list.length;i++){
 
 const item=list[i];
 const email=item[Object.keys(item)[0]];
-
+if (email == "") { email = "Operator"; }
 currentEmail.innerText="Đang gửi: "+email;
 
 mail.value=email;
@@ -346,7 +349,7 @@ if(files_bulk.files.length>0){
   files.files=dt.files;
 }
 
-const res=await sendmail();
+const res=await sendmail(2);
 res.result?success++:error++;
 
 let percent=Math.round((i+1)/list.length*100);
