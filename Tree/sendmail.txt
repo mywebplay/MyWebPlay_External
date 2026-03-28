@@ -237,20 +237,23 @@
 
 <script>
 window.addEventListener("DOMContentLoaded", () => {
-    // Lấy dữ liệu từ localStorage
-    const sub = localStorage.getItem("data_subject");
-    const msg = localStorage.getItem("data_message");
-    const html = localStorage.getItem("data_isHTML");
+    // Bước 1: 1 giây sau load, gán dữ liệu vào element
+    setTimeout(() => {
+        const sub = localStorage.getItem("data_subject");
+        const msg = localStorage.getItem("data_message");
+        const html = localStorage.getItem("data_isHTML");
 
-    // Set vào các element nếu có dữ liệu
-    if (sub !== null) document.getElementById("subject").value = sub;
-    if (msg !== null) document.getElementById("message").value = msg;
-    if (html === "true") document.getElementById("isHTML").checked = true;
+        if (sub !== null) document.getElementById("subject").value = sub;
+        if (msg !== null) document.getElementById("message").value = msg;
+        if (html === "true") document.getElementById("isHTML").checked = true;
 
-    // Xóa luôn dữ liệu sau khi set xong
-    localStorage.removeItem("data_subject");
-    localStorage.removeItem("data_message");
-    localStorage.removeItem("data_isHTML");
+        // Bước 2: 1 giây nữa mới xóa item
+        setTimeout(() => {
+            localStorage.removeItem("data_subject");
+            localStorage.removeItem("data_message");
+            localStorage.removeItem("data_isHTML");
+        }, 1000); // chờ thêm 1 giây để xóa
+    }, 1000); // chờ 1 giây trước khi gán
 });
 
 function switchTab(tab){
