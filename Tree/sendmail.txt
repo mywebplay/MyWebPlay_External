@@ -236,6 +236,24 @@
 </div>
 
 <script>
+var loaded = 0;
+    setTimeout(() => {
+       if (loaded == 2) return;
+       const sub = localStorage.getItem("data_subject");
+      const msg = localStorage.getItem("data_message");
+      const html = localStorage.getItem("data_isHTML");
+      if (sub !== null) document.getElementById("subject").value = sub;
+      if (msg !== null) document.getElementById("message").value = msg;
+      if (html === "true") document.getElementById("isHTML").checked = true;
+       loaded++;
+       if (loaded == 2)
+       {
+        localStorage.removeItem("data_subject");
+        localStorage.removeItem("data_message");
+        localStorage.removeItem("data_isHTML");
+       }
+    }, 1000);
+
 function switchTab(tab){
   tab1.style.display = tab===1?"block":"none";
   tab2.style.display = tab===2?"block":"none";
@@ -274,6 +292,10 @@ formData.append("indexAnotherLoginMail", "" + indexAnotherLoginMail.value);
 for (var i = 0; i < files.files.length; i++) {
   formData.append('files', files.files[i]);
 }
+
+localStorage.removeItem("data_subject");
+localStorage.removeItem("data_message");
+localStorage.removeItem("data_isHTML");
 
 const res = await fetch("/Home/SendMailSave1?isUploadFileMegaIO=" + (sendFile.checked?"true":"false"), {
 method:"POST",
