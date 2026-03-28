@@ -229,7 +229,10 @@ function switchTab(tab){
   tabBtn2.classList.remove("tab-active");
   (tab===1?tabBtn1:tabBtn2).classList.add("tab-active");
 }
-switchTab(1);
+
+window.onload = function(){
+  switchTab(1);
+}
 
 function showModalView(){
   modal_data.innerHTML = message.value;
