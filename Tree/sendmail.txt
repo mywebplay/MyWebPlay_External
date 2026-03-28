@@ -1,4 +1,16 @@
 <style>
+.progress-container {
+    position: relative; /* THÊM */
+}
+
+.progress-bar {
+    position: absolute; /* THÊM */
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    animation: indeterminate 1.2s infinite;
+}
+
 /* ===== TAB ===== */
 .tabs {
   display: flex;
