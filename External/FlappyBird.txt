@@ -93,6 +93,9 @@ const ctx = canvas.getContext("2d");
 
 let bird, pipes, score, frame, running;
 
+/* ✅ thêm: detect mobile */
+let isMobile = /iPhone|Android|Mobile/i.test(navigator.userAgent);
+
 function init() {
   bird = { x: 80, y: 200, velocity: 0 };
   pipes = [];
@@ -120,45 +123,37 @@ function goFullScreen() {
 
 function startGame() {
   document.getElementById("startModal").style.display = "none";
-
-  /* ✅ thêm */
   goFullScreen();
-
   running = true;
 }
 
 function restartGame() {
   document.getElementById("gameOverModal").style.display = "none";
-
-  /* ✅ thêm */
   goFullScreen();
-
   init();
   running = true;
 }
 
-// CONTROL (Space all-in-one)
+// CONTROL (PC)
 document.addEventListener("keydown", e => {
   if (e.code !== "Space") return;
 
   e.preventDefault();
 
-  // Jump
   if (running) {
-    bird.velocity = -7;
+    bird.velocity = isMobile ? -6 : -7;
   }
 });
 
-document.addEventListener("touchend", function(e) {
-
+// ✅ FIX: dùng touchstart thay vì touchend
+document.addEventListener("touchstart", function(e) {
   if (running) {
-    bird.velocity = -7;
+    bird.velocity = -6; // lực nhẹ hơn cho mobile
   }
-
 });
 
 function spawnPipe() {
-  let gap = 140;
+  let gap = isMobile ? 170 : 140; // ✅ mobile dễ hơn
   let top = Math.random() * 200 + 50;
 
   pipes.push({
@@ -174,7 +169,8 @@ function update() {
 
   frame++;
 
-  bird.velocity += 0.4;
+  // ✅ giảm gravity nhẹ
+  bird.velocity += 0.3;
   bird.y += bird.velocity;
 
   if (frame % 100 === 0) {
@@ -214,7 +210,6 @@ function gameOver() {
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // 🐦 Vẽ chim (flip + rotate)
   ctx.save();
 
   ctx.translate(bird.x + 12, bird.y + 12);
