@@ -131,7 +131,7 @@
 <!-- TAB -->
 <div class="tabs">
   <div id="tabBtn1" class="tab tab-active" onclick="switchTab(1)">GỬI 1 MAIL ĐƠN LẺ</div>
-  <div id="tabBtn2" class="tab" onclick="switchTab(2)">GỬI NHIỀU MAIL CÙNG LÚC</div>
+  <div id="tabBtn2" class="tab" onclick="switchTab(2)">GỬI NHIỀU MAIL CÙNG FORMAT</div>
 </div>
 
 <hr/>
