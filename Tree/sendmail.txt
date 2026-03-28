@@ -291,14 +291,13 @@ function replaceTemplate(str,data){
 
 /* ===== BULK ===== */
 async function sendBulkMail(){
-
-if(!confirm("Bạn có chắc muốn gửi hàng loạt?")) return;
-
 const file = csvFile.files[0];
 if(!file || !file.name.toLowerCase().endsWith(".csv")){
   alert("Vui lòng chọn file csv!");
   return;
 }
+
+if(!confirm("Bạn có chắc muốn gửi hàng loạt?")) return;
 
 const text = await file.text();
 const list = parseCSV(text);
