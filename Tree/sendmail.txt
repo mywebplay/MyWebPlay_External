@@ -231,6 +231,7 @@
 
     <div>Success: <span id="successCount">0</span></div>
     <div>Error: <span id="errorCount">0</span></div>
+    <img style="width:25px;height:25px;display:block;margin:10px auto;" src="/Image_Play/waiting.gif" />
   </div>
 </div>
 
