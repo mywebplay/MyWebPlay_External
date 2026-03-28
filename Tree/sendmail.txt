@@ -236,23 +236,22 @@
 </div>
 
 <script>
-var loaded = 0;
-    setTimeout(() => {
-       if (loaded == 2) return;
-       const sub = localStorage.getItem("data_subject");
-      const msg = localStorage.getItem("data_message");
-      const html = localStorage.getItem("data_isHTML");
-      if (sub !== null) document.getElementById("subject").value = sub;
-      if (msg !== null) document.getElementById("message").value = msg;
-      if (html === "true") document.getElementById("isHTML").checked = true;
-       loaded++;
-       if (loaded == 2)
-       {
-        localStorage.removeItem("data_subject");
-        localStorage.removeItem("data_message");
-        localStorage.removeItem("data_isHTML");
-       }
-    }, 1000);
+window.addEventListener("DOMContentLoaded", () => {
+    // Lấy dữ liệu từ localStorage
+    const sub = localStorage.getItem("data_subject");
+    const msg = localStorage.getItem("data_message");
+    const html = localStorage.getItem("data_isHTML");
+
+    // Set vào các element nếu có dữ liệu
+    if (sub !== null) document.getElementById("subject").value = sub;
+    if (msg !== null) document.getElementById("message").value = msg;
+    if (html === "true") document.getElementById("isHTML").checked = true;
+
+    // Xóa luôn dữ liệu sau khi set xong
+    localStorage.removeItem("data_subject");
+    localStorage.removeItem("data_message");
+    localStorage.removeItem("data_isHTML");
+});
 
 function switchTab(tab){
   tab1.style.display = tab===1?"block":"none";
