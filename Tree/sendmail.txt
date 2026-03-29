@@ -140,7 +140,7 @@
 <div id="tab1">
 
 <b>Email external (nếu không vui lòng để trống) : </b><br />
-<input type="text" id="indexAnotherLoginMail" style="width: 30px;" /><br />
+<input type="number" id="indexAnotherLoginMail" style="width: 30px;" /><br />
 
 <b>Nhập email : </b><br />
 <input type="text" id="mail" style="width: 600px;" /><br />
@@ -174,7 +174,7 @@
 <input type="file" id="csvFile" accept=".csv"/><br/><br/>
 
 <b>Email external (nếu không vui lòng để trống) : </b><br />
-<input type="text" id="indexAnotherLoginMail_bulk" style="width: 30px;" /><br />
+<input type="number" id="indexAnotherLoginMail_bulk" style="width: 30px;" /><br />
 
 <b>Nhập subject : </b><br />
 <input type="text" id="subject_bulk" style="width: 600px;" /><br />
