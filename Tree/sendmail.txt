@@ -333,6 +333,7 @@ function replaceTemplate(str,data){
 
 /* ===== BULK ===== */
 async function sendBulkMail(){
+
 const file = csvFile.files[0];
 if(!file || !file.name.toLowerCase().endsWith(".csv")){
   alert("Vui lòng chọn file csv!");
@@ -341,8 +342,12 @@ if(!file || !file.name.toLowerCase().endsWith(".csv")){
 
 if(!confirm("Bạn có chắc muốn gửi e-mail hàng loạt?")) return;
 
+/* LƯU CSV GỐC */
 const text = await file.text();
 const list = parseCSV(text);
+
+/* LƯU KẾT QUẢ */
+let results = [];
 
 let success=0, error=0;
 
@@ -357,50 +362,108 @@ currentEmail.innerText = "Đang gửi: ...";
 
 /* CHẶN USER */
 document.body.style.overflow="hidden";
-// document.body.style.pointerEvents="none";
 bulkOverlay.style.pointerEvents="auto";
 
 for(let i=0;i<list.length;i++){
 
-const item=list[i];
-var email=item[Object.keys(item)[0]];
-if (email == "") { email = "Operator"; }
-currentEmail.innerText="Đang gửi: "+email;
+  const item=list[i];
 
-if (email == "Operator") { email = ""; }
+  var email=item[Object.keys(item)[0]];
+  if (email == "") { email = "Operator"; }
+  currentEmail.innerText="Đang gửi: "+email;
 
-mail.value=email;
-subject.value=replaceTemplate(subject_bulk.value,item);
-message.value=replaceTemplate(message_bulk.value,item);
+  if (email == "Operator") { email = ""; }
 
-isHTML.checked=isHTML_bulk.checked;
-sendFile.checked=sendFile_bulk.checked;
-indexAnotherLoginMail.value=indexAnotherLoginMail_bulk.value;
+  mail.value=email;
+  subject.value=replaceTemplate(subject_bulk.value,item);
+  message.value=replaceTemplate(message_bulk.value,item);
 
-/* copy file */
-if(files_bulk.files.length>0){
-  const dt=new DataTransfer();
-  for(let f of files_bulk.files) dt.items.add(f);
-  files.files=dt.files;
+  isHTML.checked=isHTML_bulk.checked;
+  sendFile.checked=sendFile_bulk.checked;
+  indexAnotherLoginMail.value=indexAnotherLoginMail_bulk.value;
+
+  /* copy file */
+  if(files_bulk.files.length>0){
+    const dt=new DataTransfer();
+    for(let f of files_bulk.files) dt.items.add(f);
+    files.files=dt.files;
+  }
+
+  const res=await sendmail(2);
+
+  /* ĐẾM */
+  if(res.result){
+    success++;
+  } else {
+    error++;
+  }
+
+  /* LƯU RESULT */
+  results.push({
+    Status: res.result ? "OK" : "Fail",
+    Message: res.result ? "" : (res.message || "")
+  });
+
+  let percent=Math.round((i+1)/list.length*100);
+  bulkBar.style.width=percent+"%";
+  bulkPercent.innerText=percent+"%";
+  successCount.innerText=success;
+  errorCount.innerText=error;
+
+  await new Promise(r=>setTimeout(r,5000));
 }
 
-const res=await sendmail(2);
-res.result?success++:error++;
-
-let percent=Math.round((i+1)/list.length*100);
-bulkBar.style.width=percent+"%";
-bulkPercent.innerText=percent+"%";
-successCount.innerText=success;
-errorCount.innerText=error;
-
-await new Promise(r=>setTimeout(r,5000));
-}
-
+/* ĐÓNG MODAL */
 bulkOverlay.style.display="none";
 document.body.style.overflow="";
 document.body.style.pointerEvents="";
 
-alert("Đã gửi email hàng loạt!\nSuccess: "+success+"\nError: "+error);
+/* CONFIRM */
+let confirmDownload = confirm(
+  "Đã xử lý gửi e-mail hàng loạt.\n" +
+  "Success: " + success + "\n" +
+  "Error: " + error + "\n\n" +
+  "Bạn có muốn tải data kết quả ngay bây giờ không?"
+);
+
+if(confirmDownload){
+  downloadResultCSV(text, results);
+}
+}
+
+function downloadResultCSV(originalText, results){
+
+  const lines = originalText.trim().split("\n");
+
+  /* HEADER */
+  let newLines = [];
+  newLines.push(lines[0] + ",Status,Message");
+
+  /* DATA */
+  for(let i=1;i<lines.length;i++){
+
+    let line = lines[i];
+
+    let r = results[i-1] || { Status:"", Message:"" };
+
+    /* escape message */
+    let msg = r.Message.replace(/"/g,'""');
+
+    if(msg.includes(",") || msg.includes("\n")){
+      msg = '"' + msg + '"';
+    }
+
+    newLines.push(line + "," + r.Status + "," + msg);
+  }
+
+  const blob = new Blob([newLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "bulk_result.csv";
+  a.click();
+
+  URL.revokeObjectURL(a.href);
 }
 
 /* ===== PROCESS TAB 1 ===== */
