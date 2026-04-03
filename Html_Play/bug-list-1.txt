@@ -87,7 +87,7 @@
     }
 
     function showPending() {
-        alert("Đây là loại bug chưa được fix, nhưng hiện tại đã không còn tái hiện được!");
+        alert("Đây là loại bug chưa được fix, nhưng hiện tại đã không còn tái hiện được hoặc đang chờ xác nhận!");
     }
 
     function showTrick() {
