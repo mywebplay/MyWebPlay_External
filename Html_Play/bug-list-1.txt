@@ -1,3 +1,99 @@
+<style>
+    body {
+        height: 2000px; /* để test scroll */
+        font-family: Arial, sans-serif;
+    }
+
+    /* Modal container */
+    #noteModal {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 15px 20px 15px 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 9999;
+        width: fit-content;
+    }
+
+    /* Close button */
+    #closeBtn {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* Title */
+    #noteModal h3 {
+        color: red;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    /* Item style */
+    .note-item {
+        padding: 5px 10px;
+        margin-bottom: 6px;
+        border-radius: 5px;
+        cursor: pointer; /* đổi chuột thành bàn tay */
+        display: inline-block;
+    }
+
+    .closed {
+        background-color: burlywood;
+    }
+
+    .pending {
+        background-color: cornflowerblue;
+        color: #fff;
+    }
+
+    .trick {
+        background-color: darkgoldenrod;
+        color: #fff;
+    }
+</style>
+<div id="noteModal">
+    <span id="closeBtn">✖</span>
+
+    <h3>GHI CHÚ</h3>
+
+    <div class="note-item closed" onclick="showClosed()">
+        <b>CLOSED</b>
+    </div>
+
+    <div class="note-item pending" onclick="showPending()">
+        <b>PENDING</b>
+    </div>
+
+    <div class="note-item trick" onclick="showTrick()">
+        <b>TRICK</b>
+    </div>
+</div>
+
+<script>
+    // Close modal (chỉ tắt trong request hiện tại)
+    document.getElementById("closeBtn").onclick = function () {
+        document.getElementById("noteModal").style.display = "none";
+    };
+
+    function showClosed() {
+        alert("Đây là loại bug đã được fix, đã được test xác nhận là hết lỗi xảy ra!");
+    }
+
+    function showPending() {
+        alert("Đây là loại bug chưa được fix, nhưng hiện tại đã không còn tái hiện được!");
+    }
+
+    function showTrick() {
+        alert("Đề xuất một chức năng mới hoặc loại bỏ tính năng liên quan đến bug được đề cập!");
+    }
+</script>
 <script>
   function DanhDauClose(indes)
   {
