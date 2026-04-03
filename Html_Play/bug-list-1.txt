@@ -1,5 +1,5 @@
 <script>
-  function DanhDau(indes)
+  function DanhDauClose(indes)
   {
       for (var i = 0; i < indes.length; i++)
       {
@@ -7,7 +7,25 @@
       }
   }
 
-  DanhDau([1,3,5,6,9,14,18]);
+  function DanhDauPending(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "cornflowerblue";
+      }
+  }
+
+  function DanhDauTrick(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "darkgoldenrod";
+      }
+  }
+
+  DanhDauClose([1,6]);
+  DanhDauPending([14]);
+  DanhDauTrick([3,5,9,18]);
 
 //---------------------------------------
 
