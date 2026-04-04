@@ -1,10 +1,9 @@
 <style>
     body {
-        height: 2000px; /* để test scroll */
+        height: 2000px;
         font-family: Arial, sans-serif;
     }
 
-    /* Modal container */
     #noteModal {
         position: fixed;
         bottom: 20px;
@@ -12,68 +11,80 @@
         background: #fff;
         border: 1px solid #ccc;
         border-radius: 10px;
-        padding: 15px 20px 15px 15px;
+        padding: 15px 20px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         z-index: 9999;
-        width: fit-content;
+        width: max-content;
     }
 
-    /* Close button */
     #closeBtn {
         position: absolute;
         top: 5px;
         right: 10px;
         cursor: pointer;
         font-weight: bold;
-        font-size: 16px;
     }
 
-    /* Title */
     #noteModal h3 {
         color: red;
-        margin-top: 0;
-        margin-bottom: 10px;
+        margin: 0 0 10px 0;
     }
 
-    /* Item style */
-    .note-item {
-        padding: 5px 10px;
+    /* mỗi dòng */
+    .note-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         margin-bottom: 6px;
-        border-radius: 5px;
-        cursor: pointer; /* đổi chuột thành bàn tay */
-        display: inline-block;
+        cursor: pointer;
     }
 
-    .closed {
-        background-color: burlywood;
+    /* ô vuông màu */
+    .color-box {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        flex-shrink: 0;
     }
 
-    .pending {
-        background-color: cornflowerblue;
-        color: #fff;
+    .closed-box {
+        background: burlywood;
     }
 
-    .trick {
-        background-color: darkgoldenrod;
-        color: #fff;
+    .pending-box {
+        background: cornflowerblue;
     }
+
+    .trick-box {
+        background: darkgoldenrod;
+    }
+
+    /* chữ */
+    .label {
+        font-weight: bold;
+    }
+
 </style>
 <div id="noteModal">
     <span id="closeBtn">✖</span>
 
     <h3>GHI CHÚ</h3>
 
-    <div class="note-item closed" onclick="showClosed()">
-        <b>CLOSED</b>
+    <div class="note-row" onclick="showClosed()">
+        <div class="color-box closed-box"></div>
+        <div class="label">CLOSED</div>
     </div>
 
-    <div class="note-item pending" onclick="showPending()">
-        <b>PENDING</b>
+    <div class="note-row" onclick="showPending()">
+        <div class="color-box pending-box"></div>
+        <div class="label">PENDING</div>
     </div>
 
-    <div class="note-item trick" onclick="showTrick()">
-        <b>TRICK</b>
+    <div class="note-row" onclick="showTrick()">
+        <div class="color-box trick-box"></div>
+        <div class="label">TRICK</div>
     </div>
+
 </div>
 
 <script>
