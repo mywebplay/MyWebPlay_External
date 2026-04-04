@@ -317,14 +317,12 @@ return data;
 }
 
 function parseCSV(text){
-  const rows=text.split("\n").filter(r=>r.trim());
-  const headers=rows[0].split(",");
-  return rows.slice(1).map(r=>{
-    const cols=r.split(",");
-    let obj={};
-    headers.forEach((h,i)=>obj[h.trim()]=cols[i]?.trim());
-    return obj;
+  const result = Papa.parse(text, {
+    header: true,
+    skipEmptyLines: true
   });
+
+  return result.data;
 }
 
 function replaceTemplate(str,data){
@@ -433,30 +431,20 @@ if(confirmDownload){
 
 function downloadResultCSV(originalText, results){
 
-  const lines = originalText.trim().split("\n");
+  // parse lại để đảm bảo đúng structure
+  const data = parseCSV(originalText);
 
-  /* HEADER */
-  let newLines = [];
-  newLines.push(lines[0] + ",Status,Message");
+  // merge Status + Message vào từng dòng
+  const finalData = data.map((row, i) => ({
+    ...row,
+    Status: results[i]?.Status || "",
+    Message: results[i]?.Message || ""
+  }));
 
-  /* DATA */
-  for(let i=1;i<lines.length;i++){
+  // convert → CSV chuẩn
+  const csv = Papa.unparse(finalData);
 
-    let line = lines[i];
-
-    let r = results[i-1] || { Status:"", Message:"" };
-
-    /* escape message */
-    let msg = r.Message.replace(/"/g,'""');
-
-    if(msg.includes(",") || msg.includes("\n")){
-      msg = '"' + msg + '"';
-    }
-
-    newLines.push(line + "," + r.Status + "," + msg);
-  }
-
-  const blob = new Blob([newLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -501,3 +489,4 @@ document.body.style.pointerEvents="";
 processingModalVisible=false;
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
