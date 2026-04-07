@@ -2,9 +2,10 @@
 const placeholders = [
     "Nhập từ khoá tìm kiếm theo địa chỉ IP",
     "Nhập từ khoá tìm kiếm theo host",
-    "Nhập từ khoá tìm kiếm theo ngày truy cập",
+    "Nhập từ khoá tìm kiếm theo ngày truy cập (chứa các thành phần)",
     "Nhập từ khoá tìm kiếm theo thông tin truy cập",
-    "Nhập từ khoá tìm kiếm theo trạng thái"
+    "Nhập từ khoá tìm kiếm theo trạng thái",
+    "Nhập từ khoá tìm kiếm theo ngày truy cập (tìm theo range)
 ];
 
 for (let i = 0; i < placeholders.length; i++) {
