@@ -12,4 +12,7 @@ for (let i = 0; i < placeholders.length; i++) {
     document.getElementById("txtParam" + i).placeholder = placeholders[i];
     document.getElementById("txtParam" + i).title = placeholders[i];
 }
+
+document.getElementById("txtType2").selectedIndex = 5;
+document.getElementById("txtType3").selectedIndex = 2;
 </script>
