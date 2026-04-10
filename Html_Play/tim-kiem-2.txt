@@ -1,3 +1,24 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- MODAL -->
+<div id="dtModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
+  <div style="background:#fff; width:320px; margin:10% auto; padding:20px; border-radius:8px;">
+    
+    <input id="dtPicker" />
+
+    <div style="margin-top:10px;">
+      <label>
+        <input type="checkbox" id="chkUseTime"> Chọn giờ
+      </label>
+    </div>
+
+    <div style="margin-top:15px; text-align:right;">
+      <button id="btnCancel" style="background:red; color:#fff;">Huỷ</button>
+      <button id="btnOk" style="background:green; color:#fff;">Xác nhận</button>
+    </div>
+
+  </div>
+</div>
 <script>
 const placeholders = [
     "Nhập từ khoá tìm kiếm theo địa chỉ IP",
