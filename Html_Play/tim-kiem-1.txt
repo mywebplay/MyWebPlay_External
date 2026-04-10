@@ -1,3 +1,24 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- MODAL -->
+<div id="dtModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
+  <div style="background:#fff; width:320px; margin:10% auto; padding:20px; border-radius:8px;">
+    
+    <input id="dtPicker" />
+
+    <div style="margin-top:10px;">
+      <label>
+        <input type="checkbox" id="chkUseTime"> Chọn giờ
+      </label>
+    </div>
+
+    <div style="margin-top:15px; text-align:right;">
+      <button id="btnCancel" style="background:red; color:#fff;">Huỷ</button>
+      <button id="btnOk" style="background:green; color:#fff;">Xác nhận</button>
+    </div>
+
+  </div>
+</div>
 <script>
 const placeholders = [
     "Nhập từ khoá tìm kiếm theo địa chỉ IP",
@@ -15,6 +36,9 @@ for (let i = 0; i < placeholders.length; i++) {
 
 document.getElementById("txtType2").selectedIndex = 5;
 document.getElementById("txtType3").selectedIndex = 2;
+
+document.getElementById("txtParam2").readOnly = true;
+document.getElementById("txtParam3").readOnly = true;
 
 (function () {
     function removeHash() {
@@ -36,4 +60,131 @@ document.getElementById("txtType3").selectedIndex = 2;
     // backup thêm (nếu có script khác set hash liên tục)
     setInterval(removeHash, 500);
 })();
+
+let currentInput = null;
+let picker = null;
+
+// bind theo ID
+bindDateTimePicker('txtParam2');
+bindDateTimePicker('txtParam3');
+
+function bindDateTimePicker(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.addEventListener('click', function () {
+        openDateTimeModal(el);
+    });
+}
+
+// mở modal
+function openDateTimeModal(input) {
+    currentInput = input;
+
+    const modal = document.getElementById('dtModal');
+    const chk = document.getElementById('chkUseTime');
+
+    modal.style.display = 'block';
+
+    if (picker) picker.destroy();
+
+    // 🔥 detect value cũ
+    const hasTime = input.value.includes(':');
+
+    chk.checked = hasTime;
+
+    picker = flatpickr("#dtPicker", {
+        enableTime: hasTime,
+        dateFormat: "Y-m-d H:i:S",
+        time_24hr: true,
+        defaultDate: input.value || null
+    });
+}
+
+// toggle bật/tắt giờ
+document.getElementById('chkUseTime').addEventListener('change', function () {
+    if (!picker) return;
+
+    const selected = picker.selectedDates[0];
+
+    picker.destroy();
+
+    picker = flatpickr("#dtPicker", {
+        enableTime: this.checked,
+        dateFormat: "Y-m-d H:i:S",
+        time_24hr: true,
+        defaultDate: selected || null
+    });
+});
+
+// confirm
+document.getElementById('btnOk').onclick = function () {
+    if (!picker || !currentInput) return;
+
+    const selected = picker.selectedDates[0];
+    if (!selected) {
+        closeModal();
+        return;
+    }
+
+    const useTime = document.getElementById('chkUseTime').checked;
+
+    let value;
+
+    if (useTime) {
+        value = formatDateTime(selected);
+    } else {
+        value = formatDate(selected);
+    }
+
+    currentInput.value = value;
+
+    closeModal();
+};
+
+// cancel
+document.getElementById('btnCancel').onclick = function () {
+    closeModal();
+};
+
+// đóng modal
+function closeModal() {
+    document.getElementById('dtModal').style.display = 'none';
+}
+
+// click nền để đóng
+document.getElementById('dtModal').addEventListener('click', function (e) {
+    if (e.target.id === 'dtModal') {
+        closeModal();
+    }
+});
+
+// ESC để đóng
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+
+// format yyyy-MM-dd
+function formatDate(d) {
+    const yyyy = d.getFullYear();
+    const MM = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+
+    return `${yyyy}-${MM}-${dd}`;
+}
+
+// format yyyy-MM-dd HH:mm:ss
+function formatDateTime(d) {
+    const yyyy = d.getFullYear();
+    const MM = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+
+    const HH = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    const ss = String(d.getSeconds()).padStart(2, '0');
+
+    return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`;
+}
 </script>
