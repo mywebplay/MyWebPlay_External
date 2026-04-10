@@ -119,7 +119,7 @@ document.addEventListener('change', function (e) {
 // ===== CLICK EVENTS =====
 document.addEventListener('click', function (e) {
 
-    // OK → chỉ set value, KHÔNG đóng modal
+    // OK
     if (e.target.closest('#btnOk')) {
 
         if (!picker || !currentInput) return;
@@ -135,10 +135,17 @@ document.addEventListener('click', function (e) {
 
         currentInput.value = value;
 
-        // ❗ KHÔNG closeModal()
+        closeModal(); // ✅ chỉ đóng khi OK
+        return;
     }
 
-   closeModal();
+    // CANCEL
+    if (e.target.closest('#btnCancel')) {
+        closeModal(); // ✅ chỉ đóng khi Cancel
+        return;
+    }
+
+    // ❌ KHÔNG có dòng closeModal() ngoài này nữa
 });
 
 // ===== CLOSE MODAL =====
