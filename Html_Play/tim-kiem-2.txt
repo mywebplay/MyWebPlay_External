@@ -61,13 +61,11 @@ document.getElementById("txtParam3").readOnly = true;
     setInterval(removeHash, 500);
 })();
 
+// ===== GLOBAL =====
 let currentInput = null;
 let picker = null;
 
-// bind theo ID
-bindDateTimePicker('txtParam2');
-bindDateTimePicker('txtParam3');
-
+// ===== BIND TEXTBOX =====
 function bindDateTimePicker(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -77,7 +75,7 @@ function bindDateTimePicker(id) {
     });
 }
 
-// mở modal
+// ===== OPEN MODAL =====
 function openDateTimeModal(input) {
     currentInput = input;
 
@@ -88,8 +86,8 @@ function openDateTimeModal(input) {
 
     if (picker) picker.destroy();
 
-    // 🔥 detect value cũ
-    const hasTime = input.value.includes(':');
+    // detect value cũ có giờ hay không
+    const hasTime = input.value && input.value.includes(':');
 
     chk.checked = hasTime;
 
@@ -101,72 +99,75 @@ function openDateTimeModal(input) {
     });
 }
 
-// toggle bật/tắt giờ
-document.getElementById('chkUseTime').addEventListener('change', function () {
-    if (!picker) return;
+// ===== TOGGLE TIME =====
+document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'chkUseTime') {
 
-    const selected = picker.selectedDates[0];
+        if (!picker) return;
 
-    picker.destroy();
+        const selected = picker.selectedDates[0];
 
-    picker = flatpickr("#dtPicker", {
-        enableTime: this.checked,
-        dateFormat: "Y-m-d H:i:S",
-        time_24hr: true,
-        defaultDate: selected || null
-    });
+        picker.destroy();
+
+        picker = flatpickr("#dtPicker", {
+            enableTime: e.target.checked,
+            dateFormat: "Y-m-d H:i:S",
+            time_24hr: true,
+            defaultDate: selected || null
+        });
+    }
 });
 
-// confirm
-document.getElementById('btnOk').onclick = function () {
-    if (!picker || !currentInput) return;
+// ===== CLICK EVENTS (OK / CANCEL / BACKDROP) =====
+document.addEventListener('click', function (e) {
 
-    const selected = picker.selectedDates[0];
-    if (!selected) {
+    // OK
+    if (e.target.closest('#btnOk')) {
+
+        if (!picker || !currentInput) return;
+
+        const selected = picker.selectedDates[0];
+        if (!selected) {
+            closeModal();
+            return;
+        }
+
+        const useTime = document.getElementById('chkUseTime').checked;
+
+        let value = useTime
+            ? formatDateTime(selected)
+            : formatDate(selected);
+
+        currentInput.value = value;
+
         closeModal();
-        return;
     }
 
-    const useTime = document.getElementById('chkUseTime').checked;
-
-    let value;
-
-    if (useTime) {
-        value = formatDateTime(selected);
-    } else {
-        value = formatDate(selected);
+    // CANCEL
+    if (e.target.closest('#btnCancel')) {
+        closeModal();
     }
 
-    currentInput.value = value;
-
-    closeModal();
-};
-
-// cancel
-document.getElementById('btnCancel').onclick = function () {
-    closeModal();
-};
-
-// đóng modal
-function closeModal() {
-    document.getElementById('dtModal').style.display = 'none';
-}
-
-// click nền để đóng
-document.getElementById('dtModal').addEventListener('click', function (e) {
+    // CLICK OUTSIDE
     if (e.target.id === 'dtModal') {
         closeModal();
     }
 });
 
-// ESC để đóng
+// ===== ESC CLOSE =====
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         closeModal();
     }
 });
 
-// format yyyy-MM-dd
+// ===== CLOSE MODAL =====
+function closeModal() {
+    const modal = document.getElementById('dtModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// ===== FORMAT DATE =====
 function formatDate(d) {
     const yyyy = d.getFullYear();
     const MM = String(d.getMonth() + 1).padStart(2, '0');
@@ -175,7 +176,7 @@ function formatDate(d) {
     return `${yyyy}-${MM}-${dd}`;
 }
 
-// format yyyy-MM-dd HH:mm:ss
+// ===== FORMAT DATETIME =====
 function formatDateTime(d) {
     const yyyy = d.getFullYear();
     const MM = String(d.getMonth() + 1).padStart(2, '0');
@@ -187,4 +188,7 @@ function formatDateTime(d) {
 
     return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`;
 }
+
+bindDateTimePicker('txtParam2');
+bindDateTimePicker('txtParam3');
 </script>
