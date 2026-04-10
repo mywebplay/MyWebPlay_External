@@ -138,10 +138,7 @@ document.addEventListener('click', function (e) {
         // ❗ KHÔNG closeModal()
     }
 
-    // CANCEL → cách duy nhất để đóng
-    if (e.target.closest('#btnCancel')) {
-        closeModal();
-    }
+   closeModal();
 });
 
 // ===== CLOSE MODAL =====
