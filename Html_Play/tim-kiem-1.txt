@@ -1,20 +1,118 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<style>
+/* ===== MODAL BACKDROP ===== */
+#dtModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6); /* đậm hơn */
+    display: none;
+    z-index: 9999;
+}
+
+/* ===== MODAL CONTENT ===== */
+#dtModal .modal-content {
+    background: #fff;
+    width: 420px;              /* to hơn */
+    margin: 8% auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-family: Arial, sans-serif;
+}
+
+/* ===== TITLE ===== */
+#dtModal .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ===== PICKER ===== */
+#dtPicker {
+    width: 100%;
+    font-size: 16px;
+    padding: 8px;
+}
+
+/* ===== CHECKBOX ===== */
+#dtModal label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* ===== BUTTONS ===== */
+#dtModal .modal-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+#dtModal button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#btnCancel {
+    background: #e74c3c;
+    color: white;
+}
+
+#btnOk {
+    background: #27ae60;
+    color: white;
+    margin-left: 10px;
+}
+
+#btnOk:hover {
+    background: #219150;
+}
+
+#btnCancel:hover {
+    background: #c0392b;
+}
+
+.flatpickr-calendar {
+    font-size: 14px !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
+    border-radius: 10px !important;
+}
+
+/* ngày hover rõ hơn */
+.flatpickr-day:hover {
+    background: #3498db !important;
+    color: white;
+}
+
+/* ngày được chọn */
+.flatpickr-day.selected {
+    background: #27ae60 !important;
+    color: white;
+}
+
+/* today nổi bật */
+.flatpickr-day.today {
+    border: 1px solid #27ae60;
+}
+</style>
 <!-- MODAL -->
-<div id="dtModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
-  <div style="background:#fff; width:320px; margin:10% auto; padding:20px; border-radius:8px;">
+<div id="dtModal">
+  <div class="modal-content">
     
+    <div class="modal-title">Chọn ngày / giờ</div>
+
     <input id="dtPicker" />
 
-    <div style="margin-top:10px;">
-      <label>
-        <input type="checkbox" id="chkUseTime"> Chọn giờ
-      </label>
-    </div>
+    <label>
+      <input type="checkbox" id="chkUseTime"> Chọn giờ
+    </label>
 
-    <div style="margin-top:15px; text-align:right;">
-      <button id="btnCancel" style="background:red; color:#fff;">Huỷ</button>
-      <button id="btnOk" style="background:green; color:#fff;">Xác nhận</button>
+    <div class="modal-actions">
+      <button id="btnCancel" type="button">Huỷ</button>
+      <button id="btnOk" type="button">Xác nhận</button>
     </div>
 
   </div>
