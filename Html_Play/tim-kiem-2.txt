@@ -86,9 +86,7 @@ function openDateTimeModal(input) {
 
     if (picker) picker.destroy();
 
-    // detect value cũ có giờ hay không
     const hasTime = input.value && input.value.includes(':');
-
     chk.checked = hasTime;
 
     picker = flatpickr("#dtPicker", {
@@ -118,19 +116,16 @@ document.addEventListener('change', function (e) {
     }
 });
 
-// ===== CLICK EVENTS (OK / CANCEL / BACKDROP) =====
+// ===== CLICK EVENTS =====
 document.addEventListener('click', function (e) {
 
-    // OK
+    // OK → chỉ set value, KHÔNG đóng modal
     if (e.target.closest('#btnOk')) {
 
         if (!picker || !currentInput) return;
 
         const selected = picker.selectedDates[0];
-        if (!selected) {
-            closeModal();
-            return;
-        }
+        if (!selected) return;
 
         const useTime = document.getElementById('chkUseTime').checked;
 
@@ -140,23 +135,11 @@ document.addEventListener('click', function (e) {
 
         currentInput.value = value;
 
-        closeModal();
+        // ❗ KHÔNG closeModal()
     }
 
-    // CANCEL
+    // CANCEL → cách duy nhất để đóng
     if (e.target.closest('#btnCancel')) {
-        closeModal();
-    }
-
-    // CLICK OUTSIDE
-    if (e.target.id === 'dtModal') {
-        closeModal();
-    }
-});
-
-// ===== ESC CLOSE =====
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
         closeModal();
     }
 });
