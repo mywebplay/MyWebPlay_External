@@ -15,4 +15,25 @@ for (let i = 0; i < placeholders.length; i++) {
 
 document.getElementById("txtType2").selectedIndex = 5;
 document.getElementById("txtType3").selectedIndex = 2;
+
+(function () {
+    function removeHash() {
+        if (window.location.hash) {
+            history.replaceState(
+                null,
+                document.title,
+                window.location.pathname + window.location.search
+            );
+        }
+    }
+
+    // chạy ngay khi load
+    removeHash();
+
+    // nếu fragment thay đổi (user click anchor, script gán...)
+    window.addEventListener("hashchange", removeHash);
+
+    // backup thêm (nếu có script khác set hash liên tục)
+    setInterval(removeHash, 500);
+})();
 </script>
