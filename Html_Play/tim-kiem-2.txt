@@ -118,7 +118,7 @@
 
     <input id="dtPicker" />
 
-    <label>
+    <label style="display: none;">
       <input type="checkbox" id="chkUseTime"> Lấy cả phần giờ
     </label>
 
@@ -146,7 +146,7 @@ for (let i = 0; i < placeholders.length; i++) {
 }
 
 document.getElementById("txtType2").selectedIndex = 5;
-document.getElementById("txtType3").selectedIndex = 2;
+document.getElementById("txtType3").selectedIndex = 3;
 
 document.getElementById("txtParam2").readOnly = true;
 document.getElementById("txtParam3").readOnly = true;
@@ -180,7 +180,7 @@ function openDateTimeModal(input) {
     chk.checked = hasTime;
 
     picker = flatpickr("#dtPicker", {
-        enableTime: hasTime,
+        enableTime: true,
         enableSeconds: true,
         dateFormat: "Y-m-d H:i:S",
         time_24hr: true,
@@ -199,7 +199,7 @@ document.addEventListener('change', function (e) {
         picker.destroy();
 
         picker = flatpickr("#dtPicker", {
-            enableTime: e.target.checked,
+            enableTime: true,
             enableSeconds: true,
             dateFormat: "Y-m-d H:i:S",
             time_24hr: true,
