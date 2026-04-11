@@ -305,7 +305,7 @@ const html2 = `
 
 document.getElementById("option_sort").innerHTML += html2;
 
-if (url2.searchParams.has("orderBy") == false) {
-    document.getElementById("option_sort").value = "1";
+if (url2.searchParams.has("orderBy")) {
+    document.getElementById("option_sort").value = url2.searchParams.get("orderBy");
 }
 </script>
