@@ -119,7 +119,7 @@
     <input id="dtPicker" />
 
     <label>
-      <input type="checkbox" id="chkUseTime"> Chọn giờ
+      <input type="checkbox" id="chkUseTime"> Lấy cả phần giờ
     </label>
 
     <div class="modal-actions">
