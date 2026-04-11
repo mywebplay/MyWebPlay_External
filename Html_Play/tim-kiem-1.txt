@@ -176,8 +176,8 @@ function openDateTimeModal(input) {
 
     if (picker) picker.destroy();
 
-    const hasTime = input.value && input.value.includes(':');
-    chk.checked = hasTime;
+   // const hasTime = input.value && input.value.includes(':');
+   // chk.checked = hasTime;
 
     picker = flatpickr("#dtPicker", {
         enableTime: true,
