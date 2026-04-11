@@ -155,6 +155,10 @@ if (!types[3] || types[3].trim() == "") {
     document.getElementById("txtType3").selectedIndex = 3;
 }
 
+if (url2.searchParams.has("orderBy") == false) {
+    document.getElementById("option_sort").value = "1";
+}
+
 document.getElementById("txtParam2").readOnly = true;
 document.getElementById("txtParam3").readOnly = true;
 
@@ -295,4 +299,13 @@ function formatDateTime(d) {
 
 bindDateTimePicker('txtParam2');
 bindDateTimePicker('txtParam3');
+
+const html2 = `
+<option value="1">Sắp xếp theo ngày truy cập (giảm dần theo part date, tăng dần theo part time)</option>
+<option value="2">Sắp xếp theo ngày truy cập (tăng dần theo part date, giảm dần theo part time)</option>
+<option value="3">Sắp xếp theo ngày truy cập (tăng dần theo part date, tăng dần theo part time)</option>
+<option value="4">Sắp xếp theo ngày truy cập (giảm dần theo part date, giảm dần theo part time)</option>
+`;
+
+document.getElementById("option_sort").innerHTML = html2;
 </script>
