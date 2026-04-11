@@ -119,7 +119,7 @@
     <input id="dtPicker" />
 
     <label style="display: none;">
-      <input type="checkbox" id="chkUseTime" checked> Lấy cả phần giờ
+      <input type="checkbox" id="chkUseTime"> Lấy cả phần giờ
     </label>
 
     <div class="modal-actions">
@@ -221,9 +221,11 @@ document.addEventListener('click', function (e) {
 
         const useTime = document.getElementById('chkUseTime').checked;
 
-        let value = useTime
-            ? formatDateTime(selected)
-            : formatDate(selected);
+        // let value = useTime
+           // ? formatDateTime(selected)
+           // : formatDate(selected);
+
+        const value = formatDateTime(selected);
 
         currentInput.value = value;
 
