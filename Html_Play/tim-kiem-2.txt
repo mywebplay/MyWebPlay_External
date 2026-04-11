@@ -11,9 +11,10 @@
 }
 
 #btnClear {
-    background: #95a5a6;
+    background: grey;
     color: white;
     margin-right: auto; /* đẩy về bên trái */
+    float: left;
 }
 
 #btnClear:hover {
@@ -69,6 +70,7 @@
 #btnCancel {
     background: #e74c3c;
     color: white;
+    margin-right: -10px;
 }
 
 #btnOk {
@@ -200,6 +202,7 @@ function openDateTimeModal(input) {
 
     picker = flatpickr("#dtPicker", {
         enableTime: hasTime,
+        enableSeconds: true,
         dateFormat: "Y-m-d H:i:S",
         time_24hr: true,
         defaultDate: input.value || null
@@ -218,6 +221,7 @@ document.addEventListener('change', function (e) {
 
         picker = flatpickr("#dtPicker", {
             enableTime: e.target.checked,
+            enableSeconds: true,
             dateFormat: "Y-m-d H:i:S",
             time_24hr: true,
             defaultDate: selected || null
