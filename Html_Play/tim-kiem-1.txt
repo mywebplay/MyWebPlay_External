@@ -155,10 +155,6 @@ if (!types[3] || types[3].trim() == "") {
     document.getElementById("txtType3").selectedIndex = 3;
 }
 
-if (url2.searchParams.has("orderBy") == false) {
-    document.getElementById("option_sort").value = "1";
-}
-
 document.getElementById("txtParam2").readOnly = true;
 document.getElementById("txtParam3").readOnly = true;
 
@@ -308,4 +304,8 @@ const html2 = `
 `;
 
 document.getElementById("option_sort").innerHTML = html2;
+
+if (url2.searchParams.has("orderBy") == false) {
+    document.getElementById("option_sort").value = "1";
+}
 </script>
