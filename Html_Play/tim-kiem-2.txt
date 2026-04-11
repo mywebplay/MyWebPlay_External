@@ -145,10 +145,14 @@ for (let i = 0; i < placeholders.length; i++) {
     document.getElementById("txtParam" + i).title = placeholders[i];
 }
 
-const urlParamsX = new URLSearchParams(window.location.search);
-if (urlParamsX.has("type") == false) {
-document.getElementById("txtType2").selectedIndex = 5;
-document.getElementById("txtType3").selectedIndex = 3;
+const url2 = new URL(window.location.href);
+const types2 = url.searchParams.getAll("type");
+if (!types[2] || types[2].trim() == "") {
+    document.getElementById("txtType2").selectedIndex = 5;
+}
+
+if (!types[3] || types[3].trim() == "") {
+    document.getElementById("txtType3").selectedIndex = 3;
 }
 
 document.getElementById("txtParam2").readOnly = true;
