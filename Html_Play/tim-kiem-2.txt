@@ -114,7 +114,7 @@
 <div id="dtModal">
   <div class="modal-content">
     
-    <div class="modal-title">Chọn ngày / giờ</div>
+    <div class="modal-title">Chọn ngày và giờ</div>
 
     <input id="dtPicker" />
 
