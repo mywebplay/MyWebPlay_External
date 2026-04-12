@@ -35,9 +35,18 @@ document.getElementById("data").style.display = "none";
 document.getElementById("editor").style.display = "block";
 document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "block";
 var content = document.getElementById("data").value;
-quill.insertText(quill.getLength(), content);
+appendToQuill(quill, content);
 document.getElementById("pasteND").style.color = "red";
 document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)";
 }
+}
+
+function appendToQuill(quill, text) {
+    const cleanText = text.replace(/\r\n/g, "\n");
+
+    quill.updateContents([
+        { retain: quill.getLength() },
+        { insert: "\n" + cleanText }
+    ]);
 }
 </script>
