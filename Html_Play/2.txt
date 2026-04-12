@@ -41,31 +41,16 @@ document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard c
 }
 }
 
-function normalizeQuillState(quill) {
-    const text = quill.getText();
-
-    // 🔥 detect ghost empty state
-    if (!text || text.trim().length === 0) {
-        quill.setContents([]);
-        quill.setSelection(0, 0);
-        return true;
-    }
-
-    return false;
-}
-
 function safeInsert(quill, text) {
     const clean = text.replace(/\r\n/g, "\n");
 
-    normalizeQuillState(quill);
+    // 🔥 detach hoàn toàn khỏi Quill event loop
+    Promise.resolve().then(() => {
+        const len = quill.getLength();
 
-    const len = quill.getLength();
+        quill.setSelection(len, 0);
 
-    quill.updateContents([
-        { retain: len },
-        { insert: clean }
-    ]);
-
-    quill.setSelection(quill.getLength(), 0);
+        quill.insertText(len, clean, 'user');
+    });
 }
 </script>
