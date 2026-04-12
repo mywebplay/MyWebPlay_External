@@ -35,28 +35,28 @@ document.getElementById("data").style.display = "none";
 document.getElementById("editor").style.display = "block";
 document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "block";
 var content = document.getElementById("data").value;
-QuillAppender.append(quill, content);
+const quillAppender = createQuillAppender();
+quillAppender.append(quill, content);
 document.getElementById("pasteND").style.color = "red";
 document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)";
 }
 }
 
-const QuillAppender = (function () {
-    const queue = new Map();
-    const state = new WeakMap();
+function createQuillAppender() {
+
+    const queueMap = new Map();
+    const stateMap = new WeakMap();
 
     function ensure(quill) {
-        if (!state.has(quill)) {
-            state.set(quill, {
-                processing: false
-            });
-            queue.set(quill, []);
+        if (!stateMap.has(quill)) {
+            stateMap.set(quill, { processing: false });
+            queueMap.set(quill, []);
         }
     }
 
-    function processNext(quill) {
-        const q = queue.get(quill);
-        const st = state.get(quill);
+    function process(quill) {
+        const q = queueMap.get(quill);
+        const st = stateMap.get(quill);
 
         if (st.processing || q.length === 0) return;
 
@@ -74,18 +74,16 @@ const QuillAppender = (function () {
 
             st.processing = false;
 
-            // chạy tiếp queue
-            processNext(quill);
+            process(quill);
         });
     }
 
-    return {
-        append(quill, text) {
-            ensure(quill);
+    function append(quill, text) {
+        ensure(quill);
+        queueMap.get(quill).push(text);
+        process(quill);
+    }
 
-            queue.get(quill).push(text);
-            processNext(quill);
-        }
-    };
-})();
+    return { append };
+}
 </script>
