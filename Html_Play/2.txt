@@ -5,7 +5,7 @@ if (document.getElementById("data").style.display == "none")
 {
 if (document.getElementById("html_play").innerText.includes("Dán nội dung từ clipboard của bạn?") == false)
 {
-document.getElementById("html_play").innerHTML = "<a href=\"#xuly\" onclick=\"pastenoidung()\" id=\"pasteND\" style=\"color:red\">Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)</a><br /><a href=\"#xuly\" onclick=\"clearQuill()\" id=\"clearND\" style=\"color:blue\">Clear all (không nên xoá bằng phím tắt Backspace hoặc Delete)</a><br /><br />";
+document.getElementById("html_play").innerHTML = "<a href=\"#xuly\" onclick=\"pastenoidung()\" id=\"pasteND\" style=\"color:red\">Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)</a><br /><br /><a href=\"#xuly\" onclick=\"clearQuill()\" id=\"clearND\" style=\"color:blue\">Clear all (không nên xoá bằng phím tắt Backspace hoặc Delete)</a><br /><br />";
 }
 }
 
@@ -25,6 +25,7 @@ if (test == true)
 {
 document.getElementById("data").style.display = "block";
 document.getElementById("editor").style.display = "none";
+document.getElementById("clearND").style.display = "none";
 document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "none";
 document.getElementById("pasteND").style.color = "green";
 document.getElementById("pasteND").innerText = "OK - Tiến hành lưu và tiếp tục";
@@ -74,5 +75,12 @@ function clearQuill() {
     quill.setSelection(0, 0);
 }
 
+function lockBackspace(quill) {
+
+    quill.keyboard.bindings[8] = []; // 8 = Backspace
+    quill.keyboard.bindings[46] = []; // 46 = Delete (optional)
+}
+
 lockDeleteInQuill(quill);
+lockBackspace(quill);
 </script>
