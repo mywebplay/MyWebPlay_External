@@ -35,55 +35,26 @@ document.getElementById("data").style.display = "none";
 document.getElementById("editor").style.display = "block";
 document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "block";
 var content = document.getElementById("data").value;
-const quillAppender = createQuillAppender();
-quillAppender.append(quill, content);
+safeInsert(quill, content);
 document.getElementById("pasteND").style.color = "red";
 document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)";
 }
 }
 
-function createQuillAppender() {
+function safeInsert(quill, text) {
+    const clean = text.replace(/\r\n/g, "\n");
 
-    const queueMap = new Map();
-    const stateMap = new WeakMap();
-
-    function ensure(quill) {
-        if (!stateMap.has(quill)) {
-            stateMap.set(quill, { processing: false });
-            queueMap.set(quill, []);
-        }
+    // FIX QUAN TRỌNG: nếu editor rỗng nhưng vẫn còn "ghost newline"
+    if (quill.getLength() <= 1 || quill.getText().trim() === "") {
+        quill.setText("");
+        quill.setSelection(0, 0);
     }
 
-    function process(quill) {
-        const q = queueMap.get(quill);
-        const st = stateMap.get(quill);
+    const len = quill.getLength();
 
-        if (st.processing || q.length === 0) return;
-
-        st.processing = true;
-
-        requestAnimationFrame(() => {
-            const text = q.shift();
-
-            const clean = text.replace(/\r\n/g, "\n");
-
-            quill.updateContents([
-                { retain: quill.getLength() },
-                { insert: clean }
-            ]);
-
-            st.processing = false;
-
-            process(quill);
-        });
-    }
-
-    function append(quill, text) {
-        ensure(quill);
-        queueMap.get(quill).push(text);
-        process(quill);
-    }
-
-    return { append };
+    quill.updateContents([
+        { retain: len },
+        { insert: (len > 1 ? "\n" : "") + clean }
+    ]);
 }
 </script>
