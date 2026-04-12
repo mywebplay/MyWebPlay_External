@@ -130,7 +130,7 @@
       }
   }
 
-  DanhDauClose([1,6]);
+  DanhDauClose([1,6,13]);
   DanhDauPending([14,20]);
   DanhDauTrick([3,5,9,18]);
 
