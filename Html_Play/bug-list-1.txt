@@ -102,7 +102,7 @@
     }
 
     function showTrick() {
-        alert("Đề xuất một chức năng mới hoặc loại bỏ tính năng liên quan đến bug được đề cập (fix bug tạm thời)!");
+        alert("Đề xuất một chức năng mới, mưu mẹo/cách gian lận để bỏ qua bug hoặc loại bỏ tính năng liên quan đến bug được đề cập (fix bug tạm thời)!");
     }
 </script>
 <script>
