@@ -34,6 +34,7 @@ else
 {
 document.getElementById("data").style.display = "none";
 document.getElementById("editor").style.display = "block";
+document.getElementById("clearND").style.display = "block";
 document.getElementsByClassName("ql-toolbar ql-snow")[0].style.display = "block";
 var content = document.getElementById("data").value;
 safeInsert(quill, content);
