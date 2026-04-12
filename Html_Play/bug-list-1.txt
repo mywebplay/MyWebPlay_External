@@ -131,7 +131,7 @@
   }
 
   DanhDauClose([1,6]);
-  DanhDauPending([14]);
+  DanhDauPending([14,20]);
   DanhDauTrick([3,5,9,18]);
 
 //---------------------------------------
