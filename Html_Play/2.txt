@@ -41,20 +41,27 @@ document.getElementById("pasteND").innerText = "Dán nội dung từ clipboard c
 }
 }
 
+function hardResetIfNeeded(quill) {
+    const text = quill.getText();
+
+    if (!text || text.trim() === "") {
+        quill.setContents([]);
+        quill.setSelection(0, 0);
+    }
+}
+
 function safeInsert(quill, text) {
     const clean = text.replace(/\r\n/g, "\n");
 
-    // FIX QUAN TRỌNG: nếu editor rỗng nhưng vẫn còn "ghost newline"
-    if (quill.getLength() <= 1 || quill.getText().trim() === "") {
-        quill.setText("");
-        quill.setSelection(0, 0);
-    }
+    hardResetIfNeeded(quill);
 
-    const len = quill.getLength();
+    const length = quill.getLength();
 
     quill.updateContents([
-        { retain: len },
-        { insert: (len > 1 ? "\n" : "") + clean }
+        { retain: length },
+        { insert: clean }
     ]);
+
+    quill.setSelection(quill.getLength(), 0);
 }
 </script>
