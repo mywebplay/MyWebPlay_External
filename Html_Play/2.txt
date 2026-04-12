@@ -5,7 +5,7 @@ if (document.getElementById("data").style.display == "none")
 {
 if (document.getElementById("html_play").innerText.includes("Dán nội dung từ clipboard của bạn?") == false)
 {
-document.getElementById("html_play").innerHTML = "<a href=\"#xuly\" onclick=\"pastenoidung()\" id=\"pasteND\" style=\"color:red\">Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)</a><br /><br />";
+document.getElementById("html_play").innerHTML = "<a href=\"#xuly\" onclick=\"pastenoidung()\" id=\"pasteND\" style=\"color:red\">Dán nội dung từ clipboard của bạn? (vì đây là 1 textbox đặc biệt)</a><br /><a href=\"#xuly\" onclick=\"clearQuill()\" id=\"clearND\" style=\"color:blue\">Clear all (không nên xoá bằng phím tắt Backspace hoặc Delete)</a><br /><br />";
 }
 }
 
@@ -53,4 +53,26 @@ function safeInsert(quill, text) {
         quill.insertText(len, clean, 'user');
     });
 }
+
+function lockDeleteInQuill(quill) {
+
+    quill.root.addEventListener("keydown", function (e) {
+
+        if (
+            e.key === "Backspace" ||
+            e.key === "Delete"
+        ) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+    }, true);
+}
+
+function clearQuill() {
+    quill.setContents([]);
+    quill.setSelection(0, 0);
+}
+
+lockDeleteInQuill(quill);
 </script>
