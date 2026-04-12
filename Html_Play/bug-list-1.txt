@@ -98,7 +98,7 @@
     }
 
     function showPending() {
-        alert("Đây là loại bug chưa được fix, nhưng hiện tại đã không còn tái hiện được hoặc đang chờ xác nhận!");
+        alert("Đây là loại bug chưa được fix (hoặc đã được fix nhưng chưa hiểu vì sao), nhưng hiện tại đã không còn tái hiện được hoặc đang chờ xác nhận!");
     }
 
     function showTrick() {
@@ -131,7 +131,7 @@
   }
 
   DanhDauClose([1,6,13]);
-  DanhDauPending([14,20]);
+  DanhDauPending([8,14,20]);
   DanhDauTrick([3,5,9,18]);
 
 //---------------------------------------
