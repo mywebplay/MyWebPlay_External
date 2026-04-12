@@ -46,7 +46,7 @@ function appendToQuill(quill, text) {
 
     quill.updateContents([
         { retain: quill.getLength() },
-        { insert: "\n" + cleanText }
+        { insert: cleanText }
     ]);
 }
 </script>
