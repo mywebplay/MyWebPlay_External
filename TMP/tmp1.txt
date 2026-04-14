@@ -15,6 +15,7 @@
     text-align: left;
     vertical-align: top;
   }
+
   th.stt-col, td.stt-col {
     width: 5%;
     text-align: center;
@@ -658,7 +659,7 @@ function ClearSearch() {
 <br /><div id="sort"><select id="option_sort"><option value="">--- Chọn thành phần sắp xếp (nếu muốn) ---</option><select></div><br />
 <button id="search" onclick="TimKiem()" ><b>TÌM KIẾM</b></button>&nbsp;&nbsp;&nbsp;&nbsp;<a id="rmSearch" style="color:deeppink;cursor: pointer;" onclick="ClearSearch()">Clear search</a></div><hr /><br /><br />
 <div id="tableContainer">
-<table style='border-collapse:collapse;table-layout:fixed;width:100%;font-family:Arial;font-size:13px' border='1' cellpadding='4' cellspacing='0'>
+<table style='border-collapse:collapse;table-layout:fixed;width:100%;font-family:Arial;font-size:13px'>
 <thead>
 <tr>
 <th style='width:10%;text-align:center;background:#f2f2f2;font-weight:bold'>STT</th>
