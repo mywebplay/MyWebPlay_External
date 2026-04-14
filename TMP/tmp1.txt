@@ -1,0 +1,1089 @@
+
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    border : 2px solid blue;
+  }
+  th, td {
+    border: 2px solid black;
+    padding: 6px 8px;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: left;
+    vertical-align: top;
+  }
+  th.stt-col, td.stt-col {
+    width: 5%;
+    text-align: center;
+  }
+</style>
+<style>
+.pagingBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 15px 0 25px 0;
+    font-family: Arial, sans-serif;
+}
+
+.pagingBar button {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    background: white;
+    color: #007bff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagingBar button:hover:not(:disabled) {
+    background: #007bff;
+    color: white;
+}
+
+.pagingBar button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: #999;
+    color: #999;
+}
+
+.pageLabel {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffeaea;
+    border: 1px solid red;
+    font-weight: bold;
+    color: red;
+}
+
+.pageNumber {
+    font-size: 15px;
+}
+
+input[name="inputParam"] {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 16px;
+
+    border: 2px solid black;   /* ✅ có viền */
+    border-radius: 8px;
+
+    background: #fff;
+    color: #222;
+
+    outline: none;
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+/* Khi focus */
+input[name="inputParam"]:focus {
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.25);
+}
+
+/* Placeholder */
+input[name="inputParam"]::placeholder {
+    color: #9aa4b2;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 520px; /* chiều rộng select lớn */
+}
+
+.custom-select {
+  width: 100%; /* full container */
+  height: 50px;
+  font-size: 18px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 2px solid #3399FF;
+  background-color: #D9E9FF;
+  color: #0059b3;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 14px;
+  color: #3399FF;
+}
+
+.custom-select:hover {
+  border-color: #1a75ff;
+  background-color: #cce4ff;
+}
+
+#search {
+    appearance: none;
+    border: none;
+    outline: none;
+
+    padding: 12px 22px;
+    font-size: 14px;
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    background-color: yellow;
+    color: red;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    box-shadow: 
+        0 2px 6px rgba(0,0,0,0.15),
+        0 4px 12px rgba(0,0,0,0.08);
+}
+
+#search:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 6px 14px rgba(0,0,0,0.18),
+        0 10px 20px rgba(0,0,0,0.10);
+}
+
+#search:active {
+    transform: scale(0.96);
+    box-shadow: 
+        0 2px 6px rgba(0,0,0,0.2);
+}
+
+#search:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+#option_sort {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    display: block;
+
+    width: 100%;        /* full theo parent */
+    width: 100vw;       /* ép full màn hình */
+    
+    box-sizing: border-box; /* tránh tràn */
+
+    padding: 16px 50px 16px 16px;
+    font-size: 17px;
+    font-weight: 500;
+
+    border-radius: 12px;
+    border: 1px solid #ccc;
+
+    background-color: #fff;
+    color: #333;
+
+    cursor: pointer;
+
+    /* mũi tên custom */
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+
+    transition: all 0.2s ease;
+
+    box-shadow: 
+        0 2px 6px rgba(0,0,0,0.08),
+        0 4px 12px rgba(0,0,0,0.05);
+}
+
+#option_sort:hover {
+    border-color: #999;
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.12);
+}
+
+#option_sort:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 
+        0 0 0 2px rgba(0,0,0,0.08);
+}
+
+#option_sort:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+</style>
+<br /><h2 style="color:purple;">THÔNG TIN TRUY CẬP REQUEST CỦA USER</h1><br />
+<button id="dlCsv" onclick="downloadCSV()" style="color:red;cursor: pointer;"><b>Tải CSV</b></button>
+<button id="sMail" onclick="sendmail()" style="color:blue;cursor: pointer;"><b>SEND MAIL (OPERATOR)</b></button>
+<button id="sShowAll" onclick="showAllData()" style="color:green;cursor: pointer;"><b>SHOW ALL DATA (hãy cân nhắc nếu dữ liệu lớn)</b></button>
+<br />
+<br /><h2>Số lượng record đang hiển thị: <span style="color:red">50</span></h2><h2>Tổng số lượng tất cả record: <span style="color:blue">135</span></h2>
+<br />
+<br />
+<br />
+<div class='pagingBar'>
+    <button class='btnPrev' title='Quay lại trang trước'>&larr;</button>
+
+    <span class='pageLabel'>
+        Trang số <span class='pageNumber'>1</span>
+    </span>
+
+    <button class='btnNext' title='Đi đến trang tiếp theo'>&rarr;</button>
+</div>
+<br />
+
+<script>
+
+function sendmail()
+{
+    localStorage.setItem(
+        "data_subject",
+        "{" + window.location.hostname + "} - Backup dữ liệu ? - từ DX về cho admin"
+    );
+
+    var data = document.getElementById("tableContainer").outerHTML;
+
+    data = data.replaceAll("</th>", "@@TH@@");
+    data = data.replaceAll("</td>", "@@TD@@");
+
+    data = data.replaceAll("<th", "<th style=\"border:1px solid black;\"");
+    data = data.replaceAll("<td", "<td style=\"border:1px solid black;\"");
+
+    data = data.replaceAll("@@TH@@", "</th>");
+    data = data.replaceAll("@@TD@@", "</td>");
+
+    data = data.replaceAll(
+        "<th style=\"border:1px solid black;\"ead>",
+        "<thead>"
+    );
+
+    localStorage.setItem("data_message", data);
+    localStorage.setItem("data_isHTML", "true");
+
+    window.open("/Cover/CustomerPagePlay?code=sendmail", "_blank");
+}
+
+
+
+function downloadCSV()
+{
+    var table = document.querySelector("#tableContainer table");
+
+    if (!table)
+    {
+        alert("Không tìm thấy table trong #tableContainer");
+        return;
+    }
+
+    var rows = table.querySelectorAll("tr");
+    var csv = [];
+
+    rows.forEach(function(row)
+    {
+        var cols = row.querySelectorAll("th, td");
+        var rowData = [];
+
+        cols.forEach(function(col)
+        {
+            var text = "";
+
+            var input = col.querySelector("input, textarea, select");
+
+            if (input)
+            {
+                if (input.tagName === "SELECT")
+                {
+                    var opt = input.options[input.selectedIndex];
+                    text = opt ? opt.text : "";
+                }
+                else
+                {
+                    text = input.value || "";
+                }
+            }
+            else
+            {
+                text = col.innerText || col.textContent || "";
+            }
+
+            text = text.replace(/"/g, '""');
+
+            rowData.push('"' + text + '"');
+        });
+
+        csv.push(rowData.join(","));
+    });
+
+    var BOM = "\uFEFF";
+
+    var blob = new Blob(
+        [BOM + csv.join("\n")],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "data.csv";
+    a.click();
+}
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const pageSize = 50;
+    const totalRecord = 135;
+    const totalPage = Math.max(1, Math.ceil(totalRecord / pageSize));
+
+    const params = new URLSearchParams(window.location.search);
+    let page = parseInt(params.get('page'), 10);
+
+    if (isNaN(page) || page < 1) page = 1;
+    if (page > totalPage) page = totalPage;
+
+    document.querySelectorAll('.pagingBar').forEach(bar => {
+
+        const btnPrev = bar.querySelector('.btnPrev');
+        const btnNext = bar.querySelector('.btnNext');
+        const pageNumber = bar.querySelector('.pageNumber');
+
+        if (pageNumber) {
+            pageNumber.textContent = page;
+        }
+
+        // ===== PREV =====
+        if (btnPrev) {
+            btnPrev.disabled = (page <= 1);
+            btnPrev.onclick = function () {
+                if (btnPrev.disabled) return;
+                const u = new URL(window.location.href);
+                u.searchParams.set('page', page - 1);
+                window.location.href = u.toString();
+            };
+        }
+
+        // ===== NEXT =====
+        if (btnNext) {
+            btnNext.disabled = (page >= totalPage);
+            btnNext.onclick = function () {
+                if (btnNext.disabled) return;
+                const u = new URL(window.location.href);
+                u.searchParams.set('page', page + 1);
+                window.location.href = u.toString();
+            };
+        }
+    });
+});
+
+    var morong = 0;
+	function morongSearch()
+	{
+		if (morong == 0)
+		{
+			document.getElementById("searchX").style.display = "inline-block";
+			morong = 1;
+		}
+		else
+		{
+			document.getElementById("searchX").style.display = "none";
+			morong = 0;
+		}
+	}
+
+function showAllData()
+{
+    const url = new URL(window.location.href);
+
+    // luôn đảm bảo isAll = true
+    url.searchParams.set("isAll", "true");
+
+    // reload
+    window.location.href = url.toString();
+}
+</script>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+
+    const values = params.getAll("param"); // ["a", "b", "c"]
+    const types = params.getAll("type");
+    const sort = params.get("orderBy") ?? "";
+
+    for (let i = 0; i < 6; i++) {
+        const input = document.getElementById("txtParam" + i);
+        if (input) {
+            input.value = values[i] ?? "";
+        }
+
+        const input2 = document.getElementById("txtType" + i);
+        if (input2) {
+            input2.value = types[i] ?? "8";
+        }
+    }
+
+        const input3 = document.getElementById("option_sort");
+        if (input3) {
+            input3.value = sort;
+        }
+});
+
+function addSplit(idParam)
+{
+   document.getElementById(idParam).value += "~$~";
+}
+
+
+function TimKiem() {
+    var parax = "";
+    var hasQuery = window.location.search.length > 0; // 🔑 quyết định ? hay &
+
+    // xoá param= và page= khỏi URL hiện tại (GIỮ query khác)
+    var search = window.location.search
+        .replace(/([?&])(param|page|type|orderBy)=[^&]*/gi, "")
+        .replace(/^&/, "?")
+        .replace(/\?&/, "?")
+        .replace(/\?$/, "");
+
+    hasQuery = search.length > 0;
+
+    for (var i = 0; i < 6; i++) {
+        var value = document.getElementById("txtParam" + i).value;
+        var value2 = document.getElementById("txtType" + i).value;
+        parax += (hasQuery ? "&" : "?") + "param=" + encodeURIComponent(value) + "&type=" + encodeURIComponent(value2);
+        hasQuery = true; // 🔑 sau lần đầu thì chắc chắn là &
+    }
+
+    // redirect
+    var value3 = document.getElementById("option_sort").value;
+    window.location.href = window.location.pathname + search + parax  + "&orderBy=" + encodeURIComponent(value3);
+}
+
+function ClearSearch() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    window.location.href = window.location.pathname + "?code=" + code;
+}
+</script>
+<script>
+
+     var loadix = false;
+    setInterval(function()
+    {
+        if (loadix == true) return;
+
+         var formData = new FormData();
+              formData.append("website", "/Cover/SeeQueryDX/see-request-info");  formData.append("method", 'GET');
+        
+         $.ajax({
+            url: "/Admin/ShowHtmlPlay",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.result == true)
+                {
+                    document.getElementById("html_play").innerHTML = data.html;
+
+                     const container = document.getElementById("html_play");
+                      const scripts = container.querySelectorAll("script");
+
+                      scripts.forEach((script) => {
+                        const newScript = document.createElement("script");
+                        if (script.src) {
+                          // Nếu script có src (external script), sao chép thuộc tính src
+                          newScript.src = script.src;
+                        } else {
+                          // Nếu script nội tuyến, sao chép nội dung
+                          newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                        script.remove();
+                     });
+                    const styles = container.querySelectorAll("style, link[rel='stylesheet']");
+
+                    styles.forEach((styleEl) => {
+                        const newEl = document.createElement(styleEl.tagName.toLowerCase());
+
+                        if (styleEl.tagName.toLowerCase() === 'style') {
+                            newEl.textContent = styleEl.textContent;
+                        } else if (styleEl.tagName.toLowerCase() === 'link') {
+                            newEl.rel = "stylesheet";
+                            newEl.href = styleEl.href;
+                        }
+
+                        document.head.appendChild(newEl);
+                        styleEl.remove();
+                    });
+
+
+                    loadix = true; if (document.body) { document.body.style.visibility= "visible";
+                                        }
+                }
+                 else
+                {
+                     document.getElementById("html_play").style.display = "none"; loadix = true; if (document.body) { document.body.style.visibility= "visible";
+                    
+                    }
+                }
+            }
+         });
+    }, 100);
+
+</script>
+<div id="html_play"></div>
+<hr /><div style="background-color:aquamarine; text-align:center; font-size: 30px; cursor: pointer;" onclick="morongSearch()"><b style="text-align:center; color: darkmagenta;">KHU VỰC BỘ LỌC VÀ TÌM KIẾM</b></div><div id="searchX" style="display:none;"><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam0" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @1" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType0" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam0')">Thêm: ~$~ (nếu có)</span></div><br /><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam1" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @2" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType1" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam1')">Thêm: ~$~ (nếu có)</span></div><br /><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam2" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @3" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType2" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam2')">Thêm: ~$~ (nếu có)</span></div><br /><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam3" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @4" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType3" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam3')">Thêm: ~$~ (nếu có)</span></div><br /><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam4" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @5" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType4" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam4')">Thêm: ~$~ (nếu có)</span></div><br /><br /><input type="text" onkeydown="if(event.key === 'Enter'){ TimKiem(); }" id="txtParam5" name="inputParam" placeholder="Nhập từ khoá tìm kiếm cho param @6" size="150" /><div class="select-wrapper"><select class="custom-select" id="txtType5" name="inputType">
+    <option value="0">=</option>
+    <option value="1">&lt;&gt;</option>
+    <option value="2">&lt;</option>
+    <option value="3">&lt;=</option>
+    <option value="4">&gt;</option>
+    <option value="5">&gt;=</option>
+    <option value="6">LIKE '%...'</option>
+    <option value="7">LIKE '...%'</option>
+    <option value="8" selected>LIKE '%...%'</option>
+    <option value="9">NOT LIKE '%...'</option>
+    <option value="10">NOT LIKE '...%'</option>
+    <option value="11">NOT LIKE '%...%'</option>
+    <option value="12">IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="13">NOT IN (...) (liệt kê vài cái: cách nhau bởi ~$~)</option>
+    <option value="14">BETWEEN ... AND ... (liệt kê 2 cái: cách nhau bởi ~$~)</option>
+<option value="15">LIKE (option)</option>
+<option value="16">NOT LIKE (option)</option></select>&nbsp;&nbsp;<span style="color:red; cursor: pointer;" onclick="addSplit('txtParam5')">Thêm: ~$~ (nếu có)</span></div><br /><br />
+<br /><div id="sort"><select id="option_sort"><option value="">--- Chọn thành phần sắp xếp (nếu muốn) ---</option><select></div><br />
+<button id="search" onclick="TimKiem()" ><b>TÌM KIẾM</b></button>&nbsp;&nbsp;&nbsp;&nbsp;<a id="rmSearch" style="color:deeppink;cursor: pointer;" onclick="ClearSearch()">Clear search</a></div><hr /><br /><br />
+<div id="tableContainer">
+<table style='border-collapse:collapse;table-layout:fixed;width:100%;font-family:Arial;font-size:13px' border='1' cellpadding='4' cellspacing='0'>
+<thead>
+<tr>
+<th style='width:10%;text-align:center;background:#f2f2f2;font-weight:bold'>STT</th>
+<th style='width:10%;text-align:left;background:#f2f2f2;font-weight:bold'>Địa chỉ IP</th>
+<th style='width:15%;text-align:left;background:#f2f2f2;font-weight:bold'>Host</th>
+<th style='width:10%;text-align:left;background:#f2f2f2;font-weight:bold'>Ngày truy cập</th>
+<th style='width:60%;text-align:left;background:#f2f2f2;font-weight:bold'>Thông tin truy cập</th>
+<th style='width:5%;text-align:left;background:#f2f2f2;font-weight:bold'>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr id="tr_1" >
+<td style='width:10%;text-align:center'>1</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>submywebplay.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:21:49</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Cover/SeeQueryDX<br /><hr /><br />query : ?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=2026-04-13%2023%3A59%3A59&type=3&param=&type=8&param=OK&type=11&orderBy=<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; Refferer_User_IPX=116.100.150.88%20%3B%20104.28.163.35%20%3B%20; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; MyWebPlay=CfDJ8N9i%2FtwwyvdDu2mlCmATGyyTh%2Fiu%2BzWsIhsPEPzlcigG3uvJajhlYu63xFkM42s9rLbghP2A9K9enVi7zLCoq2Youps0WThRMEZryZ1QaxoB%2BaQnx1EUU0cQLPB4vDm4llpehO69x%2FQFOhxr%2Fs%2BXYivsNPB%2BIV85BbYf3fqieufC; b=b", "Host" : "submywebplay.somee.com", "Referer" : "http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:02.370</td>
+</tr>
+<tr id="tr_2" >
+<td style='width:10%;text-align:center'>2</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>submywebplay.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:22:54</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Cover/SeeQueryDX<br /><hr /><br />query : ?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=&type=3&param=&type=8&param=OK&type=11&orderBy=<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20104.28.163.35%20%3B%20125.235.120.63; MyWebPlay=CfDJ8HiiLmblJ3BCk0dNgoChobm7EsBd%2B2b8iM%2FO4sSbuOFCCs%2BCIm3pDfr5vv4ZN3OrD%2BLLFqAAq0UDKeVbpUjXOFcGJCGou7g9lodj40I0i1XG9pbwroaFXt%2B6WsLd003ZYCWaU8ZnAfcEcCh5VY8mz%2B9M9yAkIqLpkgx1OkarcIA%2F", "Host" : "submywebplay.somee.com", "Referer" : "http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=2026-04-13%2023%3A59%3A59&type=3&param=&type=8&param=OK&type=11&orderBy=", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.313</td>
+</tr>
+<tr id="tr_3" >
+<td style='width:10%;text-align:center'>3</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>submywebplay.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:23:04</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Cover/SeeQueryDX<br /><hr /><br />query : ?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=&type=3&param=&type=8&param=&type=11&orderBy=<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20104.28.163.35%20%3B%20125.235.120.63; MyWebPlay=CfDJ8HiiLmblJ3BCk0dNgoChobm7EsBd%2B2b8iM%2FO4sSbuOFCCs%2BCIm3pDfr5vv4ZN3OrD%2BLLFqAAq0UDKeVbpUjXOFcGJCGou7g9lodj40I0i1XG9pbwroaFXt%2B6WsLd003ZYCWaU8ZnAfcEcCh5VY8mz%2B9M9yAkIqLpkgx1OkarcIA%2F", "Host" : "submywebplay.somee.com", "Referer" : "http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=&type=3&param=&type=8&param=OK&type=11&orderBy=", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.306</td>
+</tr>
+<tr id="tr_4" >
+<td style='width:10%;text-align:center'>4</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>submywebplay.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:28:20</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Cover/SeeQueryDX<br /><hr /><br />query : ?code=see-request-info<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20104.28.163.35%20%3B%20125.235.120.63; MyWebPlay=CfDJ8HiiLmblJ3BCk0dNgoChobm7EsBd%2B2b8iM%2FO4sSbuOFCCs%2BCIm3pDfr5vv4ZN3OrD%2BLLFqAAq0UDKeVbpUjXOFcGJCGou7g9lodj40I0i1XG9pbwroaFXt%2B6WsLd003ZYCWaU8ZnAfcEcCh5VY8mz%2B9M9yAkIqLpkgx1OkarcIA%2F", "Host" : "submywebplay.somee.com", "Referer" : "http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info&param=&type=8&param=&type=8&param=2026-04-13%2000%3A00%3A00&type=5&param=&type=3&param=&type=8&param=&type=11&orderBy=", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.428</td>
+</tr>
+<tr id="tr_5" >
+<td style='width:10%;text-align:center'>5</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>submywebplay.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:28:25</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Cover/SeeQueryDX<br /><hr /><br />query : ?code=see-request-info&param=91.238.181.19&type=8&param=&type=8&param=&type=5&param=&type=3&param=&type=8&param=&type=8&orderBy=<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20104.28.163.35%20%3B%20125.235.120.63; MyWebPlay=CfDJ8HiiLmblJ3BCk0dNgoChobm7EsBd%2B2b8iM%2FO4sSbuOFCCs%2BCIm3pDfr5vv4ZN3OrD%2BLLFqAAq0UDKeVbpUjXOFcGJCGou7g9lodj40I0i1XG9pbwroaFXt%2B6WsLd003ZYCWaU8ZnAfcEcCh5VY8mz%2B9M9yAkIqLpkgx1OkarcIA%2F", "Host" : "submywebplay.somee.com", "Referer" : "http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.281</td>
+</tr>
+<tr id="tr_6" >
+<td style='width:10%;text-align:center'>6</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:30:21</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; Refferer_User_IPX=116.100.150.88; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; MyWebPlay=CfDJ8DerMhACU0NBr7XIoeeC7LoBejXFnAjzWCvw%2BMzYmqyAAMmnE0rksfMvkDMvVTW30p06%2F4PyTjCf0xB8sMWVXeoyEiMXzXOr3JpH9p2qC%2BoIkFFZEqBRyRIpIsx2r4%2FtbARNoW0Y%2Fok", "Host" : "normalwebbasic.somee.com", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:09.237</td>
+</tr>
+<tr id="tr_7" >
+<td style='width:10%;text-align:center'>7</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:30:30</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.556</td>
+</tr>
+<tr id="tr_8" >
+<td style='width:10%;text-align:center'>8</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:14</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "https://www.google.com/", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.694</td>
+</tr>
+<tr id="tr_9" >
+<td style='width:10%;text-align:center'>9</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:15</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_10" >
+<td style='width:10%;text-align:center'>10</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:20</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /lay-tai-lieu-tu-stoducu<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:01.560</td>
+</tr>
+<tr id="tr_11" >
+<td style='width:10%;text-align:center'>11</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:32</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/ShowErrorLog<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:01.542</td>
+</tr>
+<tr id="tr_12" >
+<td style='width:10%;text-align:center'>12</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:37</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/CSDL_MainKey<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_13" >
+<td style='width:10%;text-align:center'>13</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:45</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/CSDL_MainKey<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/CSDL_MainKey", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_14" >
+<td style='width:10%;text-align:center'>14</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:48</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/CSDL_MainKey<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/CSDL_MainKey", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.722</td>
+</tr>
+<tr id="tr_15" >
+<td style='width:10%;text-align:center'>15</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:31:50</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/CSDL_MainKey<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/CSDL_MainKey", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.717</td>
+</tr>
+<tr id="tr_16" >
+<td style='width:10%;text-align:center'>16</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:32:20</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/ToPlayKaraoke<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/CSDL_MainKey", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.909</td>
+</tr>
+<tr id="tr_17" >
+<td style='width:10%;text-align:center'>17</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:32:22</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/ToPlayKaraoke<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:00.765</td>
+</tr>
+<tr id="tr_18" >
+<td style='width:10%;text-align:center'>18</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:32:24</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /karaoke_Example/ExamKara/KaraokeDemo.mp3<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "identity;q=1, *;q=0", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "If-Range" : ""1dc7797110a8801"", "Range" : "bytes=890184-7110528", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_19" >
+<td style='width:10%;text-align:center'>19</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:32:51</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/Share_Karaoke<br /><hr /><br />query : ?id=mywebplay.github.io/demokaraoke[NONE]-.-[NONE]-.-[NOT]-.-0<br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>302 (the end # 00:00:00.816 )</td>
+</tr>
+<tr id="tr_20" >
+<td style='width:10%;text-align:center'>20</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:32:52</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /Home/ToPlayKaraoke<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:01.065</td>
+</tr>
+<tr id="tr_21" >
+<td style='width:10%;text-align:center'>21</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:33:15</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /karaoke_Example/ExamKara/KaraokeDemo.mp3<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "identity;q=1, *;q=0", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "If-Range" : ""1dc7797110a8801"", "Range" : "bytes=6291456-7110528", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>206 (the end # 00:00:00.820 )</td>
+</tr>
+<tr id="tr_22" >
+<td style='width:10%;text-align:center'>22</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:33:20</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Cover/ViewWebHtml<br /><hr /><br />query : <br /><hr /><br />data : (txtPage :=: /Home/ToPlayKaraoke  =&&= txtHtml :=: <html lang="vi" data-yd-content-ready="true"><head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\n        <meta name="description" content="Hiện chưa có nội dung mô tả !">\n        <meta name="robots" content="noindex, nofollow">\n        <title id="custom1">MyWebPlay xin chào 💞</title>\n        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">\n        <link rel="stylesheet" href="/css/site.css?v=f5gKwcmO...)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Cache-Control" : "max-age=0", "Connection" : "keep-alive", "Content-Length" : "1237278", "Content-Type" : "application/x-www-form-urlencoded", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:02.412</td>
+</tr>
+<tr id="tr_23" >
+<td style='width:10%;text-align:center'>23</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:33:30</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Cover/SeeWebHtml<br /><hr /><br />query : <br /><hr /><br />data : (txtPage :=: /Home/ToPlayKaraoke  =&&= txtHtml :=: <html lang="vi" data-yd-content-ready="true"><head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\n        <meta name="description" content="Hiện chưa có nội dung mô tả !">\n        <meta name="robots" content="noindex, nofollow">\n        <title id="custom1">MyWebPlay xin chào 💞</title>\n        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">\n        <link rel="stylesheet" href="/css/site.css?v=f5gKwcmO...)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Cache-Control" : "max-age=0", "Connection" : "keep-alive", "Content-Length" : "258233", "Content-Type" : "application/x-www-form-urlencoded", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Cover/ViewWebHtml", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Upgrade-Insecure-Requests" : "1", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:01.413</td>
+</tr>
+<tr id="tr_24" >
+<td style='width:10%;text-align:center'>24</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:33:48</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Home/ToPlayKaraoke<br /><hr /><br />query : <br /><hr /><br />data : (LinkKaraoke :=: TONb2phj9kQd1rsuNlJU07mFUH2ZKvIu49TmX4NlI8kXSPrFtUrTgVv1MJB+5i0u8LmuzadQL754h+3DhlHDkg==-.--.-USO8L2x983SJytD7uzeSjg==-.-0  =&&= txtOnlineServer :=: on  =&&= txtServer :=: mywebplay.github.io/demokaraoke  =&&= txtSong :=: NgayXuanLongPhungSumVay  =&&= KaraChon :=: 1  =&&= txtOnline :=:   =&&= txtBehindNumber :=: 10  =&&= txtCoDinh :=: on)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Cache-Control" : "max-age=0", "Connection" : "keep-alive", "Content-Length" : "1274", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundary53s4yYaU1GhARbup", "Cookie" : "b=b; _ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWe", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Origin" : "http://normalwebbasic.somee.com", "Upgrade-Insecure-Requests" : "1" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:01.017</td>
+</tr>
+<tr id="tr_25" >
+<td style='width:10%;text-align:center'>25</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:33:57</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :GET<br /><hr /><br />Path : /images/karaokeX.png<br /><hr /><br />query : <br /><hr /><br />data : ()<br /><hr /><br />file : (Can"t read uploaded files)<br /><hr /><br />headers : { "Accept" : "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "If-Modified-Since" : "Sun, 28 Dec 2025 01:12:39 GMT", "If-None-Match" : ""1dc77970f04d391"", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_26" >
+<td style='width:10%;text-align:center'>26</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:28</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundarysBYnLhIgw3PQOidl", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_27" >
+<td style='width:10%;text-align:center'>27</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:29</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryxg5UftVH7zXz86Rd", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_28" >
+<td style='width:10%;text-align:center'>28</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:31</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryv1qhR5eS6wgAA4qC", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_29" >
+<td style='width:10%;text-align:center'>29</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:33</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryw8tTkTofrBJbMMcf", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_30" >
+<td style='width:10%;text-align:center'>30</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:33</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryfHFXSAA9VxVJ6vTg", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_31" >
+<td style='width:10%;text-align:center'>31</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:33</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundarykXlM5puYk0wtInMb", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_32" >
+<td style='width:10%;text-align:center'>32</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:33</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryjdEPzViIPUfAtVgO", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_33" >
+<td style='width:10%;text-align:center'>33</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:33</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryTEp58GyyxPutUBTv", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_34" >
+<td style='width:10%;text-align:center'>34</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:35</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundarywDPoVpHp2rV5AhUw", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_35" >
+<td style='width:10%;text-align:center'>35</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:37</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryyMfRS6LErJrVs3pu", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_36" >
+<td style='width:10%;text-align:center'>36</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:37</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryjLMO8BKq3anCBav6", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_37" >
+<td style='width:10%;text-align:center'>37</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:37</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryqOu4sWnblIyBabQ9", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_38" >
+<td style='width:10%;text-align:center'>38</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:38</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryyvdubTkGvGQLDWCO", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_39" >
+<td style='width:10%;text-align:center'>39</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:38</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryLCmjZJUELCfEkwBO", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_40" >
+<td style='width:10%;text-align:center'>40</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:40</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryo2Y9NhXNpu7X6BLZ", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_41" >
+<td style='width:10%;text-align:center'>41</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:42</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryPasVVg34LUyAwwet", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_42" >
+<td style='width:10%;text-align:center'>42</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:42</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryzZ6TtBZu1TLwAr2e", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_43" >
+<td style='width:10%;text-align:center'>43</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:42</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundary7kTmk0Pj2ycUfWud", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_44" >
+<td style='width:10%;text-align:center'>44</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:42</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryRLGEUYNMB9qtm6D4", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_45" >
+<td style='width:10%;text-align:center'>45</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:42</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundary0Y0DHjMvMZhqvjiB", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>OK # 00:00:02.470</td>
+</tr>
+<tr id="tr_46" >
+<td style='width:10%;text-align:center'>46</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:45</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryf8ZcK5BQKJZ4MQLD", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_47" >
+<td style='width:10%;text-align:center'>47</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:46</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryBzZVFnnSpQ7iN2Am", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_48" >
+<td style='width:10%;text-align:center'>48</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:46</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryPn9DACW7MFoHovOZ", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_49" >
+<td style='width:10%;text-align:center'>49</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:49</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryqKC3zo8Io0y3H6zX", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+<tr id="tr_50" >
+<td style='width:10%;text-align:center'>50</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>125.235.120.63</td>
+<td style='width:15%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>normalwebbasic.somee.com</td>
+<td style='width:10%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>13/04/2026 23:34:49</td>
+<td style='width:60%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>[Method :POST<br /><hr /><br />Path : /Admin/ListSongKaraoke_Call<br /><hr /><br />query : <br /><hr /><br />data : (url :=: mywebplay.github.io/demokaraoke)<br /><hr /><br />file : ()<br /><hr /><br />headers : { "Accept" : "*/*", "Accept-Encoding" : "gzip, deflate", "Accept-Language" : "en-US,en;q=0.9,vi;q=0.8", "Connection" : "keep-alive", "Content-Length" : "165", "Content-Type" : "multipart/form-data; boundary=----WebKitFormBoundaryNPU0B84KBnU0s0iw", "Cookie" : "_ga=GA1.1.1101113800.1774761639; _clck=1e932nd%5E2%5Eg55%5E0%5E2279; .AspNetCore.MyWebPlay.00AAxinp=do1Hj6K850lnYYQSczy62xe4EDbV%2FyKO136YDYrkrM%2BfB1er7BngVFdTEY4AnEPYCkpTd4%2FG9yl2K65dS%2F6H4mHg6%2BDA1AmXy65FxVIsbG1y8uSVMiwToeSwMyaltRKv; _ga_JTPDJLH2TT=GS2.1.s1775977002$o36$g1$t1775979524$j58$l0$h0; b=b; Refferer_User_IPX=116.100.150.88%20%3B%20125.235.120.63; MyWebPlay=CfDJ8Mwhy4M%2FWrpJmkgOzlW4axOyojrJrIDyYznfVRcTzxy1aX5iFOk40h380szSOzmmiBueKNKYqProCyX9Js9moZAETwm3dhc%2FFBXdzXWmxsnD3jWeOwTjh", "Host" : "normalwebbasic.somee.com", "Referer" : "http://normalwebbasic.somee.com/Home/ToPlayKaraoke", "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "X-Requested-With" : "XMLHttpRequest", "Origin" : "http://normalwebbasic.somee.com" }<br /><hr /><br />list IP : <br /><hr /><br />Địa chỉ IP:  125.235.120.63 <br /><hr /><br />Tên máy chủ:  125.235.120.63.adsl.viettel.vn <br /><hr /><br />Nhà cung cấp:  Viettel Group <br /><hr /><br />Đơn vị:  7552 Viettel Group <br /><hr /><br />Quốc gia:  Vietnam VN <br /><hr /><br />Khu vực:  Sóc Trăng <br /><hr /><br />Múi giờ:  Không xác định <br /><hr /><br />Giờ địa phương:  Không xác định <br /><hr /><br />Châu lục:  Asia (AS)]</td>
+<td style='width:5%;text-align:left;word-break: break-word;overflow-wrap: break-word;white-space:normal'>Fail (synthetic)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<br />
+<div class='pagingBar'>
+    <button class='btnPrev' title='Quay lại trang trước'>&larr;</button>
+
+    <span class='pageLabel'>
+        Trang số <span class='pageNumber'>1</span>
+    </span>
+
+    <button class='btnNext' title='Đi đến trang tiếp theo'>&rarr;</button>
+</div>
+<br />
