@@ -12,7 +12,7 @@
 var loadxong1 = 0;
 setInterval(function()
 {
-if (loadxong1 == 1 || document.readyState != "complete" || @@ IsAdmin @@ == 'True') return;
+if (loadxong1 == 1 || document.readyState != "complete" ) return;
 // Lấy phần tử modal và overlay
 const modalOverlay2 = document.getElementById("modalOverlay2");
 const closeBtn2 = document.getElementById("closeModal2");
@@ -50,6 +50,7 @@ closeButton2.style.cursor = "pointer";
 
 // Đóng modal khi bấm dấu X
 closeBtn2.onclick = function () {
+loadxong1 = 1;
 modalOverlay2.style.display = "none";
 };
 
