@@ -184,8 +184,8 @@
     <div class="inline-group">
       <label>Cỡ chữ:</label>
       <input type="text" class="input-medium" id="kichthuoc123" onchange="doikichthuoc123()">
-      <label>Icon đếm:</label>
-      <input onchange="kieudem123()" type="text" class="input-short" id="kieudemnguoc123">
+      <label>Icon đếm ngược:</label>
+      <input onchange="kieudem123()" type="text" class="input-short" id="kieudemnguoc123" title="Nhập 1 hình ảnh icon hoặc nhập N nếu muốn đếm ngược theo kiểu 3 - 2 - 1">
     </div>
 
     <div>
