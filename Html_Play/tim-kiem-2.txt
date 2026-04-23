@@ -124,7 +124,7 @@
 
     <div class="modal-actions">
       <button id="btnClear" type="button" style="background:#95a5a6; color:#fff;">Clear</button>
-      <button id="btnCancel" type="button">Huỷ</button>
+      <button id="btnCancel" type="button">Đóng</button>
       <button id="btnOk" type="button">Xác nhận</button>
     </div>
 
