@@ -51,6 +51,10 @@
         background: burlywood;
     }
 
+    .nobug-box {
+            background: chartreuse;
+        }
+
     .pending-box {
         background: cornflowerblue;
     }
@@ -71,7 +75,7 @@
     <h3>GHI CHÚ</h3>
 
 <div class="note-row" onclick="showNoBug()">
-        <div class="color-box closed-box"></div>
+        <div class="color-box nobug-box"></div>
         <div class="label">NO BUG</div>
     </div>
 
@@ -111,7 +115,7 @@
     }
 
  function showNoBug() {
-        alert("Xác nhận đây không phải là bug, chưa được xem là bug, hoặc do setting sai.");
+        alert("Xác nhận đây không phải là bug hoặc là do setting sai.");
     }
 </script>
 <script>
