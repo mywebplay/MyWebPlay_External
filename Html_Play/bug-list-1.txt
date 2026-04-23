@@ -70,6 +70,11 @@
 
     <h3>GHI CHÚ</h3>
 
+<div class="note-row" onclick="showNoBug()">
+        <div class="color-box closed-box"></div>
+        <div class="label">NO BUG</div>
+    </div>
+
     <div class="note-row" onclick="showClosed()">
         <div class="color-box closed-box"></div>
         <div class="label">CLOSED</div>
@@ -104,6 +109,10 @@
     function showTrick() {
         alert("Đề xuất một chức năng mới, mưu mẹo/cách gian lận để bỏ qua bug hoặc loại bỏ tính năng liên quan đến bug được đề cập.\n(fix bug tạm thời)");
     }
+
+ function showNoBug() {
+        alert("Xác nhận đây không phải là bug, chưa được xem là bug, hoặc do setting sai.");
+    }
 </script>
 <script>
   function DanhDauClose(indes)
@@ -130,9 +139,18 @@
       }
   }
 
+ function DanhDauNoBug(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "chartreuse";
+      }
+  }
+
   DanhDauClose([1,2,6,13]);
   DanhDauPending([8,14,20]);
   DanhDauTrick([3,5,9,18]);
+  DanhDauNoBug([25]);
 
 //---------------------------------------
 
