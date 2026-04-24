@@ -47,8 +47,12 @@
         flex-shrink: 0;
     }
 
-    .closed-box {
+    .fixed-box {
         background: burlywood;
+    }
+
+    .closed-box {
+        background: darkgrey;
     }
 
     .nobug-box {
@@ -73,6 +77,11 @@
     <span id="closeBtn">✖</span>
 
     <h3>GHI CHÚ</h3>
+
+    <div class="note-row" onclick="showFixed()">
+        <div class="color-box fixed-box"></div>
+        <div class="label">FIXED</div>
+    </div>
 
 <div class="note-row" onclick="showNoBug()">
         <div class="color-box nobug-box"></div>
@@ -102,8 +111,12 @@
         document.getElementById("noteModal").style.display = "none";
     };
 
-    function showClosed() {
+    function showFixed() {
         alert("Đây là loại bug đã được fix, đã được test xác nhận là hết lỗi xảy ra!");
+    }
+
+   function showClosed() {
+        alert("Bug này đã/tạm thời bị đóng lại hoặc chờ xác nhận sau!");
     }
 
     function showPending() {
@@ -119,7 +132,7 @@
     }
 </script>
 <script>
-  function DanhDauClose(indes)
+  function DanhDauFixed(indes)
   {
       for (var i = 0; i < indes.length; i++)
       {
@@ -151,10 +164,19 @@
       }
   }
 
-  DanhDauClose([1,2,6,13]);
+ function DanhDauClosed(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "darkgrey";
+      }
+  }
+
+  DanhDauFixed([1,2,6,13]);
   DanhDauPending([8,14,20]);
   DanhDauTrick([3,5,9,18]);
   DanhDauNoBug([25]);
+  DanhDauClosed([22]);
 
 //---------------------------------------
 
