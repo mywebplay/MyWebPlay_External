@@ -210,7 +210,6 @@
   </p>
 
   <div class="devices">
-    <div class="device"></div>
     <div class="device pc"></div>
   </div>
 
