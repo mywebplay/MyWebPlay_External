@@ -38,6 +38,7 @@ var datx = listsong.split('\n');
 var noidungS = "";
 for(var i = 0; i < datx.length;i++)
 {
+if (datx[i].trim() === "") continue;
 noidungS += "<option value=\""+datx[i]+"\">"+datx[i]+"</option>";
 }
 select.innerHTML = noidungS;
