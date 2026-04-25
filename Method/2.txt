@@ -173,11 +173,11 @@ p{
 
     <div class="icon">🔒</div>
 
-    <h1>Chưa kích hoạt tính năng</h1>
+    <h1>Tính năng hiện chưa được kích hoạt</h1>
 
     <p>
-      Có vẻ bạn vẫn chưa đăng ký để sử dụng tính năng này.<br>
-      Để tiếp tục, vui lòng kích hoạt quyền sử dụng trên thiết bị hoặc trình duyệt hiện tại của bạn.
+      Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng.<br>
+      Để tiếp tục, vui lòng kích hoạt đăng kí xác thực trên thiết bị hoặc trình duyệt hiện tại của bạn để được sử dụng tính năng này.
     </p>
 
     <a class="action" href="/xac-thuc-1">
@@ -189,8 +189,6 @@ p{
     </div>
 
     <div class="devices">
-      <div class="device phone"></div>
-      <div class="device tablet"></div>
       <div class="device browser"></div>
     </div>
 
