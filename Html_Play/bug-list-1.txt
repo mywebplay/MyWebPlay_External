@@ -172,7 +172,7 @@
       }
   }
 
-  DanhDauFixed([1,2,6,13]);
+  DanhDauFixed([1,2,4,6,10,13]);
   DanhDauPending([8,14,20]);
   DanhDauTrick([3,5,9,18]);
   DanhDauNoBug([25]);
