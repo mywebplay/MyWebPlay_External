@@ -142,6 +142,54 @@
     button:hover {
       background: #ffda3a;
     }
+
+@media (max-width: 600px) {
+  .card {
+    margin: 20px;
+    padding: 25px 20px;
+    border-radius: 16px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  .warning-icon {
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 70px solid #ffc107;
+  }
+
+  .warning-icon::after {
+    font-size: 28px;
+    top: 22px;
+    left: -3px;
+  }
+
+  .devices {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .device {
+    width: 50px;
+    height: 80px;
+  }
+
+  .device.pc {
+    width: 70px;
+    height: 50px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
