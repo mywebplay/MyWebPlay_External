@@ -34,11 +34,14 @@ listsong = so.content;
 
 if (find == "")
 {
-var datx = listsong.split('\n');
+var datx = listsong
+    .replace(/\r/g, '') // bỏ \r
+    .split('\n')
+    .map(x => x.replace(/\u200B|\u00A0|\uFEFF/g, '').trim()) // sạch ký tự rác
+    .filter(x => x !== "");
 var noidungS = "";
 for(var i = 0; i < datx.length;i++)
 {
-if (datx[i].trim() === "") continue;
 noidungS += "<option value=\""+datx[i]+"\">"+datx[i]+"</option>";
 }
 select.innerHTML = noidungS;
