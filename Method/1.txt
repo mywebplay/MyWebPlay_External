@@ -211,18 +211,12 @@
 
   <div class="devices">
     <div class="device"></div>
-    <div class="device"></div>
     <div class="device pc"></div>
   </div>
 
-  <button onclick="goBack()">Quay lại</button>
 </div>
 
 <script>
-function goBack() {
-  window.history.back();
-}
-
 // Delete div somee
      setInterval(function () {
               document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
