@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cảnh báo Karaoke</title>
+  <title>Cảnh báo tính năng</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
@@ -204,7 +204,7 @@
   <div class="warning-icon"></div>
   <h1>CẢNH BÁO</h1>
   <p>
-    Xin lỗi. Tính năng <b>PLAY KARAOKE</b> hiện chưa được hỗ trợ trên thiết bị di động, smart phone.<br><br>
+    Xin lỗi. Tính năng hiện chưa được hỗ trợ và sử dụng trên thiết bị di động, smart phone.<br><br>
     Vui lòng sử dụng tính năng này trên thiết bị <b>PC, laptop</b> của bạn.<br><br>
     Thành thật xin lỗi vì sự bất tiện này!
   </p>
