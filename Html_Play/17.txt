@@ -71,73 +71,76 @@
     }
   </style>
 <script>
+setTimeout(function () {
 
 if (document.getElementById("custom11"))
 {
-document.getElementById("custom11").innerHTML = "<img id=\"hinhanhmenu\" src=\"https://p7.hiclipart.com/preview/895/221/164/5bbc426bbbfb2.jpg\" alt=\"Menu\" style=\"width:40px; height:40px;\"><span></span><span></span><span></span><span></span>";
-document.getElementById("custom11").addEventListener("click", function() {
-    const menu = document.getElementById('menuX1');
-    menu.classList.toggle('showX1');
-});
+    document.getElementById("custom11").innerHTML = "<img id=\"hinhanhmenu\" src=\"https://p7.hiclipart.com/preview/895/221/164/5bbc426bbbfb2.jpg\" alt=\"Menu\" style=\"width:40px; height:40px;\"><span></span><span></span><span></span><span></span>";
 
-// Ẩn menu khi click ra ngoài
+    document.getElementById("custom11").addEventListener("click", function() {
+        const menu = document.getElementById('menuX1');
+        menu.classList.toggle('showX1');
+    });
+
+    // Ẩn menu khi click ra ngoài
     document.addEventListener('click', function (e) {
-      const btn = document.getElementById('custom11');
-      const menu = document.getElementById('menuX1');
-      if (!btn.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove('showX1');
-      }
+        const btn = document.getElementById('custom11');
+        const menu = document.getElementById('menuX1');
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('showX1');
+        }
     });
 
- document.querySelectorAll('.menu-itemX1').forEach(function(item) {
-    item.addEventListener('click', function() {
-      const action = item.dataset.action; // lấy giá trị từ data-action
+    document.querySelectorAll('.menu-itemX1').forEach(function(item) {
+        item.addEventListener('click', function() {
+            const action = item.dataset.action;
 
-      switch (action) {
-        case 'TronMau':
-         if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/tron-mau");
-         } 
+            switch (action) {
+                case 'TronMau':
+                    if (window !== window.parent && typeof parent.writeURL === "function") {
+                        parent.writeURL("/tron-mau");
+                    }
+                    if (window !== window.parent && typeof parent.writeTitle === "function") {
+                        parent.writeTitle("Trộn hai màu lại với nhau | MyWebPlay");
+                    }
+                    window.location.href = "/Home/TronMau";
+                    break;
 
-          if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Trộn hai màu lại với nhau | MyWebPlay");
-         } 
-          window.location.href = "/Home/TronMau";
-          break;
+                case 'TracNghiem':
+                    if (window !== window.parent && typeof parent.writeURL === "function") {
+                        parent.writeURL("/trac-nghiem-2");
+                    }
+                    if (window !== window.parent && typeof parent.writeTitle === "function") {
+                        parent.writeTitle("Ôn luyện/làm bài thử với dạng trắc nghiệm | MyWebPlay");
+                    }
+                    window.location.href = "/Home/TracNghiemX_Multiple";
+                    break;
 
-        case 'TracNghiem':
-          if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/trac-nghiem-2");
-         }
-        if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Ôn luyện/làm bài thử với dạng trắc nghiệm | MyWebPlay");
-         } 
-          window.location.href = "/Home/TracNghiemX_Multiple";
-          break;
+                case 'Question':
+                    if (window !== window.parent && typeof parent.writeURL === "function") {
+                        parent.writeURL("/question");
+                    }
+                    if (window !== window.parent && typeof parent.writeTitle === "function") {
+                        parent.writeTitle("Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay");
+                    }
+                    window.location.href = "/Home/PlayQuestion_Multiple";
+                    break;
 
-        case 'Question':
-          if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/question");
-         }
-         if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Ôn luyện/làm bài thử với dạng question + answer | MyWebPlay");
-         }
-          window.location.href = "/Home/PlayQuestion_Multiple";
-          break;
-
-          case 'Karaoke':
-          if (window !== window.parent && typeof parent.writeURL === "function") {
-          parent.writeURL("/karaoke-2");
-         }
-        if (window !== window.parent && typeof parent.writeTitle === "function") {
-          parent.writeTitle("Hát karaoke do chính bạn tạo cơ bản | MyWebPlay");
-         } 
-          window.location.href = "/Home/ToPlayKaraoke";
-          break;
-      }
+                case 'Karaoke':
+                    if (window !== window.parent && typeof parent.writeURL === "function") {
+                        parent.writeURL("/karaoke-2");
+                    }
+                    if (window !== window.parent && typeof parent.writeTitle === "function") {
+                        parent.writeTitle("Hát karaoke do chính bạn tạo cơ bản | MyWebPlay");
+                    }
+                    window.location.href = "/Home/ToPlayKaraoke";
+                    break;
+            }
+        });
     });
-  });
 }
+
+}, 3000);
 </script>
 <div id="menuX1">
     <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
