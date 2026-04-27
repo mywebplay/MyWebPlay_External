@@ -1,10 +1,4 @@
 <!-- Tạo option menu (hamburger menu) trên header -->
-<div id="menuX1">
-    <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
-    <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
-    <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
-    <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
-  </div>
 <style>
 /*
     body {
@@ -146,3 +140,9 @@ document.getElementById("custom11").onclick = function()
   });
 }
 </script>
+<div id="menuX1">
+    <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
+    <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
+    <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
+    <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
+  </div>
