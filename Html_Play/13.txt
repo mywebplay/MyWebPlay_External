@@ -3,12 +3,7 @@
 <h2><a href="https://youtu.be/oJ-zFhgKXvg" target="_blank">Video hướng dẫn sử dụng</a></h2>
 <br /><br />
 
-<div id="menuX1">
-    <div class="menu-itemX1" data-action="TronMau">Trộn hai màu với nhau</div>
-    <div class="menu-itemX1" data-action="TracNghiem">Tạo và làm bài trắc nghiệm từ đề cương của bạn</div>
-    <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
-    <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
-  </div>
+    <div data-action="TronMau">Trộn hai màu với nhau</div>
 
 <script>
 document.getElementById("custom1657").style.color= "yellow";
