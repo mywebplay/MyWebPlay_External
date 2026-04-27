@@ -1,14 +1,9 @@
 <!-- Kiểm tra user đang sử dụng bằng cách gọi JS -->
 <script>
 if (!window.__checkUserCalled) {
-  if (@@ IsAdmin @@ != 'True')
-  {
-    window.__checkUserCalled = true;
+    const pathXF = window.location.pathname;
 
-    const path = window.location.pathname;
-
-    fetch(`/is-checked-user?path=${encodeURIComponent(path)}`)
+    fetch(`/is-checked-user?path=${encodeURIComponent(pathXF)}`)
         .catch(() => {});
-  }
 }
 </script>
