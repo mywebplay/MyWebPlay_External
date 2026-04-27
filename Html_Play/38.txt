@@ -1,9 +1,9 @@
 <!-- Kiểm tra user đang sử dụng bằng cách gọi JS -->
 <script>
 (function () {
-    const path = window.location.pathname;
+    const path33 = window.location.pathname;
 
-    fetch(`/is-checked-user?path=${encodeURIComponent(path)}`)
+    fetch(`/is-checked-user?path=${encodeURIComponent(path33)}`)
         .catch(() => {}); // bỏ qua lỗi nếu có
 })();
 </script>
