@@ -1,17 +1,17 @@
-<h3>
+<h2>
 <br />
-<a href="http://mywebplayapi.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb">[API] Send data to sub web</a>
-<br />
-<a href="http://normalwebbasic.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb">[NORMAL] Send data to sub web</a>
-<br />
-<a href="http://submywebplay.somee.com/save-data-DX">[SUB] Save data DX</a>
-<br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info">[SUB] See request info</a>
-<br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-user-in-first">[SUB] See user in first</a>
-<br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-bug-list">[SUB] See bug list</a>
-<br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=delete-all-temp-bin-2&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm">[SUB] Delete bin for DX</a>
-<br />
-</h3>
+<a href="http://mywebplayapi.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb" target="_blank">[API] Send data to sub web</a>
+<br /><br />
+<a href="http://normalwebbasic.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb" target="_blank">[NORMAL] Send data to sub web</a>
+<br /><br />
+<a href="http://submywebplay.somee.com/save-data-DX" target="_blank">[SUB] Save data DX</a>
+<br /><br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info" target="_blank">[SUB] See request info</a>
+<br /><br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-user-in-first" target="_blank">[SUB] See user in first</a>
+<br /><br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-bug-list" target="_blank">[SUB] See bug list</a>
+<br /><br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=delete-all-temp-bin-2&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm" target="_blank">[SUB] Delete bin for DX</a>
+<br /><br />
+</h2>
