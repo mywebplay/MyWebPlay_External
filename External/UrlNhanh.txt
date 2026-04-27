@@ -1,0 +1,17 @@
+<h3>
+<br />
+<a href="http://mywebplayapi.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb">[API] Send data to sub web</a>
+<br />
+<a href="http://normalwebbasic.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb">[NORMAL] Send data to sub web</a>
+<br />
+<a href="http://submywebplay.somee.com/save-data-DX">[SUB] Save data DX</a>
+<br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info">[SUB] See request info</a>
+<br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-user-in-first">[SUB] See user in first</a>
+<br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-bug-list">[SUB] See bug list</a>
+<br />
+<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=delete-all-temp-bin-2&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm">[SUB] Delete bin for DX</a>
+<br />
+</h3>
