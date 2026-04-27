@@ -1,12 +1,14 @@
 <!-- Kiểm tra user đang sử dụng bằng cách gọi JS -->
 <script>
-(function () {
-if (@@ IsAdmin @@ != 'True')
-{
-    const path33 = window.location.pathname;
+if (!window.__checkUserCalled) {
+  if (@@ IsAdmin @@ != 'True')
+  {
+    window.__checkUserCalled = true;
 
-    fetch(`/is-checked-user?path=${encodeURIComponent(path33)}`)
-        .catch(() => {}); // bỏ qua lỗi nếu có
+    const path = window.location.pathname;
+
+    fetch(`/is-checked-user?path=${encodeURIComponent(path)}`)
+        .catch(() => {});
+  }
 }
-})();
 </script>
