@@ -135,12 +135,14 @@ if (document.getElementById("custom11"))
 
 setTimeout(function () {
 
-if (document.getElementById("custom11"))
-{
-    document.getElementById("custom11").addEventListener("click", function() {
-        const menu = document.getElementById('menuX1');
-        menu.classList.toggle('showX1');
-    });
+    if (document.getElementById("custom11"))
+    {
+        document.getElementById("custom11").addEventListener("click", function() {
+            const menu = document.getElementById('menuX1');
+            menu.classList.toggle('showX1');
+        });
+    }
+
 }, 3000);
 </script>
 <div id="menuX1">
