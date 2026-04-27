@@ -1,4 +1,4 @@
-<!-- Kiểm tra user đang sử dụng bằng cách gọi JS -->
+<!-- Kiểm tra user đang sử dụng bằng cách gọi JS (check robots/API) -->
 <script>
 if (@@ IsAdmin @@ != 'True') {
     const pathXF = window.location.pathname;
