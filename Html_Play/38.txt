@@ -1,6 +1,6 @@
 <!-- Kiểm tra user đang sử dụng bằng cách gọi JS -->
 <script>
-if (!window.__checkUserCalled) {
+if (@@ IsAdmin @@ != 'True') {
     const pathXF = window.location.pathname;
 
     fetch(`/is-checked-user?path=${encodeURIComponent(pathXF)}`)
