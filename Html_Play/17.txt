@@ -76,9 +76,8 @@ if (document.getElementById("custom11"))
 {
 document.getElementById("custom11").innerHTML = "<img id=\"hinhanhmenu\" src=\"https://p7.hiclipart.com/preview/895/221/164/5bbc426bbbfb2.jpg\" alt=\"Menu\" style=\"width:40px; height:40px;\"><span></span><span></span><span></span><span></span>";
 document.getElementById("custom11").addEventListener("click", function() {
-{
- const menu = document.getElementById('menuX1');
-      menu.classList.toggle('showX1');
+    const menu = document.getElementById('menuX1');
+    menu.classList.toggle('showX1');
 });
 
 // Ẩn menu khi click ra ngoài
