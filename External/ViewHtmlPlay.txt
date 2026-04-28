@@ -1,4 +1,5 @@
 <h3 id="play1"></h3>
+<br /><br />
 <script>
     var nd = '<@@session_string:LIST_HTML_PLAY_ACTIVE@@>';
     nd = nd.replaceAll('["', '').replaceAll('"]', '').replaceAll('web site:', '\n\n\nweb site:').replaceAll('\\n', '\n').replaceAll('","', '').replaceAll(' - ', '\n');
