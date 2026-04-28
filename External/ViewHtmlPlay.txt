@@ -1,0 +1,8 @@
+<h3 id="play1"></h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var nd = "<@@session_string:LIST_HTML_PLAY_ACTIVE@@>";
+    nd = nd.replaceAll('["', '').replaceAll('"]', '').replaceAll('web site:', '\n\n\nweb site:').replaceAll('\\n', '\n').replaceAll('","', '').replaceAll(' - ', '\n');
+    document.getElementById("play1").innerText = nd;
+});
+</script>
