@@ -2,9 +2,7 @@
     body {
     height: 2000px;
     font-family: Arial, sans-serif;
-    transform: scale(1.46);
-    transform-origin: top left;
-    width: calc(100% / 1.5);
+    font-size:30px;
 }
 
 #noteModal {
@@ -28,8 +26,8 @@
 
     #closeBtn {
         position: absolute;
-        top: 5px;
-        right: 10px;
+        top: -35px;
+        right: -20px;
         cursor: pointer;
         font-weight: bold;
     }
