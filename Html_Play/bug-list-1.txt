@@ -175,7 +175,7 @@
   DanhDauFixed([1,2,4,6,10,13,24,28,33,34,36,37,38,39]);
   DanhDauPending([7,8,14,20]);
   DanhDauTrick([3,5,9,18,30,31]);
-  DanhDauNoBug([25]);
+  DanhDauNoBug([25,40]);
   DanhDauClosed([22]);
 
 //---------------------------------------
