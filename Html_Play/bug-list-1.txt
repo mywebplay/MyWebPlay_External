@@ -1,8 +1,11 @@
 <style>
     body {
-        height: 2000px;
-        font-family: Arial, sans-serif;
-    }
+    height: 2000px;
+    font-family: Arial, sans-serif;
+    transform: scale(1.5);
+    transform-origin: top left;
+    width: calc(100% / 1.5);
+}
 
     #noteModal {
         position: fixed;
