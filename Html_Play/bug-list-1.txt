@@ -4,10 +4,10 @@
     font-family: Arial, sans-serif;
     transform: scale(1.46);
     transform-origin: top left;
-    width: calc(100% / 1.46);
+    width: calc(100% / 1.5);
 }
 
-   #noteModal {
+#noteModal {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -21,9 +21,9 @@
     z-index: 9999;
     width: max-content;
 
-    /* 🔥 FIX QUAN TRỌNG: đảo scale lại để không bị ảnh hưởng body */
-    transform: scale(calc(1 / 1.46));
-    transform-origin: bottom right;
+    /* 🔥 FIX QUAN TRỌNG */
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
     #closeBtn {
