@@ -1,9 +1,13 @@
 <!-- Kiểm tra user đang sử dụng bằng cách gọi JS (check robots/API) -->
 <script>
 if (@@ IsAdmin @@ != 'True') {
-    const pathXF = window.location.pathname;
+    if (!window.__called_isCheckedUser__) {
+        window.__called_isCheckedUser__ = true;
 
-    fetch(`/is-checked-user?path=${encodeURIComponent(pathXF)}`)
-        .catch(() => {});
+        const pathXF = window.location.pathname;
+
+        fetch(`/is-checked-user?path=${encodeURIComponent(pathXF)}`)
+            .catch(() => {});
+    }
 }
 </script>
