@@ -307,12 +307,12 @@ body:formData
 const data = await res.json();
 
 if(data.result==true){
-closeProcessingModal();
     if (tab == 1)
     {
     alert("Tiến trình gửi e-mail hiện đã được xử lý!");
     }
 }
+closeProcessingModal();
 return data;
 }
 
