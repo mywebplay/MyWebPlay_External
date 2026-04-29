@@ -4,21 +4,27 @@
     font-family: Arial, sans-serif;
     transform: scale(1.46);
     transform-origin: top left;
-    width: calc(100% / 1.5);
+    width: calc(100% / 1.46);
 }
 
-    #noteModal {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 15px 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        z-index: 9999;
-        width: max-content;
-    }
+   #noteModal {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+    z-index: 9999;
+    width: max-content;
+
+    /* 🔥 FIX QUAN TRỌNG: đảo scale lại để không bị ảnh hưởng body */
+    transform: scale(calc(1 / 1.46));
+    transform-origin: bottom right;
+}
 
     #closeBtn {
         position: absolute;
