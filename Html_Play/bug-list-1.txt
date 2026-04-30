@@ -140,7 +140,7 @@
     }
 
     function showTrick() {
-        alert("Đề xuất một chức năng mới, mưu mẹo/cách gian lận để bỏ qua bug hoặc loại bỏ tính năng liên quan đến bug được đề cập.\n(fix bug tạm thời)");
+        alert("Đề xuất một chức năng mới, mưu mẹo/cách gian lận để che giấu bug hoặc loại bỏ tính năng liên quan đến bug được đề cập.\n(fix bug tạm thời)");
     }
 
  function showNoBug() {
