@@ -62,6 +62,10 @@
         background: darkgrey;
     }
 
+    .part-box {
+        background: coral;
+    }
+
     .nobug-box {
             background: chartreuse;
         }
@@ -84,6 +88,11 @@
     <span id="closeBtn">✖</span>
 
     <h3>GHI CHÚ</h3>
+
+<div class="note-row" onclick="showPart()">
+        <div class="color-box part-box"></div>
+        <div class="label">PART</div>
+    </div>
 
     <div class="note-row" onclick="showFixed()">
         <div class="color-box fixed-box"></div>
@@ -137,6 +146,10 @@
  function showNoBug() {
         alert("Xác nhận đây không phải là bug hoặc là do setting sai.");
     }
+
+function showPart() {
+        alert("Đã fix trước một phần/chỉ tái hiện được tại local hoặc môi trường hosting somee.");
+    }
 </script>
 <script>
   function DanhDauFixed(indes)
@@ -179,11 +192,20 @@
       }
   }
 
+ function DanhDauPart(indes)
+  {
+      for (var i = 0; i < indes.length; i++)
+      {
+        document.getElementById("tr_"+ indes[i]).style.backgroundColor = "coral";
+      }
+  }
+
   DanhDauFixed([1,2,4,6,10,13,24,28,33,34,35,36,37,38,39,41,42]);
   DanhDauPending([7,8,14,20]);
   DanhDauTrick([3,5,9,18,30,31]);
   DanhDauNoBug([25,40]);
   DanhDauClosed([22]);
+  DanhDauPart([43]);
 
 //---------------------------------------
 
