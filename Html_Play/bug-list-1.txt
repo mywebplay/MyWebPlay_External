@@ -148,7 +148,7 @@
     }
 
 function showPart() {
-        alert("Đã fix trước một phần/chỉ tái hiện được tại local hoặc môi trường hosting somee.");
+        alert("Bug đã được fix trước một phần/bug chỉ tái hiện được tại local hoặc môi trường hosting somee.");
     }
 </script>
 <script>
