@@ -29,6 +29,6 @@ select.onchange = function () {
     // reset nhẹ sau khi browser xử lý xong navigation
     setTimeout(() => {
         this.selectedIndex = 0;
-    }, 500);
+    }, 3000);
 };
 </script>
