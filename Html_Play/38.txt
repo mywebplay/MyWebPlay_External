@@ -5,7 +5,7 @@ if (@@ IsAdmin @@ != 'True') {
         window.__called_isCheckedUser__ = true;
 
         const pathXF = window.location.pathname;
-
+        if (pathXF == '/') pathXF = '/index';
         fetch(`/is-checked-user?path=${encodeURIComponent(pathXF)}`)
             .catch(() => {});
     }
