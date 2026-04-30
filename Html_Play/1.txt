@@ -24,12 +24,11 @@ select.onchange = function () {
     const val = this.value;
     if (!val) return;
 
-    // reset ngay UI về mặc định (tránh giữ selected)
-    this.selectedIndex = 0;
+    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
 
-    // điều hướng sau 1 tick để đảm bảo reset UI trước
+    // reset nhẹ sau khi browser xử lý xong navigation
     setTimeout(() => {
-        window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
-    }, 0);
+        this.selectedIndex = 0;
+    }, 500);
 };
 </script>
