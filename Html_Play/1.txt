@@ -20,21 +20,16 @@ z-index: 9999;
 <script>
 const select = document.getElementById("fixedSelect");
 
-let hasSelected = false;
-
-// chọn -> nhảy
 select.onchange = function () {
-    if (!this.value) return;
+    const val = this.value;
+    if (!val) return;
 
-    hasSelected = true;
-
-    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + this.value;
-};
-
-// nếu KHÔNG chọn gì mà chỉ hover rồi rời khỏi dropdown -> reset
-select.onblur = function () {
-    if (hasSelected) return; // đã từng chọn thì không reset nữa
-
+    // reset ngay UI về mặc định (tránh giữ selected)
     this.selectedIndex = 0;
+
+    // điều hướng sau 1 tick để đảm bảo reset UI trước
+    setTimeout(() => {
+        window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
+    }, 0);
 };
 </script>
