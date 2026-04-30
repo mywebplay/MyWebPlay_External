@@ -20,15 +20,32 @@ z-index: 9999;
 <script>
 const select = document.getElementById("fixedSelect");
 
+let resetDone = false;
+
+// chọn -> nhảy tới #x (GIỮ nguyên selected)
 select.onchange = function () {
     const val = this.value;
     if (!val) return;
 
-    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
+    resetDone = false;
 
-    // reset nhẹ sau khi browser xử lý xong navigation
-    setTimeout(() => {
-        this.selectedIndex = 0;
-    }, 3000);
+    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
 };
+
+// click ra ngoài -> reset
+document.addEventListener("click", function (e) {
+    if (resetDone) return;
+    if (e.target === select) return;
+
+    select.selectedIndex = 0;
+    resetDone = true;
+});
+
+// scroll -> reset
+window.addEventListener("scroll", function () {
+    if (resetDone) return;
+
+    select.selectedIndex = 0;
+    resetDone = true;
+});
 </script>
