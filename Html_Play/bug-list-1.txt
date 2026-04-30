@@ -144,7 +144,7 @@
     }
 
  function showNoBug() {
-        alert("Xác nhận đây không phải là bug hoặc là do setting sai.");
+        alert("Xác nhận đây không phải là bug hoặc là do setting sai.\n(hoặc đề xuất sai kết quả mong muốn)");
     }
 
 function showPart() {
@@ -200,7 +200,7 @@ function showPart() {
       }
   }
 
-  DanhDauFixed([1,2,4,6,10,13,23,24,28,33,34,35,36,37,38,39,41,42]);
+  DanhDauFixed([1,2,4,6,10,13,23,24,28,32,33,34,35,36,37,38,39,41,42]);
   DanhDauPending([7,8,14,20]);
   DanhDauTrick([3,5,9,18,30,31]);
   DanhDauNoBug([25,40]);
