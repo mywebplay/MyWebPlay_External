@@ -132,7 +132,7 @@
     }
 
    function showClosed() {
-        alert("Bug này đã/tạm thời bị đóng lại hoặc chờ xác nhận sau!");
+        alert("Bug này đã/tạm thời bị đóng lại hoặc chờ xác nhận sau!\n(hoặc xác nhận không muốn fix dù nó là BUG)");
     }
 
     function showPending() {
