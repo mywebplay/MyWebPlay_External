@@ -22,18 +22,18 @@ const select = document.getElementById("fixedSelect");
 
 let hasSelected = false;
 
-// chọn item -> nhảy tới anchor + đánh dấu đã chọn
+// chọn -> nhảy
 select.onchange = function () {
-    if (this.value == "") return;
+    if (!this.value) return;
 
     hasSelected = true;
 
     window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + this.value;
 };
 
-// chỉ reset khi CHƯA chọn gì mà có hover
-select.onmouseenter = function () {
-    if (hasSelected) return;
+// nếu KHÔNG chọn gì mà chỉ hover rồi rời khỏi dropdown -> reset
+select.onblur = function () {
+    if (hasSelected) return; // đã từng chọn thì không reset nữa
 
     this.selectedIndex = 0;
 };
