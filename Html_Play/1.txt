@@ -20,24 +20,39 @@ z-index: 9999;
 <script>
 const select = document.getElementById("fixedSelect");
 
-let lastVal = null;
+let waitingReset = false;
 
-// chọn -> điều hướng, KHÔNG reset ngay
+// chọn -> chỉ điều hướng, KHÔNG reset
 select.onchange = function () {
-    if (!this.value) return;
+    const val = this.value;
+    if (!val) return;
 
-    lastVal = this.value;
+    waitingReset = true;
 
-    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + lastVal;
+    window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + val;
 };
 
-// khi hash load xong -> reset dropdown
-window.addEventListener("load", () => {
-    if (!lastVal) return;
+// reset khi user bắt đầu tương tác lại
+function resetSelectOnce() {
+    if (!waitingReset) return;
 
-    setTimeout(() => {
-        select.selectedIndex = 0;
-        lastVal = null;
-    }, 300);
-});
+    select.selectedIndex = 0;
+    waitingReset = false;
+
+    window.removeEventListener("scroll", onScroll);
+    document.removeEventListener("click", onClickOutside);
+}
+
+function onScroll() {
+    resetSelectOnce();
+}
+
+function onClickOutside(e) {
+    if (e.target === select) return;
+    resetSelectOnce();
+}
+
+// chỉ kích hoạt listener sau khi đã chọn
+window.addEventListener("scroll", onScroll, { passive: true });
+document.addEventListener("click", onClickOutside);
 </script>
