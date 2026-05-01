@@ -397,7 +397,7 @@
      {
        document.getElementById("chon789").style.display = "none";
      }
-   if (document.getElementById("baihatXYZ").innerHTML != "")
+   if (document.getElementById("baihatXYZ") != null && document.getElementById("baihatXYZ").innerHTML != "")
    {
    document.getElementById("BHphat").innerHTML = "";
    }
