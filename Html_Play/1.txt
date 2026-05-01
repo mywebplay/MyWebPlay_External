@@ -41,7 +41,7 @@ transition: background 0.15s;
 
 /* chỉ hover, KHÔNG active state */
 #navPanel div:hover {
-background: #f0f0f0;
+background: #e6f0ff;
 }
 </style>
 
