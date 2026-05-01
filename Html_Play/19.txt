@@ -376,7 +376,7 @@ function karatoday() {
 document.getElementById("modal8x").style.display = "none";
 document.getElementById("modalOverlay8").style.display = "none";
 
-if (xing == 0)
+if (xing == 1)
 {
   if (document.getElementById("custom1409"))
   document.getElementById("custom1409").remove();
