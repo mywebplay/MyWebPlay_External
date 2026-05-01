@@ -1,6 +1,6 @@
 <!-- Format menu karaoke 3 -->
 <div id="modalOverlay8" class="modal-overlay8" style="display:none">
-<div class="modal8">
+<div class="modal8" id="modal8x">
 <span class="close-btn8" id="closeModal8">❌</span>
 <br />
 <div id="menuX"></div>
