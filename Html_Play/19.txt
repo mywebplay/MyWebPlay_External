@@ -412,6 +412,14 @@
          {
              document.getElementById("chon789").style.display = "inline-block";
          }
+
+      if (ndTK != "") {
+          document.getElementById("mau789").style.display = "none";
+      }
+      else {
+          document.getElementById("mau789").style.display = "inline-block";
+      }
+
    if (document.getElementById("baihatXYZ") != null && document.getElementById("baihatXYZ").innerHTML != "")
    {
    document.getElementById("BHphat").innerHTML = "";
