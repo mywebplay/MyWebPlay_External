@@ -501,5 +501,12 @@
             {
                 document.getElementById("chon789").style.display = "inline-block";
             }
+
+            if (ndTK != "") {
+                document.getElementById("mau123").style.display = "none";
+            }
+            else {
+                document.getElementById("mau123").style.display = "none";
+            }
    }
 </script>
