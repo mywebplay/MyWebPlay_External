@@ -370,7 +370,7 @@ document.getElementById("maunex").value = document.getElementById("maunex123").v
 moanh();
 }
 
-function functionExternal() {
+function karatoday() {
   if (kex == 1) return;
 
 document.getElementById("modal8x").style.display = "none";
@@ -468,6 +468,27 @@ document.getElementById("sae").style.display = "none";
 
 setInterval(function () {
  xang = 1;
- functionExternal();
+ karatoday();
 }, 1000);
+
+function functionExternal()
+{
+if (document.getElementById("maunex"))
+{
+  document.getElementById("maunex123").value = document.getElementById("maunex").value;
+}
+if (document.getElementById("anhmo"))
+{
+   document.getElementById("anhmo123").value = document.getElementById("anhmo").value;
+}
+document.getElementById("fontKieu123").options.selectedIndex = document.getElementById("fontKieu").options.selectedIndex;
+document.getElementById("kieudemnguoc123").value = document.getElementById("kieudemnguoc").value;
+document.getElementById("kichthuoc123").value = document.getElementById("kichthuoc").value;
+document.getElementById("mauY123").value = document.getElementById("mauY").value;
+document.getElementById("mauX123").value = document.getElementById("mauX").value;
+document.getElementById("mau123").value = document.getElementById("mau").value;
+document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
+document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
+document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+}
 </script>
