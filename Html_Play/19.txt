@@ -367,6 +367,7 @@ moanh();
 setInterval(function () {
   if (kex == 1) return;
 
+document.getElementById("modal8x").style.display = "none";
 document.getElementById("modalOverlay8").style.display = "none";
 if (document.getElementById("custom1409"))
 document.getElementById("custom1409").remove();
