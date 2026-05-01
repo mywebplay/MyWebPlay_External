@@ -36,6 +36,12 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 padding: 6px 8px;
 cursor: pointer;
 font-size: 13px;
+transition: background 0.15s;
+}
+
+/* chỉ hover, KHÔNG active state */
+#navPanel div:hover {
+background: #f0f0f0;
 }
 </style>
 
@@ -53,33 +59,27 @@ font-size: 13px;
 const trigger = document.getElementById("navTrigger");
 const panel = document.getElementById("navPanel");
 
-let open = false;
 let timer = null;
 
 function show() {
 clearTimeout(timer);
 panel.style.display = "block";
-open = true;
 }
 
 function hide() {
 timer = setTimeout(() => {
 panel.style.display = "none";
-open = false;
 }, 150);
 }
 
-// hover trigger
 trigger.onmouseenter = show;
 trigger.onmouseleave = hide;
 
-// hover panel
 panel.onmouseenter = show;
 panel.onmouseleave = hide;
 
 function go(id) {
 window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + id;
 panel.style.display = "none";
-open = false;
 }
 </script>
