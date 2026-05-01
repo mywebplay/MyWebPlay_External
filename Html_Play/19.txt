@@ -401,6 +401,10 @@
      {
        document.getElementById("chon789").style.display = "none";
      }
+       else
+         {
+             document.getElementById("chon789").style.display = "inline-block";
+         }
    if (document.getElementById("baihatXYZ") != null && document.getElementById("baihatXYZ").innerHTML != "")
    {
    document.getElementById("BHphat").innerHTML = "";
