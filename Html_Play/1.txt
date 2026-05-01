@@ -1,63 +1,81 @@
 <!-- Di chuyển vị trí - admin setting  -->
 <style>
-#quickNav {
+#navTrigger {
 position: fixed;
 bottom: 10px;
 right: 10px;
-z-index: 9999;
-background: #fff;
-border: 1px solid #ddd;
+width: 40px;
+height: 40px;
+background: white;
+border: 1px solid #ccc;
 border-radius: 10px;
-padding: 8px;
-width: 180px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-font-family: Arial;
+cursor: pointer;
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-#quickNav div {
+#navPanel {
+position: fixed;
+bottom: 55px;
+right: 10px;
+background: white;
+border: 1px solid #ddd;
+border-radius: 10px;
+padding: 6px;
+width: 180px;
+display: none;
+z-index: 9999;
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+#navPanel div {
 padding: 6px 8px;
 cursor: pointer;
 border-radius: 6px;
-font-size: 14px;
+font-size: 13px;
 }
 
-#quickNav div:hover {
+#navPanel div:hover {
 background: #f0f0f0;
-}
-
-#quickNav .active {
-background: #007bff;
-color: white;
 }
 </style>
 
-<div id="quickNav">
-<div onclick="go('linkread6')" id="nav-linkread6">⬆ Lên đầu trang</div>
-<div onclick="go('come-39')" id="nav-come-39">Sửa email/megaIO</div>
-<div onclick="go('come-52')" id="nav-come-52">Upload file max size</div>
-<div onclick="go('custom180')" id="nav-custom180">Bảng thông tin</div>
-<div onclick="go('changesetting')" id="nav-changesetting">Setting secure admin</div>
+<!-- nút nhỏ -->
+<div id="navTrigger">☰</div>
+
+<!-- panel ẩn -->
+<div id="navPanel">
+<div onclick="go('linkread6')">⬆ Lên đầu trang</div>
+<div onclick="go('come-39')">Sửa email/megaIO</div>
+<div onclick="go('come-52')">Upload file max size</div>
+<div onclick="go('custom180')">Bảng thông tin</div>
+<div onclick="go('changesetting')">Setting secure admin</div>
 </div>
 
 <script>
+const trigger = document.getElementById("navTrigger");
+const panel = document.getElementById("navPanel");
+
+// hover mở
+trigger.onmouseenter = () => panel.style.display = "block";
+panel.onmouseenter = () => panel.style.display = "block";
+
+// rời khỏi thì ẩn
+trigger.onmouseleave = hide;
+panel.onmouseleave = hide;
+
+function hide() {
+setTimeout(() => {
+panel.style.display = "none";
+}, 150);
+}
+
 function go(id) {
 window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + id;
+panel.style.display = "none";
 }
-
-// highlight section hiện tại theo hash
-function updateActive() {
-const hash = location.hash.replace("#", "");
-
-document.querySelectorAll("#quickNav div").forEach(el => {
-el.classList.remove("active");
-});
-
-if (hash) {
-const active = document.getElementById("nav-" + hash);
-if (active) active.classList.add("active");
-}
-}
-
-window.addEventListener("hashchange", updateActive);
-window.addEventListener("load", updateActive);
 </script>
