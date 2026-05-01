@@ -257,7 +257,6 @@ if (!StopKaraoke.__patched) {
     window.StopKaraoke.__patched = true; // đánh dấu đã patch
 }
 
-var kex = 0;
 loadxong = 0;
 loadlistSong();
 
