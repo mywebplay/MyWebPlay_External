@@ -228,6 +228,7 @@
    
    loadxong = 0;
    loadlistSong();
+   loadlistSong123();
 
    function loadlistSong123()
    {
@@ -254,7 +255,7 @@
    
    function chonsongtulist123()
    {
-      document.getElementById("listSongKara").value = document.getElementById("listSongKara123");
+      document.getElementById("listSongKara").value = document.getElementById("listSongKara123").value;
       document.getElementById("BHphat").innerHTML = "<img style=\"width: 50px; height: 50px;\" id=\"loadingX1\" src=\"/Image_Play/waiting.gif\" />";
       chonsongtulist();
       
