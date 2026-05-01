@@ -405,6 +405,7 @@
        else
          {
              document.getElementById("chon789").style.display = "inline-block";
+             console.log(hasSinger + "456");
          }
    if (document.getElementById("baihatXYZ") != null && document.getElementById("baihatXYZ").innerHTML != "")
    {
