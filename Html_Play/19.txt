@@ -375,12 +375,17 @@ function karatoday() {
 
 document.getElementById("modal8x").style.display = "none";
 document.getElementById("modalOverlay8").style.display = "none";
-// if (document.getElementById("custom1409"))
-// document.getElementById("custom1409").remove();
-// if (document.getElementById("listSongKara"))
-// document.getElementById("listSongKara").remove();
-// if (document.getElementById("thutu"))
-// document.getElementById("thutu").remove();
+
+if (document.getElementById("listSongKara").length == 0)
+{
+  if (document.getElementById("custom1409"))
+  document.getElementById("custom1409").remove();
+  if (document.getElementById("listSongKara"))
+ document.getElementById("listSongKara").remove();
+ if (document.getElementById("thutu"))
+ document.getElementById("thutu").remove();
+}
+
 if (document.getElementById("maunex"))
 {
   document.getElementById("maunex123").value = document.getElementById("maunex").value;
