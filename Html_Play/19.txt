@@ -397,6 +397,7 @@
    document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
    document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
    document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+     console.log(hasSinger + "123");
      if (hasSinger == "true")
      {
        document.getElementById("chon789").style.display = "none";
