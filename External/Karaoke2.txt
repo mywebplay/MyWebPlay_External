@@ -317,7 +317,7 @@
                 </label>
             </div>
 
-            <button onclick="batdau()">Bắt Đầu</button>
+            <button onclick="batdau()">Tiếp Theo</button>
         </div>
         <script>
 
