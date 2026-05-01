@@ -366,8 +366,8 @@
    {
      if (document.getElementById("custom1409"))
      document.getElementById("custom1409").remove();
-     if (document.getElementById("listSongKara"))
-    document.getElementById("listSongKara").remove();
+     if (document.getElementById("listSongKara123"))
+    document.getElementById("listSongKara123").remove();
     if (document.getElementById("thutu"))
     document.getElementById("thutu").remove();
    }
@@ -402,9 +402,9 @@
    document.getElementById("khac1").style.display = "none";
    }
    
-   if (document.getElementById("listSongKara"))
+   if (document.getElementById("listSongKara123"))
    {
-   document.getElementById("listSongKara").style.display = "inline-block";
+   document.getElementById("listSongKara123").style.display = "inline-block";
    document.getElementById("thutuXYZ").style.display = "inline-block";
    document.getElementById("exix").style.display = "none";
    }
