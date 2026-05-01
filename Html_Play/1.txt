@@ -2,7 +2,7 @@
 <style>
 #navTrigger {
 position: fixed;
-bottom: 10px;
+top: 10px;
 right: 10px;
 width: 40px;
 height: 40px;
@@ -20,7 +20,7 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 
 #navPanel {
 position: fixed;
-bottom: 55px;
+top: 55px;
 right: 10px;
 background: white;
 border: 1px solid #ddd;
@@ -35,15 +35,12 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 #navPanel div {
 padding: 6px 8px;
 cursor: pointer;
-border-radius: 6px;
 font-size: 13px;
 }
 </style>
 
-<!-- nút nhỏ -->
 <div id="navTrigger">☰</div>
 
-<!-- panel ẩn -->
 <div id="navPanel">
 <div onclick="go('linkread6')">⬆ Lên đầu trang</div>
 <div onclick="go('come-39')">Sửa email/megaIO</div>
@@ -56,22 +53,33 @@ font-size: 13px;
 const trigger = document.getElementById("navTrigger");
 const panel = document.getElementById("navPanel");
 
-// hover mở
-trigger.onmouseenter = () => panel.style.display = "block";
-panel.onmouseenter = () => panel.style.display = "block";
+let open = false;
+let timer = null;
 
-// rời khỏi thì ẩn
-trigger.onmouseleave = hide;
-panel.onmouseleave = hide;
+function show() {
+clearTimeout(timer);
+panel.style.display = "block";
+open = true;
+}
 
 function hide() {
-setTimeout(() => {
+timer = setTimeout(() => {
 panel.style.display = "none";
+open = false;
 }, 150);
 }
+
+// hover trigger
+trigger.onmouseenter = show;
+trigger.onmouseleave = hide;
+
+// hover panel
+panel.onmouseenter = show;
+panel.onmouseleave = hide;
 
 function go(id) {
 window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + id;
 panel.style.display = "none";
+open = false;
 }
 </script>
