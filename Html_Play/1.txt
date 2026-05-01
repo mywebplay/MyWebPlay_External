@@ -1,25 +1,63 @@
 <!-- Di chuyển vị trí - admin setting  -->
 <style>
-#fixedSelect {
+#quickNav {
 position: fixed;
-bottom: 10px; /* cách đáy 10px */
-right: 10px; /* cách phải 10px */
-z-index: 9999; /* đảm bảo luôn trên cùng nếu cần */
+bottom: 10px;
+right: 10px;
+z-index: 9999;
+background: #fff;
+border: 1px solid #ddd;
+border-radius: 10px;
+padding: 8px;
+width: 180px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+font-family: Arial;
+}
+
+#quickNav div {
+padding: 6px 8px;
+cursor: pointer;
+border-radius: 6px;
+font-size: 14px;
+}
+
+#quickNav div:hover {
+background: #f0f0f0;
+}
+
+#quickNav .active {
+background: #007bff;
+color: white;
 }
 </style>
-<select id="fixedSelect" onchange="changevitri()">
-<option value="0"></option>
-<option value="linkread6">Lên đầu trang</option>
-<option value="come-39">Sửa email/megaIO</option>
-<option value="come-52">Upload file max size</option>
-<option value="custom180">Bảng thông tin</option>
-<option value="changesetting">Setting secure admin</option>
-</select>
+
+<div id="quickNav">
+<div onclick="go('linkread6')" id="nav-linkread6">⬆ Lên đầu trang</div>
+<div onclick="go('come-39')" id="nav-come-39">Sửa email/megaIO</div>
+<div onclick="go('come-52')" id="nav-come-52">Upload file max size</div>
+<div onclick="go('custom180')" id="nav-custom180">Bảng thông tin</div>
+<div onclick="go('changesetting')" id="nav-changesetting">Setting secure admin</div>
+</div>
+
 <script>
-function changevitri()
-{
-var select = document.getElementById("fixedSelect");
-if (select.value == "") return;
-window.location.href = "/Admin/SettingXYZ_DarkAdmin#"+select.value;
+function go(id) {
+window.location.href = "/Admin/SettingXYZ_DarkAdmin#" + id;
 }
+
+// highlight section hiện tại theo hash
+function updateActive() {
+const hash = location.hash.replace("#", "");
+
+document.querySelectorAll("#quickNav div").forEach(el => {
+el.classList.remove("active");
+});
+
+if (hash) {
+const active = document.getElementById("nav-" + hash);
+if (active) active.classList.add("active");
+}
+}
+
+window.addEventListener("hashchange", updateActive);
+window.addEventListener("load", updateActive);
 </script>
