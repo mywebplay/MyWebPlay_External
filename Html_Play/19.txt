@@ -286,11 +286,10 @@ const intervalId = setInterval(function () {
 }, 1000); 
 }
 
-const intervalId1 = setInterval(function () {
+setInterval(function () {
     document.getElementById("modal8x").style.display = "none";
     document.getElementById("modalOverlay8").style.display = "none";
-    clearInterval(intervalId1);
-}, 1000); 
+}, 100);
 
 function closeHiddenMenu() {
   document.getElementById("hiddenMenu").classList.remove("open");
