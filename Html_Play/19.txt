@@ -232,6 +232,8 @@
 
    function loadlistSong123()
    {
+       if (document.getElementById("listSongKara") == null) return;
+
       const source = document.getElementById("listSongKara");
       const target = document.getElementById("listSongKara123");
       
