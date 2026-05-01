@@ -271,6 +271,10 @@
         {
           document.getElementById("chon789").style.display = "none";
         }
+         else
+         {
+             document.getElementById("chon789").style.display = "inline-block";
+         }
            clearInterval(intervalId);
         }
       }, 1000); 
