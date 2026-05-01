@@ -205,7 +205,7 @@
    <div id="khac1">
       <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
       <a id="sae" href="#xuly" onclick="copyshare123()">Share karaoke</a>&nbsp;
-      <select onchange="chonsongtulist123()" onclick="loadlistSong()" id="listSongKara"></select>
+      <select onchange="chonsongtulist123()" onclick="loadlistSong123()" id="listSongKara123"></select>
       <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Huỷ trình phát Karaoke tự động</b></button>
       <input style="display:none" id="thutu" type="number" min="1" max="15" value="1" />
    </div>
@@ -228,6 +228,22 @@
    
    loadxong = 0;
    loadlistSong();
+
+   function loadlistSong123()
+   {
+      const source = document.getElementById("listSongKara");
+      const target = document.getElementById("listSongKara123");
+      
+      // clear target trước (nếu muốn copy đè)
+      target.innerHTML = "";
+      
+      // copy từng option
+      for (let i = 0; i < source.options.length; i++) {
+          const opt = source.options[i];
+          const newOpt = new Option(opt.text, opt.value, opt.defaultSelected, opt.selected);
+          target.add(newOpt);
+      }
+   }
    
    function copyshare123()
    {
@@ -238,21 +254,22 @@
    
    function chonsongtulist123()
    {
-   document.getElementById("BHphat").innerHTML = "<img style=\"width: 50px; height: 50px;\" id=\"loadingX1\" src=\"/Image_Play/waiting.gif\" />";
-   chonsongtulist();
-   
-   const intervalId = setInterval(function () {
-     if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
-      document.getElementById("BHphat").innerHTML = "";
-     document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
-    document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
-     if (hasSinger == "true")
-     {
-       document.getElementById("chon789").style.display = "none";
-     }
-        clearInterval(intervalId);
-     }
-   }, 1000); 
+      document.getElementById("listSongKara").value = document.getElementById("listSongKara123");
+      document.getElementById("BHphat").innerHTML = "<img style=\"width: 50px; height: 50px;\" id=\"loadingX1\" src=\"/Image_Play/waiting.gif\" />";
+      chonsongtulist();
+      
+      const intervalId = setInterval(function () {
+        if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
+         document.getElementById("BHphat").innerHTML = "";
+        document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
+       document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+        if (hasSinger == "true")
+        {
+          document.getElementById("chon789").style.display = "none";
+        }
+           clearInterval(intervalId);
+        }
+      }, 1000); 
    }
    
    setInterval(function () {
