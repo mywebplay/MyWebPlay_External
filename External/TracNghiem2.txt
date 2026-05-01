@@ -8,6 +8,7 @@
         <meta name="description" content="Tạo bài trắc nghiệm và tự ôn tập, làm bài thử online." />
         <meta name="keywords" content="trắc nghiệm, mywebplay, normalwebbasic" />
         <meta name="author" content="Bùi Văn Luật" />
+        <meta name="robots" content="noindex, nofollow">
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
         <style>
