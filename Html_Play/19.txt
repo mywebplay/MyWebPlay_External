@@ -278,6 +278,10 @@ const intervalId = setInterval(function () {
    document.getElementById("BHphat").innerHTML = "";
   document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
  document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+  if (hasSinger == "true")
+  {
+    document.getElementById("chon789").style.display = "none";
+  }
     clearInterval(intervalId);
   }
 }, 1000); 
@@ -388,6 +392,10 @@ document.getElementById("mau123").value = document.getElementById("mau").value;
 document.getElementById("chon123").options.selectedIndex = document.getElementById("chon").options.selectedIndex;
 document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
 document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+  if (hasSinger == "true")
+  {
+    document.getElementById("chon789").style.display = "none";
+  }
 if (document.getElementById("baihatXYZ").innerHTML != "")
 {
 document.getElementById("BHphat").innerHTML = "";
