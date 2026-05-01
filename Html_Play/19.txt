@@ -281,6 +281,8 @@ const intervalId = setInterval(function () {
   {
     document.getElementById("chon789").style.display = "none";
   }
+document.getElementById("modal8x").style.display = "none";
+document.getElementById("modalOverlay8").style.display = "none";
     clearInterval(intervalId);
   }
 }, 1000); 
