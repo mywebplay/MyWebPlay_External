@@ -370,7 +370,7 @@ document.getElementById("maunex").value = document.getElementById("maunex123").v
 moanh();
 }
 
-setInterval(function () {
+function functionExternal() {
   if (kex == 1) return;
 
 document.getElementById("modal8x").style.display = "none";
@@ -464,5 +464,10 @@ document.getElementById("sae").style.display = "none";
     });
 
     kex++;
+}
+
+setInterval(function () {
+ xang = 1;
+ functionExternal();
 }, 1000);
 </script>
