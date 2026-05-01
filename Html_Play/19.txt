@@ -523,5 +523,11 @@
             else {
                 document.getElementById("mau789").style.display = "inline-block";
             }
+
+      if (document.getElementById("listSongKara") != null)
+      {
+            document.getElementById("listSongKara123").value = document.getElementById("listSongKara").value;
+            chonsongtulist123();
+      }
    }
 </script>
