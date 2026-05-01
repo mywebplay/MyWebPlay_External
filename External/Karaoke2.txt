@@ -276,7 +276,7 @@
             <div class="menu-itemX1" data-action="Question">Tạo và làm bài quesion/answer từ đề cương của bạn</div>
             <div class="menu-itemX1" data-action="Karaoke">Tạo và hát karaoke cơ bản - dễ dàng</div>
         </div>
-        <div class="note">
+        <div class="note" id="note1">
             Bạn nên trải nghiệm tính năng này trên máy tính (PC), laptop,... nhé 😊<br />
             <span style="color: cyan;">Lưu ý : trong khi đang trải nghiệm Karaoke, bạn không nên refresh lại trang để tránh mất dữ liệu!</span>
         </div>
@@ -320,6 +320,11 @@
             <button onclick="batdau()">Bắt Đầu</button>
         </div>
         <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("note1").style.color = "gold";
+        });
+
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
                 document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
