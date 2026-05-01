@@ -485,7 +485,7 @@
         if (loadix == true) return;
 
          var formData = new FormData();
-              formData.append("website", "/Index_External");  formData.append("method", 'GET');
+              formData.append("website", "/karaoke");  formData.append("method", 'GET');
         
          $.ajax({
             url: "/Admin/ShowHtmlPlay",
