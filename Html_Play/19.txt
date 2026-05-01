@@ -506,7 +506,7 @@
                 document.getElementById("mau123").style.display = "none";
             }
             else {
-                document.getElementById("mau123").style.display = "none";
+                document.getElementById("mau123").style.display = "inline-block";
             }
    }
 </script>
