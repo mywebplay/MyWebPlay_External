@@ -38,10 +38,6 @@ cursor: pointer;
 border-radius: 6px;
 font-size: 13px;
 }
-
-#navPanel div:hover {
-background: #f0f0f0;
-}
 </style>
 
 <!-- nút nhỏ -->
