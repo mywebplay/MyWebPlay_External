@@ -277,10 +277,10 @@
          }
 
             if (ndTK != "") {
-                document.getElementById("mau123").style.display = "none";
+                document.getElementById("mau789").style.display = "none";
             }
             else {
-                document.getElementById("mau123").style.display = "inline-block";
+                document.getElementById("mau789").style.display = "inline-block";
             }
            clearInterval(intervalId);
         }
@@ -510,10 +510,10 @@
             }
 
             if (ndTK != "") {
-                document.getElementById("mau123").style.display = "none";
+                document.getElementById("mau789").style.display = "none";
             }
             else {
-                document.getElementById("mau123").style.display = "inline-block";
+                document.getElementById("mau789").style.display = "inline-block";
             }
    }
 </script>
