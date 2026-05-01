@@ -289,6 +289,7 @@ const intervalId = setInterval(function () {
 setInterval(function () {
     document.getElementById("modal8x").style.display = "none";
     document.getElementById("modalOverlay8").style.display = "none";
+    noTap = 1;
 }, 100);
 
 function closeHiddenMenu() {
