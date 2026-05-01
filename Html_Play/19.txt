@@ -278,6 +278,7 @@ const intervalId = setInterval(function () {
    document.getElementById("BHphat").innerHTML = "";
   document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
  document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
+    console.log("MyWebPlay");
     clearInterval(intervalId);
   }
 }, 1000); 
