@@ -442,7 +442,7 @@
                 linkGuide.style.cursor = "pointer";
                 linkGuide.innerText = "Hướng dẫn sử dụng host đám mây của riêng bạn để hát karaoke từ MyWebPlay";
                 linkGuide.style.display = "block";
-                linkGuide.style.fontSize = "13px";
+                linkGuide.style.fontSize = "18px";
                 linkGuide.style.color = "#1976d2";
                 linkGuide.style.marginBottom = "15px";
                 linkGuide.onclick = function (e) {
