@@ -520,6 +520,22 @@
                 document.body.appendChild(overlay);
             }
 
+            function convertToEmbedYoutube(url) {
+                try {
+                    const urlObj = new URL(url);
+            
+                    // Lấy param v
+                    const videoId = urlObj.searchParams.get("v");
+            
+                    if (!videoId) return null;
+            
+                    // Tạo embed URL
+                    return `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&controls=0&mute=1`;
+                } catch (e) {
+                    return null;
+                }
+            }
+
             function batdau() {
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
                 if (sChonSelectedIndex == 0)
@@ -530,7 +546,7 @@
                 else
                 {
                    var txtOnline = document.getElementById("txtLinkBackground").value;
-                   localStorage.setItem("youtube_LinkKaraoke", txtOnline);
+                   localStorage.setItem("youtube_LinkKaraoke", convertToEmbedYoutube(txtOnline));
                    window.location.href = "/play-karaoke-1";
                 }
             }
