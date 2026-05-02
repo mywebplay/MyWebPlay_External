@@ -289,7 +289,8 @@
                 <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
             </p>
             <br />
-            <p><a style="cursor: pointer; color: red; background-color:yellow;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
+            <p><a style="cursor: pointer; color: red; background-color:yellow;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a>                 &nbsp;&nbsp;<span id="useServer">❌</span>
+            </p>
             <br />
             <p><b>🎨 Sử dụng ngẫu nhiên ảnh/video làm background karaoke :</b></p>
             <select id="sChon" onchange="selectedBackground()">
@@ -480,6 +481,10 @@
                 btnConfirm.onclick = function () {
                     serverValue = txtServer.value;
                     songValue = txtSong.value;
+                    if (serverValue != "" && songValue != "")
+                    {
+                      document.getElementById"useServer").innerText = "✔";
+                    }
                     document.body.removeChild(overlay);
                 };
 
@@ -501,6 +506,7 @@
                     if (con == false) return;
                     serverValue = "";
                     songValue = "";
+                    document.getElementById"useServer").innerText = "❌";
                     document.body.removeChild(overlay);
                 };
         
