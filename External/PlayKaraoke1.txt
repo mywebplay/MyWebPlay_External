@@ -697,7 +697,7 @@
 
                     if (localStorage.getItem("youtube_LinkKaraoke") != null)
 					{
-					   document.getElementById("myVideo").src = localStorage.getItem("youtube_LinkKaraoke");
+                       document.getElementById("phanphoi").innerHTML = '<iframe id="myVideo" style="pointer-events: none;" src="' + localStorage.getItem("youtube_LinkKaraoke") + '"></iframe>';
 					}
              }
          }
