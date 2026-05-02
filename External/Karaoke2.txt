@@ -529,6 +529,7 @@
                 modal.appendChild(labelSong);
                 modal.appendChild(txtSong);
                 modal.appendChild(btnConfirm);
+                modal.appendChild(btnCancel);
             
                 overlay.appendChild(modal);
                 document.body.appendChild(overlay);
