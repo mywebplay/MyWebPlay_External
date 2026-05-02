@@ -182,7 +182,7 @@
          <button title="Nhấn o/O để khởi động lại" onclick="resetKaraoke()">Phát / Khởi động lại</button>
          <button onclick="ghinho123()">Lưu các cài đặt hiện tại</button>
          <button onclick="xoaghinho123()">Xoá các cài đặt - trở về mặc định</button>
-         <button id="exix" onclick="StopKaraoke()">Thoát</button>
+         <button id="exix" onclick="StopKaraoke123()">Thoát</button>
          <b id="xemthumau" style="display:none"></b>
          <b id="xemmauthu" style="display:none"></b>
          <b id="xemmaudi" style="display:none"></b>
@@ -247,6 +247,11 @@
           target.add(newOpt);
       }
    }
+
+   fuction StopKaraoke123()
+   {
+      window.location.href = "/karaoke";
+   }
    
    function copyshare123()
    {
@@ -264,7 +269,7 @@
       
       const intervalId = setInterval(function () {
         if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
-         document.getElementById("BHphat").innerHTML = "";
+         document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerText;
         document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
        document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
         if (hasSinger == "true")
