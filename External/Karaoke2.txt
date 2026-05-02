@@ -524,6 +524,7 @@
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
                 if (sChonSelectedIndex == 0)
                 {
+                   localStorage.removeItem("youtube_LinkKaraoke");
                    window.location.href = "/play-karaoke-1";
                 }
                 else
