@@ -388,7 +388,8 @@
       </style>
    </head>
    <body style="visibility: visible; background-color: black;" id="bodix" ondblclick="momenu()">
-      <div id="html_play">
+      <div id="html_play"></div>
+      <div id="html_play2">
          <!-- Format menu karaoke 3 -->
          <div id="modalOverlay8" class="modal-overlay8" style="display:none">
             <div class="modal8" id="modal8x" style="display: none;">
