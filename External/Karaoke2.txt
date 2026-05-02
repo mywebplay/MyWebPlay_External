@@ -387,7 +387,7 @@
                 modal.style.background = "#ffffff";
                 modal.style.padding = "25px";
                 modal.style.borderRadius = "12px";
-                modal.style.width = "500px";
+                modal.style.width = "800px";
                 modal.style.maxWidth = "95%";
                 modal.style.position = "relative";
                 modal.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
@@ -402,7 +402,7 @@
                 btnClose.style.cursor = "pointer";
                 btnClose.style.fontSize = "22px";
                 btnClose.style.fontWeight = "bold";
-                btnClose.style.color = "#999";
+                btnClose.style.color = "red";
                 btnClose.style.padding = "5px 10px";
                 btnClose.style.borderRadius = "6px";
             
@@ -420,6 +420,7 @@
                 title.style.fontWeight = "bold";
                 title.style.fontSize = "18px";
                 title.style.marginBottom = "20px";
+                title.style.textAlign = "center";
             
                 // Label style chung
                 function createLabel(text) {
@@ -427,6 +428,7 @@
                     label.innerText = text;
                     label.style.fontWeight = "bold";
                     label.style.marginBottom = "5px";
+                    label.style.color = "black";
                     return label;
                 }
             
@@ -506,6 +508,7 @@
                 overlay.appendChild(modal);
                 document.body.appendChild(overlay);
             }
+
             function batdau() {
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
                 var auto_music = document.getElementById("laplai").checked ? "on" : "";
