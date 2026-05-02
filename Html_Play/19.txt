@@ -489,7 +489,7 @@
     karatoday();
    }, 1000);
    
-   function functionExternal()
+   function functionExternal(ss)
    {
    if (document.getElementById("maunex"))
    {
@@ -524,7 +524,7 @@
                 document.getElementById("mau789").style.display = "inline-block";
             }
 
-      if (document.getElementById("listSongKara") != null)
+      if (ss != "1" && document.getElementById("listSongKara") != null)
       {
             document.getElementById("listSongKara123").value = document.getElementById("listSongKara").value;
             chonsongtulist123();
