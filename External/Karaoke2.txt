@@ -456,7 +456,7 @@
                 const txtServer = createInput("txtServer");
             
                 const linkGuide = document.createElement("a");
-                // linkGuide.href = "#";
+                linkGuide.style.cursor = "pointer";
                 linkGuide.innerText = "Hướng dẫn sử dụng host đám mây của riêng bạn để hát karaoke từ MyWebPlay";
                 linkGuide.style.display = "block";
                 linkGuide.style.fontSize = "13px";
