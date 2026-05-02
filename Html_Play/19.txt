@@ -248,7 +248,7 @@
       }
    }
 
-   fuction StopKaraoke123()
+   function StopKaraoke123()
    {
       window.location.href = "/karaoke";
    }
