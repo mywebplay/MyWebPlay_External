@@ -284,13 +284,13 @@
         <h1>Play Your Karaoke - Online <span class="highlight">(phiên bản thường)</span></h1>
 
         <div class="section">
-            <p><a style="cursor: pointer;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
-            <br />
             <p>
                 <a href="/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
                 <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
             </p>
             <br />
+            <br />
+            <p><a style="cursor: pointer;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a></p>
             <br />
             <p><b>🎨 Sử dụng ngẫu nhiên ảnh/video làm background karaoke :</b></p>
             <select id="sChon" onchange="selectedBackground()">
