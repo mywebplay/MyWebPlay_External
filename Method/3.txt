@@ -128,6 +128,16 @@
     Cảm ơn bạn đã đồng hành cùng MyWebPlay. Chúng tôi luôn cố gắng để mang đến trải nghiệm tốt hơn mỗi ngày.
   </p>
 </div>
+<script>
+// Delete div somee
+     setInterval(function () {
+              document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+              document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+              document.querySelectorAll("center").forEach((el) => el.remove());
+              document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+          }, 10);
+</script>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 </html>
