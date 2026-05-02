@@ -482,13 +482,14 @@
                 // Button
                 const btnConfirm = document.createElement("button");
                 btnConfirm.innerText = "Xác nhận";
-                btnConfirm.style.width = "50%";
+                btnConfirm.style.width = "100%";
                 btnConfirm.style.padding = "12px";
                 btnConfirm.style.fontSize = "16px";
                 btnConfirm.style.background = "#4caf50";
                 btnConfirm.style.color = "#fff";
                 btnConfirm.style.border = "none";
                 btnConfirm.style.borderRadius = "8px";
+                btnConfirm.style.marginTop = "10px";
                 btnConfirm.style.cursor = "pointer";
             
                 btnConfirm.onmouseover = () => btnConfirm.style.background = "#43a047";
@@ -502,14 +503,15 @@
 
                // Button
                 const btnCancel = document.createElement("button");
-                btnCancel.innerText = "Huỷ bỏ";
-                btnCancel.style.width = "50%";
+                btnCancel.innerText = "Xoá bỏ";
+                btnCancel.style.width = "100%";
                 btnCancel.style.padding = "12px";
                 btnCancel.style.fontSize = "16px";
                 btnCancel.style.background = "#f44336";
                 btnCancel.style.color = "#fff";
                 btnCancel.style.border = "none";
                 btnCancel.style.borderRadius = "8px";
+                btnCancel.style.marginTop = "10px";
                 btnCancel.style.cursor = "pointer";
             
                 btnCancel.onclick = function () {
