@@ -114,11 +114,12 @@
 
   <p>
     Để mang lại trải nghiệm mượt mà hơn, hiện đại hơn và ổn định hơn,
-    toàn bộ hệ thống đã được chuyển sang phiên bản mới với nhiều cải tiến đáng giá.
+    toàn bộ hệ thống đã được chuyển sang phiên bản mới với những tính năng vẫn tương tự.
   </p>
 
   <p>
-    Nếu bạn vẫn đang ở đây, có thể bạn đang truy cập một đường dẫn cũ hoặc bookmark trước đó.
+    Nếu bạn vẫn đang ở đây, có thể bạn đang truy cập theo một đường dẫn hoặc data cũ.
+    <br />
     Đừng lo — chỉ cần một bước nữa là bạn sẽ đến đúng nơi 😉
   </p>
 
