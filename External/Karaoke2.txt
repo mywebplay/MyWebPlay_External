@@ -294,26 +294,10 @@
             <br />
             <p><b>🎨 Sử dụng ngẫu nhiên ảnh/video làm background karaoke :</b></p>
             <select id="sChon" onchange="selectedBackground()">
-                <option>Sử dụng ngẫu nhiên ảnh/background có sẵn trên hệ thống - hoặc vòng lặp theo thứ tự</option>
-                <option>Sử dụng link ảnh/background online của bạn</option>
-                <option>Sử dụng link video/background online của bạn</option>
-                <option>Nhập link video Youtube online</option>
-                <option>Lấy ngẫu nhiên link video Youtube hiện có (một số link có thể không còn tồn tại)</option>
+                <option>Sử dụng ngẫu nhiên ảnh/background có sẵn trên hệ thống - vòng lặp theo thứ tự</option>
+                <option>Nhập link video Youtube online bạn muốn làm background</option>
             </select>
             <input id="txtLinkBackground" style="display: none;" type="text" placeholder="Nhập link online background của bạn thực hiện karaoke..." class="custom-input" />
-
-            <div class="checkboxes">
-                <label class="checkbox-item"> <input type="checkbox" id="laplai" /> Tự động lặp lại music (không đảm bảo) </label>
-                <label class="checkbox-item"> <input type="checkbox" id="inhoa" /> Viết in hoa tất cả đoạn Text Karaoke </label>
-                <label class="checkbox-item"> <input type="checkbox" onchange="choncangiua()" id="cangiua" /> Căn giữa tất cả đoạn Text Karaoke </label>
-                <label class="checkbox-item" id="partCoDinh"> <input type="checkbox" checked id="codinh" /> Cố định đoạn text Karaoke ở phía dưới (như các bản karaoke thông thường) </label>
-                <label class="checkbox-item"> <input type="checkbox" id="doifont" /> Tự động chuyển đổi lần lượt font chữ của text karaoke </label>
-                <label class="checkbox-item"> <input type="checkbox" id="doimau" /> Tự động chuyển đổi random màu sắc (ban đầu/điểm tô) của text karaoke </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" id="kiemtra" /> Không cần xử lý/kiểm tra quá trình chạy của mp3 gốc (có giọng ca sĩ)
-                    <p class="warning">(hoặc có thể đặt fragment # tại thanh url trên trình duyệt của bạn trong khi play : locked/unlocked)</p>
-                </label>
-            </div>
 
             <button onclick="batdau()">Tiếp Theo</button>
         </div>
@@ -353,7 +337,6 @@
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
                 switch (sChonSelectedIndex) {
                     case 0:
-                    case 4:
                         document.getElementById("txtLinkBackground").style.display = "none";
                         break;
 
@@ -538,30 +521,17 @@
             }
 
             function batdau() {
-                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
-                var auto_music = document.getElementById("laplai").checked ? "on" : "";
-                var txtInHoa = document.getElementById("inhoa").checked ? "on" : "";
-                var txtCanGiua = document.getElementById("cangiua").checked ? "on" : "";
-                var txtCoDinh = document.getElementById("codinh").checked ? "on" : "";
-                var random_font = document.getElementById("doifont").checked ? "on" : "";
-                var random_color = document.getElementById("doimau").checked ? "on" : "";
-                var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
-                var txtOnline = document.getElementById("txtLinkBackground").value;
-
-                postRedirect("/Home/ToPlayKaraoke", {
-                    KaraChon: "" + sChonSelectedIndex,
-                    txtOnline: txtOnline,
-                    auto_music: auto_music,
-                    txtCanGiua: txtCanGiua,
-                    txtInHoa: txtInHoa,
-                    txtCoDinh: txtCoDinh,
-                    random_font: random_font,
-                    random_color: random_color,
-                    not_singer: not_singer,
-                    txtOnlineServer: (serverValue == ""  || songValue == "")  ? "" : "on",
-                    txtServer: serverValue,
-                    txtSong: songValue,
-                });
+                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
+                if (sChonSelectedIndex == 0)
+                {
+                   window.location.href = "/play-karaoke-1";
+                }
+                else
+                {
+                   var txtOnline = document.getElementById("txtLinkBackground").value;
+                   localStorage.setItem("youtube_LinkKaraoke", txtOnline);
+                   window.location.href = "/play-karaoke-2";
+                }
             }
 
             // Hamburger menu toggle
