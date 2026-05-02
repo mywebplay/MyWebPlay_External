@@ -1078,7 +1078,7 @@
           }
           
           function thoatServer() {
-              window.location.href = "/Home/ToPlayKaraoke";
+              window.location.href = "/karaoke";
           }
           
           function changesong() {
@@ -1922,10 +1922,12 @@
           
                       return;
                   }
-                  window.location.href = "/Home/XoaKaraoke?id=" + encodeURIComponent(thongtin) + "&ip=" + encodeURIComponent('171.235.56.87');
+                  // window.location.href = "/Home/XoaKaraoke?id=" + encodeURIComponent(thongtin) + "&ip=" + encodeURIComponent('171.235.56.87');
+                  window.location.href = "/karaoke";
               }
               else {
-                  window.location.href = "/Home/XoaKaraoke" + "?ip=" + encodeURIComponent('171.235.56.87');
+                  // window.location.href = "/Home/XoaKaraoke" + "?ip=" + encodeURIComponent('171.235.56.87');
+                  window.location.href = "/karaoke";
               }
           }
           
