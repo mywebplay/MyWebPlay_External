@@ -499,14 +499,7 @@
                     songValue = txtSong.value;
                     document.body.removeChild(overlay);
                 };
-            
-                // Click ngoài
-                overlay.addEventListener("click", function (e) {
-                    if (e.target === overlay) {
-                        document.body.removeChild(overlay);
-                    }
-                });
-            
+        
                 // Append
                 modal.appendChild(btnClose);
                 modal.appendChild(title);
