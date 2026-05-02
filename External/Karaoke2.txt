@@ -482,7 +482,7 @@
                 // Button
                 const btnConfirm = document.createElement("button");
                 btnConfirm.innerText = "Xác nhận";
-                btnConfirm.style.width = "100%";
+                btnConfirm.style.width = "50%";
                 btnConfirm.style.padding = "12px";
                 btnConfirm.style.fontSize = "16px";
                 btnConfirm.style.background = "#4caf50";
@@ -497,6 +497,26 @@
                 btnConfirm.onclick = function () {
                     serverValue = txtServer.value;
                     songValue = txtSong.value;
+                    document.body.removeChild(overlay);
+                };
+
+               // Button
+                const btnCancel = document.createElement("button");
+                btnCancel.innerText = "Huỷ bỏ";
+                btnCancel.style.width = "50%";
+                btnCancel.style.padding = "12px";
+                btnCancel.style.fontSize = "16px";
+                btnCancel.style.background = "#f44336";
+                btnCancel.style.color = "#fff";
+                btnCancel.style.border = "none";
+                btnCancel.style.borderRadius = "8px";
+                btnCancel.style.cursor = "pointer";
+            
+                btnConfirm.onclick = function () {
+                    var con = confirm('Bạn có chắc chắn muốn thực hiện tiếp tác vụ này?');
+                    if (con == false) return;
+                    serverValue = "";
+                    songValue = "";
                     document.body.removeChild(overlay);
                 };
         
