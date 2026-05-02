@@ -444,6 +444,7 @@
                     input.style.borderRadius = "6px";
                     input.style.marginBottom = "15px";
                     input.style.outline = "none";
+                    input.value = (id == "txtServer") ? serverValue : songValue;
             
                     input.onfocus = () => input.style.border = "1px solid #2196f3";
                     input.onblur = () => input.style.border = "1px solid #ccc";
