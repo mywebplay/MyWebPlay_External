@@ -349,33 +349,6 @@
                 form.submit();
             }
 
-            function demoKaraoke() {
-                var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
-                var auto_music = document.getElementById("laplai").checked ? "on" : "";
-                var txtInHoa = document.getElementById("inhoa").checked ? "on" : "";
-                var txtCanGiua = document.getElementById("cangiua").checked ? "on" : "";
-                var txtCoDinh = document.getElementById("codinh").checked ? "on" : "";
-                var random_font = document.getElementById("doifont").checked ? "on" : "";
-                var random_color = document.getElementById("doimau").checked ? "on" : "";
-                var not_singer = document.getElementById("kiemtra").checked ? "on" : "";
-                var txtOnline = document.getElementById("txtLinkBackground").value;
-                postRedirect("/Home/ToPlayKaraoke", {
-                    txtChon: "on",
-                    KaraChon: "" + sChonSelectedIndex,
-                    txtOnline: txtOnline,
-                    auto_music: auto_music,
-                    txtCanGiua: txtCanGiua,
-                    txtInHoa: txtInHoa,
-                    txtCoDinh: txtCoDinh,
-                    random_font: random_font,
-                    random_color: random_color,
-                    not_singer: not_singer,
-                    txtOnlineServer: "",
-                    txtServer: "",
-                    txtSong: "",
-                });
-            }
-
             function selectedBackground() {
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
                 switch (sChonSelectedIndex) {
@@ -390,9 +363,116 @@
                 }
             }
 
+            // ===== Biến global để dùng sau =====
+            let serverValue = "";
+            let songValue = "";
+            
+            // ===== Function mở modal =====
             function serverKaraoke() {
-                alert("Xin lỗi, tính năng này chưa được bổ sung trên giao diện mới.\nVì vậy, chúng tôi sẽ chuyển bạn đến màn hình của giao diện cũ.\nRất mong sự thông cảm của bạn !");
-                window.location.href = "/Home/ToPlayKaraoke";
+            
+                // Overlay
+                const overlay = document.createElement("div");
+                overlay.id = "overlayKaraoke";
+                overlay.style.position = "fixed";
+                overlay.style.top = "0";
+                overlay.style.left = "0";
+                overlay.style.width = "100%";
+                overlay.style.height = "100%";
+                overlay.style.background = "rgba(0,0,0,0.5)";
+                overlay.style.display = "flex";
+                overlay.style.alignItems = "center";
+                overlay.style.justifyContent = "center";
+                overlay.style.zIndex = "9999";
+            
+                // Modal
+                const modal = document.createElement("div");
+                modal.style.background = "#fff";
+                modal.style.padding = "20px";
+                modal.style.borderRadius = "8px";
+                modal.style.width = "400px";
+                modal.style.maxWidth = "90%";
+                modal.style.position = "relative";
+                modal.style.boxShadow = "0 0 15px rgba(0,0,0,0.3)";
+            
+                // Nút đóng X
+                const btnClose = document.createElement("span");
+                btnClose.innerHTML = "✖";
+                btnClose.style.position = "absolute";
+                btnClose.style.top = "10px";
+                btnClose.style.right = "10px";
+                btnClose.style.cursor = "pointer";
+                btnClose.style.fontSize = "18px";
+            
+                btnClose.onclick = function () {
+                    document.body.removeChild(overlay);
+                };
+            
+                // Tiêu đề
+                const title = document.createElement("div");
+                title.innerText = "NHẬP THÔNG TIN BÀI HÁT TỪ ĐÁM MÂY CỦA BẠN";
+                title.style.color = "red";
+                title.style.fontWeight = "bold";
+                title.style.marginBottom = "15px";
+            
+                // Label server
+                const labelServer = document.createElement("div");
+                labelServer.innerText = "Nhập server name host đám mây";
+            
+                const txtServer = document.createElement("input");
+                txtServer.type = "text";
+                txtServer.id = "txtServer";
+                txtServer.style.width = "100%";
+                txtServer.style.margin = "5px 0 10px 0";
+            
+                const linkGuide = document.createElement("a");
+                linkGuide.href = "#";
+                linkGuide.innerText = "Hướng dẫn sử dụng host đám mây của riêng bạn để hát karaoke từ MyWebPlay";
+                linkGuide.style.display = "block";
+                linkGuide.style.marginBottom = "15px";
+            
+                // Label song
+                const labelSong = document.createElement("div");
+                labelSong.innerText = "Nhập tên bài hát karaoke";
+            
+                const txtSong = document.createElement("input");
+                txtSong.type = "text";
+                txtSong.id = "txtSong";
+                txtSong.style.width = "100%";
+                txtSong.style.margin = "5px 0 15px 0";
+            
+                // Button xác nhận
+                const btnConfirm = document.createElement("button");
+                btnConfirm.innerText = "Xác nhận";
+                btnConfirm.style.padding = "8px 15px";
+                btnConfirm.style.cursor = "pointer";
+            
+                btnConfirm.onclick = function () {
+                    // LƯU VALUE
+                    serverValue = txtServer.value;
+                    songValue = txtSong.value;
+            
+                    document.body.removeChild(overlay);
+                };
+            
+                // Click ngoài modal để đóng
+                overlay.addEventListener("click", function (e) {
+                    if (e.target === overlay) {
+                        document.body.removeChild(overlay);
+                    }
+                });
+            
+                // Append
+                modal.appendChild(btnClose);
+                modal.appendChild(title);
+                modal.appendChild(labelServer);
+                modal.appendChild(txtServer);
+                modal.appendChild(linkGuide);
+                modal.appendChild(labelSong);
+                modal.appendChild(txtSong);
+                modal.appendChild(btnConfirm);
+            
+                overlay.appendChild(modal);
+                document.body.appendChild(overlay);
             }
 
             function choncangiua() {
@@ -429,8 +509,8 @@
                     random_color: random_color,
                     not_singer: not_singer,
                     txtOnlineServer: "",
-                    txtServer: "",
-                    txtSong: "",
+                    txtServer: serverValue,
+                    txtSong: songValue,
                 });
             }
 
