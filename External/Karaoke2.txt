@@ -483,7 +483,7 @@
                     songValue = txtSong.value;
                     if (serverValue != "" && songValue != "")
                     {
-                      document.getElementById"useServer").innerText = "✔";
+                      document.getElementById("useServer").innerText = "✔";
                     }
                     document.body.removeChild(overlay);
                 };
@@ -506,7 +506,7 @@
                     if (con == false) return;
                     serverValue = "";
                     songValue = "";
-                    document.getElementById"useServer").innerText = "❌";
+                    document.getElementById("useServer").innerText = "❌";
                     document.body.removeChild(overlay);
                 };
         
