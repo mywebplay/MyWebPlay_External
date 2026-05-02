@@ -381,6 +381,7 @@
    
    document.getElementById("modal8x").style.display = "none";
    document.getElementById("modalOverlay8").style.display = "none";
+   document.getElementById("listSongKara").value = document.getElementById("listSongKara123").value;
    
    if (xing == 1)
    {
