@@ -456,13 +456,24 @@
                 const txtServer = createInput("txtServer");
             
                 const linkGuide = document.createElement("a");
-                linkGuide.href = "#";
+                // linkGuide.href = "#";
                 linkGuide.innerText = "Hướng dẫn sử dụng host đám mây của riêng bạn để hát karaoke từ MyWebPlay";
                 linkGuide.style.display = "block";
                 linkGuide.style.fontSize = "13px";
                 linkGuide.style.color = "#1976d2";
                 linkGuide.style.marginBottom = "15px";
-            
+                linkGuide.onclick = function (e) {
+                    e.preventDefault();
+                
+                    alert(
+                        "[CẢM PHIỀN BẠN HÃY ĐỌC HƯỚNG DẪN NHANH TẠI ĐÂY 😁]\n\n[1/2]\n\n1. Đăng kí host server name :\n\nLưu ý, hệ thống đang hướng dẫn bạn đăng kí host server bằng trang web của freeasphosting.net, nếu bạn có thể tìm kiếm được các trang web dịch vụ hỗ trợ host server khác thì cũng có thể áp dụng và các cách thực hiện cũng tương tự.\n\n- Truy cập : http://freeasphosting.net/ và đăng kí tài khoản mới (nếu bạn chưa có) tại Create Your Web Site\n\n- Đăng nhập tài khoản và vào mục quản lý file.\n\n- Mỗi một bài hát karaoke của bạn phải được đặt trong từng các thư mục riêng biệt.\n\n- Quy tắc như sau để phù hợp với dịch vụ Karaoke của MyWebPlay : ví dụ bạn có karaoke bài hát tên là Mùa xuân của em, tạo thư mục MuaXuanCuaEm và bên trong thư mục bạn có thể dùng chức năng Upload để tải lên đúng 3 file liên quan vào trong thư mục này. 3 file liên quan đó chính là : file txt nội dung karaoke, file mp3 nhạc bao gồm cả giọng ca sĩ và file mp3 đã tách nhạc."
+                    );
+                
+                    alert(
+                        "[CẢM PHIỀN BẠN HÃY ĐỌC HƯỚNG DẪN NHANH TẠI ĐÂY 😁]\n\n[2/2]\n\n- Tuy nhiên, 3 file bạn tải lên cũng phải đặt tên theo quy tắc. Ở ví dụ thư mục MuaXuanCuaEm trên, file txt nội dung bạn có thể đặt là MuaXuanCuaEm.txt, file mp3 bản gốc bạn có thể đặt là MuaXuanCuaEm_Goc.mp3 và file mp3 đã tách nhạc thì có thể đặt là MuaXuanCuaEm.mp3\n\n=> Lưu ý bạn phải đặt đúng các tên file và thư mục Karaoke theo đúng nguyên tắc trên, nếu không sẽ gây ra lỗi và khó xử lý 😂\n\n2. Sử dụng host server của bạn để Play Karaoke :\n\n- Nhập tên host server name của bạn, chính là thông tin username mà bạn đã tạo tài khoản tại freeasphosting.net trước đó (ví dụ : yourusername.bsite.net). Lưu ý nếu bạn đã tạo host server web không phải của freeasphosting.net thì hãy chú ý tương tự.\n\n- Nhập bài hát tại Server Karaoke của bạn, chính là tên thư mục bạn đã đặt và upload tại server (ví dụ MuaXuanCuaEm). Lưu ý thư mục của bạn chỉ bao gồm đủ và đúng 3 file liên quan trên\n\n=> Chúc mọi người thành công và thưởng thức 🥰!"
+                    );
+                };
+                            
                 // Song
                 const labelSong = createLabel("Nhập tên bài hát karaoke");
                 const txtSong = createInput("txtSong");
