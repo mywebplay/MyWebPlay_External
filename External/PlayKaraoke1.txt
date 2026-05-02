@@ -728,7 +728,7 @@
                  var n = new Number("15");
                  if (xs >= n) xs = 0;
          
-                 // document.getElementById("myVideo").src = "/karaoke_Example/background/" + (xs + 1) + ".jpg";
+                 document.getElementById("myVideo").src = "/karaoke_Example/background/" + (xs + 1) + ".jpg";
              }, 5000);
          }
          
