@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông báo cập nhật Karaoke</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: #ddd;
+    }
+
+    .highlight {
+      color: #ffd166;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 30px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a18, #ffb347);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 150, 50, 0.5);
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .decor {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      filter: blur(40px);
+      z-index: -1;
+    }
+
+    .decor.one { top: 10%; left: 10%; }
+    .decor.two { bottom: 10%; right: 10%; }
+
+  </style>
+</head>
+<body>
+
+<div class="decor one"></div>
+<div class="decor two"></div>
+
+<div class="container">
+  <h1>🎤 Giao diện Karaoke đã được nâng cấp</h1>
+
+  <p>
+    Chúng tôi đã chính thức <span class="highlight">ngừng hỗ trợ giao diện Karaoke cũ</span> trên MyWebPlay.
+  </p>
+
+  <p>
+    Để mang lại trải nghiệm mượt mà hơn, hiện đại hơn và ổn định hơn,
+    toàn bộ hệ thống đã được chuyển sang phiên bản mới với nhiều cải tiến đáng giá.
+  </p>
+
+  <p>
+    Nếu bạn vẫn đang ở đây, có thể bạn đang truy cập một đường dẫn cũ hoặc bookmark trước đó.
+    Đừng lo — chỉ cần một bước nữa là bạn sẽ đến đúng nơi 😉
+  </p>
+
+  <a href="/karaoke" class="btn">👉 Trải nghiệm Karaoke phiên bản mới</a>
+
+  <p class="footer-note">
+    Cảm ơn bạn đã đồng hành cùng MyWebPlay. Chúng tôi luôn cố gắng để mang đến trải nghiệm tốt hơn mỗi ngày.
+  </p>
+</div>
+
+</body>
+</html>
