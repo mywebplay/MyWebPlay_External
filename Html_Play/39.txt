@@ -1,4 +1,7 @@
 <!-- Không cho play demo karaoke -->
 <script>
+setInterval(function()
+{
 document.getElementById("check").style.display = "none";
+},100);
 </script>
