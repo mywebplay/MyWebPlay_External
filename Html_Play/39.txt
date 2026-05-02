@@ -1,0 +1,4 @@
+<!-- Không cho play demo karaoke -->
+<script>
+document.getElementById("check").style.display = "none";
+</script>
