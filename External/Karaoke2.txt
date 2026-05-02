@@ -512,7 +512,7 @@
                 btnCancel.style.borderRadius = "8px";
                 btnCancel.style.cursor = "pointer";
             
-                btnConfirm.onclick = function () {
+                btnCancel.onclick = function () {
                     var con = confirm('Bạn có chắc chắn muốn thực hiện tiếp tác vụ này?');
                     if (con == false) return;
                     serverValue = "";
