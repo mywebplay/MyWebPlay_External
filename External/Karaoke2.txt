@@ -530,7 +530,7 @@
                 {
                    var txtOnline = document.getElementById("txtLinkBackground").value;
                    localStorage.setItem("youtube_LinkKaraoke", txtOnline);
-                   window.location.href = "/play-karaoke-2";
+                   window.location.href = "/play-karaoke-1";
                 }
             }
 
