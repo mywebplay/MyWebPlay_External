@@ -1298,7 +1298,7 @@
                      {
                          mexi = " Bạn cũng có thể nhấn phím M hoặc m để hiện/ẩn khung menu (hoặc nhấn đúp vào màn hình || hoặc click vào nội dung text Karaoke đang chạy).";
                      }
-                     document.getElementById("error").innerHTML = "Lưu ý : Khi bật chế độ full màn hình, các option menu sẽ bị ẩn (nhằm mở rộng không gian)."+mexi+" MẸO BỔ SUNG : hãy rê chuột vào các nút và các element đang có ở khung menu để hiện hướng dẫn sử dụng cũng như các phím tắt cần thiết nhé.";
+                     document.getElementById("error").innerHTML = "Lưu ý : Khi bật chế độ full màn hình, các option menu sẽ bị ẩn (nhằm mở rộng không gian)."+mexi+"<br />MẸO BỔ SUNG : hãy rê chuột vào các nút và các element đang có ở khung menu để hiện hướng dẫn sử dụng cũng như các phím tắt cần thiết nhé.";
                      notice = 1;
                  } else {
                      if (document.exitFullscreen) {
