@@ -363,22 +363,20 @@
                 }
             }
 
-            // ===== Biến global để dùng sau =====
+            // ===== Biến global =====
             let serverValue = "";
             let songValue = "";
             
-            // ===== Function mở modal =====
             function serverKaraoke() {
             
                 // Overlay
                 const overlay = document.createElement("div");
-                overlay.id = "overlayKaraoke";
                 overlay.style.position = "fixed";
                 overlay.style.top = "0";
                 overlay.style.left = "0";
                 overlay.style.width = "100%";
                 overlay.style.height = "100%";
-                overlay.style.background = "rgba(0,0,0,0.5)";
+                overlay.style.background = "rgba(0,0,0,0.6)";
                 overlay.style.display = "flex";
                 overlay.style.alignItems = "center";
                 overlay.style.justifyContent = "center";
@@ -386,22 +384,30 @@
             
                 // Modal
                 const modal = document.createElement("div");
-                modal.style.background = "#fff";
-                modal.style.padding = "20px";
-                modal.style.borderRadius = "8px";
-                modal.style.width = "400px";
-                modal.style.maxWidth = "90%";
+                modal.style.background = "#ffffff";
+                modal.style.padding = "25px";
+                modal.style.borderRadius = "12px";
+                modal.style.width = "500px";
+                modal.style.maxWidth = "95%";
                 modal.style.position = "relative";
-                modal.style.boxShadow = "0 0 15px rgba(0,0,0,0.3)";
+                modal.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+                modal.style.fontFamily = "Arial, sans-serif";
             
-                // Nút đóng X
-                const btnClose = document.createElement("span");
-                btnClose.innerHTML = "✖";
+                // Nút X (fix rõ ràng hơn)
+                const btnClose = document.createElement("div");
+                btnClose.innerHTML = "✕";
                 btnClose.style.position = "absolute";
                 btnClose.style.top = "10px";
-                btnClose.style.right = "10px";
+                btnClose.style.right = "12px";
                 btnClose.style.cursor = "pointer";
-                btnClose.style.fontSize = "18px";
+                btnClose.style.fontSize = "22px";
+                btnClose.style.fontWeight = "bold";
+                btnClose.style.color = "#999";
+                btnClose.style.padding = "5px 10px";
+                btnClose.style.borderRadius = "6px";
+            
+                btnClose.onmouseover = () => btnClose.style.background = "#eee";
+                btnClose.onmouseout = () => btnClose.style.background = "transparent";
             
                 btnClose.onclick = function () {
                     document.body.removeChild(overlay);
@@ -410,51 +416,77 @@
                 // Tiêu đề
                 const title = document.createElement("div");
                 title.innerText = "NHẬP THÔNG TIN BÀI HÁT TỪ ĐÁM MÂY CỦA BẠN";
-                title.style.color = "red";
+                title.style.color = "#e53935";
                 title.style.fontWeight = "bold";
-                title.style.marginBottom = "15px";
+                title.style.fontSize = "18px";
+                title.style.marginBottom = "20px";
             
-                // Label server
-                const labelServer = document.createElement("div");
-                labelServer.innerText = "Nhập server name host đám mây";
+                // Label style chung
+                function createLabel(text) {
+                    const label = document.createElement("div");
+                    label.innerText = text;
+                    label.style.fontWeight = "bold";
+                    label.style.marginBottom = "5px";
+                    return label;
+                }
             
-                const txtServer = document.createElement("input");
-                txtServer.type = "text";
-                txtServer.id = "txtServer";
-                txtServer.style.width = "100%";
-                txtServer.style.margin = "5px 0 10px 0";
+                // Input style chung
+                function createInput(id) {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.id = id;
+                    input.style.width = "100%";
+                    input.style.padding = "10px";
+                    input.style.fontSize = "15px";
+                    input.style.border = "1px solid #ccc";
+                    input.style.borderRadius = "6px";
+                    input.style.marginBottom = "15px";
+                    input.style.outline = "none";
+            
+                    input.onfocus = () => input.style.border = "1px solid #2196f3";
+                    input.onblur = () => input.style.border = "1px solid #ccc";
+            
+                    return input;
+                }
+            
+                // Server
+                const labelServer = createLabel("Nhập server name host đám mây");
+                const txtServer = createInput("txtServer");
             
                 const linkGuide = document.createElement("a");
                 linkGuide.href = "#";
                 linkGuide.innerText = "Hướng dẫn sử dụng host đám mây của riêng bạn để hát karaoke từ MyWebPlay";
                 linkGuide.style.display = "block";
+                linkGuide.style.fontSize = "13px";
+                linkGuide.style.color = "#1976d2";
                 linkGuide.style.marginBottom = "15px";
             
-                // Label song
-                const labelSong = document.createElement("div");
-                labelSong.innerText = "Nhập tên bài hát karaoke";
+                // Song
+                const labelSong = createLabel("Nhập tên bài hát karaoke");
+                const txtSong = createInput("txtSong");
             
-                const txtSong = document.createElement("input");
-                txtSong.type = "text";
-                txtSong.id = "txtSong";
-                txtSong.style.width = "100%";
-                txtSong.style.margin = "5px 0 15px 0";
-            
-                // Button xác nhận
+                // Button
                 const btnConfirm = document.createElement("button");
                 btnConfirm.innerText = "Xác nhận";
-                btnConfirm.style.padding = "8px 15px";
+                btnConfirm.style.width = "100%";
+                btnConfirm.style.padding = "12px";
+                btnConfirm.style.fontSize = "16px";
+                btnConfirm.style.background = "#4caf50";
+                btnConfirm.style.color = "#fff";
+                btnConfirm.style.border = "none";
+                btnConfirm.style.borderRadius = "8px";
                 btnConfirm.style.cursor = "pointer";
             
+                btnConfirm.onmouseover = () => btnConfirm.style.background = "#43a047";
+                btnConfirm.onmouseout = () => btnConfirm.style.background = "#4caf50";
+            
                 btnConfirm.onclick = function () {
-                    // LƯU VALUE
                     serverValue = txtServer.value;
                     songValue = txtSong.value;
-            
                     document.body.removeChild(overlay);
                 };
             
-                // Click ngoài modal để đóng
+                // Click ngoài
                 overlay.addEventListener("click", function (e) {
                     if (e.target === overlay) {
                         document.body.removeChild(overlay);
@@ -474,19 +506,6 @@
                 overlay.appendChild(modal);
                 document.body.appendChild(overlay);
             }
-
-            function choncangiua() {
-                var cangiua = document.getElementById("cangiua");
-                var codinh = document.getElementById("codinh");
-                if (cangiua.checked) {
-                    codinh.checked = false;
-                    document.getElementById("partCoDinh").style.display = "none";
-                } else {
-                    codinh.checked = true;
-                    document.getElementById("partCoDinh").style.display = "flex";
-                }
-            }
-
             function batdau() {
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex + 1;
                 var auto_music = document.getElementById("laplai").checked ? "on" : "";
