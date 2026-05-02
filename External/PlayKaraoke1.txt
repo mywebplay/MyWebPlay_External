@@ -548,8 +548,7 @@
                  var fileGOC = document.getElementById("fileGOC").files[0];
                  urlGOC = URL.createObjectURL(fileGOC);
              }
-         
-         
+
              if (document.getElementById("fileKARAOKE").files.length > 0) {
                  var fileKARAOKE = document.getElementById("fileKARAOKE").files[0];
                  urlKARAOKE = URL.createObjectURL(fileKARAOKE);
@@ -695,6 +694,11 @@
                              {
                                  functionExternal("");
                              }
+
+                    if (localStorage.getItem("youtube_LinkKaraoke") != null)
+					{
+					   document.getElementById("myVideo").src = localStorage.getItem("youtube_LinkKaraoke");
+					}
              }
          }
          
@@ -720,7 +724,7 @@
              document.getElementById("muteplay").play();
          }
          
-         if ("true" == "true" && 'true' == "true") {
+         if (localStorage.getItem("youtube_LinkKaraoke") == null) {
              var xs = 0;
          
              setInterval(function () {
