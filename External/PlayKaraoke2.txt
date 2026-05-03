@@ -3070,15 +3070,6 @@
                 document.getElementById("mau789").style.display = "inline-block";
             }
          
-         if (document.getElementById("baihatXYZ") != null && document.getElementById("baihatXYZ").innerHTML != "")
-         {
-         document.getElementById("BHphat").innerHTML = "";
-         }
-         else
-         {
-         document.getElementById("khac1").style.display = "none";
-         }
-         
          if (document.getElementById("listSongKara123"))
          {
          document.getElementById("listSongKara123").style.display = "inline-block";
