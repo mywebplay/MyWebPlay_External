@@ -1905,6 +1905,7 @@
                          document.getElementById("listSongKara").innerHTML += "<option>" + listSong[i] + "</option>";
                      }
                      loadxong = 1;
+                     chonsongtulist();
                  }
              });
          }
