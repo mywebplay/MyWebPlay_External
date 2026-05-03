@@ -423,7 +423,7 @@
             
                 // Tiêu đề
                 const title = document.createElement("div");
-                title.innerText = "NHẬP THÔNG TIN BÀI HÁT TỪ ĐÁM MÂY CỦA BẠN";
+                title.innerText = "NHẬP THÔNG TIN HOST/SERVER KARAOKE TỪ ĐÁM MÂY CỦA BẠN";
                 title.style.color = "#e53935";
                 title.style.fontWeight = "bold";
                 title.style.fontSize = "18px";
