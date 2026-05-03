@@ -2752,7 +2752,7 @@
 2422#🎼 Em biết sẽ chẳng thể*🎼 quay về như lúc xưa#2422-3,2424-6,2427-11,2431-14,2434-20,2439-24,2440-27,2443-32,2447-35,2451-39,2456-43,2472-47
 2487#[Empty]</textarea>
       <input type="text" id="linkKara" style="display: none;" value="cKOOE2/DMxWp+Wzh2PrNqEe88i9TIgj/tg4QqK5/6cHbfS9O7KADMbS5jKMTG1zk-.-Ee9XVtaHbl7sajz7JtjH6r4j2Eqrekrsu+DKffTxyAbjM74bPLkA02DiQeIAXKaI-.-b0VLSdvtemgoTU1JKhv3AVX2AlkE4nABVaVYnNFy7ShSdhT2Cdpf+3Gq8ZeirTzFPO2Q20exCXGJAQ/XQ/GLMAYMwRMK4ixADxvP2olsrMpvTdWtFcCXazfW3p3kLcxIICwSY4PsieZUi3gli/+0HXZl0bmAbfekqH24cfUVVOGdHbGF445xZynbZFfbyWrjZnW9uBDZVzCzLS29QEieKA==-.-5">
-      <div id="ajax_mama">
+      <div id="ajax_mama" style="display:flex;">
          <div class="video-overlay" id="play">
             <b id="error" style="color: red; display: none; background-color: yellow;"></b><b id="message" style="color: deeppink; display: none; background-color: aqua;"><a href="#xuly" onclick="xoaerror()">Click để tắt thông báo</a></b><img style="width: 50px; height: 50px; display: none;" id="loadingX" src="/Image_Play/waiting.gif"><br><br>
             <div id="hienlinh" style="display: none;">
@@ -2835,25 +2835,6 @@
          <div id="phanphoi">
              <img src="/karaoke_Example/background/3.jpg" id="myVideo" class="sqs-html5-video" style="opacity: 0.8;">
          </div>
-      </div>
-      <div id="ajax_papa" style="display:none;background-color:grey;text-align:center">
-         <br>
-         <br>
-         <b style="color:yellow" id="custom1439">TẢI LÊN FILE TXT KARAOKE : </b><span id="custom1440">&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="file" id="fileTXT">
-         <br> <b style="color:blue" id="custom1441">TẢI LÊN FILE MP3 GỐC (CÓ GIỌNG CA SĨ) : </b><span id="custom1442">&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="file" id="fileGOC">
-         <br>
-         <b style="color:purple" id="custom1443">TẢI LÊN FILE MP3 KARAOKE (ĐÃ PHÂN TÁCH) : </b><span id="custom1444">&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="file" id="fileKARAOKE">
-         <br>
-         <br>
-         <br>
-         <div id="ok1x">
-            <button style="color:deeppink;background-color:greenyellow" onclick="okphatnhac()" id="custom1445"><b id="custom1446">PHÁT NHẠC</b></button><span id="custom1447">&nbsp;&nbsp;&nbsp;&nbsp;</span><button onclick="StopKaraoke()" id="custom1448"><b style="color: darkgreen;" id="custom1449">THOÁT</b></button>
-         </div>
-         <br>
-         <img style="width: 50px; height: 50px; display:none;" id="loadingX1" src="/Image_Play/waiting.gif">
-         <br>
-         <div id="hu1" style="display:none;background-color:yellow;color:red;">Karaoke vẫn đang được xử lý, xin chờ thêm một lát...</div>
-         <br>
       </div>
       <script src="/lib/jquery/dist/jquery.min.js"></script>
       <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
