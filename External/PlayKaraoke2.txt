@@ -603,43 +603,58 @@
          </div>
       </div>
       <meta charset="ISO-8859-1">
-	<script>
-	const trigger = document.getElementById("menuTrigger");
-	const menu = document.getElementById("hiddenMenu");
-	
-	let closeTimer = null;
-	
-	// mở khi hover vào trigger
-	trigger.addEventListener("mouseenter", () => {
-		clearTimeout(closeTimer);
-		menu.classList.add("open");
-	});
-	
-	// giữ khi hover vào menu
-	menu.addEventListener("mouseenter", () => {
-		clearTimeout(closeTimer);
-	});
-	
-	// rời trigger → bắt đầu đếm đóng
-	trigger.addEventListener("mouseleave", () => {
-		startCloseTimer();
-	});
-	
-	// rời menu → bắt đầu đếm đóng
-	menu.addEventListener("mouseleave", () => {
-		startCloseTimer();
-	});
-	
-	function startCloseTimer() {
-		clearTimeout(closeTimer);
-		closeTimer = setTimeout(() => {
-			// nếu đang nhập hoặc focus bên trong thì KHÔNG đóng
-			if (!menu.matches(':focus-within')) {
-				menu.classList.remove("open");
-			}
-		}, 400);
-	}
-	</script>
+		<script>
+		const trigger = document.getElementById("menuTrigger");
+		const menu = document.getElementById("hiddenMenu");
+		
+		let closeTimer = null;
+		let lastInteraction = Date.now();
+		
+		// bất kỳ tương tác nào trong menu → cập nhật thời gian
+		["mousemove", "mousedown", "keydown", "input", "focus"].forEach(evt => {
+		    menu.addEventListener(evt, () => {
+		        lastInteraction = Date.now();
+		    });
+		});
+		
+		// mở menu
+		trigger.addEventListener("mouseenter", () => {
+		    clearTimeout(closeTimer);
+		    menu.classList.add("open");
+		});
+		
+		// giữ khi hover menu
+		menu.addEventListener("mouseenter", () => {
+		    clearTimeout(closeTimer);
+		});
+		
+		// rời trigger
+		trigger.addEventListener("mouseleave", () => {
+		    startCloseTimer();
+		});
+		
+		// rời menu
+		menu.addEventListener("mouseleave", () => {
+		    startCloseTimer();
+		});
+		
+		function startCloseTimer() {
+		    clearTimeout(closeTimer);
+		    closeTimer = setTimeout(checkClose, 400);
+		}
+		
+		function checkClose() {
+		    const now = Date.now();
+		
+		    // nếu vừa tương tác trong vòng 2s → KHÔNG đóng
+		    if (now - lastInteraction < 2000) {
+		        startCloseTimer(); // check lại
+		        return;
+		    }
+		
+		    menu.classList.remove("open");
+		}
+		</script>
       <script>
          document.addEventListener("DOMContentLoaded", function () {
                  if ("" == "ERROR")
