@@ -31,6 +31,32 @@
                 background-attachment: fixed;     /* hiệu ứng đứng yên khi scroll */
             }
 
+            body {
+                margin: 0;
+                padding: 0;
+                position: relative;
+                min-height: 100vh;
+                background-image: url('/images/bg-karaoke.png');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+            
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+                z-index: 0;
+            }
+            
+            /* đảm bảo toàn bộ nội dung nằm trên overlay */
+            body > * {
+                position: relative;
+                z-index: 1;
+            }
+
             h1 {
                 text-align: center;
                 color: #ffeb3b;
@@ -225,7 +251,7 @@
                 top: 15px;
                 right: 20px;
                 z-index: 200;
-                background: black;
+                background: grey;
                 padding: 5px 6px;
                 border-radius: 5px;
             }
