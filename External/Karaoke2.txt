@@ -24,19 +24,11 @@
             }
 
             body {
-                background-image: url('https://mywebplay.github.io/images/karaoke.png'); /* đổi đúng path ảnh của bạn */
-                background-size: cover;           /* ảnh phủ full màn hình */
-                background-position: center;      /* canh giữa */
-                background-repeat: no-repeat;     /* không lặp */
-                background-attachment: fixed;     /* hiệu ứng đứng yên khi scroll */
-            }
-
-            body {
                 margin: 0;
                 padding: 0;
                 position: relative;
                 min-height: 100vh;
-                background-image: url('/images/bg-karaoke.png');
+                background-image: url('https://mywebplay.github.io/images/karaoke.png');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
