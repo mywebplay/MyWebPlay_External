@@ -1876,7 +1876,7 @@
              var hienlinh = document.getElementById("hienlinh");
          
              if (menu.style.display != "block") {
-                 menu.style.display = "block";
+                 // menu.style.display = "block";
                  hienlinh.style.display = "none";
              }
              document.getElementById("xanh").innerHTML = "<b id=\"custom1540\">FULL MÀN HÌNH - OFF</b>";
@@ -3336,6 +3336,7 @@
                   chonsongtulist123();
             }
          }
+
       </script>
       <div class="custom-play-btn-container" style="display: none;">
          <div class="custom-play-btn-logo">
