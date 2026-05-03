@@ -2751,7 +2751,7 @@
                <button style="color: purple;" onclick="resetKaraoke()" title="Nhấn o/O để khởi động lại" id="custom1425"><b id="custom1426">KHỞI ĐỘNG LẠI/PHÁT</b></button>
             </div>
             <div id="hienthi"></div>
-            <input type="text" id="txtKara1" hidden=""><input type="text" id="txtKara2" hidden=""><span id="number" style="color: rgb(227, 242, 7); font-size: 81px; bottom: 500px; position: fixed; left: 0px; width: 5em;">1</span><br>
+            <input type="text" id="txtKara1" hidden=""><input type="text" id="txtKara2" hidden=""><span id="number" style="color: rgb(227, 242, 7); font-size: 81px; bottom: 500px; position: fixed; left: 0px; width: 5em;"></span><br>
             <div style="text-align: center;" id="custom1436">
                <div id="background-X" style="display: block;">
                   <p id="thietkeKara" style="font-size: 81px;"></p>
