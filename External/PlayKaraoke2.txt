@@ -2017,7 +2017,7 @@
          }
          
          function DungKaraoke() {
-             localStorage.removeItem("server_Karaoke);
+             localStorage.removeItem("server_Karaoke");
              window.location.href = "/karaoke";
          }
          
