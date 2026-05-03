@@ -511,13 +511,12 @@
                      <option>NgayDauTienDiHoc</option>
                      <option>ChoCon_NhacThieuNhi</option>
                   </select>
-                  <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Huỷ trình phát Karaoke tự động</b></button>
+                  <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Thoát</b></button>
                   <input style="display:none" id="thutu" type="number" min="1" max="12" value="1">
                   <span style="color: springgreen;" id="custom1410">
                   <b id="custom1411"><u title="Bài hát đang được phát" id="baihatXYZ">EmDaBiet-SuniHaLinh</u></b>
                   </span>
                   <span id="custom1412"></span>
-                  <b style="color: red;" id="custom1413"><a onclick="copyshare()" href="#xuly">Share Karaoke</a></b>
                   <input type="checkbox" id="saveshare">
                   <b style="color: lawngreen;" id="custom1414">Bao gồm luôn các setting hiện tại của bạn</b>
                   <button onclick="ghinho()" id="custom1415"><b style="color: lightcoral;" id="custom1416">Ghi nhớ các cài đặt</b></button>
@@ -605,7 +604,6 @@
             <br>
             <div id="khac1">
                <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
-               <a id="sae" href="#xuly" onclick="copyshare123()" style="color: deeppink;">Share karaoke</a>&nbsp;
                <select onchange="chonsongtulist123()" onclick="loadlistSong123()" id="listSongKara123" style="display: inline-block;">
                   <option value="EmDaBiet-SuniHaLinh">EmDaBiet-SuniHaLinh</option>
                   <option value="IwannaBeYourLove-DongNhi&amp;OngCaoThang">IwannaBeYourLove-DongNhi&amp;OngCaoThang</option>
@@ -620,7 +618,7 @@
                   <option value="NgayDauTienDiHoc">NgayDauTienDiHoc</option>
                   <option value="ChoCon_NhacThieuNhi">ChoCon_NhacThieuNhi</option>
                </select>
-               <button onclick="DungKaraoke()" id="custom1409"><b style="color: red; display: inline-block;" id="thutuXYZ">Huỷ trình phát Karaoke tự động</b></button>
+               <button onclick="DungKaraoke()" id="custom1409"><b style="color: red; display: inline-block;" id="thutuXYZ">Thoát</b></button>
                <input style="display:none" id="thutu" type="number" min="1" max="15" value="1">
             </div>
             <br>
@@ -1876,7 +1874,7 @@
                          document.getElementById("chon").options.selectedIndex = 0;
                          changeKara();
                      }
-                     document.getElementById("thutuXYZ").innerHTML = "Huỷ trình phát Karaoke tự động";
+                     document.getElementById("thutuXYZ").innerHTML = "Thoát";
                      if ('true' == "false") {
                          document.getElementById("thutuXYZ").innerHTML += " (đã phát : " + thutu + "/" + maxthutu + ")"
                      }
