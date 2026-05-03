@@ -617,11 +617,6 @@
           window.location.href = "/karaoke";
         }
 
- 		if (localStorage.getItem("youtube_LinkKaraoke") != null)
-		 {
-		   document.getElementById("phanphoi").innerHTML = '<iframe id="myVideo" style="pointer-events: none;" src="' + localStorage.getItem("youtube_LinkKaraoke") + '"></iframe>';
-		 }
- 
          var lastTap = 0; // Lưu thời gian lần chạm cuối cùng
          var noTap = 0;
          var xang = 0;
@@ -674,7 +669,6 @@
                  var fileGOC = document.getElementById("fileGOC").files[0];
                  urlGOC = URL.createObjectURL(fileGOC);
              }
-         
          
              if (document.getElementById("fileKARAOKE").files.length > 0) {
                  var fileKARAOKE = document.getElementById("fileKARAOKE").files[0];
@@ -1912,6 +1906,10 @@
                      loadxong = 1;
                      chonsongtulist();
                      chonsongtulist123();
+				 		if (localStorage.getItem("youtube_LinkKaraoke") != null)
+						 {
+						   document.getElementById("phanphoi").innerHTML = '<iframe id="myVideo" style="pointer-events: none;" src="' + localStorage.getItem("youtube_LinkKaraoke") + '"></iframe>';
+						 }
                  }
              });
          }
