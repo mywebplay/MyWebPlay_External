@@ -348,7 +348,6 @@
 
             // ===== Biến global =====
             let serverValue = "";
-            let songValue = "";
             
             function serverKaraoke() {
             
@@ -427,7 +426,7 @@
                     input.style.borderRadius = "6px";
                     input.style.marginBottom = "15px";
                     input.style.outline = "none";
-                    input.value = (id == "txtServer") ? serverValue : songValue;
+                    input.value = serverValue;
             
                     input.onfocus = () => input.style.border = "1px solid #2196f3";
                     input.onblur = () => input.style.border = "1px solid #ccc";
@@ -458,10 +457,6 @@
                     );
                 };
                             
-                // Song
-                const labelSong = createLabel("Nhập tên bài hát karaoke");
-                const txtSong = createInput("txtSong");
-            
                 // Button
                 const btnConfirm = document.createElement("button");
                 btnConfirm.innerText = "Xác nhận";
@@ -480,8 +475,7 @@
             
                 btnConfirm.onclick = function () {
                     serverValue = txtServer.value;
-                    songValue = txtSong.value;
-                    if (serverValue != "" && songValue != "")
+                    if (serverValue != "")
                     {
                       document.getElementById("useServer").innerText = "✔";
                       document.getElementById("useServer").style.color = "limegreen";
@@ -506,7 +500,6 @@
                     var con = confirm('Bạn có chắc chắn muốn thực hiện tiếp tác vụ này?');
                     if (con == false) return;
                     serverValue = "";
-                    songValue = "";
                     document.getElementById("useServer").innerText = "❌";
                     document.getElementById("useServer").style.color = "red";
                     document.body.removeChild(overlay);
@@ -518,8 +511,6 @@
                 modal.appendChild(labelServer);
                 modal.appendChild(txtServer);
                 modal.appendChild(linkGuide);
-                modal.appendChild(labelSong);
-                modal.appendChild(txtSong);
                 modal.appendChild(btnConfirm);
                 modal.appendChild(btnCancel);
             
@@ -548,13 +539,27 @@
                 if (sChonSelectedIndex == 0)
                 {
                    localStorage.removeItem("youtube_LinkKaraoke");
-                   window.location.href = "/play-karaoke-1";
+                   if (serverValue == "")
+                   {
+                     window.location.href = "/play-karaoke-1";
+                   }
+                   else
+                   {
+                     window.location.href = "/play-karaoke-2";
+                   }
                 }
                 else
                 {
                    var txtOnline = document.getElementById("txtLinkBackground").value;
                    localStorage.setItem("youtube_LinkKaraoke", convertToEmbedYoutube(txtOnline));
-                   window.location.href = "/play-karaoke-1";
+                   if (serverValue == "")
+                   {
+                     window.location.href = "/play-karaoke-1";
+                   }
+                   else
+                   {
+                     window.location.href = "/play-karaoke-2";
+                   }
                 }
             }
 
