@@ -1800,7 +1800,7 @@
          var loadxong = 0;
          
          function chonsongtulist() {
-             // if (loadxong == 0) return;
+             if (loadxong == 0) return;
          
              document.getElementById("baihatXYZ").innerHTML = "<img style=\"width: 50px; height: 50px;\" id=\"loadingX\" src=\"/Image_Play/waiting.gif\" />";
          
@@ -1884,8 +1884,9 @@
          }
          
          function loadlistSong() {
-             if (loadxong == 1) return;
-         
+            if (document.getElementById("listSongKara").value != "Click vào đây để load các bài hát")  return;
+
+             
              var url = localStorage.getItem("server_Karaoke");
              var formData = new FormData();
              formData.append("url", url);
