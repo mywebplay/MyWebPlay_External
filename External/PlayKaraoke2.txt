@@ -664,54 +664,51 @@
       </div>
       <meta charset="ISO-8859-1">
 	<script>
-	const hiddenInput = document.getElementById("kieudemnguoc123");
-	const btn = document.getElementById("btnIconCountdown");
-	
-	const overlay = document.getElementById("modalIconOverlay");
-	const inputModal = document.getElementById("kieudemnguoc456");
-	
-	const btnClose = document.getElementById("closeIconModal");
-	const btnOK = document.getElementById("okIconModal");
-	
-	// cập nhật text nút
-	function updateButtonText() {
-		let val = hiddenInput.value;
-	
-		if (!val || val === "N") {
-			btn.innerText = "3 - 2 - 1";
-		} else {
-			btn.innerText = val;
-		}
-	}
-	
-	// mở modal
-	btn.addEventListener("click", () => {
-		overlay.style.display = "flex";
-	
-		inputModal.value = hiddenInput.value;
-		inputModal.focus();
-	});
-	
-	// đóng modal
-	btnClose.addEventListener("click", () => {
-		overlay.style.display = "none";
-	});
-	
-	// OK → truyền dữ liệu
-	btnOK.addEventListener("click", () => {
-		hiddenInput.value = inputModal.value;
-	
-		// gọi hàm gốc của bạn
-		if (typeof kieudem123 === "function") {
-			kieudem123();
-		}
-	
-		updateButtonText();
-		overlay.style.display = "none";
-	});
-	
-	// init lần đầu
-	updateButtonText();
+		document.addEventListener("DOMContentLoaded", function () {
+		
+		    const hiddenInput = document.getElementById("kieudemnguoc123");
+		    const btn = document.getElementById("btnIconCountdown");
+		
+		    const overlay = document.getElementById("modalIconOverlay");
+		    const inputModal = document.getElementById("kieudemnguoc456");
+		
+		    const btnClose = document.getElementById("closeIconModal");
+		    const btnOK = document.getElementById("okIconModal");
+		
+		    function updateButtonText() {
+		        let val = hiddenInput.value;
+		
+		        if (!val || val === "N") {
+		            btn.innerText = "3 - 2 - 1";
+		        } else {
+		            btn.innerText = val;
+		        }
+		    }
+		
+		    btn.addEventListener("click", () => {
+		        overlay.style.display = "flex";
+		        inputModal.value = hiddenInput.value;
+		        inputModal.focus();
+		    });
+		
+		    btnClose.addEventListener("click", () => {
+		        overlay.style.display = "none";
+		    });
+		
+		    btnOK.addEventListener("click", () => {
+		        hiddenInput.value = inputModal.value;
+		
+		        if (typeof kieudem123 === "function") {
+		            kieudem123();
+		        }
+		
+		        updateButtonText();
+		        overlay.style.display = "none";
+		    });
+		
+		    updateButtonText();
+		
+		});
 	</script>
 		<script>
 			const trigger = document.getElementById("menuTrigger");
