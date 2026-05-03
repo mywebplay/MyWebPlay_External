@@ -536,6 +536,7 @@
 
             function batdau() {
                 var sChonSelectedIndex = document.getElementById("sChon").selectedIndex;
+                localStorage.removeItem("server_Karaoke");
                 if (sChonSelectedIndex == 0)
                 {
                    localStorage.removeItem("youtube_LinkKaraoke");
@@ -545,7 +546,7 @@
                    }
                    else
                    {
-                     localStorage.removeItem("server_Karaoke", serverValue);
+                     localStorage.setItem("server_Karaoke", serverValue);
                      window.location.href = "/play-karaoke-2";
                    }
                 }
@@ -553,13 +554,14 @@
                 {
                    var txtOnline = document.getElementById("txtLinkBackground").value;
                    localStorage.setItem("youtube_LinkKaraoke", convertToEmbedYoutube(txtOnline));
+                   localStorage.removeItem("server_Karaoke");
                    if (serverValue == "")
                    {
                      window.location.href = "/play-karaoke-1";
                    }
                    else
                    {
-                     localStorage.removeItem("server_Karaoke", serverValue);
+                     localStorage.setItem("server_Karaoke", serverValue);
                      window.location.href = "/play-karaoke-2";
                    }
                 }
