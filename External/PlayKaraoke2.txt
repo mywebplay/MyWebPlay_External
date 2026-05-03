@@ -2871,8 +2871,13 @@
          function loadlistSong123()
          {
              if (document.getElementById("listSongKara") == null) return;
-         
-            const source = document.getElementById("listSongKara");
+
+             if (document.getElementById("listSongKara").value == "Click vào đây để load các bài hát")
+			{
+			    loadlistSong();
+			}     
+
+			const source = document.getElementById("listSongKara");
             const target = document.getElementById("listSongKara123");
             
             // clear target trước (nếu muốn copy đè)
