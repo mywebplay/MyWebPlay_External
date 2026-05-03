@@ -2237,6 +2237,7 @@
           
               kieudemnguoc = localStorage.getItem("kieudemnguoc");
               document.getElementById("kieudemnguoc").value = kieudemnguoc;
+              document.getElementById("btnIconCountdown").innerText = kieudemnguoc;
           
               if (xang == 1)
               {
