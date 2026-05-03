@@ -587,7 +587,7 @@
             </div>
             <br>
             <div id="khac1">
-               <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
+               <b style="color: springgreen;" id="BHphat"></b>&nbsp;
                <select onchange="chonsongtulist123()" onclick="loadlistSong123()" id="listSongKara123" style="display: inline-block;">
                  <option>Click vào đây để load các bài hát</option>
                </select>
@@ -2917,8 +2917,7 @@
             
             const intervalId = setInterval(function () {
               if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
-               document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerText;
-               document.getElementById("BHphat").title = "[SERVER: " + localStorage.getItem("server_Karaoke") + "] : " + document.getElementById("listSongKara123").value;
+               document.getElementById("BHphat").innerText = localStorage.getItem("server_Karaoke");
               document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
              document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
               if (hasSinger == "true")
