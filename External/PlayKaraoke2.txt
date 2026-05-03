@@ -616,6 +616,11 @@
           alert("Lỗi hệ thống!\nVui lòng kiểm tra lại host server đám mây Karaoke của bạn.");
           window.location.href = "/karaoke";
         }
+
+ 		if (localStorage.getItem("youtube_LinkKaraoke") != null)
+		 {
+		   document.getElementById("phanphoi").innerHTML = '<iframe id="myVideo" style="pointer-events: none;" src="' + localStorage.getItem("youtube_LinkKaraoke") + '"></iframe>';
+		 }
  
          var lastTap = 0; // Lưu thời gian lần chạm cuối cùng
          var noTap = 0;
