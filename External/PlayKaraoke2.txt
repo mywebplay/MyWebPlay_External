@@ -621,6 +621,8 @@
           alert("Lỗi hệ thống!\nVui lòng kiểm tra lại host server đám mây Karaoke của bạn.");
           window.location.href = "/karaoke";
         }
+
+        document.getElementById("baihatXYZ").title = "[SERVER: " + localStorage.getItem("server_Karaoke") + "] : " + document.getElementById("listSongKara123").value;
          
          var lastTap = 0; // Lưu thời gian lần chạm cuối cùng
          var noTap = 0;
