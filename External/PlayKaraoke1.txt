@@ -885,6 +885,8 @@
                   if (detectDeviceType() == "Mobile") {
                       document.getElementById("txtKaraoke1").style.bottom = "50px";
                       document.getElementById("number").style.bottom = "200px";
+                      isLocked = true;
+                      resetKaraoke();
                   } else {
                       document.getElementById("txtKaraoke1").style.bottom = "200px";
                       document.getElementById("number").style.bottom = "500px";
