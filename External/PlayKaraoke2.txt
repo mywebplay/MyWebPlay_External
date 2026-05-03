@@ -7,6 +7,13 @@
       <title id="custom1291">Karaoke - MyWebPlay</title>
       <link rel="icon" href="/images/karaokeX.png">
       <style>
+		#noteIconCountdown {
+		    display: block;
+		    margin-top: 6px;
+		    font-size: 12px;
+		    color: #555;
+		}
+
          #ajax_papa {
          position: absolute;
          top: 50%;
@@ -3347,5 +3354,27 @@
             </div>
          </div>
       </div>
+	<div id="modalIconOverlay">
+	    <div id="modalIconBox">
+	        <button id="closeIconModal">❌</button>
+	        
+	        <h3>Thay đổi icon đếm ngược karaoke</h3>
+	
+	        <label>Nhập icon đếm ngược:</label>
+	        <input 
+	            type="text" 
+	            id="kieudemnguoc456"
+	            maxlength="2"
+	        >
+	
+	        <small id="noteIconCountdown">
+	            Nhập 1 hình ảnh icon hoặc nhập N nếu muốn đếm ngược theo kiểu 3 - 2 - 1
+	        </small>
+	
+	        <div style="margin-top:10px; text-align:center;">
+	            <button id="okIconModal">OK</button>
+	        </div>
+	    </div>
+	</div>
    </body>
 </html>
