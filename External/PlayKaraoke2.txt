@@ -678,7 +678,7 @@
              if ('True' == "True" && 'True' == "True") {
                  if (document.getElementById("ajax_mama") != null) {
                      document.getElementById("ajax_mama").style.display = "none";
-                     document.getElementById("ajax_papa").style.display = "inline-block";
+                     // document.getElementById("ajax_papa").style.display = "inline-block";
                      document.getElementById("bodix").style.backgroundColor = 'black';
                      lolo = 1;
                  }
@@ -802,7 +802,7 @@
                                      document.getElementById("txtKara").value = data.text;
                                      ndTK = data.tk.replaceAll("&#xA;", "\n").split("\n");
                                      document.getElementById("ajax_papa").style.display = "none";
-                                     document.getElementById("ajax_mama").style.display = "inline-block";
+                                     // document.getElementById("ajax_mama").style.display = "inline-block";
                                      resetKaraoke();
                                      if (ndTK != "") {
                                          document.getElementById("s_mau").style.display = "none";
