@@ -23,6 +23,14 @@
                 animation: fadeIn 1s ease-in;
             }
 
+            body {
+                background-image: url('https://mywebplay.github.io/images/karaoke.png'); /* đổi đúng path ảnh của bạn */
+                background-size: cover;           /* ảnh phủ full màn hình */
+                background-position: center;      /* canh giữa */
+                background-repeat: no-repeat;     /* không lặp */
+                background-attachment: fixed;     /* hiệu ứng đứng yên khi scroll */
+            }
+
             h1 {
                 text-align: center;
                 color: #ffeb3b;
