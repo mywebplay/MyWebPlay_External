@@ -116,7 +116,49 @@
          :fullscreen {
          background-color: white;
          }
-      </style>
+
+		#btnIconCountdown {
+		    font-weight: bold;
+		    color: black;
+		    padding: 5px 10px;
+		    cursor: pointer;
+		}
+		
+		/* overlay */
+		#modalIconOverlay {
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: rgba(0,0,0,0.5);
+		    display: none;
+		    align-items: center;
+		    justify-content: center;
+		    z-index: 99999;
+		}
+		
+		/* modal box */
+		#modalIconBox {
+		    background: white;
+		    color: black;
+		    padding: 15px;
+		    border-radius: 8px;
+		    width: 250px;
+		    text-align: center;
+		    position: relative;
+		}
+		
+		/* nút X */
+		#closeIconModal {
+		    position: absolute;
+		    top: 5px;
+		    right: 8px;
+		    border: none;
+		    background: none;
+		    cursor: pointer;
+		}
+		</style>
       <script>
          var loadix = false;
          
@@ -550,7 +592,18 @@
                   <label>Cỡ chữ:</label>
                   <input type="text" class="input-medium" id="kichthuoc123" onchange="doikichthuoc123()">
                   <label>Icon đếm ngược:</label>
-                  <input onchange="kieudem123()" type="text" class="input-short" id="kieudemnguoc123" title="Nhập 1 hình ảnh icon hoặc nhập N nếu muốn đếm ngược theo kiểu 3 - 2 - 1">
+
+				<!-- input gốc (ẩn 100%) -->
+				<input 
+					type="text" 
+					class="input-short" 
+					id="kieudemnguoc123" 
+					style="display:none"
+					onchange="kieudem123()"
+				>
+				
+				<!-- nút thay thế -->
+				<button id="btnIconCountdown" type="button"></button>
                </div>
                <div>
                   <label>Font chữ:</label>
@@ -603,6 +656,56 @@
          </div>
       </div>
       <meta charset="ISO-8859-1">
+	<script>
+	const hiddenInput = document.getElementById("kieudemnguoc123");
+	const btn = document.getElementById("btnIconCountdown");
+	
+	const overlay = document.getElementById("modalIconOverlay");
+	const inputModal = document.getElementById("kieudemnguoc456");
+	
+	const btnClose = document.getElementById("closeIconModal");
+	const btnOK = document.getElementById("okIconModal");
+	
+	// cập nhật text nút
+	function updateButtonText() {
+		let val = hiddenInput.value;
+	
+		if (!val || val === "N") {
+			btn.innerText = "3 - 2 - 1";
+		} else {
+			btn.innerText = val;
+		}
+	}
+	
+	// mở modal
+	btn.addEventListener("click", () => {
+		overlay.style.display = "flex";
+	
+		inputModal.value = hiddenInput.value;
+		inputModal.focus();
+	});
+	
+	// đóng modal
+	btnClose.addEventListener("click", () => {
+		overlay.style.display = "none";
+	});
+	
+	// OK → truyền dữ liệu
+	btnOK.addEventListener("click", () => {
+		hiddenInput.value = inputModal.value;
+	
+		// gọi hàm gốc của bạn
+		if (typeof kieudem123 === "function") {
+			kieudem123();
+		}
+	
+		updateButtonText();
+		overlay.style.display = "none";
+	});
+	
+	// init lần đầu
+	updateButtonText();
+	</script>
 		<script>
 			const trigger = document.getElementById("menuTrigger");
 			const menu = document.getElementById("hiddenMenu");
