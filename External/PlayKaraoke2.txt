@@ -621,9 +621,7 @@
           alert("Lỗi hệ thống!\nVui lòng kiểm tra lại host server đám mây Karaoke của bạn.");
           window.location.href = "/karaoke";
         }
-
-        document.getElementById("baihatXYZ").title = "[SERVER: " + localStorage.getItem("server_Karaoke") + "] : " + document.getElementById("listSongKara123").value;
-         
+ 
          var lastTap = 0; // Lưu thời gian lần chạm cuối cùng
          var noTap = 0;
          var xang = 0;
@@ -655,7 +653,7 @@
          
              if (lolo == 1) return;
          
-             if ('True' == "True" && 'True' == "True") {
+             if ('True' == "" && 'True' == "True") {
                  if (document.getElementById("ajax_mama") != null) {
                      document.getElementById("ajax_mama").style.display = "none";
                      // document.getElementById("ajax_papa").style.display = "inline-block";
@@ -2914,6 +2912,7 @@
             const intervalId = setInterval(function () {
               if (document.getElementById("baihatXYZ").innerHTML.includes("waiting.gif") == false) {
                document.getElementById("BHphat").innerHTML = document.getElementById("baihatXYZ").innerText;
+               document.getElementById("BHphat").title = "[SERVER: " + localStorage.getItem("server_Karaoke") + "] : " + document.getElementById("listSongKara123").value;
               document.getElementById("mau789").style.display = document.getElementById("s_mau").style.display.toString();
              document.getElementById("chon789").style.display = document.getElementById("chon").style.display.toString();
               if (hasSinger == "true")
