@@ -2039,6 +2039,7 @@
          }
          
          function DungKaraoke() {
+             localStorage.removeItem("server_Karaoke);
              window.location.href = "/karaoke";
          }
          
@@ -2849,7 +2850,7 @@
          setInterval(function()
          {
          document.getElementById("menu").style.display = "none";
-         document.getElementById("sae").style.color = "deeppink";
+         // document.getElementById("sae").style.color = "deeppink";
          if (loadxong6 == 1 || document.getElementById("music").paused || document.getElementById("error").style.display != "none") return;
          
          // Lấy phần tử modal và overlay
@@ -3155,7 +3156,7 @@
          
          if (document.getElementById("saveshare") == null)
          {
-         document.getElementById("sae").style.display = "none";
+         // document.getElementById("sae").style.display = "none";
          }
          
              const trigger = document.getElementById("menuTrigger");
