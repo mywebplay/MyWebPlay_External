@@ -1106,7 +1106,7 @@
                      }
                  }
          
-                 if ("Youtube" == "Youtube") {
+                 if ("" == "Youtube") {
                      window.location.href = "#" + 'ySjrd0Mm-DQ';
          
                      var duraYou = new Number(durationYoutube);
