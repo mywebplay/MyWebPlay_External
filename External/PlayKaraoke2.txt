@@ -639,6 +639,12 @@
          });
          
          //---------------------------
+
+        if (localStorage.getItem("server_Karaoke") == null)
+        {
+          alert("Lỗi hệ thống!\nVui lòng kiểm tra lại host server đám mây Karaoke của bạn.");
+          window.location.href = "/karaoke";
+        }
          
          var lastTap = 0; // Lưu thời gian lần chạm cuối cùng
          var noTap = 0;
