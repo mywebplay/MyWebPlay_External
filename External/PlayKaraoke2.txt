@@ -498,23 +498,12 @@
                   <input type="color" id="maunex" onchange="moanh()" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)">
                   <button style="display:none" onclick="StopKaraoke()" id="custom1404"><b style="color: darkgreen;" id="custom1405">Đi đến bài hát tiếp theo</b></button>
                   <select onchange="chonsongtulist()" onclick="loadlistSong()" id="listSongKara">
-                     <option>EmDaBiet-SuniHaLinh</option>
-                     <option>IwannaBeYourLove-DongNhi&amp;OngCaoThang</option>
-                     <option>TinhDauQuaChen-AnhTraiSayHi</option>
-                     <option>NgaoNgo</option>
-                     <option>DoaHongChoiVoi-AnhTu</option>
-                     <option>LanUuTien-Mopius</option>
-                     <option>UtDieu-DuongHongLoan</option>
-                     <option>NoiSauTuongTu</option>
-                     <option>MeOi</option>
-                     <option>TinhVoi</option>
-                     <option>NgayDauTienDiHoc</option>
-                     <option>ChoCon_NhacThieuNhi</option>
+                    
                   </select>
                   <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Thoát</b></button>
                   <input style="display:none" id="thutu" type="number" min="1" max="12" value="1">
                   <span style="color: springgreen;" id="custom1410">
-                  <b id="custom1411"><u title="Bài hát đang được phát" id="baihatXYZ">EmDaBiet-SuniHaLinh</u></b>
+                  <b id="custom1411"><u title="Bài hát đang được phát" id="baihatXYZ"></u></b>
                   </span>
                   <span id="custom1412"></span>
                   <input type="checkbox" id="saveshare">
@@ -605,18 +594,7 @@
             <div id="khac1">
                <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
                <select onchange="chonsongtulist123()" onclick="loadlistSong123()" id="listSongKara123" style="display: inline-block;">
-                  <option value="EmDaBiet-SuniHaLinh">EmDaBiet-SuniHaLinh</option>
-                  <option value="IwannaBeYourLove-DongNhi&amp;OngCaoThang">IwannaBeYourLove-DongNhi&amp;OngCaoThang</option>
-                  <option value="TinhDauQuaChen-AnhTraiSayHi">TinhDauQuaChen-AnhTraiSayHi</option>
-                  <option value="NgaoNgo">NgaoNgo</option>
-                  <option value="DoaHongChoiVoi-AnhTu">DoaHongChoiVoi-AnhTu</option>
-                  <option value="LanUuTien-Mopius">LanUuTien-Mopius</option>
-                  <option value="UtDieu-DuongHongLoan">UtDieu-DuongHongLoan</option>
-                  <option value="NoiSauTuongTu">NoiSauTuongTu</option>
-                  <option value="MeOi">MeOi</option>
-                  <option value="TinhVoi">TinhVoi</option>
-                  <option value="NgayDauTienDiHoc">NgayDauTienDiHoc</option>
-                  <option value="ChoCon_NhacThieuNhi">ChoCon_NhacThieuNhi</option>
+                 
                </select>
                <button onclick="DungKaraoke()" id="custom1409"><b style="color: red; display: inline-block;" id="thutuXYZ">Thoát</b></button>
                <input style="display:none" id="thutu" type="number" min="1" max="15" value="1">
@@ -1937,7 +1915,7 @@
          
          function StopKaraoke() {
              var url = localStorage.getItem("server_Karaoke");
-             var baihat = "EmDaBiet-SuniHaLinh";
+             var baihat = "MyWebPlay";
          
              var thongtin = url + "[NONE]" + "-.-" + baihat + "[NONE]" + "-.-[NOT]-.-0";
          
@@ -2707,51 +2685,14 @@
          </div>
       </audio>
       <audio id="music" autoplay="" hidden="" onplay="PlayKaraoke()" onplaying="PlayY()" onpause="PlayXKaraoke()" onended="StopKaraoke()">
-         <source src="http://demokaraoke.bsite.net/EmDaBiet-SuniHaLinh/EmDaBiet-SuniHaLinh.mp3" type="audio/mpeg">
+         <source  type="audio/mpeg">
          <div data-wxt-integrated="" class="youtube-dubbing-button"></div>
       </audio>
       <audio id="musix" autoplay="" hidden="" muted="" onplay="ToPlayKaraoke()" onplaying="PlayZ()" onpause="PlayXKaraokeX()" onended="StopKaraoke()">
-         <source src="http://demokaraoke.bsite.net/EmDaBiet-SuniHaLinh/EmDaBiet-SuniHaLinh_Goc.mp3" type="audio/mpeg">
+         <source type="audio/mpeg">
          <div data-wxt-integrated="" class="youtube-dubbing-button"></div>
       </audio>
-      <textarea id="txtKara" hidden="">208#🎼 Một mình em lang*🎼 thang từng góc phố#254-3,257-7,259-12,261-15,262-20,263-23,264-29,266-34,268-38,279-42
-284#🎼 Môi mỉm cười mà*🎼 lòng thì còn đau#285-3,288-7,290-11,292-16,295-19,296-22,298-27,300-31,302-35,312-39
-317#🎼 Giấu nước mắt trong*🎼 tim thật sâu#318-3,321-8,324-13,326-17,330-23,331-26,334-30,338-35,356-39
-366#🎼 Mùa đông giờ đây lạnh*🎼 hơn khi không có#382-3,385-7,387-12,389-16,391-20,393-25,394-28,395-32,398-36,400-42,411-45
-418#🎼 Những chiếc hôn*🎼 nồng nàn#424-3,427-9,429-15,432-19,433-22,436-27,445-31
-449#🎼 Thiếu những tiếng yêu người*🎼 vẫn nói cho em#451-3,454-9,456-15,459-21,461-25,465-31,466-34,469-38,474-42,481-46,494-49
-503#🎼 Huh I*🎼 know#521-3,524-7,537-9,547-12,550-17
-562#🎼 Em biết sẽ có những*🎼 lúc khi yêu giận hờn#568-3,571-6,574-11,577-14,580-17,584-23,586-26,589-30,594-34,598-38,602-43,613-47
-633#🎼 Mà sao không thể*🎼 quay lại với nhau#637-3,640-6,643-10,647-16,650-20,653-23,656-28,660-32,666-36,683-41
-698#🎼 Trời mưa lạnh rơi mà*🎼 anh giờ ở nơi đâu#701-3,704-8,706-12,709-17,713-21,717-24,718-27,721-31,725-35,729-37,736-41,751-45
-758#🎼 Giờ thì em đã biết*🎼 mất anh đau thế nào#761-3,764-7,766-11,768-14,769-17,772-22,773-25,776-29,780-33,783-37,787-41,791-45
-794#🎼 Biết cô đơn sẽ*🎼 như thế nào#794-3,797-8,806-11,810-15,813-18,814-21,816-25,821-29,825-33
-827#🎼 Đến đây, hãy đến để khẽ*🎼 hôn em và nói yêu thương#827-3,830-7,839-12,843-16,846-20,850-23,853-27,856-30,859-34,863-37,869-40,872-44,876-48,889-55
-892#🎼 Dù rằng em đã biết*🎼 giấc mơ vỡ tan rồi#892-3,895-6,898-11,900-14,904-17,906-22,907-25,909-30,913-33,916-36,920-40,925-44
-927#🎼 My heart, I*🎼 know that feeling#927-3,930-6,940-13,943-15,944-18,946-23,950-28,962-36
-965#🎼 Em biết sẽ chẳng thể*🎼 quay về như lúc xưa#965-3,968-6,971-11,974-14,978-20,982-24,984-27,987-32,991-35,994-39,999-43,1015-47
-1031#[Empty]
-1254#🎼 Huh I*🎼 know#1315-3,1318-7,1326-9,1343-12,1346-17
-1359#🎼 Em biết sẽ có những*🎼 lúc khi yêu giận hờn#1363-3,1366-6,1369-11,1372-14,1376-17,1379-23,1382-26,1385-30,1389-34,1394-38,1398-43,1413-47
-1428#🎼 Mà sao không thể*🎼 quay lại với nhau#1431-3,1434-6,1438-10,1442-16,1445-20,1447-23,1450-28,1454-32,1463-36,1480-41
-1490#🎼 Trời mưa lạnh rơi mà*🎼 anh giờ ở nơi đâu#1495-3,1498-8,1501-12,1504-17,1508-21,1512-24,1513-27,1516-31,1519-35,1523-37,1528-41,1550-45
-1553#🎼 Giờ thì em đã biết*🎼 mất anh đau thế nào#1554-3,1557-7,1559-11,1561-14,1563-17,1565-22,1566-25,1569-29,1573-33,1578-37,1582-41,1586-45
-1589#🎼 Biết cô đơn sẽ*🎼 như thế nào#1589-3,1591-8,1600-11,1604-15,1608-18,1609-21,1612-25,1616-29,1619-33
-1622#🎼 Đến đây, hãy đến để khẽ*🎼 hôn em và nói yêu thương#1622-3,1625-7,1634-12,1637-16,1640-20,1645-23,1649-27,1651-30,1654-34,1660-37,1664-40,1666-44,1668-48,1685-55
-1687#🎼 Dù rằng em đã biết*🎼 giấc mơ vỡ tan rồi#1688-3,1691-6,1693-11,1694-14,1696-17,1699-22,1700-25,1703-30,1707-33,1711-36,1715-40,1719-44
-1721#🎼 My heart, I*🎼 know that feeling#1721-3,1724-6,1733-13,1736-15,1737-18,1740-23,1744-28,1757-36
-1760#🎼 Em biết sẽ chẳng thể*🎼 quay về như lúc xưa#1760-3,1762-6,1765-11,1769-14,1772-20,1777-24,1778-27,1780-32,1785-35,1788-39,1794-43,1811-47
-1826#[Empty-X]
-2057#🎼 Giờ thì em đã biết*🎼 mất anh đau thế nào#2085-3,2088-7,2090-11,2092-14,2093-17,2096-22,2097-25,2099-29,2103-33,2107-37,2111-41,2116-45
-2117#🎼 Biết cô đơn sẽ*🎼 như thế nào#2118-3,2121-8,2129-11,2133-15,2137-18,2138-21,2140-25,2144-29,2148-33
-2150#🎼 Đến đây, hãy đến để khẽ*🎼 hôn em và nói yêu thương#2151-3,2154-7,2162-12,2166-16,2169-20,2174-23,2178-27,2179-30,2182-34,2188-37,2192-40,2195-44,2199-48,2212-55
-2215#🎼 Dù rằng em đã biết*🎼 giấc mơ vỡ tan rồi#2217-3,2220-6,2222-11,2224-14,2226-17,2229-22,2230-25,2233-30,2236-33,2240-36,2244-40,2249-44
-2251#🎼 My heart, I*🎼 know that feeling#2251-3,2254-6,2263-13,2266-15,2267-18,2270-23,2274-28,2287-36
-2290#🎼 Em biết sẽ chẳng thể*🎼 quay về như lúc xưa#2290-3,2293-6,2295-11,2298-14,2301-20,2306-24,2307-27,2310-32,2314-35,2318-39,2325-43,2338-47
-2347#🎼 Giờ thì em đã biết*🎼 giấc mơ vỡ tan rồi#2351-3,2354-7,2356-11,2358-14,2360-17,2362-22,2363-25,2365-30,2369-33,2373-36,2376-40,2380-44
-2382#🎼 My heart, I*🎼 know that feeling#2383-3,2386-6,2395-13,2399-15,2400-18,2402-23,2406-28,2419-36
-2422#🎼 Em biết sẽ chẳng thể*🎼 quay về như lúc xưa#2422-3,2424-6,2427-11,2431-14,2434-20,2439-24,2440-27,2443-32,2447-35,2451-39,2456-43,2472-47
-2487#[Empty]</textarea>
+      <textarea id="txtKara" hidden=""></textarea>
       <input type="text" id="linkKara" style="display: none;" value="cKOOE2/DMxWp+Wzh2PrNqEe88i9TIgj/tg4QqK5/6cHbfS9O7KADMbS5jKMTG1zk-.-Ee9XVtaHbl7sajz7JtjH6r4j2Eqrekrsu+DKffTxyAbjM74bPLkA02DiQeIAXKaI-.-b0VLSdvtemgoTU1JKhv3AVX2AlkE4nABVaVYnNFy7ShSdhT2Cdpf+3Gq8ZeirTzFPO2Q20exCXGJAQ/XQ/GLMAYMwRMK4ixADxvP2olsrMpvTdWtFcCXazfW3p3kLcxIICwSY4PsieZUi3gli/+0HXZl0bmAbfekqH24cfUVVOGdHbGF445xZynbZFfbyWrjZnW9uBDZVzCzLS29QEieKA==-.-5">
       <div id="ajax_mama" style="display:flex;">
          <div class="video-overlay" id="play">
@@ -2793,23 +2734,12 @@
                <input type="color" id="maunex" onchange="moanh()" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)">
                <button style="display:none" onclick="StopKaraoke()" id="custom1404"><b style="color: darkgreen;" id="custom1405">Đi đến bài hát tiếp theo</b></button>
                <select onchange="chonsongtulist()" onclick="loadlistSong()" id="listSongKara">
-                  <option>EmDaBiet-SuniHaLinh</option>
-                  <option>IwannaBeYourLove-DongNhi&amp;OngCaoThang</option>
-                  <option>TinhDauQuaChen-AnhTraiSayHi</option>
-                  <option>NgaoNgo</option>
-                  <option>DoaHongChoiVoi-AnhTu</option>
-                  <option>LanUuTien-Mopius</option>
-                  <option>UtDieu-DuongHongLoan</option>
-                  <option>NoiSauTuongTu</option>
-                  <option>MeOi</option>
-                  <option>TinhVoi</option>
-                  <option>NgayDauTienDiHoc</option>
-                  <option>ChoCon_NhacThieuNhi</option>
+                  
                </select>
                <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Thoát</b></button>
                <input style="display:none" id="thutu" type="number" min="1" max="12" value="1">
                <span style="color: springgreen;" id="custom1410">
-               <b id="custom1411"><u title="Bài hát đang được phát" id="baihatXYZ">EmDaBiet-SuniHaLinh</u></b>
+               <b id="custom1411"><u title="Bài hát đang được phát" id="baihatXYZ"></u></b>
                </span>
                <span id="custom1412"></span>
                <input type="checkbox" id="saveshare">
@@ -2825,8 +2755,8 @@
             <div style="text-align: center;" id="custom1436">
                <div id="background-X" style="display: block;">
                   <p id="thietkeKara" style="font-size: 81px;"></p>
-                  <p id="txtKaraoke1" onclick="dongmomenu()" style="bottom: 200px; position: fixed; left: 0px; font-size: 81px; font-family: &quot;Arial Black&quot;;"><span id="xanhX1" class="word" data-content="" style="--colox: #efe6e6; --color: #2900f5;">🎼 Một mình em lang</span></p>
-                  <p id="txtKaraoke2" onclick="dongmomenu()" style="bottom: 0px; position: fixed; right: 0px; font-size: 81px; font-family: &quot;Arial Black&quot;;"><span id="xanhX2" class="work" data-content="" style="--colox: #efe6e6; --color: #2900f5;">🎼 thang từng góc phố</span></p>
+                  <p id="txtKaraoke1" onclick="dongmomenu()" style="bottom: 200px; position: fixed; left: 0px; font-size: 81px; font-family: &quot;Arial Black&quot;;"><span id="xanhX1" class="word" data-content="" style="--colox: #efe6e6; --color: #2900f5;"></span></p>
+                  <p id="txtKaraoke2" onclick="dongmomenu()" style="bottom: 0px; position: fixed; right: 0px; font-size: 81px; font-family: &quot;Arial Black&quot;;"><span id="xanhX2" class="work" data-content="" style="--colox: #efe6e6; --color: #2900f5;"></span></p>
                   <span id="xui"></span>
                </div>
             </div>
