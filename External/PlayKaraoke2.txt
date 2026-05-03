@@ -498,7 +498,7 @@
                   <input type="color" id="maunex" onchange="moanh()" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)">
                   <button style="display:none" onclick="StopKaraoke()" id="custom1404"><b style="color: darkgreen;" id="custom1405">Đi đến bài hát tiếp theo</b></button>
                   <select onchange="chonsongtulist()" onclick="loadlistSong()" id="listSongKara">
-                    
+                    <option>Click vào đây để load các bài hát</option>
                   </select>
                   <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Thoát</b></button>
                   <input style="display:none" id="thutu" type="number" min="1" max="12" value="1">
@@ -594,7 +594,7 @@
             <div id="khac1">
                <b style="color: springgreen;" title="Bài hát đang được phát" id="BHphat"></b>&nbsp;
                <select onchange="chonsongtulist123()" onclick="loadlistSong123()" id="listSongKara123" style="display: inline-block;">
-                 
+                 <option>Click vào đây để load các bài hát</option>
                </select>
                <button onclick="DungKaraoke()" id="custom1409"><b style="color: red; display: inline-block;" id="thutuXYZ">Thoát</b></button>
                <input style="display:none" id="thutu" type="number" min="1" max="15" value="1">
@@ -2734,7 +2734,7 @@
                <input type="color" id="maunex" onchange="moanh()" title="Chọn màu sắc phông nền cho background (có thể kèm theo độ mờ)">
                <button style="display:none" onclick="StopKaraoke()" id="custom1404"><b style="color: darkgreen;" id="custom1405">Đi đến bài hát tiếp theo</b></button>
                <select onchange="chonsongtulist()" onclick="loadlistSong()" id="listSongKara">
-                  
+                  <option>Click vào đây để load các bài hát</option>
                </select>
                <button onclick="DungKaraoke()" id="custom1409"><b style="color: red;" id="thutuXYZ">Thoát</b></button>
                <input style="display:none" id="thutu" type="number" min="1" max="12" value="1">
