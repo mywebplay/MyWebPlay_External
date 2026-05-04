@@ -696,6 +696,10 @@
 		    });
 		
 		    btnOK.addEventListener("click", () => {
+                    if (inputModal.value == "")
+					{
+					  inputModal.value = "N";
+					}
 		        hiddenInput.value = inputModal.value;
 		
 		        if (typeof kieudem123 === "function") {
