@@ -500,11 +500,13 @@
                 btnConfirm.onmouseout = () => btnConfirm.style.background = "#4caf50";
             
                 btnConfirm.onclick = function () {
-                    serverValue = txtServer.value;
-                    if (serverValue != "")
+                    if (txtServer.value == "")
                     {
-                      document.getElementById("useServer").innerText = serverValue;
+                        alert("Vui lòng nhập host/server name của bạn dùng để hát karaoke tại đây!");
+                        return;
                     }
+                    serverValue = txtServer.value;
+                    document.getElementById("useServer").innerText = serverValue;
                     document.body.removeChild(overlay);
                 };
 
