@@ -524,7 +524,11 @@
                 btnCancel.style.cursor = "pointer";
             
                 btnCancel.onclick = function () {
-                    if (serverValue == "") return;
+                    if (serverValue == "")
+                    {
+                     document.body.removeChild(overlay);
+                     return;
+                    }
                     var con = confirm('Bạn có chắc chắn muốn thực hiện tiếp tác vụ này?');
                     if (con == false) return;
                     serverValue = "";
