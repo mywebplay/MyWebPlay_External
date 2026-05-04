@@ -524,6 +524,7 @@
                 btnCancel.style.cursor = "pointer";
             
                 btnCancel.onclick = function () {
+                    if (serverValue == "") return;
                     var con = confirm('Bạn có chắc chắn muốn thực hiện tiếp tác vụ này?');
                     if (con == false) return;
                     serverValue = "";
