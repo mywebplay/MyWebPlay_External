@@ -439,6 +439,7 @@
                 }
             
                 try {
+            
                     btnStart.disabled = true;
                     btnStart.textContent = "Đang xử lý...";
             
@@ -464,6 +465,7 @@
                     window.location.href = "/trac-nghiem";
                 }
                 catch {
+            
                     btnStart.disabled = false;
                     btnStart.textContent = "Bắt đầu làm bài";
             
