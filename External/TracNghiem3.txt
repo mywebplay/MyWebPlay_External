@@ -271,6 +271,40 @@
                 height: 100vh;
                 border: none;
             }
+
+            #txtFile {
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.08);
+                border: 2px dashed rgba(255, 255, 255, 0.4);
+                transition: all 0.25s ease;
+            }
+            
+            #txtFile:hover {
+                border-color: #1abc9c;
+                background: rgba(26, 188, 156, 0.12);
+            }
+            
+            #listFileBox {
+                width: 90%;
+                max-width: 650px;
+                margin: 15px auto;
+                text-align: left;
+            }
+            
+            #listFile {
+                margin-top: 8px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                padding: 14px;
+                color: #fff;
+                white-space: pre-line;
+                max-height: 220px;
+                overflow-y: auto;
+                line-height: 1.6;
+                word-break: break-word;
+                backdrop-filter: blur(3px);
+            }
         </style>
     </head>
     <body>
@@ -297,21 +331,42 @@
             <b>Thời gian làm bài (phút) :</b>
             <input type="number" id="timeTN" min="1" max="1200" />
             <b>Đưa tất cả các file trắc nghiệm (chương bài học) của bạn vào cùng 1 thư mục sau đó sẽ dễ dàng kéo tất cả các file vào đây... :</b>
-            <a id="uFile" style="cursor: pointer; color: aqua;" onclick="uploadfile()">Click vào đây để tải lên các file trắc nghiệm</a>
-            <br />
-            <b style="color: blue;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
-            <span id="listFile" style="color: red; background-color: white; white-space: pre-line;">Chưa có file được tải lên</span>
-            <img src="/Image_Play/waiting.gif" id="waiting" style="display: none; width: 5%;" title="Thử rê chuột vào đây để kiểm tra tình trạng các file của bạn" />
+
+            <input type="file" id="txtFile" multiple />
+            
+            <div id="listFileBox">
+                <b style="color: #4fc3f7;">DANH SÁCH CÁC FILE ĐÃ CHỌN :</b>
+            
+                <div id="listFile">
+                    Chưa có file được tải lên
+                </div>
+            </div>
             <br />
             <button id="btnStart" onclick="lambai()">Bắt đầu làm bài</button>
         </div>
-        <!-- Spinner -->
-        <div id="loadingSpinner">
-            <div class="spin"></div>
-        </div>
-        <iframe id="frameTN" src="/Home/TracNghiemX_Multiple" style="display: none;"></iframe>
-        <iframe id="start" src="/" style="display: none;"></iframe>
         <script>
+            document.getElementById("txtFile").addEventListener("change", function () {
+                const files = this.files;
+                const listFile = document.getElementById("listFile");
+            
+                if (files.length === 0) {
+                    listFile.textContent = "Chưa có file được tải lên";
+                    return;
+                }
+            
+                let text = "";
+            
+                for (let i = 0; i < files.length; i++) {
+                    text += (i + 1) + ". " + files[i].name;
+            
+                    if (i < files.length - 1) {
+                        text += "\n";
+                    }
+                }
+            
+                listFile.textContent = text;
+            });
+
             setInterval(function () {
                 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
                 document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
@@ -356,84 +411,51 @@
                 });
             });
 
-            // Khi trang load thì ẩn partTN
-            document.getElementById("partTN").style.display = "none";
-
-            // Khi iframe load xong thì ẩn spinner & hiện partTN
-            var start = true;
-            document.querySelector("iframe").addEventListener("load", function () {
-                if (start) {
-                    document.getElementById("loadingSpinner").style.display = "none";
-                    document.getElementById("partTN").style.display = "";
-                } else {
-                    setInterval(function () {
-                        if (localStorage.getItem("tracnghiem_layout") != null) {
-                            localStorage.setItem("time_tracnghiem", document.getElementById("timeTN").value);
-                            document.location.replace("/trac-nghiem");
-                            return;
-                        }
-                    }, 10);
-                }
-            });
-
-            function lambai() {
-                var socauTN = new Number(document.getElementById("socauTN").value);
-                var timeTN = new Number(document.getElementById("timeTN").value);
-                const fileTN = document.getElementById("fileTN");
-                var frameTN = document.getElementById("frameTN");
-
+            async function lambai() {
+                var socauTN = Number(document.getElementById("socauTN").value);
+                var timeTN = Number(document.getElementById("timeTN").value);
+                var txtFile = document.getElementById("txtFile");
+            
                 if (socauTN < 1) {
                     alert("Số câu trắc nghiệm cần làm phải có ít nhất một câu !");
                     return;
                 }
-
+            
                 if (timeTN < 1 || timeTN > 1200) {
                     alert("Thời gian làm bài phải tối thiểu 1 phút và tối đa 20 giờ !");
                     return;
                 }
-
-                frameTN.contentWindow.document.getElementById("custom1643").value = socauTN;
-                frameTN.contentWindow.document.getElementById("custom1648").value = timeTN;
-                frameTN.contentWindow.document.getElementById("ok").click();
-                document.getElementById("loadingSpinner").style.display = "";
-                document.getElementById("partTN").style.display = "none";
-                start = false;
-            }
-
-            function uploadfile() {
-                document.getElementById("listFile").style.display = "none";
-                document.getElementById("btnStart").style.display = "none";
-                document.getElementById("waiting").style.display = "inline-block";
-                var frameTN = document.getElementById("frameTN");
-                frameTN.contentWindow.document.getElementsByName("txtFile")[0].click();
-            }
-
-            function hoantattaifile() {
-                var frameTN = document.getElementById("frameTN");
-                var input = frameTN.contentWindow.document.getElementsByName("txtFile")[0];
-                var s = "";
-                for (var i = 0; i < input.files.length; i++) {
-                    s += input.files[i].name;
-                    if (i < input.files.length - 1) {
-                        s += "\n";
+            
+                if (txtFile.files.length <= 0) {
+                    alert("Bạn vẫn chưa tải lên file trắc nghiệm !");
+                    return;
+                }
+            
+                try {            
+                    const formData = new FormData();
+            
+                    formData.append("txtSoCau", socauTN);
+                    formData.append("txtTime", timeTN);
+            
+                    for (let i = 0; i < txtFile.files.length; i++) {
+                        formData.append("txtFile", txtFile.files[i]);
                     }
+            
+                    const response = await fetch("/Home/TracNghiemX_Multiple", {
+                        method: "POST",
+                        body: formData
+                    });
+            
+                    if (!response.ok) {
+                        throw new Error();
+                    }
+            
+                    window.location.href = "/trac-nghiem";
                 }
-                if (s == "") {
-                    s = "Chưa có file được tải lên";
+                catch {
+                    alert("Xử lý thất bại!");
                 }
-                document.getElementById("listFile").textContent = s;
-                document.getElementById("listFile").style.display = "inline-block";
-                document.getElementById("btnStart").style.display = "inline-block";
-                document.getElementById("waiting").style.display = "none";
             }
-
-            const iframeStart = document.getElementById("start");
-
-            iframeStart.addEventListener("load", () => {
-                setTimeout(() => {
-                    iframeStart.remove();
-                }, 60000);
-            });
         </script>
  <script>
 
