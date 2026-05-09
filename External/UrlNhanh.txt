@@ -50,7 +50,7 @@ a:hover
 <br /><br />
 </h2>
 <script>
-function RedirectToUrl(string url)
+function RedirectToUrl(url)
 {
   window.open(
     "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
