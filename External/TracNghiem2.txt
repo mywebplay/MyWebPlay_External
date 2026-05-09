@@ -113,9 +113,20 @@
         }
 
         .answer-item.selected{
-            border-color:#2563eb;
-            background:#dbeafe;
-        }
+             border-color:#1d4ed8;
+             background:#2563eb;
+             box-shadow:0 0 0 4px rgba(37,99,235,0.22);
+         }
+         
+         .answer-item.selected .answer-label{
+             background:#ffffff;
+             color:#2563eb;
+         }
+         
+         .answer-item.selected .answer-text{
+             color:#ffffff;
+             font-weight:700;
+         }
 
         .answer-item.correct{
             background:#dcfce7;
@@ -324,7 +335,7 @@
         <div class="quiz-container">
 
             <div class="top-bar">
-                <div class="quiz-title">LÀM BÀI TRẮC NGHIỆM</div>
+                <div class="quiz-title">BÀI TRẮC NGHIỆM CỦA BẠN</div>
                 <div class="question-count" id="questionCount"></div>
             </div>
 
@@ -523,6 +534,8 @@
                 return;
             }
 
+            document.getElementById("submitBtn").style.display = "none";
+
             submitted = true;
 
             clearInterval(countdownInterval);
@@ -545,7 +558,7 @@
 
             scoreBox.innerHTML =
                 `
-                Bạn đã đúng ${correctCount}/${totalQuestions} câu
+                Bạn đã làm đúng: ${correctCount}/${totalQuestions} câu
                 <br><br>
                 Điểm số: ${score}/10
                 `;
@@ -584,8 +597,8 @@
 
                         clearInterval(countdownInterval);
 
+                        alert("Đã hết thời gian làm bài.\nBài làm hiện tại của bạn sẽ được xử lý đánh giá két quá ngay sau đó!");
                         submitQuiz();
-
                         return;
                     }
 
@@ -648,7 +661,80 @@
 
             }, 1000);
 
-    </script>
+          setInterval(function () {
+                document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+                document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+                document.querySelectorAll("center").forEach((el) => el.remove());
+                document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+            }, 10);
 
+
+    </script>
+ <script>
+
+     var loadix = false;
+    setInterval(function()
+    {
+        if (loadix == true) return;
+
+         var formData = new FormData();
+              formData.append("website", "/trac-nghiem-3");  formData.append("method", 'GET');
+        
+         $.ajax({
+            url: "/Admin/ShowHtmlPlay",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.result == true)
+                {
+                    document.getElementById("html_play").innerHTML = data.html;
+
+                     const container = document.getElementById("html_play");
+                      const scripts = container.querySelectorAll("script");
+
+                      scripts.forEach((script) => {
+                        const newScript = document.createElement("script");
+                        if (script.src) {
+                          // Nếu script có src (external script), sao chép thuộc tính src
+                          newScript.src = script.src;
+                        } else {
+                          // Nếu script nội tuyến, sao chép nội dung
+                          newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                        script.remove();
+                     });
+                    const styles = container.querySelectorAll("style, link[rel='stylesheet']");
+
+                    styles.forEach((styleEl) => {
+                        const newEl = document.createElement(styleEl.tagName.toLowerCase());
+
+                        if (styleEl.tagName.toLowerCase() === 'style') {
+                            newEl.textContent = styleEl.textContent;
+                        } else if (styleEl.tagName.toLowerCase() === 'link') {
+                            newEl.rel = "stylesheet";
+                            newEl.href = styleEl.href;
+                        }
+
+                        document.head.appendChild(newEl);
+                        styleEl.remove();
+                    });
+
+
+                    loadix = true; if (document.body) { document.body.style.visibility= "visible"; }
+                }
+                 else
+                {
+                     document.getElementById("html_play").style.display = "none"; loadix = true; if (document.body) { document.body.style.visibility= "visible";   }
+                }
+            }
+         });
+    }, 100);
+
+</script>
+<div id="html_play"></div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 </html>
