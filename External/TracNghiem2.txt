@@ -125,7 +125,6 @@
          
          .answer-item.selected .answer-text{
              color:black;
-             font-weight:700;
          }
 
         .answer-item.correct{
