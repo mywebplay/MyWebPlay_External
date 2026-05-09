@@ -177,7 +177,7 @@ p{
 
     <p>
       Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng.<br>
-      Để tiếp tục, vui lòng kích hoạt đăng kí xác thực trên thiết bị hoặc trình duyệt hiện tại của bạn để được sử dụng tính năng này.
+      Để tiếp tục, vui lòng kích hoạt đăng kí xác thực trên thiết bị hoặc trình duyệt hiện tại của bạn thường xuyên sử dụng để được sử dụng tính năng này.
     </p>
 
     <a class="action" href="/xac-thuc-1">
