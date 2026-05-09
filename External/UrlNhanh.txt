@@ -21,7 +21,7 @@ a:hover
 </style>
 <h2>
 <br />
-<a href="" onclick="RedirectToUrl('')">[API] Send data to sub web</a>
+<a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4')">[API] Send data to sub web</a>
 <br /><br />
 <a  onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4')">[NORMAL] Send data to sub web</a>
 <br /><br />
