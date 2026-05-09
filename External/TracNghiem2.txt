@@ -350,7 +350,6 @@
         <div class="quiz-container">
 
             <div class="top-bar">
-                <div class="quiz-title">BÀI TRẮC NGHIỆM CỦA BẠN</div>
                 <div class="question-count" id="questionCount"></div>
             </div>
 
@@ -381,7 +380,7 @@
 
     </div>
 
-    <div class="timer-fixed">
+    <div class="timer-fixed" id="timer-fixed">
         <div class="timer-text" id="timerText">00:00:00</div>
     </div>
 
@@ -550,7 +549,7 @@
             }
 
             document.getElementById("submitBtn").style.display = "none";
-
+            document.getElementById("timer-fixed").style.display = "none";
             submitted = true;
 
             clearInterval(countdownInterval);
