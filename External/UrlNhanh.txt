@@ -1,26 +1,55 @@
+<style>
+a
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+a:hover
+{
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+a:active
+{
+    transform: scale(0.98);
+}
+</style>
 <h2>
 <br />
-<a href="http://mywebplayapi.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb" target="_blank">[API] Send data to sub web</a>
+<a href="" onclick="RedirectToUrl('')">[API] Send data to sub web</a>
 <br /><br />
-<a href="http://normalwebbasic.somee.com/Cover/SendDataUserFirstAndRequestToSubWeb" target="_blank">[NORMAL] Send data to sub web</a>
+<a  onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4')">[NORMAL] Send data to sub web</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/save-data-DX" target="_blank">[SUB] Save data DX</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB')">[SUB] Save data DX</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-request-info" target="_blank">[SUB] See request info</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kZtmpLp38TWBL9sJo0sJ2Fc8yVYcRWU2UkI69doFBst')">[SUB] See request info</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-user-in-first" target="_blank">[SUB] See user in first</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5ntiiKH+BKKKeUYec+OV5H7jrlonLLXXjHdUGtxUlHiG')">[SUB] See user in first</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-bug-list" target="_blank">[SUB] See bug list</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5tv4CHDFxFRZUkUIGONVZ64WLqTvEDA7Sc/CUJsclKn/')">[SUB] See bug list</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-mail-log" target="_blank">[SUB] See mail log</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kJ5ure2uKbjp6UtwOgtLBzhsnRSpv942fLRnU2EDvNC')">[SUB] See mail log</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=see-error-log" target="_blank">[SUB] See error log</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kjsxYlSUjWFDUl7b7knQw48CoHpdvvQJh4Az1Z8eLl/')">[SUB] See error log</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=delete-all-temp-bin-2&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm" target="_blank">[SUB] Delete bin for DX</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbJMnMaEqik+IWwYu3itnwguw1ygbqwtVjdLFbymhzoateEOYJawZK7HWVoXeRKwxAfsvNKTtUmgDYtnrB9yftZtoUUJRCWCzLMRS+homJNlJnuSxx5nrTne3v61iuVg1huGuVwtbbU14tT4Lp+mrGnNNFj75VZb6ukcsHKJMR/QBkCeYeXmrbYyEHhPojwnDaZmdMCPzh4BbQO0FRVNFjLnIsBH7hbvG4fdCCqs9rxi8h7VDZbTCkfa1UpuruIllr')">[SUB] Delete bin for DX</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=remove-ip-waiting&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm" target="_blank">[SUB] Remove IP waiting</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuh7eLK2PFN0kcz+91Hxeuge6/OoNkjsnF0940DpGQhWj1rpdQQsNvYpFQyzleSKqNpe4mXbfNkDfDGLWM4Sy18IkRk695GFAtqc9dGNn037f1dWCDoLpaKqhPN8dpjAQIhjtaPg4yINtyIOhXW1reKsqKru7QFZTHWSHLP7tMDkoxPC9XYg3SiBLeS7I0nOwpCkhLXgg0kJeL6rv7oRse6P+4NUc5hGsbPg2FSf6nS24')">[SUB] Remove IP waiting</a>
 <br /><br />
-<a href="http://submywebplay.somee.com/Cover/SeeQueryDX?code=remove-ip-accept&keyX=Lxq0CVTe90IdNousVKwn5Xn/8R/eWBj/a4b+T7rlAegKzcoPDVZVczjDIEaMdvVm" target="_blank">[SUB] Remove IP accept</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb')">[SUB] Remove IP accept</a>
 <br /><br />
 <hr />
 <a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
@@ -30,3 +59,12 @@
 <a href="http://normalwebbasic.somee.com" target="_blank">Normal MyWebPlay</a>
 <br /><br />
 </h2>
+<script>
+function RedirectToUrl(string url)
+{
+  window.open(
+    "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
+    "_blank"
+  );
+}
+</script>
