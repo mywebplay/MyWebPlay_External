@@ -23,7 +23,7 @@ a:hover
 <br />
 <a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4'); return false;">[API] Send data to sub web</a>
 <br /><br />
-<a  onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4'); return false;">[NORMAL] Send data to sub web</a>
+<a  onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMEuDyGW7JKphfIniRme/tZbrEmaDOd93f6WtosJJRUqdgSKlOK2Yk/LMSp7+GP1EQ7e2oMKpCJgpo6/uOCdWUlr/ThhcjnMX+rKhoCMK1o0NA=='); return false;">[NORMAL] Send data to sub web</a>
 <br /><br />
 <a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB'); return false;">[SUB] Save data DX</a>
 <br /><br />
