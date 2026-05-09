@@ -349,7 +349,6 @@
                   border-radius:10px;
                   font-size:15px;
                   font-weight:600;
-                  box-shadow:0 4px 12px rgba(37,99,235,0.25);
                   transition:0.2s;
                "
                onmouseover="this.style.background='#1d4ed8';this.style.transform='translateY(-1px)'"
