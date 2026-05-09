@@ -135,7 +135,7 @@
       
       .answer-item.correct .answer-label{
           background:#22c55e;
-          color:#ffffff;
+          color:black;
       }
       
       .answer-item.wrong{
@@ -145,7 +145,7 @@
       
       .answer-item.wrong .answer-label{
           background:#ef4444;
-          color:#ffffff;
+          color:black;
       }
       
       .answer-item.not-answer{
@@ -155,7 +155,7 @@
       
       .answer-item.not-answer .answer-label{
           background:#fb923c;
-          color:#ffffff;
+          color:black;
       }
 
         .answer-label{
