@@ -124,7 +124,7 @@
          }
          
          .answer-item.selected .answer-text{
-             color:#ffffff;
+             color:black;
              font-weight:700;
          }
 
