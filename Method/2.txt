@@ -24,7 +24,7 @@ body{
 }
 
 .card{
-  max-width:720px;
+  max-width:750px;
   margin:auto;
   background:rgba(255,255,255,0.05);
   backdrop-filter: blur(12px);
@@ -176,7 +176,7 @@ p{
     <h1>Tính năng hiện chưa được kích hoạt</h1>
 
     <p>
-      Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng.<br>
+      Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng hoặc đã hết hạn.<br>
       Để tiếp tục, vui lòng kích hoạt đăng kí xác thực trên thiết bị hoặc trình duyệt hiện tại của bạn thường xuyên sử dụng để được sử dụng tính năng này.
     </p>
 
