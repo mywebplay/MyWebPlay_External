@@ -951,7 +951,7 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                Hiện tại, trên mạng cũng có khá nhiều tiện ích giúp tách riêng giọng ca sĩ và nhạc, chỉ có điều là thiếu chèn hiển thị nội dung text karaoke và tiến trình tô màu chữ chạy theo nhịp của bài hát.
+                Hiện tại, trên mạng cũng có khá nhiều tiện ích giúp tách riêng giọng ca sĩ và nhạc, chỉ có điều là thiếu xử lý chèn hiển thị nội dung text karaoke và tiến trình tô màu chữ chạy theo nhịp của bài hát.
             </p>
 
             <p>
