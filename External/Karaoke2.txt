@@ -927,7 +927,7 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                - Tiện ích hát Karaoke của MyWebPlay không phải và cũng không giống so với các tiện ích hát karake tương tự khác mà bạn đã thấy trên internet.
+                - Tiện ích hát Karaoke của MyWebPlay không phải và cũng không giống so với các tiện ích hát karaoke tương tự khác mà bạn đã thấy trên internet.
                 Hệ thống MyWebPlay không có làm sẵn các list karaoke cụ thể, các bài hát trending, các bài hát hot và đang thịnh hành.
             </p>
 
