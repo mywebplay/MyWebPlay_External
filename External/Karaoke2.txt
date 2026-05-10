@@ -961,7 +961,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 <br />
                 <strong>4.</strong> Bạn phải tự thủ công sync thời gian và canh chuẩn tô màu từng chữ karaoke theo nhịp và tiến độ của bài hát.
                 <br />
-                <strong>5.</strong> Hệ thống sẽ xử lý và tạo ra file karaoke cho bạn (bạn có thể sử dụng nó để play Karaoke và việc tiến trình hiển thị các đoạn text tại các thời điểm, tiến trình tô màu chữ theo nhịp nhạc sẽ được tự động và tuân theo nội dung file karaoke mà bạn đã thực hiện).
+                <strong>5.</strong> Hệ thống sẽ xử lý và tạo ra file karaoke cho bạn (bạn có thể sử dụng nó để play Karaoke và việc tiến trình hiển thị các đoạn text tại các thời điểm, tiến trình tô màu chữ theo nhịp nhạc sẽ được xử lí tự động và tuân theo nội dung file karaoke mà bạn đã thực hiện).
             </p>
 
             <p class="mwk-thank-you-text">
