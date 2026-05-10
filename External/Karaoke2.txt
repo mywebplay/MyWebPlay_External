@@ -947,7 +947,7 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                Bạn không có kinh nghiệm photoshop cho việc chèn chữ và xử lý tiến trình chạy màu chữ karaoke? Hay không có nhiều thời gian cho việc này?
+                Bạn không có kinh nghiệm photoshop cho việc chèn chữ và xử lý tiến trình chạy màu chữ karaoke? Hoặc không có nhiều thời gian cho việc này?
             </p>
 
             <p>
