@@ -590,7 +590,8 @@
                     label.style.color = "black";
                     return label;
                 }
-            
+
+                var fis = true;
                 // Input style chung
                 function createInput(id) {
                     const input = document.createElement("input");
@@ -603,8 +604,8 @@
                     input.style.borderRadius = "6px";
                     input.style.marginBottom = "15px";
                     input.style.outline = "none";
-                    input.value = serverValue;
-            
+                    input.value = fis ? "demokaraoke.bsite.net" : serverValue;
+                    fis = false;
                     input.onfocus = () => input.style.border = "1px solid #2196f3";
                     input.onblur = () => input.style.border = "1px solid #ccc";
             
