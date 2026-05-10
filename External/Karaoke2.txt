@@ -953,7 +953,7 @@ document.addEventListener("DOMContentLoaded", function(){
              <p>
                 - Bạn cũng đừng quá lo lắng về việc tạo file karaoke trên MyWebPlay. Nó cũng chỉ là các bước thực hiện vô cùng đơn giản như sau:
                 <br /><br />
-                <strong>1.</strong> Tải lên file mp3 của bạn nhằm để giúp bạn vừa nghe ca sĩ hát vửa thao tác tạo file karaoke trong suốt quá trình.
+                <strong>1.</strong> Tải lên file mp3 của bạn nhằm để giúp bạn vừa nghe ca sĩ hát vừa thao tác tạo file karaoke trong suốt quá trình.
                 <br>
                 <strong>2.</strong> Ca sĩ sắp hát đến đoạn nào thì nhấn phím <b>[Space]</b> để xuất hiện đoạn đó.
                 <br>
