@@ -66,9 +66,8 @@
             }
             
             /* Close button */
-            .mwk-close-intro-btn{
+            .mwk-close-intro-btn {
                 position: absolute;
-            
                 top: 12px;
                 right: 15px;
             
@@ -78,14 +77,19 @@
                 border: none;
                 border-radius: 50%;
             
-                background: #f2f2f2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             
+                padding: 0;
+                line-height: 1;
+            
+                background: #f2f2f2;
                 color: #333;
             
                 font-size: 28px;
             
                 cursor: pointer;
-            
                 transition: 0.2s;
             }
             
@@ -924,11 +928,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
             <p>
                 - Tiện ích hát Karaoke của MyWebPlay không phải và cũng không giống so với các tiện ích hát karake tương tự khác mà bạn đã thấy trên internet.
-                Hệ thống không có làm sẵn các list karaoke cụ thể, các bài hát trending, hot và thịnh hành.
+                Hệ thống MyWebPlay không có làm sẵn các list karaoke cụ thể, các bài hát trending, các bài hát hot và đang thịnh hành.
             </p>
 
             <p>
-                - Nếu bạn muốn hát karake trên MyWebPlay, bạn phải tự tải lên bài hát của bạn và tự tạo/sử dụng file Karaoke cá nhân (đây là nhược điểm của tiện ích này).
+                - Nếu bạn muốn hát karake trên MyWebPlay, bạn phải tự tải lên bài hát của bạn và tự tạo + sử dụng file Karaoke cá nhân.
+                <br />
+                <b>(đây là nhược điểm của tiện ích này)</b>
             </p>
 
             <p class="mwk-blue-highlight-text">
@@ -937,8 +943,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
             <p>
                 <strong>1.</strong> Các bài hát hot, thịnh hành hiện nay thì chỉ cần không ít ngày là nhà sản xuất sẽ tung ra phiên bản karake của bài hát đó.
-                <br><br>
-                => Lúc đó, bài hát này đã có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay)
+                <br>
+                Mb>=> Lúc đó, bài hát này đã có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay nữa)</b>
             </p>
 
             <p>
@@ -954,7 +960,7 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                => Và đó là lý do tính năng hát Karaoke của MyWebPlay được ra mắt.
+                <b>=> Và đó là lý do tính năng hát Karaoke của MyWebPlay được ra mắt.</b>
             </p>
 
             <p>
