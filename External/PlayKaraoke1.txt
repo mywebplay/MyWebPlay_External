@@ -889,10 +889,10 @@
               playmute = 0;
               document.getElementById("muteplay").play();
           }
-          
+
+/*
           if (localStorage.getItem("youtube_LinkKaraoke") == null) {
               var xs = 0;
-          
               setInterval(function () {
                   xs++;
                   var n = new Number("15");
@@ -901,6 +901,7 @@
                   document.getElementById("myVideo").src = "/karaoke_Example/background/" + (xs + 1) + ".jpg";
               }, 5000);
           }
+*/
           
           var useMauNen = 0;
           
@@ -2816,7 +2817,7 @@
             </table>
          </div>
          <div id="phanphoi">
-            <img src="/karaoke_Example/background/3.jpg" id="myVideo" class="sqs-html5-video" style="opacity: 0.8;">
+            <img src="https://mywebplay.github.io/images/karaoke-play.png" id="myVideo" class="sqs-html5-video" style="opacity: 0.8;">
          </div>
       </div>
       <div id="ajax_papa">
