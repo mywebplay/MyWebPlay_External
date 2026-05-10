@@ -952,14 +952,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
              <p>
                 - Bạn cũng đừng quá lo lắng về việc tạo file karaoke trên MyWebPlay. Nó cũng chỉ là các bước thực hiện vô cùng đơn giản như sau:
-                <br />
-                <strong>1.</strong> Tải lên file mp3 của bạn nhằm để giúp bạn vừa nghe ca sĩ hát vửa thao tác trong suốt quá trình.
+                <br /><br />
+                <strong>1.</strong> Tải lên file mp3 của bạn nhằm để giúp bạn vừa nghe ca sĩ hát vửa thao tác tạo file karaoke trong suốt quá trình.
                 <br>
-                <strong>2.</strong> Ca sĩ sắp hát đến đoạn nào thì nhấn phím [Space] để xuất hiện đoạn đó.
+                <strong>2.</strong> Ca sĩ sắp hát đến đoạn nào thì nhấn phím <b>[Space]</b> để xuất hiện đoạn đó.
                 <br>
-                <strong>3.</strong> Ca sĩ đang hát đến từ nào trong đoạn thì nhấn phím [Enter] để tô màu cho từ đó (đối với những từ được ca sĩ hát và kéo/ngân thanh quãng dài ra thì nên đợi ca sĩ hát xong từ đó và mới nhấn [Enter] để tô màu chữ cho từ đó).
+                <strong>3.</strong> Ca sĩ đang hát đến từ nào trong đoạn thì nhấn phím <b>[Enter]</b> để tô màu cho từ đó (đối với những từ được ca sĩ hát và kéo/ngân thanh quãng dài ra thì nên đợi ca sĩ hát xong từ đó và mới nhấn <b>[Enter]</b> để tô màu chữ cho từ đó).
                 <br />
-                <strong>4.</strong> Bạn phải tự thủ công sync thời gian và canh chuẩn tô màu từng chữ karaoke theo nhịp của bài hát.
+                <strong>4.</strong> Bạn phải tự thủ công sync thời gian và canh chuẩn tô màu từng chữ karaoke theo nhịp và tiến độ của bài hát.
                 <br />
                 <strong>5.</strong> Hệ thống sẽ xử lý và tạo ra file karaoke cho bạn (bạn có thể sử dụng nó để play Karaoke và việc tiến trình hiển thị các đoạn text tại các thời điểm, tiến trình tô màu chữ theo nhịp nhạc sẽ được tự động và tuân theo nội dung file karaoke mà bạn đã thực hiện).
             </p>
