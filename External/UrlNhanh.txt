@@ -43,6 +43,8 @@ a:hover
 <br /><br />
 <a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb'); return false;">[SUB] Remove IP accept</a>
 <br /><br />
+<a onclick="RedirectToUrl2('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisp2ztVNUxehbdNgULz/eWBBN2LmOSecJe4VVgSQg79fZCtv2Py5sg+PqfifJVjUfwJOgIzCH94cKJrfML7UEhS9rUMb+hdsD6JVO2/2I3bzHElYQsSa7FNfRfufeV1iGZ91r4z3SiYwKnNCxerq7hDMend6NwQ3ihSyRr61lxjPnEd192jAvezGZuITtGcNeccrWKGk4QwYYI05H3c6mvZ0='); return false;">[SUB] CLEAR AND REFRESH DX</a>
+<br /><br />
 <hr />
 <a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
 <br /><br />
@@ -54,6 +56,16 @@ a:hover
 <script>
 function RedirectToUrl(url)
 {
+  window.open(
+    "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
+    "_blank"
+  );
+}
+
+function RedirectToUrl2(url)
+{
+ var con = confirm('Bạn có chắc chắn không?');
+ if (con == false) return;
   window.open(
     "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
     "_blank"
