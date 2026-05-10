@@ -854,38 +854,47 @@
 
 </script>
 <script>
-const mwkOpenBtn = document.getElementById("mwk_open_intro_service_btn");
-const mwkCloseBtn = document.getElementById("mwk_close_intro_service_btn");
-const mwkModalOverlay = document.getElementById("mwk_intro_service_overlay");
+document.addEventListener("DOMContentLoaded", function(){
 
-/* Open modal */
-mwkOpenBtn.addEventListener("click", function(e){
+    const mwkOpenBtn = document.getElementById("mwk_open_intro_service_btn");
+    const mwkCloseBtn = document.getElementById("mwk_close_intro_service_btn");
+    const mwkModalOverlay = document.getElementById("mwk_intro_service_overlay");
 
-    e.preventDefault();
+    /* Kiểm tra tồn tại */
+    if(!mwkOpenBtn || !mwkCloseBtn || !mwkModalOverlay){
+        console.error("Không tìm thấy element modal.");
+        return;
+    }
 
-    mwkModalOverlay.classList.add("mwk-active");
+    /* Open modal */
+    mwkOpenBtn.addEventListener("click", function(e){
 
-    /* khóa scroll background */
-    document.body.style.overflow = "hidden";
-});
+        e.preventDefault();
 
-/* Close modal */
-mwkCloseBtn.addEventListener("click", function(){
+        mwkModalOverlay.classList.add("mwk-active");
 
-    mwkModalOverlay.classList.remove("mwk-active");
+        document.body.style.overflow = "hidden";
+    });
 
-    document.body.style.overflow = "auto";
-});
-
-/* Click outside modal => close */
-mwkModalOverlay.addEventListener("click", function(e){
-
-    if(e.target === mwkModalOverlay){
+    /* Close modal */
+    mwkCloseBtn.addEventListener("click", function(){
 
         mwkModalOverlay.classList.remove("mwk-active");
 
         document.body.style.overflow = "auto";
-    }
+    });
+
+    /* Click outside => close */
+    mwkModalOverlay.addEventListener("click", function(e){
+
+        if(e.target === mwkModalOverlay){
+
+            mwkModalOverlay.classList.remove("mwk-active");
+
+            document.body.style.overflow = "auto";
+        }
+
+    });
 
 });
 </script>
