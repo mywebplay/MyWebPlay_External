@@ -471,7 +471,7 @@
             <br />
             <p><b>🎨 Sử dụng ngẫu nhiên ảnh/video làm background karaoke :</b></p>
             <select id="sChon" onchange="selectedBackground()">
-                <option>Sử dụng ngẫu nhiên ảnh/background có sẵn trên hệ thống - vòng lặp theo thứ tự</option>
+                <option>Sử dụng ảnh có sẵn của hệ thống để làm background</option>
                 <option>Nhập link video Youtube online bạn muốn làm background</option>
             </select>
             <input id="txtLinkBackground" style="display: none;" type="text" placeholder="Nhập link online background của bạn thực hiện karaoke..." class="custom-input" />
