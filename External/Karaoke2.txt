@@ -462,7 +462,7 @@
                 <a href="/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
                 <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a><br />
                 <a href="#" id="mwk_open_intro_service_btn">
-                    Xem giới thiệu dịch vụ
+                    Giới thiệu về tính năng này
                 </a>
             </p>
             <br />
