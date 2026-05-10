@@ -911,7 +911,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         <!-- Tiêu đề -->
         <h2 class="mwk-intro-service-title">
-            GIỚI THIỆU DỊCH VỤ
+            GIỚI THIỆU VỀ TÍNH NĂNG
         </h2>
 
         <!-- Nội dung -->
