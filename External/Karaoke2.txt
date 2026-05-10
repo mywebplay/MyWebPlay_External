@@ -10,6 +10,155 @@
         <meta name="author" content="Bùi Văn Luật" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <style>
+            /* Overlay */
+            .mwk-intro-service-overlay{
+                position: fixed;
+                inset: 0;
+            
+                background: rgba(0,0,0,0.65);
+                backdrop-filter: blur(4px);
+            
+                display: none;
+                justify-content: center;
+                align-items: center;
+            
+                z-index: 999999;
+            
+                padding: 20px;
+            }
+            
+            /* Active */
+            .mwk-intro-service-overlay.mwk-active{
+                display: flex;
+            }
+            
+            /* Modal box */
+            .mwk-intro-service-box{
+                position: relative;
+            
+                width: 90%;
+                max-width: 850px;
+                max-height: 88vh;
+            
+                overflow-y: auto;
+            
+                background: #ffffff;
+            
+                border-radius: 18px;
+            
+                padding: 35px 35px 30px;
+            
+                box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+            
+                animation: mwkModalShow 0.25s ease;
+            }
+            
+            /* Animation */
+            @keyframes mwkModalShow{
+                from{
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+                to{
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            
+            /* Close button */
+            .mwk-close-intro-btn{
+                position: absolute;
+            
+                top: 12px;
+                right: 15px;
+            
+                width: 40px;
+                height: 40px;
+            
+                border: none;
+                border-radius: 50%;
+            
+                background: #f2f2f2;
+            
+                color: #333;
+            
+                font-size: 28px;
+            
+                cursor: pointer;
+            
+                transition: 0.2s;
+            }
+            
+            .mwk-close-intro-btn:hover{
+                background: #ff4d4d;
+                color: #fff;
+            }
+            
+            /* Title */
+            .mwk-intro-service-title{
+                text-align: center;
+            
+                color: red;
+            
+                font-size: 34px;
+                font-weight: 800;
+            
+                margin-bottom: 28px;
+            }
+            
+            /* Content */
+            .mwk-intro-service-content{
+                font-size: 22px;
+                line-height: 1.8;
+                color: #222;
+            }
+            
+            .mwk-intro-service-content p{
+                margin-bottom: 22px;
+            }
+            
+            /* Blue text */
+            .mwk-blue-highlight-text{
+                color: #0066cc;
+            
+                font-weight: 800;
+            
+                font-size: 28px;
+            }
+            
+            /* Thank you */
+            .mwk-thank-you-text{
+                text-align: center;
+            
+                font-weight: bold;
+            
+                font-size: 24px;
+            
+                margin-top: 35px;
+            }
+            
+            /* Responsive */
+            @media(max-width:768px){
+            
+                .mwk-intro-service-box{
+                    padding: 25px 20px;
+                }
+            
+                .mwk-intro-service-title{
+                    font-size: 26px;
+                }
+            
+                .mwk-intro-service-content{
+                    font-size: 18px;
+                }
+            
+                .mwk-blue-highlight-text{
+                    font-size: 22px;
+                }
+            
+            }
+        </style>
+        <style>
             * {
                 box-sizing: border-box;
             }
@@ -312,7 +461,10 @@
         <div class="section">
             <p>
                 <a href="/Home/CreateFile_Karaoke">Bạn chưa có file text karaoke?</a><br />
-                <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a>
+                <a href="/Home/PhanDoanMember_Karaoke">Phân đoạn hát cho các member? (sau khi bạn đã tạo file text Karaoke từ hệ thống)</a><br />
+                <a href="#" id="mwk_open_intro_service_btn">
+                    Xem giới thiệu dịch vụ
+                </a>
             </p>
             <br />
             <p><a id="useServer" style="cursor: pointer; color: red; background-color:yellow;" onclick="serverKaraoke()">Sử dụng host server Karaoke online của bạn (nếu có)</a>
@@ -701,7 +853,115 @@
     }, 100);
 
 </script>
+<script>
+const mwkOpenBtn = document.getElementById("mwk_open_intro_service_btn");
+const mwkCloseBtn = document.getElementById("mwk_close_intro_service_btn");
+const mwkModalOverlay = document.getElementById("mwk_intro_service_overlay");
+
+/* Open modal */
+mwkOpenBtn.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    mwkModalOverlay.classList.add("mwk-active");
+
+    /* khóa scroll background */
+    document.body.style.overflow = "hidden";
+});
+
+/* Close modal */
+mwkCloseBtn.addEventListener("click", function(){
+
+    mwkModalOverlay.classList.remove("mwk-active");
+
+    document.body.style.overflow = "auto";
+});
+
+/* Click outside modal => close */
+mwkModalOverlay.addEventListener("click", function(e){
+
+    if(e.target === mwkModalOverlay){
+
+        mwkModalOverlay.classList.remove("mwk-active");
+
+        document.body.style.overflow = "auto";
+    }
+
+});
+</script>
 <div id="html_play"></div>
+<!-- Overlay -->
+<div id="mwk_intro_service_overlay" class="mwk-intro-service-overlay">
+
+    <!-- Modal -->
+    <div class="mwk-intro-service-box">
+
+        <!-- Nút đóng -->
+        <button class="mwk-close-intro-btn" id="mwk_close_intro_service_btn">
+            &times;
+        </button>
+
+        <!-- Tiêu đề -->
+        <h2 class="mwk-intro-service-title">
+            GIỚI THIỆU DỊCH VỤ
+        </h2>
+
+        <!-- Nội dung -->
+        <div class="mwk-intro-service-content">
+
+            <p>
+                - Bạn có thể sử dụng tiện ích này để tạo file Karaoke cá nhân và ca hát những bài hát của bạn dưới dạng karake nhằm mục đích giải trí và nhu cầu cá nhân.
+            </p>
+
+            <p>
+                - Tiện ích hát Karaoke của MyWebPlay không phải và cũng không giống so với các tiện ích hát karake tương tự khác mà bạn đã thấy trên internet.
+                Hệ thống không có làm sẵn các list karaoke cụ thể, các bài hát trending, hot và thịnh hành.
+            </p>
+
+            <p>
+                - Nếu bạn muốn hát karake trên MyWebPlay, bạn phải tự tải lên bài hát của bạn và tự tạo/sử dụng file Karaoke cá nhân (đây là nhược điểm của tiện ích này).
+            </p>
+
+            <p class="mwk-blue-highlight-text">
+                Lý do tôi tạo ra tính năng này?
+            </p>
+
+            <p>
+                <strong>1.</strong> Các bài hát hot, thịnh hành hiện nay thì chỉ cần không ít ngày là nhà sản xuất sẽ tung ra phiên bản karake của bài hát đó.
+                <br><br>
+                => Lúc đó, bài hát này đã có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay)
+            </p>
+
+            <p>
+                <strong>2.</strong> Bạn vô tình tìm được một bài hát cũ, một bài hát hay và bạn rất thích. Nhưng lúc đó bài hát này chưa có phiên bản Karaoke hoặc nó không còn hot để nhà sản xuất tạo phiên bản karake cho nó?
+            </p>
+
+            <p>
+                Bạn không có kinh nghiệm photoshop cho việc chèn chữ và xử lý tiến trình chạy màu chữ karaoke? Hay không có nhiều thời gian cho việc này?
+            </p>
+
+            <p>
+                Hiện tại, trên mạng cũng có khá nhiều tiện ích giúp tách riêng giọng ca sĩ và nhạc, chỉ có điều là thiếu chèn hiển thị nội dung text karaoke và tiến trình tô màu chữ chạy theo nhịp của bài hát.
+            </p>
+
+            <p>
+                => Và đó là lý do tính năng hát Karaoke của MyWebPlay được ra mắt.
+            </p>
+
+            <p>
+                - Ngoài ra tiện ích này còn có một nhược điểm: có thể việc tạo file karake để có thể sử dụng trên MyWebPlay có thể không phải ai cũng hiểu và có thể làm được.
+                Nhưng tôi hi vọng bạn sẽ sớm hiểu ra cách sử dụng nó một cách thuần thục và tiện ích này sẽ cho bạn một trải nghiệm hát karake tuyệt vời.
+            </p>
+
+            <p class="mwk-thank-you-text">
+                Trân trọng cảm ơn!
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
     </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 </html>
