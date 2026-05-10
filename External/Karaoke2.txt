@@ -944,7 +944,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <p>
                 <strong>1.</strong> Các bài hát hot, thịnh hành hiện nay thì chỉ cần không ít ngày là nhà sản xuất sẽ tung ra phiên bản karake của bài hát đó.
                 <br>
-                Mb>=> Lúc đó, bài hát này đã có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay nữa)</b>
+                <b>=> Lúc đó, bài hát này sẽ có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay nữa)</b>
             </p>
 
             <p>
