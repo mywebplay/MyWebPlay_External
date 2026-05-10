@@ -905,7 +905,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <div class="mwk-intro-service-content">
 
             <p>
-                - Bạn có thể sử dụng tiện ích này để tạo file Karaoke cá nhân và ca hát những bài hát của bạn dưới dạng karake nhằm mục đích giải trí và nhu cầu cá nhân.
+                - Bạn có thể sử dụng tiện ích này để tạo file Karaoke cá nhân và ca hát những bài hát của bạn dưới dạng karaoke nhằm mục đích giải trí và nhu cầu cá nhân.
             </p>
 
             <p>
@@ -914,7 +914,7 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                - Nếu bạn muốn hát karake trên MyWebPlay, bạn phải tự tải lên bài hát của bạn và tự tạo + sử dụng file Karaoke cá nhân.
+                - Nếu bạn muốn hát karaoke trên MyWebPlay, bạn phải tự tải lên bài hát của bạn và tự tạo + sử dụng file Karaoke cá nhân.
                 <br />
                 <b>(đây là nhược điểm của tiện ích này)</b>
             </p>
@@ -924,17 +924,17 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                <strong>1.</strong> Các bài hát hot, thịnh hành hiện nay thì chỉ cần không ít ngày là nhà sản xuất sẽ tung ra phiên bản karake của bài hát đó.
+                <strong>1.</strong> Các bài hát hot, thịnh hành hiện nay thì chỉ cần không ít ngày là nhà sản xuất sẽ tung ra phiên bản karaoke của bài hát đó.
                 <br>
                 <b>=> Lúc đó, bài hát này sẽ có phiên bản karaoke và giúp bạn có thể trải nghiệm ca hát (không cần sử dụng tiện ích của MyWebPlay nữa)</b>
             </p>
 
             <p>
-                <strong>2.</strong> Bạn vô tình tìm được một bài hát cũ, một bài hát hay và bạn rất thích. Nhưng lúc đó bài hát này chưa có phiên bản Karaoke hoặc nó không còn hot để nhà sản xuất tạo phiên bản karake cho nó?
+                <strong>2.</strong> Bạn vô tình tìm được một bài hát cũ, một bài hát hay và bạn rất thích. Nhưng lúc đó bài hát này chưa có phiên bản Karaoke hoặc nó không còn hot để nhà sản xuất tạo phiên bản karaoke cho nó?
             </p>
 
             <p>
-                Bạn không có kinh nghiệm photoshop cho việc chèn chữ và xử lý tiến trình chạy màu chữ karaoke? Hoặc không có nhiều thời gian cho việc này?
+                Bạn không có kinh nghiệm photoshop cho việc chèn chữ và xử lý tiến trình chạy màu chữ karaoke? Hoặc không tìm được tiện ích khác hỗ trợ?
             </p>
 
             <p>
@@ -946,8 +946,22 @@ document.addEventListener("DOMContentLoaded", function(){
             </p>
 
             <p>
-                - Ngoài ra tiện ích này còn có một nhược điểm: có thể việc tạo file karake để có thể sử dụng trên MyWebPlay có thể không phải ai cũng hiểu và có thể làm được.
-                Nhưng tôi hi vọng bạn sẽ sớm hiểu ra cách sử dụng nó một cách thuần thục và tiện ích này sẽ cho bạn một trải nghiệm hát karake tuyệt vời.
+                - Ngoài ra tiện ích này còn có một nhược điểm: có thể việc tạo file karaoke để có thể sử dụng trên MyWebPlay có thể không phải ai cũng hiểu và có thể làm được.
+                Nhưng tôi hi vọng bạn sẽ sớm hiểu ra cách sử dụng nó một cách thuần thục và tiện ích này sẽ cho bạn một trải nghiệm hát karaoke tuyệt vời.
+            </p>
+
+             <p>
+                - Bạn cũng đừng quá lo lắng về việc tạo file karaoke trên MyWebPlay. Nó cũng chỉ là các bước thực hiện vô cùng đơn giản như sau:
+                <br />
+                <strong>1.</strong> Tải lên file mp3 của bạn nhằm để giúp bạn vừa nghe ca sĩ hát vửa thao tác trong suốt quá trình.
+                <br>
+                <strong>2.</strong> Ca sĩ sắp hát đến đoạn nào thì nhấn phím [Space] để xuất hiện đoạn đó.
+                <br>
+                <strong>3.</strong> Ca sĩ đang hát đến từ nào trong đoạn thì nhấn phím [Enter] để tô màu cho từ đó (đối với những từ được ca sĩ hát và kéo/ngân thanh quãng dài ra thì nên đợi ca sĩ hát xong từ đó và mới nhấn [Enter] để tô màu chữ cho từ đó).
+                <br />
+                <strong>4.</strong> Bạn phải tự thủ công sync thời gian và canh chuẩn tô màu từng chữ karaoke theo nhịp của bài hát.
+                <br />
+                <strong>5.</strong> Hệ thống sẽ xử lý và tạo ra file karaoke cho bạn (bạn có thể sử dụng nó để play Karaoke và việc tiến trình hiển thị các đoạn text tại các thời điểm, tiến trình tô màu chữ theo nhịp nhạc sẽ được tự động và tuân theo nội dung file karaoke mà bạn đã thực hiện).
             </p>
 
             <p class="mwk-thank-you-text">
