@@ -67,7 +67,7 @@
             
             /* Close button */
             .mwk-close-intro-btn {
-                position: absolute;
+                position: fixed;
                 top: 12px;
                 right: 15px;
             
@@ -882,19 +882,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         document.body.style.overflow = "auto";
     });
-
-    /* Click outside => close */
-    mwkModalOverlay.addEventListener("click", function(e){
-
-        if(e.target === mwkModalOverlay){
-
-            mwkModalOverlay.classList.remove("mwk-active");
-
-            document.body.style.overflow = "auto";
-        }
-
-    });
-
 });
 </script>
 <div id="html_play"></div>
