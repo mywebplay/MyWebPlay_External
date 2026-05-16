@@ -364,6 +364,9 @@
             <button id="btnStart" onclick="lambai()">Bắt đầu làm bài</button>
         </div>
         <script>
+document.documentElement.style.overflow = 'auto';
+document.body.style.overflow = 'auto';
+
             document.getElementById("txtFile").addEventListener("change", function () {
                 const files = this.files;
                 const listFile = document.getElementById("listFile");
