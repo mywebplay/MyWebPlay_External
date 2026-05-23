@@ -43,7 +43,7 @@ a:hover
 <br /><br />
 <a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb'); return false;">[SUB] Remove IP accept</a>
 <br /><br />
-<a onclick="RedirectToUrl2('cb6qJhPgZGKvZmJT3UimaVXR5l7fCNuQCe/bw3dK/Jo5/UbiEN4qGu/x+Oxy2bCk04aBzm+Vle4hL4M4uqijCa+y7VIosYIvAFqwNPtO9Dmb1T4E26EQpySxfR0/kcqYIXF0gUuL3CcFmzzQgCf9JuTS7iPJWxlDcPUo2B4nK9iqz4CsCj82zL7fJBySkc2B/1fcvB7njMK2EQLUb3n59+DZoZj7Sg/JJfwB245o9rSNkFQsSW3DNDxKH7xbj+ypxGbHH+iXaFyVRyz+2UfcaqqWzVJtJzMDYvH7xXdqi+vesgojhq/ocjeD2h0Zdcn08YxLhCE6g2KacJg9ipTj8g=='); return false;">[SUB] CLEAR AND REFRESH DX</a>
+<a onclick="RedirectToUrl2('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisp2ztVNUxehbdNgULz/eWBBN2LmOSecJe4VVgSQg79fZCtv2Py5sg+PqfifJVjUfwIjx/WN5UwHBSiscxuR1xRlE6ksjAEBwS0zoEIp7ggh5sP/rn4vFuIUwWF156Wn7v6ltRX58eDijoZKOlQ3JQ60tLI1rSs+umzD+cBS4pyMnk89g8MpebMZ+rFnmvwdmhA=='); return false;">[SUB] CLEAR AND REFRESH DX</a>
 <br /><br />
 <hr />
 <a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
