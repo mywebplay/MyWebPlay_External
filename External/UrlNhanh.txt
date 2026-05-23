@@ -31,7 +31,7 @@ a:hover
 <br /><br />
 <a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5ntiiKH+BKKKeUYec+OV5H7jrlonLLXXjHdUGtxUlHiG'); return false;">[SUB] See user in first</a>
 <br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5tv4CHDFxFRZUkUIGONVZ64WLqTvEDA7Sc/CUJsclKn/'); return false;">[SUB] See bug list</a>
+<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5tv4CHDFxFRZUkUIGONVZ671gI/cQsYot53bz3jRoa2CIn1Jxt5fEtKhtNOgZdUyhr3BFyyIDlP7xcucoZ6lc/8='); return false;">[SUB] See bug list</a>
 <br /><br />
 <a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kJ5ure2uKbjp6UtwOgtLBzhsnRSpv942fLRnU2EDvNC'); return false;">[SUB] See mail log</a>
 <br /><br />
