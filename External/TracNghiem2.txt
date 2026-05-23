@@ -611,7 +611,7 @@
 
                         clearInterval(countdownInterval);
 
-                        alert("Đã hết thời gian làm bài.\nBài làm hiện tại của bạn sẽ được xử lý đánh giá két quá ngay sau đó!");
+                        alert("Đã hết thời gian làm bài.\nBài làm hiện tại của bạn sẽ được xử lý đánh giá kết quả ngay sau đó!");
                         submitQuiz();
                         return;
                     }
