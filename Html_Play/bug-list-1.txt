@@ -156,6 +156,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "burlywood";
       }
   }
@@ -164,6 +165,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "cornflowerblue";
       }
   }
@@ -172,6 +174,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "darkgoldenrod";
       }
   }
@@ -180,6 +183,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "chartreuse";
       }
   }
@@ -188,6 +192,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "darkgrey";
       }
   }
@@ -196,6 +201,7 @@ function showPart() {
   {
       for (var i = 0; i < indes.length; i++)
       {
+        if (document.getElementById("tr_"+ indes[i]) == null) continue;
         document.getElementById("tr_"+ indes[i]).style.backgroundColor = "coral";
       }
   }
