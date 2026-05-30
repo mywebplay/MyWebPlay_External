@@ -1,0 +1,160 @@
+<!-- Thiết kế mở rộng/thu gọn textarea  -->
+<style>
+textarea {
+    min-width: 200px;
+    min-height: 100px;
+
+    resize: none;
+    overflow: auto;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+textarea.textarea-resizing {
+    user-select: none;
+}
+
+.textarea-resize-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.textarea-resize-handle {
+    position: absolute;
+
+    right: 2px;
+    bottom: 2px;
+
+    width: 16px;
+    height: 16px;
+
+    cursor: nwse-resize;
+
+    opacity: 0;
+    z-index: 999;
+
+    transition: opacity .15s ease;
+}
+
+.textarea-resize-wrapper:hover .textarea-resize-handle {
+    opacity: 1;
+}
+
+.textarea-resize-handle::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            transparent 45%,
+            #888 45%,
+            #888 55%,
+            transparent 55%
+        );
+}
+
+textarea.textarea-resizing,
+textarea:hover {
+    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+}
+</style>
+<script>
+(() => {
+
+    const MIN_WIDTH = 200;
+    const MIN_HEIGHT = 100;
+
+    function makeResizable(textarea) {
+
+        if (textarea.dataset.resizeInitialized) return;
+
+        textarea.dataset.resizeInitialized = "1";
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "textarea-resize-wrapper";
+
+        textarea.parentNode.insertBefore(wrapper, textarea);
+        wrapper.appendChild(textarea);
+
+        const handle = document.createElement("div");
+        handle.className = "textarea-resize-handle";
+
+        wrapper.appendChild(handle);
+
+        let resizing = false;
+        let startX = 0;
+        let startY = 0;
+        let startWidth = 0;
+        let startHeight = 0;
+
+        handle.addEventListener("mousedown", (e) => {
+
+            e.preventDefault();
+
+            resizing = true;
+
+            startX = e.clientX;
+            startY = e.clientY;
+
+            startWidth = textarea.offsetWidth;
+            startHeight = textarea.offsetHeight;
+
+            textarea.classList.add("textarea-resizing");
+
+            document.body.style.cursor = "nwse-resize";
+            document.body.style.userSelect = "none";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+
+            if (!resizing) return;
+
+            const width = Math.max(
+                MIN_WIDTH,
+                startWidth + (e.clientX - startX)
+            );
+
+            const height = Math.max(
+                MIN_HEIGHT,
+                startHeight + (e.clientY - startY)
+            );
+
+            textarea.style.width = width + "px";
+            textarea.style.height = height + "px";
+        });
+
+        document.addEventListener("mouseup", () => {
+
+            if (!resizing) return;
+
+            resizing = false;
+
+            textarea.classList.remove("textarea-resizing");
+
+            document.body.style.cursor = "";
+            document.body.style.userSelect = "";
+        });
+    }
+
+    function init() {
+        document
+            .querySelectorAll("textarea")
+            .forEach(makeResizable);
+    }
+
+    init();
+
+    new MutationObserver(() => {
+        init();
+    }).observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+})();
+</script>
