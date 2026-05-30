@@ -144,7 +144,7 @@
     }
 
  function showNoBug() {
-        alert("Xác nhận đây không phải là bug hoặc là do setting sai.\n(hoặc đề xuất sai kết quả mong muốn)");
+        alert("Xác nhận đây không phải là bug hoặc là do setting sai.\n.Hoặc là do có sự tác động từ bên ngoài được bổ sung làm xung đột chức năng và phát sinh BUG (hoặc đề xuất sai kết quả mong muốn)");
     }
 
 function showPart() {
