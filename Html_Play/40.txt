@@ -7,13 +7,7 @@ textarea {
     resize: none;
     overflow: auto;
 
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-textarea.textarea-resizing {
-    user-select: none;
+    box-sizing: border-box;
 }
 
 .textarea-resize-wrapper {
@@ -21,46 +15,94 @@ textarea.textarea-resizing {
     display: inline-block;
 }
 
-.textarea-resize-handle {
-    position: absolute;
-
-    right: 2px;
-    bottom: 2px;
-
-    width: 16px;
-    height: 16px;
-
-    cursor: nwse-resize;
-
-    opacity: 0;
-    z-index: 999;
-
-    transition: opacity .15s ease;
+.textarea-resizing {
+    user-select: none;
 }
 
-.textarea-resize-wrapper:hover .textarea-resize-handle {
+.resize-handle {
+    position: absolute;
+    opacity: 0;
+    z-index: 1000;
+    transition: opacity .15s;
+}
+
+.textarea-resize-wrapper:hover .resize-handle,
+.textarea-resizing ~ .resize-handle,
+.textarea-resize-wrapper:hover textarea {
     opacity: 1;
 }
 
-.textarea-resize-handle::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            transparent 45%,
-            #888 45%,
-            #888 55%,
-            transparent 55%
-        );
+.textarea-resize-wrapper:hover textarea,
+.textarea-resizing {
+    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
 }
 
-textarea.textarea-resizing,
-textarea:hover {
-    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+/* cạnh */
+
+.resize-n {
+    top: -4px;
+    left: 10px;
+    right: 10px;
+    height: 8px;
+    cursor: n-resize;
+}
+
+.resize-s {
+    bottom: -4px;
+    left: 10px;
+    right: 10px;
+    height: 8px;
+    cursor: s-resize;
+}
+
+.resize-w {
+    top: 10px;
+    bottom: 10px;
+    left: -4px;
+    width: 8px;
+    cursor: w-resize;
+}
+
+.resize-e {
+    top: 10px;
+    bottom: 10px;
+    right: -4px;
+    width: 8px;
+    cursor: e-resize;
+}
+
+/* góc */
+
+.resize-nw {
+    width: 14px;
+    height: 14px;
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+.resize-ne {
+    width: 14px;
+    height: 14px;
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+.resize-sw {
+    width: 14px;
+    height: 14px;
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+}
+
+.resize-se {
+    width: 14px;
+    height: 14px;
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
 }
 </style>
 <script>
@@ -69,11 +111,15 @@ textarea:hover {
     const MIN_WIDTH = 200;
     const MIN_HEIGHT = 100;
 
+    const HANDLES = [
+        "n","s","e","w",
+        "nw","ne","sw","se"
+    ];
+
     function makeResizable(textarea) {
 
-        if (textarea.dataset.resizeInitialized) return;
-
-        textarea.dataset.resizeInitialized = "1";
+        if (textarea.dataset.resizeReady) return;
+        textarea.dataset.resizeReady = "1";
 
         const wrapper = document.createElement("div");
         wrapper.className = "textarea-resize-wrapper";
@@ -81,63 +127,140 @@ textarea:hover {
         textarea.parentNode.insertBefore(wrapper, textarea);
         wrapper.appendChild(textarea);
 
-        const handle = document.createElement("div");
-        handle.className = "textarea-resize-handle";
+        HANDLES.forEach(dir => {
 
-        wrapper.appendChild(handle);
+            const handle = document.createElement("div");
 
-        let resizing = false;
-        let startX = 0;
-        let startY = 0;
-        let startWidth = 0;
-        let startHeight = 0;
+            handle.className =
+                `resize-handle resize-${dir}`;
 
-        handle.addEventListener("mousedown", (e) => {
+            wrapper.appendChild(handle);
 
-            e.preventDefault();
+            handle.addEventListener("mousedown", e => {
 
-            resizing = true;
+                e.preventDefault();
 
-            startX = e.clientX;
-            startY = e.clientY;
+                const rect =
+                    textarea.getBoundingClientRect();
 
-            startWidth = textarea.offsetWidth;
-            startHeight = textarea.offsetHeight;
+                const start = {
+                    mouseX: e.clientX,
+                    mouseY: e.clientY,
+                    width: rect.width,
+                    height: rect.height,
+                    left: rect.left,
+                    top: rect.top
+                };
 
-            textarea.classList.add("textarea-resizing");
+                textarea.classList.add(
+                    "textarea-resizing"
+                );
 
-            document.body.style.cursor = "nwse-resize";
-            document.body.style.userSelect = "none";
-        });
+                document.body.style.userSelect = "none";
+                document.body.style.cursor =
+                    getComputedStyle(handle).cursor;
 
-        document.addEventListener("mousemove", (e) => {
+                function move(ev) {
 
-            if (!resizing) return;
+                    let width = start.width;
+                    let height = start.height;
+                    let left = start.left;
+                    let top = start.top;
 
-            const width = Math.max(
-                MIN_WIDTH,
-                startWidth + (e.clientX - startX)
-            );
+                    const dx =
+                        ev.clientX - start.mouseX;
 
-            const height = Math.max(
-                MIN_HEIGHT,
-                startHeight + (e.clientY - startY)
-            );
+                    const dy =
+                        ev.clientY - start.mouseY;
 
-            textarea.style.width = width + "px";
-            textarea.style.height = height + "px";
-        });
+                    if (dir.includes("e")) {
+                        width = start.width + dx;
+                    }
 
-        document.addEventListener("mouseup", () => {
+                    if (dir.includes("s")) {
+                        height = start.height + dy;
+                    }
 
-            if (!resizing) return;
+                    if (dir.includes("w")) {
 
-            resizing = false;
+                        width = start.width - dx;
 
-            textarea.classList.remove("textarea-resizing");
+                        if (width >= MIN_WIDTH) {
 
-            document.body.style.cursor = "";
-            document.body.style.userSelect = "";
+                            left =
+                                start.left + dx;
+
+                            textarea.style.position =
+                                "fixed";
+
+                            textarea.style.left =
+                                left + "px";
+                        }
+                    }
+
+                    if (dir.includes("n")) {
+
+                        height = start.height - dy;
+
+                        if (height >= MIN_HEIGHT) {
+
+                            top =
+                                start.top + dy;
+
+                            textarea.style.position =
+                                "fixed";
+
+                            textarea.style.top =
+                                top + "px";
+                        }
+                    }
+
+                    textarea.style.width =
+                        Math.max(
+                            MIN_WIDTH,
+                            width
+                        ) + "px";
+
+                    textarea.style.height =
+                        Math.max(
+                            MIN_HEIGHT,
+                            height
+                        ) + "px";
+                }
+
+                function stop() {
+
+                    textarea.classList.remove(
+                        "textarea-resizing"
+                    );
+
+                    document.body.style.userSelect =
+                        "";
+
+                    document.body.style.cursor =
+                        "";
+
+                    document.removeEventListener(
+                        "mousemove",
+                        move
+                    );
+
+                    document.removeEventListener(
+                        "mouseup",
+                        stop
+                    );
+                }
+
+                document.addEventListener(
+                    "mousemove",
+                    move
+                );
+
+                document.addEventListener(
+                    "mouseup",
+                    stop
+                );
+            });
         });
     }
 
@@ -149,12 +272,11 @@ textarea:hover {
 
     init();
 
-    new MutationObserver(() => {
-        init();
-    }).observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+    new MutationObserver(init)
+        .observe(document.body, {
+            childList: true,
+            subtree: true
+        });
 
 })();
 </script>
