@@ -1,0 +1,207 @@
+<!-- Modal xem hình ảnh (IMG) mở rộng/thu gọn  -->
+<style>
+#imgViewerOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0,0,0,0.9);
+    overflow: hidden;
+}
+
+#imgViewerContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+#imgViewerImage {
+    max-width: 90vw;
+    max-height: 90vh;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform-origin: center center;
+    transition: transform 0.05s linear;
+}
+
+#imgViewerClose,
+#imgViewerZoomIn,
+#imgViewerZoomOut {
+    position: fixed;
+    z-index: 1000000;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.9);
+}
+
+#imgViewerClose {
+    top: 20px;
+    right: 20px;
+}
+
+#imgViewerZoomIn {
+    bottom: 20px;
+    right: 80px;
+}
+
+#imgViewerZoomOut {
+    bottom: 20px;
+    right: 20px;
+}
+</style>
+<script>
+(function () {
+
+    if (document.getElementById("imgViewerOverlay"))
+        return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "imgViewerOverlay";
+
+    overlay.innerHTML = `
+        <button id="imgViewerClose">✕</button>
+        <button id="imgViewerZoomIn">+</button>
+        <button id="imgViewerZoomOut">−</button>
+
+        <div id="imgViewerContainer">
+            <img id="imgViewerImage">
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const viewerImg = document.getElementById("imgViewerImage");
+    const container = document.getElementById("imgViewerContainer");
+
+    let scale = 1;
+    let posX = 0;
+    let posY = 0;
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    function updateTransform() {
+        viewerImg.style.transform =
+            `translate(${posX}px, ${posY}px) scale(${scale})`;
+    }
+
+    function openViewer(src) {
+        overlay.style.display = "block";
+        viewerImg.src = src;
+
+        scale = 1;
+        posX = 0;
+        posY = 0;
+
+        updateTransform();
+    }
+
+    function closeViewer() {
+        overlay.style.display = "none";
+    }
+
+    function zoom(delta) {
+        scale += delta;
+
+        if (scale < 0.2)
+            scale = 0.2;
+
+        if (scale > 10)
+            scale = 10;
+
+        updateTransform();
+    }
+
+    document.addEventListener("click", function (e) {
+
+        const img = e.target.closest("img");
+
+        if (!img)
+            return;
+
+        if (overlay.contains(img))
+            return;
+
+        openViewer(img.src);
+    });
+
+    document.getElementById("imgViewerClose")
+        .addEventListener("click", closeViewer);
+
+    overlay.addEventListener("click", function (e) {
+        if (e.target === overlay)
+            closeViewer();
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (overlay.style.display !== "block")
+            return;
+
+        if (e.key === "Escape")
+            closeViewer();
+
+        if (e.key === "+")
+            zoom(0.2);
+
+        if (e.key === "-")
+            zoom(-0.2);
+    });
+
+    document.getElementById("imgViewerZoomIn")
+        .addEventListener("click", function () {
+            zoom(0.2);
+        });
+
+    document.getElementById("imgViewerZoomOut")
+        .addEventListener("click", function () {
+            zoom(-0.2);
+        });
+
+    overlay.addEventListener("wheel", function (e) {
+
+        e.preventDefault();
+
+        if (e.deltaY < 0)
+            zoom(0.2);
+        else
+            zoom(-0.2);
+
+    }, { passive: false });
+
+    container.addEventListener("mousedown", function (e) {
+
+        dragging = true;
+
+        startX = e.clientX - posX;
+        startY = e.clientY - posY;
+
+        container.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", function (e) {
+
+        if (!dragging)
+            return;
+
+        posX = e.clientX - startX;
+        posY = e.clientY - startY;
+
+        updateTransform();
+    });
+
+    document.addEventListener("mouseup", function () {
+
+        dragging = false;
+
+        container.style.cursor = "grab";
+    });
+
+})();
+</script>
