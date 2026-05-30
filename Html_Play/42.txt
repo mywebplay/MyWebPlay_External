@@ -1,0 +1,246 @@
+<!-- Modal xem hình ảnh (IMG) mở rộng/thu gọnn - dành cho màn hình làm bài trắc ngiệm/question  -->
+<style>
+#imgViewerOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0,0,0,.92);
+    overflow: hidden;
+}
+
+#imgViewerContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+#imgViewerImage {
+    max-width: 90vw;
+    max-height: 90vh;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform-origin: center center;
+}
+
+#imgViewerClose,
+#imgViewerZoomIn,
+#imgViewerZoomOut {
+    position: fixed;
+    z-index: 1000000;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 12px;
+
+    background: rgba(25,25,25,.88);
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,.4);
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+#imgViewerClose:hover,
+#imgViewerZoomIn:hover,
+#imgViewerZoomOut:hover {
+    background: rgba(45,45,45,.95);
+    transform: scale(1.05);
+}
+
+#imgViewerClose {
+    top: 16px;
+    right: 16px;
+}
+
+#imgViewerZoomIn {
+    right: 16px;
+    bottom: 70px;
+}
+
+#imgViewerZoomOut {
+    right: 16px;
+    bottom: 16px;
+}
+</style>
+
+<script>
+(function () {
+
+    if (document.getElementById("imgViewerOverlay"))
+        return;
+
+    const overlay = document.createElement("div");
+
+    overlay.id = "imgViewerOverlay";
+
+    overlay.innerHTML = `
+        <button id="imgViewerClose">✕</button>
+        <button id="imgViewerZoomIn">+</button>
+        <button id="imgViewerZoomOut">−</button>
+
+        <div id="imgViewerContainer">
+            <img id="imgViewerImage">
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const viewerImg = document.getElementById("imgViewerImage");
+    const container = document.getElementById("imgViewerContainer");
+
+    let scale = 1;
+    let posX = 0;
+    let posY = 0;
+
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    function updateTransform() {
+        viewerImg.style.transform =
+            `translate(${posX}px, ${posY}px) scale(${scale})`;
+    }
+
+    function openViewer(src) {
+
+        overlay.style.display = "block";
+
+        viewerImg.src = src;
+
+        scale = 1;
+        posX = 0;
+        posY = 0;
+
+        updateTransform();
+    }
+
+    function closeViewer() {
+        overlay.style.display = "none";
+    }
+
+    function zoom(delta) {
+
+        scale += delta;
+
+        if (scale < 0.2)
+            scale = 0.2;
+
+        if (scale > 10)
+            scale = 10;
+
+        updateTransform();
+    }
+
+    document.addEventListener("click", function (e) {
+
+        const img = e.target.closest("img");
+
+        if (!img)
+            return;
+
+        if (overlay.contains(img))
+            return;
+
+        const title = (img.getAttribute("title") || "").toLowerCase();
+
+        if (!title.startsWith("hinhcau"))
+            return;
+
+        openViewer(img.src);
+    });
+
+    document.getElementById("imgViewerClose")
+        .addEventListener("click", closeViewer);
+
+    overlay.addEventListener("click", function (e) {
+
+        if (e.target === overlay)
+            closeViewer();
+
+    });
+
+    document.addEventListener("keydown", function (e) {
+
+        if (overlay.style.display !== "block")
+            return;
+
+        if (e.key === "Escape")
+            closeViewer();
+
+    });
+
+    document.getElementById("imgViewerZoomIn")
+        .addEventListener("click", function () {
+            zoom(0.25);
+        });
+
+    document.getElementById("imgViewerZoomOut")
+        .addEventListener("click", function () {
+            zoom(-0.25);
+        });
+
+    overlay.addEventListener("wheel", function (e) {
+
+        e.preventDefault();
+
+        if (e.deltaY < 0)
+            zoom(0.15);
+        else
+            zoom(-0.15);
+
+    }, { passive: false });
+
+    container.addEventListener("mousedown", function (e) {
+
+        if (scale <= 1)
+            return;
+
+        dragging = true;
+
+        startX = e.clientX - posX;
+        startY = e.clientY - posY;
+
+        container.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", function (e) {
+
+        if (!dragging)
+            return;
+
+        posX = e.clientX - startX;
+        posY = e.clientY - startY;
+
+        updateTransform();
+    });
+
+    document.addEventListener("mouseup", function () {
+
+        dragging = false;
+
+        container.style.cursor = "grab";
+
+    });
+
+})();
+</script>
