@@ -1,39 +1,64 @@
 <!-- Thiết kế mở rộng/thu gọn textarea  -->
 <style>
 textarea {
+    box-sizing: border-box;
+    resize: none;
     min-width: 200px;
     min-height: 100px;
-
-    resize: none;
-    box-sizing: border-box;
 }
 
+/* wrapper là thứ chịu resize */
 .textarea-wrap {
     position: relative;
     display: inline-block;
+
+    /* QUAN TRỌNG: tránh flex/grid bó */
+    flex: none;
 }
 
-/* đảm bảo wrapper luôn giữ size */
-.textarea-box {
-    width: 100%;
-    height: 100%;
+/* textarea luôn fill wrapper */
+.textarea-wrap > textarea {
+    width: 100% !important;
+    height: 100% !important;
 }
 
+/* handle chung */
 .handle {
     position: absolute;
     z-index: 10;
     opacity: 0;
+    transition: opacity .15s;
 }
 
+/* hover mới hiện */
 .textarea-wrap:hover .handle {
     opacity: 1;
 }
 
 /* edges */
-.h-n { top: -4px; left: 8px; right: 8px; height: 8px; cursor: n-resize; }
-.h-s { bottom: -4px; left: 8px; right: 8px; height: 8px; cursor: s-resize; }
-.h-e { top: 8px; right: -4px; bottom: 8px; width: 8px; cursor: e-resize; }
-.h-w { top: 8px; left: -4px; bottom: 8px; width: 8px; cursor: w-resize; }
+.h-n {
+    top: -4px; left: 6px; right: 6px;
+    height: 8px;
+    cursor: n-resize;
+}
+
+.h-s {
+    bottom: -4px; left: 6px; right: 6px;
+    height: 8px;
+    cursor: s-resize;
+}
+
+.h-e {
+    top: 6px; bottom: 6px; right: -4px;
+    width: 8px;
+    cursor: e-resize;
+}
+
+.h-w {
+    top: 6px; bottom: 6px; left: -4px;
+    width: 8px;
+    cursor: w-resize;
+}
 
 /* corners */
 .h-nw, .h-ne, .h-sw, .h-se {
@@ -54,24 +79,30 @@ textarea {
 
     const DIRS = ["n","s","e","w","nw","ne","sw","se"];
 
-    function initTextarea(el) {
+    function makeResizable(textarea) {
 
-        if (el.dataset.resizable) return;
-        el.dataset.resizable = "1";
+        if (textarea.dataset.resizableDone) return;
+        textarea.dataset.resizableDone = "1";
 
         const wrap = document.createElement("div");
         wrap.className = "textarea-wrap";
 
-        const rect = el.getBoundingClientRect();
+        // lấy size ban đầu chuẩn
+        const rect = textarea.getBoundingClientRect();
 
         wrap.style.width = rect.width + "px";
         wrap.style.height = rect.height + "px";
 
-        el.style.width = "100%";
-        el.style.height = "100%";
+        // FIX QUAN TRỌNG: tránh bị flex/grid override
+        wrap.style.display = "inline-block";
+        wrap.style.flex = "none";
 
-        el.parentNode.insertBefore(wrap, el);
-        wrap.appendChild(el);
+        textarea.parentNode.insertBefore(wrap, textarea);
+        wrap.appendChild(textarea);
+
+        // đảm bảo fill wrapper
+        textarea.style.width = "100%";
+        textarea.style.height = "100%";
 
         DIRS.forEach(dir => {
 
@@ -79,7 +110,7 @@ textarea {
             h.className = `handle h-${dir}`;
             wrap.appendChild(h);
 
-            h.addEventListener("mousedown", e => {
+            h.addEventListener("mousedown", (e) => {
 
                 e.preventDefault();
 
@@ -103,26 +134,36 @@ textarea {
                     if (dir.includes("w")) newW = start.w - dx;
                     if (dir.includes("n")) newH = start.h - dy;
 
-                    wrap.style.width =
-                        Math.max(MIN_W, newW) + "px";
+                    newW = Math.max(MIN_W, newW);
+                    newH = Math.max(MIN_H, newH);
 
-                    wrap.style.height =
-                        Math.max(MIN_H, newH) + "px";
+                    wrap.style.width = newW + "px";
+                    wrap.style.height = newH + "px";
                 }
 
-                function up() {
+                function stop() {
                     document.removeEventListener("mousemove", move);
-                    document.removeEventListener("mouseup", up);
+                    document.removeEventListener("mouseup", stop);
                 }
 
                 document.addEventListener("mousemove", move);
-                document.addEventListener("mouseup", up);
+                document.addEventListener("mouseup", stop);
             });
         });
     }
 
-    document.querySelectorAll("textarea")
-        .forEach(initTextarea);
+    function init() {
+        document.querySelectorAll("textarea")
+            .forEach(makeResizable);
+    }
+
+    init();
+
+    new MutationObserver(init)
+        .observe(document.body, {
+            childList: true,
+            subtree: true
+        });
 
 })();
 </script>
