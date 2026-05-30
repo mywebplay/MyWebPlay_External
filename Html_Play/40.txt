@@ -5,278 +5,124 @@ textarea {
     min-height: 100px;
 
     resize: none;
-    overflow: auto;
-
     box-sizing: border-box;
 }
 
-.textarea-resize-wrapper {
+.textarea-wrap {
     position: relative;
     display: inline-block;
 }
 
-.textarea-resizing {
-    user-select: none;
+/* đảm bảo wrapper luôn giữ size */
+.textarea-box {
+    width: 100%;
+    height: 100%;
 }
 
-.resize-handle {
+.handle {
     position: absolute;
+    z-index: 10;
     opacity: 0;
-    z-index: 1000;
-    transition: opacity .15s;
 }
 
-.textarea-resize-wrapper:hover .resize-handle,
-.textarea-resizing ~ .resize-handle,
-.textarea-resize-wrapper:hover textarea {
+.textarea-wrap:hover .handle {
     opacity: 1;
 }
 
-.textarea-resize-wrapper:hover textarea,
-.textarea-resizing {
-    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+/* edges */
+.h-n { top: -4px; left: 8px; right: 8px; height: 8px; cursor: n-resize; }
+.h-s { bottom: -4px; left: 8px; right: 8px; height: 8px; cursor: s-resize; }
+.h-e { top: 8px; right: -4px; bottom: 8px; width: 8px; cursor: e-resize; }
+.h-w { top: 8px; left: -4px; bottom: 8px; width: 8px; cursor: w-resize; }
+
+/* corners */
+.h-nw, .h-ne, .h-sw, .h-se {
+    width: 12px;
+    height: 12px;
 }
 
-/* cạnh */
-
-.resize-n {
-    top: -4px;
-    left: 10px;
-    right: 10px;
-    height: 8px;
-    cursor: n-resize;
-}
-
-.resize-s {
-    bottom: -4px;
-    left: 10px;
-    right: 10px;
-    height: 8px;
-    cursor: s-resize;
-}
-
-.resize-w {
-    top: 10px;
-    bottom: 10px;
-    left: -4px;
-    width: 8px;
-    cursor: w-resize;
-}
-
-.resize-e {
-    top: 10px;
-    bottom: 10px;
-    right: -4px;
-    width: 8px;
-    cursor: e-resize;
-}
-
-/* góc */
-
-.resize-nw {
-    width: 14px;
-    height: 14px;
-    top: -5px;
-    left: -5px;
-    cursor: nw-resize;
-}
-
-.resize-ne {
-    width: 14px;
-    height: 14px;
-    top: -5px;
-    right: -5px;
-    cursor: ne-resize;
-}
-
-.resize-sw {
-    width: 14px;
-    height: 14px;
-    bottom: -5px;
-    left: -5px;
-    cursor: sw-resize;
-}
-
-.resize-se {
-    width: 14px;
-    height: 14px;
-    bottom: -5px;
-    right: -5px;
-    cursor: se-resize;
-}
+.h-nw { top: -5px; left: -5px; cursor: nw-resize; }
+.h-ne { top: -5px; right: -5px; cursor: ne-resize; }
+.h-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+.h-se { bottom: -5px; right: -5px; cursor: se-resize; }
 </style>
 <script>
 (() => {
 
-    const MIN_WIDTH = 200;
-    const MIN_HEIGHT = 100;
+    const MIN_W = 200;
+    const MIN_H = 100;
 
-    const HANDLES = [
-        "n","s","e","w",
-        "nw","ne","sw","se"
-    ];
+    const DIRS = ["n","s","e","w","nw","ne","sw","se"];
 
-    function makeResizable(textarea) {
+    function initTextarea(el) {
 
-        if (textarea.dataset.resizeReady) return;
-        textarea.dataset.resizeReady = "1";
+        if (el.dataset.resizable) return;
+        el.dataset.resizable = "1";
 
-        const wrapper = document.createElement("div");
-        wrapper.className = "textarea-resize-wrapper";
+        const wrap = document.createElement("div");
+        wrap.className = "textarea-wrap";
 
-        textarea.parentNode.insertBefore(wrapper, textarea);
-        wrapper.appendChild(textarea);
+        const rect = el.getBoundingClientRect();
 
-        HANDLES.forEach(dir => {
+        wrap.style.width = rect.width + "px";
+        wrap.style.height = rect.height + "px";
 
-            const handle = document.createElement("div");
+        el.style.width = "100%";
+        el.style.height = "100%";
 
-            handle.className =
-                `resize-handle resize-${dir}`;
+        el.parentNode.insertBefore(wrap, el);
+        wrap.appendChild(el);
 
-            wrapper.appendChild(handle);
+        DIRS.forEach(dir => {
 
-            handle.addEventListener("mousedown", e => {
+            const h = document.createElement("div");
+            h.className = `handle h-${dir}`;
+            wrap.appendChild(h);
+
+            h.addEventListener("mousedown", e => {
 
                 e.preventDefault();
 
-                const rect =
-                    textarea.getBoundingClientRect();
-
                 const start = {
-                    mouseX: e.clientX,
-                    mouseY: e.clientY,
-                    width: rect.width,
-                    height: rect.height,
-                    left: rect.left,
-                    top: rect.top
+                    x: e.clientX,
+                    y: e.clientY,
+                    w: wrap.offsetWidth,
+                    h: wrap.offsetHeight
                 };
-
-                textarea.classList.add(
-                    "textarea-resizing"
-                );
-
-                document.body.style.userSelect = "none";
-                document.body.style.cursor =
-                    getComputedStyle(handle).cursor;
 
                 function move(ev) {
 
-                    let width = start.width;
-                    let height = start.height;
-                    let left = start.left;
-                    let top = start.top;
+                    let newW = start.w;
+                    let newH = start.h;
 
-                    const dx =
-                        ev.clientX - start.mouseX;
+                    const dx = ev.clientX - start.x;
+                    const dy = ev.clientY - start.y;
 
-                    const dy =
-                        ev.clientY - start.mouseY;
+                    if (dir.includes("e")) newW = start.w + dx;
+                    if (dir.includes("s")) newH = start.h + dy;
+                    if (dir.includes("w")) newW = start.w - dx;
+                    if (dir.includes("n")) newH = start.h - dy;
 
-                    if (dir.includes("e")) {
-                        width = start.width + dx;
-                    }
+                    wrap.style.width =
+                        Math.max(MIN_W, newW) + "px";
 
-                    if (dir.includes("s")) {
-                        height = start.height + dy;
-                    }
-
-                    if (dir.includes("w")) {
-
-                        width = start.width - dx;
-
-                        if (width >= MIN_WIDTH) {
-
-                            left =
-                                start.left + dx;
-
-                            textarea.style.position =
-                                "fixed";
-
-                            textarea.style.left =
-                                left + "px";
-                        }
-                    }
-
-                    if (dir.includes("n")) {
-
-                        height = start.height - dy;
-
-                        if (height >= MIN_HEIGHT) {
-
-                            top =
-                                start.top + dy;
-
-                            textarea.style.position =
-                                "fixed";
-
-                            textarea.style.top =
-                                top + "px";
-                        }
-                    }
-
-                    textarea.style.width =
-                        Math.max(
-                            MIN_WIDTH,
-                            width
-                        ) + "px";
-
-                    textarea.style.height =
-                        Math.max(
-                            MIN_HEIGHT,
-                            height
-                        ) + "px";
+                    wrap.style.height =
+                        Math.max(MIN_H, newH) + "px";
                 }
 
-                function stop() {
-
-                    textarea.classList.remove(
-                        "textarea-resizing"
-                    );
-
-                    document.body.style.userSelect =
-                        "";
-
-                    document.body.style.cursor =
-                        "";
-
-                    document.removeEventListener(
-                        "mousemove",
-                        move
-                    );
-
-                    document.removeEventListener(
-                        "mouseup",
-                        stop
-                    );
+                function up() {
+                    document.removeEventListener("mousemove", move);
+                    document.removeEventListener("mouseup", up);
                 }
 
-                document.addEventListener(
-                    "mousemove",
-                    move
-                );
-
-                document.addEventListener(
-                    "mouseup",
-                    stop
-                );
+                document.addEventListener("mousemove", move);
+                document.addEventListener("mouseup", up);
             });
         });
     }
 
-    function init() {
-        document
-            .querySelectorAll("textarea")
-            .forEach(makeResizable);
-    }
-
-    init();
-
-    new MutationObserver(init)
-        .observe(document.body, {
-            childList: true,
-            subtree: true
-        });
+    document.querySelectorAll("textarea")
+        .forEach(initTextarea);
 
 })();
 </script>
