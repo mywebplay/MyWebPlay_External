@@ -120,7 +120,7 @@ document.getElementById("btnSave").addEventListener("click", function () {
     const value = document.getElementById("txtValue").value;
 
     if (!key) {
-        alert("Vui lòng nhập Key");
+        alert("Vui lòng nhập Key.");
         return;
     }
 
