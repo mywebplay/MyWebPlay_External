@@ -1,92 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MyWebPlay Control Center</title>
+
 <style>
-a
+:root
 {
-    display: inline-block;
-    color: #e11d48;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 6px 2px;
-    border-bottom: 2px solid #fda4af;
-    transition: 0.2s ease;
-    cursor: pointer;
+    --bg:#0f172a;
+    --card:#1e293b;
+    --card-hover:#263449;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+    --border:#334155;
+
+    --api:#3b82f6;
+    --normal:#10b981;
+    --sub:#8b5cf6;
+    --danger:#ef4444;
 }
 
-a:hover
+*
 {
-    color: #be123c;
-    border-bottom-color: #e11d48;
-    letter-spacing: 0.3px;
+    box-sizing:border-box;
+}
+
+body
+{
+    margin:0;
+    padding:30px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Segoe UI, Tahoma, sans-serif;
+}
+
+.container
+{
+    max-width:1400px;
+    margin:auto;
+}
+
+.header
+{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.header h1
+{
+    margin:0;
+    font-size:36px;
+    font-weight:700;
+}
+
+.header p
+{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:15px;
+}
+
+.grid
+{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:24px;
+}
+
+.section
+{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    transition:0.2s;
+}
+
+.section:hover
+{
+    background:var(--card-hover);
+}
+
+.section-title
+{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.api-title
+{
+    color:var(--api);
+}
+
+.normal-title
+{
+    color:var(--normal);
+}
+
+.sub-title
+{
+    color:var(--sub);
+}
+
+.tools-title
+{
+    color:#f59e0b;
+}
+
+.link-list
+{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.btn
+{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:white;
+    padding:12px 14px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.2s;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+}
+
+.btn:hover
+{
+    transform:translateY(-1px);
+}
+
+.api
+{
+    background:rgba(59,130,246,.18);
+    border:1px solid rgba(59,130,246,.35);
+}
+
+.api:hover
+{
+    background:rgba(59,130,246,.28);
+}
+
+.normal
+{
+    background:rgba(16,185,129,.18);
+    border:1px solid rgba(16,185,129,.35);
+}
+
+.normal:hover
+{
+    background:rgba(16,185,129,.28);
+}
+
+.sub
+{
+    background:rgba(139,92,246,.18);
+    border:1px solid rgba(139,92,246,.35);
+}
+
+.sub:hover
+{
+    background:rgba(139,92,246,.28);
+}
+
+.danger
+{
+    background:rgba(239,68,68,.18);
+    border:1px solid rgba(239,68,68,.35);
+}
+
+.danger:hover
+{
+    background:rgba(239,68,68,.28);
+}
+
+.footer-links
+{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.footer-link
+{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    text-decoration:none;
+    color:var(--text);
+    font-weight:700;
+    text-align:center;
+    transition:.2s;
+}
+
+.footer-link:hover
+{
+    background:var(--card-hover);
+}
+
+@media(max-width:768px)
+{
+    body
+    {
+        padding:15px;
+    }
+
+    .header h1
+    {
+        font-size:28px;
+    }
 }
 </style>
-<h2>
-<br />
-<a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4'); return false;">[API] Send data to sub web</a>
-<br /><br />
-<a  onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMEuDyGW7JKphfIniRme/tZbrEmaDOd93f6WtosJJRUqdgSKlOK2Yk/LMSp7+GP1EQ7e2oMKpCJgpo6/uOCdWUlr/ThhcjnMX+rKhoCMK1o0NA=='); return false;">[NORMAL] Send data to sub web</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB'); return false;">[SUB] Save data DX</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kZtmpLp38TWBL9sJo0sJ2Fc8yVYcRWU2UkI69doFBst'); return false;">[SUB] See request info</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5ntiiKH+BKKKeUYec+OV5H7jrlonLLXXjHdUGtxUlHiG'); return false;">[SUB] See user in first</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5tv4CHDFxFRZUkUIGONVZ64WLqTvEDA7Sc/CUJsclKn/'); return false;">[SUB] See bug list</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kJ5ure2uKbjp6UtwOgtLBzhsnRSpv942fLRnU2EDvNC'); return false;">[SUB] See mail log</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kjsxYlSUjWFDUl7b7knQw48CoHpdvvQJh4Az1Z8eLl/'); return false;">[SUB] See error log</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbJMnMaEqik+IWwYu3itnwguw1ygbqwtVjdLFbymhzoateEOYJawZK7HWVoXeRKwxAfsvNKTtUmgDYtnrB9yftZtoUUJRCWCzLMRS+homJNlJnuSxx5nrTne3v61iuVg1huGuVwtbbU14tT4Lp+mrGnNNFj75VZb6ukcsHKJMR/QBkCeYeXmrbYyEHhPojwnDaZmdMCPzh4BbQO0FRVNFjLnIsBH7hbvG4fdCCqs9rxi8h7VDZbTCkfa1UpuruIllr'); return false;">[SUB] Delete bin for DX</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuh7eLK2PFN0kcz+91Hxeuge6/OoNkjsnF0940DpGQhWj1rpdQQsNvYpFQyzleSKqNpe4mXbfNkDfDGLWM4Sy18IkRk695GFAtqc9dGNn037f1dWCDoLpaKqhPN8dpjAQIhjtaPg4yINtyIOhXW1reKsqKru7QFZTHWSHLP7tMDkoxPC9XYg3SiBLeS7I0nOwpCkhLXgg0kJeL6rv7oRse6P+4NUc5hGsbPg2FSf6nS24'); return false;">[SUB] Remove IP waiting</a>
-<br /><br />
-<a  onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb'); return false;">[SUB] Remove IP accept</a>
-<br /><br />
-<a onclick="RedirectToUrl2('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisp2ztVNUxehbdNgULz/eWBBN2LmOSecJe4VVgSQg79fZCtv2Py5sg+PqfifJVjUfwIjx/WN5UwHBSiscxuR1xRlE6ksjAEBwS0zoEIp7ggh5sP/rn4vFuIUwWF156Wn7v6ltRX58eDijoZKOlQ3JQ60tLI1rSs+umzD+cBS4pyMnk89g8MpebMZ+rFnmvwdmhA=='); return false;">[SUB] CLEAR AND REFRESH DX</a>
-<br /><br />
-<a href="http://mywebplayapi.somee.com/add-local-storage" target="_blank">[API] ADD LOCAL STORAGE JS</a>
-<br /><br />
-<a href="http://normalwebbasic.somee.com/add-local-storage" target="_blank">[NORMAL] ADD LOCAL STORAGE JS</a>
-<br /><br />
-<a href="http://submywebplay.somee.com/add-local-storage"" target="_blank">[SUB] ADD LOCAL STORAGE JS</a>
-<br /><br />
-<a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISS5VIy6hmmh2E0qo/KwXGIFpI2E7ysbt74PCM0P1WwjlSjApwPjKdFgHN6H0mI6/Lcnz6jEjdTneDE6v/IkHd+IGy2sC76OKDZZCChNXvvT6g='); return false;">[API] SESSION PLAY</a>
-<br /><br />
-<a onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zd5kXBcBNYHOf/me0Up92dBcrScm3uYsFNd8zSnx3dOPmzBXaDPLxGQBoHx8gz4LYpQ3kWH2k25Ltv4nDm6UtI='); return false;">[NORAML] SESSION PLAY</a>
-<br /><br />
-<a onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM081dtnDnL3776jzXv7AOZfRcgxk0JKJC/3Tf0z3JdqRUHmzwo/akmLgHtRJUj8gHcxwMC28wQCHGRta8k2+bgULCM5iW3v8BbEMlhaUmbscO0='); return false;">[SUB] SESSION PLAY</a>
-<br /><br />
-<a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSxmlm+AUUa4wPDD4jWPOLI9r6KUDvzcb95YCDHwCEgJqa1JSAJRri8kKPBgIc7xElAbKZW15T+mcPUAbpIu/Mt3ELWavYMgxTLXyalxRNf9s='); return false;">[API] ADMIN SETTING</a>
-<br /><br />
-<a onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zg9CFz+TSFshj8/MHgI6r2HFgdLdKl+ZVMJq+ou9rCdT5P6n/MIly5bxh5ANr7kACdJjbfKc94MzAugBjiep7M='); return false;">[NORAML] ADMIN SETTING</a>
-<br /><br />
-<a onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">[SUB] ADMIN SETTING</a>
-<br /><br />
-<hr />
-<a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
-<br /><br />
-<a href="http://mywebplayapi.somee.com" target="_blank">API MyWebPlay</a>
-<br /><br />
-<a href="http://normalwebbasic.somee.com" target="_blank">Normal MyWebPlay</a>
-<br /><br />
-</h2>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🚀 MyWebPlay Control Center</h1>
+        <p>Quản lý API · Normal · Sub Web</p>
+    </div>
+
+    <div class="grid">
+
+        <!-- API -->
+        <div class="section">
+            <div class="section-title api-title">
+                🔵 API
+            </div>
+
+            <div class="link-list">
+
+                <a class="btn api" onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2PsZpKQnyj9W0wQ2HiEU3gYhxuX2mhRu0/UqNHRBM8+GHY5LYlS/eufy8G3LlHyWSXj5/fjhnTezW4xw2DrRZGBvba3NQ4FrfpC7QnAIs/o4');return false;">
+                    📤 Send Data To Sub Web
+                </a>
+
+                <a class="btn api" href="http://mywebplayapi.somee.com/add-local-storage" target="_blank">
+                    💾 Add Local Storage
+                </a>
+
+                <a class="btn api" onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISS5VIy6hmmh2E0qo/KwXGIFpI2E7ysbt74PCM0P1WwjlSjApwPjKdFgHN6H0mI6/Lcnz6jEjdTneDE6v/IkHd+IGy2sC76OKDZZCChNXvvT6g=');return false;">
+                    🔐 Session Play
+                </a>
+
+                <a class="btn api" onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSxmlm+AUUa4wPDD4jWPOLI9r6KUDvzcb95YCDHwCEgJqa1JSAJRri8kKPBgIc7xElAbKZW15T+mcPUAbpIu/Mt3ELWavYMgxTLXyalxRNf9s=');return false;">
+                    ⚙️ Admin Setting
+                </a>
+
+            </div>
+        </div>
+
+        <!-- NORMAL -->
+        <div class="section">
+            <div class="section-title normal-title">
+                🟢 NORMAL
+            </div>
+
+            <div class="link-list">
+
+                <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMEuDyGW7JKphfIniRme/tZbrEmaDOd93f6WtosJJRUqdgSKlOK2Yk/LMSp7+GP1EQ7e2oMKpCJgpo6/uOCdWUlr/ThhcjnMX+rKhoCMK1o0NA==');return false;">
+                    📤 Send Data To Sub Web
+                </a>
+
+                <a class="btn normal" href="http://normalwebbasic.somee.com/add-local-storage" target="_blank">
+                    💾 Add Local Storage
+                </a>
+
+                <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zd5kXBcBNYHOf/me0Up92dBcrScm3uYsFNd8zSnx3dOPmzBXaDPLxGQBoHx8gz4LYpQ3kWH2k25Ltv4nDm6UtI=');return false;">
+                    🔐 Session Play
+                </a>
+
+                <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zg9CFz+TSFshj8/MHgI6r2HFgdLdKl+ZVMJq+ou9rCdT5P6n/MIly5bxh5ANr7kACdJjbfKc94MzAugBjiep7M=');return false;">
+                    ⚙️ Admin Setting
+                </a>
+
+            </div>
+        </div>
+
+        <!-- SUB -->
+        <div class="section">
+            <div class="section-title sub-title">
+                🟣 SUB WEB
+            </div>
+
+            <div class="link-list">
+
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB'); return false;">📁 Save Data DX</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kZtmpLp38TWBL9sJo0sJ2Fc8yVYcRWU2UkI69doFBst'); return false;">📨 See Request Info</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5ntiiKH+BKKKeUYec+OV5H7jrlonLLXXjHdUGtxUlHiG'); return false;">>👤 See User In First</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5tv4CHDFxFRZUkUIGONVZ64WLqTvEDA7Sc/CUJsclKn/'); return false;">🐞 See Bug List</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kJ5ure2uKbjp6UtwOgtLBzhsnRSpv942fLRnU2EDvNC'); return false;">📧 See Mail Log</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5kjsxYlSUjWFDUl7b7knQw48CoHpdvvQJh4Az1Z8eLl/'); return false;">⚠️ See Error Log</a>
+
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM081dtnDnL3776jzXv7AOZfRcgxk0JKJC/3Tf0z3JdqRUHmzwo/akmLgHtRJUj8gHcxwMC28wQCHGRta8k2+bgULCM5iW3v8BbEMlhaUmbscO0='); return false;">🔐 Session Play</a>
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">⚙️ Admin Setting</a>
+
+            </div>
+        </div>
+
+        <!-- TOOLS -->
+        <div class="section">
+            <div class="section-title tools-title">
+                🛠️ Maintenance
+            </div>
+
+            <div class="link-list">
+
+                <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbJMnMaEqik+IWwYu3itnwguw1ygbqwtVjdLFbymhzoateEOYJawZK7HWVoXeRKwxAfsvNKTtUmgDYtnrB9yftZtoUUJRCWCzLMRS+homJNlJnuSxx5nrTne3v61iuVg1huGuVwtbbU14tT4Lp+mrGnNNFj75VZb6ukcsHKJMR/QBkCeYeXmrbYyEHhPojwnDaZmdMCPzh4BbQO0FRVNFjLnIsBH7hbvG4fdCCqs9rxi8h7VDZbTCkfa1UpuruIllr'); return false;">
+                    🗑️ Delete Bin For DX
+                </a>
+
+                <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuh7eLK2PFN0kcz+91Hxeuge6/OoNkjsnF0940DpGQhWj1rpdQQsNvYpFQyzleSKqNpe4mXbfNkDfDGLWM4Sy18IkRk695GFAtqc9dGNn037f1dWCDoLpaKqhPN8dpjAQIhjtaPg4yINtyIOhXW1reKsqKru7QFZTHWSHLP7tMDkoxPC9XYg3SiBLeS7I0nOwpCkhLXgg0kJeL6rv7oRse6P+4NUc5hGsbPg2FSf6nS24'); return false;">
+                    🚫 Remove IP Waiting
+                </a>
+
+                <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb'); return false;">
+                    ✅ Remove IP Accept
+                </a>
+
+                <a class="btn danger" onclick="RedirectToUrl2('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisp2ztVNUxehbdNgULz/eWBBN2LmOSecJe4VVgSQg79fZCtv2Py5sg+PqfifJVjUfwIjx/WN5UwHBSiscxuR1xRlE6ksjAEBwS0zoEIp7ggh5sP/rn4vFuIUwWF156Wn7v6ltRX58eDijoZKOlQ3JQ60tLI1rSs+umzD+cBS4pyMnk89g8MpebMZ+rFnmvwdmhA==');return false;">
+                    ♻️ Clear & Refresh DX
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-links">
+
+        <a class="footer-link" href="http://submywebplay.somee.com" target="_blank">
+            🟣 Sub MyWebPlay
+        </a>
+
+        <a class="footer-link" href="http://mywebplayapi.somee.com" target="_blank">
+            🔵 API MyWebPlay
+        </a>
+
+        <a class="footer-link" href="http://normalwebbasic.somee.com" target="_blank">
+            🟢 Normal MyWebPlay
+        </a>
+
+    </div>
+
+</div>
+
 <script>
 function RedirectToUrl(url)
 {
-  window.open(
-    "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
-    "_blank"
-  );
+    window.open(
+        "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
+        "_blank"
+    );
 }
 
 function RedirectToUrl2(url)
 {
- var con = confirm('Bạn có chắc chắn không?');
- if (con == false) return;
-  window.open(
-    "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
-    "_blank"
-  );
+    var con = confirm("Bạn có chắc chắn không?");
+    if (!con) return;
+
+    window.open(
+        "/Cover/RedirectToSecureUrl?url=" + encodeURIComponent(url),
+        "_blank"
+    );
 }
 </script>
+
+</body>
+</html>
