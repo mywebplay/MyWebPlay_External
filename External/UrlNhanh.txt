@@ -51,18 +51,18 @@ a:hover
 <br /><br />
 <a href="http://submywebplay.somee.com/add-local-storage"" target="_blank">[SUB] ADD LOCAL STORAGE JS</a>
 <br /><br />
+<a onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISS5VIy6hmmh2E0qo/KwXGIFpI2E7ysbt74PCM0P1WwjlSjApwPjKdFgHN6H0mI6/Lcnz6jEjdTneDE6v/IkHd+IGy2sC76OKDZZCChNXvvT6g='); return false;">[API] SESSION PLAY</a>
+<br /><br />
+<a onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zd5kXBcBNYHOf/me0Up92dBcrScm3uYsFNd8zSnx3dOPmzBXaDPLxGQBoHx8gz4LYpQ3kWH2k25Ltv4nDm6UtI='); return false;">[NORAML] SESSION PLAY</a>
+<br /><br />
+<a onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM081dtnDnL3776jzXv7AOZfRcgxk0JKJC/3Tf0z3JdqRUHmzwo/akmLgHtRJUj8gHcxwMC28wQCHGRta8k2+bgULCM5iW3v8BbEMlhaUmbscO0='); return false;">[SUB] SESSION PLAY</a>
+<br /><br />
 <hr />
 <a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
 <br /><br />
 <a href="http://mywebplayapi.somee.com" target="_blank">API MyWebPlay</a>
 <br /><br />
 <a href="http://normalwebbasic.somee.com" target="_blank">Normal MyWebPlay</a>
-<br /><br />
-<a onclick="RedirectToUrl2('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISS5VIy6hmmh2E0qo/KwXGIFpI2E7ysbt74PCM0P1WwjlSjApwPjKdFgHN6H0mI6/Lcnz6jEjdTneDE6v/IkHd+IGy2sC76OKDZZCChNXvvT6g='); return false;">[API] SESSION PLAY</a>
-<br /><br />
-<a onclick="RedirectToUrl2('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zd5kXBcBNYHOf/me0Up92dBcrScm3uYsFNd8zSnx3dOPmzBXaDPLxGQBoHx8gz4LYpQ3kWH2k25Ltv4nDm6UtI='); return false;">[NORAML] SESSION PLAY</a>
-<br /><br />
-<a onclick="RedirectToUrl2('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM081dtnDnL3776jzXv7AOZfRcgxk0JKJC/3Tf0z3JdqRUHmzwo/akmLgHtRJUj8gHcxwMC28wQCHGRta8k2+bgULCM5iW3v8BbEMlhaUmbscO0='); return false;">[SUB] SESSION PLAY</a>
 <br /><br />
 </h2>
 <script>
