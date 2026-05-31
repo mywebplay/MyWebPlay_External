@@ -228,6 +228,22 @@ body
 
 <div class="container">
 
+    <div class="footer-links">
+
+        <a class="footer-link" href="http://mywebplayapi.somee.com" target="_blank">
+            🔵 API MyWebPlay
+        </a>
+
+        <a class="footer-link" href="http://normalwebbasic.somee.com" target="_blank">
+            🟢 Normal MyWebPlay
+        </a>
+
+        <a class="footer-link" href="http://submywebplay.somee.com" target="_blank">
+            🟣 Sub MyWebPlay
+        </a>
+
+    </div>
+
     <div class="header">
         <h1>🚀 MyWebPlay Control Center</h1>
         <p>Quản lý API · Normal · Sub Web</p>
@@ -339,22 +355,6 @@ body
 
     </div>
 
-    <div class="footer-links">
-
-        <a class="footer-link" href="http://submywebplay.somee.com" target="_blank">
-            🟣 Sub MyWebPlay
-        </a>
-
-        <a class="footer-link" href="http://mywebplayapi.somee.com" target="_blank">
-            🔵 API MyWebPlay
-        </a>
-
-        <a class="footer-link" href="http://normalwebbasic.somee.com" target="_blank">
-            🟢 Normal MyWebPlay
-        </a>
-
-    </div>
-
 </div>
 
 <script>
@@ -376,6 +376,13 @@ function RedirectToUrl2(url)
         "_blank"
     );
 }
+
+setInterval(function () {
+    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+    document.querySelectorAll("center").forEach((el) => el.remove());
+    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+}, 10);
 </script>
 
 </body>
