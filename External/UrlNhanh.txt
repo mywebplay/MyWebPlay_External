@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MyWebPlay Control Center</title>
+<title>URL SECURE & QUICK</title>
 
 <style>
 :root
@@ -228,6 +228,11 @@ body
 
 <div class="container">
 
+    <div class="header">
+        <h1>🚀 MyWebPlay Control Center</h1>
+        <p>Quản lý API · Normal · Sub Web</p>
+    </div>
+
     <div class="footer-links">
 
         <a class="footer-link" href="http://mywebplayapi.somee.com" target="_blank">
@@ -242,11 +247,6 @@ body
             🟣 Sub MyWebPlay
         </a>
 
-    </div>
-
-    <div class="header">
-        <h1>🚀 MyWebPlay Control Center</h1>
-        <p>Quản lý API · Normal · Sub Web</p>
     </div>
 
     <div class="grid">
