@@ -61,7 +61,7 @@ a:hover
 <br /><br />
 <a onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P86zg9CFz+TSFshj8/MHgI6r2HFgdLdKl+ZVMJq+ou9rCdT5P6n/MIly5bxh5ANr7kACdJjbfKc94MzAugBjiep7M='); return false;">[NORAML] ADMIN SETTING</a>
 <br /><br />
-<a onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">[SUB] ADD SETTING</a>
+<a onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">[SUB] ADMIN SETTING</a>
 <br /><br />
 <hr />
 <a href="http://submywebplay.somee.com" target="_blank">Sub MyWebPlay</a>
