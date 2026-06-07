@@ -312,7 +312,7 @@ body
             </div>
 
             <div class="link-list">
-                <a class="btn api" href="http://mywebplayapi.somee.com/add-local-storage" target="_blank">
+                <a class="btn api" href="http://submywebplay.somee.com/add-local-storage" target="_blank">
                     💾 Add Local Storage
                 </a>
                 <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB'); return false;">📁 Save Data DX</a>
