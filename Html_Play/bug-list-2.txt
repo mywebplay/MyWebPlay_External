@@ -1,0 +1,182 @@
+<style>
+.my-modal-overlay
+{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.my-modal-box
+{
+    position: relative;
+    width: min(900px, 90vw);
+    max-height: 85vh;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    overflow: hidden;
+}
+
+.my-modal-content
+{
+    padding: 30px;
+    overflow-y: auto;
+    max-height: 85vh;
+}
+
+.my-modal-close
+{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #dc3545;
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.my-modal-close:hover
+{
+    transform: scale(1.05);
+}
+
+.my-modal-title
+{
+    color: #dc3545;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+}
+
+.my-modal-text
+{
+    color: #111;
+    font-size: 18px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 35px;
+}
+
+.my-modal-section:last-child .my-modal-text
+{
+    margin-bottom: 0;
+}
+</style>
+<script>
+function SeeTitle(i, nguyennhan, giaiphap)
+{
+    var row = document.getElementById("tr_" + i);
+
+    if (row == null)
+    {
+        return;
+    }
+
+    var hasNguyenNhan =
+        nguyennhan != null &&
+        nguyennhan.toString().trim() !== "";
+
+    var hasGiaiPhap =
+        giaiphap != null &&
+        giaiphap.toString().trim() !== "";
+
+    if (!hasNguyenNhan && !hasGiaiPhap)
+    {
+        return;
+    }
+
+    row.onclick = function ()
+    {
+        var oldModal = document.getElementById("myModalGlobal");
+
+        if (oldModal)
+        {
+            oldModal.remove();
+        }
+
+        var html = '';
+
+        if (hasNguyenNhan)
+        {
+            html += `
+                <div class="my-modal-section">
+                    <h2 class="my-modal-title">
+                        NGUYÊN NHÂN PHÁT SINH:
+                    </h2>
+
+                    <div class="my-modal-text">
+                        ${nguyennhan}
+                    </div>
+                </div>
+            `;
+        }
+
+        if (hasGiaiPhap)
+        {
+            html += `
+                <div class="my-modal-section">
+                    <h2 class="my-modal-title">
+                        GIẢI PHÁP ĐÃ ÁP DỤNG:
+                    </h2>
+
+                    <div class="my-modal-text">
+                        ${giaiphap}
+                    </div>
+                </div>
+            `;
+        }
+
+        var modal = document.createElement("div");
+
+        modal.id = "myModalGlobal";
+
+        modal.innerHTML = `
+            <div class="my-modal-overlay">
+                <div class="my-modal-box">
+
+                    <button
+                        type="button"
+                        class="my-modal-close">
+                        ✕
+                    </button>
+
+                    <div class="my-modal-content">
+                        ${html}
+                    </div>
+
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document.body.style.overflow = "hidden";
+
+        modal
+            .querySelector(".my-modal-close")
+            .onclick = function ()
+            {
+                document.body.style.overflow = "";
+                modal.remove();
+            };
+    };
+}
+
+    SeeTitle(25, "Setting không đúng: sai thành phần phân tách", null);
+    SeeTitle(40, "Logic hiện tại chỉ gửi result mail cho operator khi quá trình send e-mail xảy ra exception/error ngoài ý muốn.", null);
+    SeeTitle(57, "Kiểm nha nhầm/sót: 1 số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2).", null);
+    SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.", null);
+    SeeTitle(63, "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING", null);
+    SeeTitle(65, "Do quên bổ sung url mới vào file ListPageSetting.txt", null);
+</script>
