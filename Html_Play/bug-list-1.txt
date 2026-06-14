@@ -217,6 +217,7 @@ function showPart() {
 
   function SeeTitle(i, noidung)
   {
+     if (document.getElementById("tr_"+ i) == null) return;
      document.getElementById("tr_"+ i).title = noidung;
   }
 
