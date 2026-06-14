@@ -179,7 +179,8 @@ function SeeTitle(i, nguyennhan, giaiphap)
     SeeTitle(13, "Khi truy cập web lần đầu, hệ thống sẽ redirect đến 1 page tạm để get info IP của user nhưng sau đó lại redirect về url gốc, thay vì url EncryptX.", "Không redirect qua page tạm mà việc get info IP của user sẽ được xử lý trước ở Middle ware.");
     SeeTitle(18, null, "Sau khi xác minh yêu cầu sử dụng dịch vụ thành công thì tạm thời rule setting referrer URL sẽ không có hiệu lực lúc đó.");
     SeeTitle(25, "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).", null);
-    SeeTitle(40, "Logic hiện tại chỉ gửi result mail cho operator khi quá trình send e-mail xảy ra exception/error ngoài ý muốn.", null);
+    SeeTitle(35, "Do tên bài hát đang có chứa kí tự đặc biệt (VD: &) và chưa được xử lý encode đúng cách khi truyền vào param URL.", null);
+    SeeTitle(40, "Logic hiện tại chỉ gửi thông báo kết quả send mail cho operator khi quá trình send e-mail này đã xảy ra exception/error ngoài ý muốn.", null);
     SeeTitle(57, "Kiểm nha nhầm/sót: một số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2).", null);
     SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.", null);
     SeeTitle(63, "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING.", null);
