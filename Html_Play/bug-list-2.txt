@@ -98,7 +98,7 @@ function SeeTitle(i, nguyennhan, giaiphap)
         return;
     }
 
-    row.onclick = function ()
+    row.ondblclick = function ()
     {
         var oldModal = document.getElementById("myModalGlobal");
 
@@ -172,6 +172,12 @@ function SeeTitle(i, nguyennhan, giaiphap)
     };
 }
 
+    SeeTitle(3, null, "Rule setting của URL REDIRECT TO METHOD không áp dụng khi tự chính admin truy cập hoặc cần cẩn thận hơn khi muốn setting rule.");
+    SeeTitle(4, "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía back-end.", null);
+    SeeTitle(5, null, "Kiểm tra các url không tồn tại và redirect sang page /Home/Error (404) bằng cách sử dụng file setting  ListPageSetting.txt, không cần dựa vào web.config nữa.");
+    SeeTitle(10, "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía Javascript.", null);
+    SeeTitle(13, "Khi truy cập web lần đầu, hệ thống sẽ redirect đến 1 page tạm để get info IP của user nhưng sau đó lại redirect về url gốc, thay vì url EncryptX.", "Không redirect qua page tạm mà việc get info IP của user sẽ được xử lý trước ở Middle ware.");
+    SeeTitle(18, null, "Sau khi xác minh yêu cầu sử dụng dịch vụ thành công thì tạm thời rule setting referrer URL sẽ không có hiệu lực lúc đó.");
     SeeTitle(25, "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).", null);
     SeeTitle(40, "Logic hiện tại chỉ gửi result mail cho operator khi quá trình send e-mail xảy ra exception/error ngoài ý muốn.", null);
     SeeTitle(57, "Kiểm nha nhầm/sót: một số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2).", null);
