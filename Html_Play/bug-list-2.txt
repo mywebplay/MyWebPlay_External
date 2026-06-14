@@ -85,6 +85,8 @@ function SeeTitle(i, nguyennhan, giaiphap)
         return;
     }
 
+    row.style.cursor = "pointer";
+
     var hasNguyenNhan =
         nguyennhan != null &&
         nguyennhan.toString().trim() !== "";
