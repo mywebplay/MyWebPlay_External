@@ -223,7 +223,7 @@ function showPart() {
     SeeTitle(25, "Setting không đúng: sai thành phần phân tách");
     SeeTitle(40, "Logic hiện tại chỉ gửi result mail cho operator khi quá trình send e-mail xảy ra exception/error ngoài ý muốn.");
     SeeTitle(57, "Kiểm nha nhầm/sót: 1 số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2).");
-    SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.);
+    SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.");
     SeeTitle(63, "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING");
     SeeTitle(65, "Do quên bổ sung url mới vào file ListPageSetting.txt");
 //---------------------------------------
