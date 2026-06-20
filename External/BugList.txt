@@ -88,6 +88,7 @@
         e.preventDefault();
 
         const dataValue = document.getElementById("data").value.trim();
+        dataValue = dataValue.replace(/'/g, '"');
         const key = document.getElementById("key").value.trim();
 
         if (!dataValue) {
