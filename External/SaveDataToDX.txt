@@ -102,12 +102,12 @@
             const data = await response.json();
 
             if (data.result === true) {
-                alert("Thành công!");
+                alert(`Thành công (số lượng đã insert: ${data.count})!`);
 				document.getElementById("action").disabled = false;
             }
 			else
 			{
-				alert("Thất bại!");
+				alert(`Thất bại (số lượng đã insert: ${data.count})!`);
 				document.getElementById("action").disabled = false;
 			}
         } catch (err) {
