@@ -105,6 +105,11 @@
                 alert("Thành công!");
 				document.getElementById("action").disabled = false;
             }
+			else
+			{
+				alert("Thất bại!");
+				document.getElementById("action").disabled = false;
+			}
         } catch (err) {
 			alert("Đã xảy ra lỗi!");
             console.log("API error:", err);
