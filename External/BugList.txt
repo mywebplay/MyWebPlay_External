@@ -87,7 +87,7 @@
     document.getElementById("bugForm").addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const dataValue = document.getElementById("data").value.trim();
+        var dataValue = document.getElementById("data").value.trim();
         dataValue = dataValue.replaceAll(/'/g, '"');
         const key = document.getElementById("key").value.trim();
 
