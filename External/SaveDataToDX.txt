@@ -102,7 +102,7 @@
             const data = await response.json();
 
             if (data.result === true) {
-                alert(`Thành công!\nSố lượng đã insert: ${data.count}!`);
+                alert(`Thành công!\nSố lượng đã insert: ${data.count}`);
 				document.getElementById("action").disabled = false;
             }
 			else
