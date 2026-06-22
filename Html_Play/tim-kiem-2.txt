@@ -177,21 +177,35 @@ function openDateTimeModal(input) {
     currentInput = input;
 
     const modal = document.getElementById('dtModal');
-    const chk = document.getElementById('chkUseTime');
 
     modal.style.display = 'block';
 
-    if (picker) picker.destroy();
+    if (picker) {
+        picker.destroy();
+    }
 
-    // const hasTime = input.value && input.value.includes(':');
-   // chk.checked = hasTime;
+    let defaultDate = input.value;
+
+    if (!defaultDate) {
+
+        const now = new Date();
+
+        if (input.id === "txtParam2") {
+            now.setHours(0, 0, 0, 0);
+        }
+        else if (input.id === "txtParam3") {
+            now.setHours(23, 59, 59, 0);
+        }
+
+        defaultDate = now;
+    }
 
     picker = flatpickr("#dtPicker", {
         enableTime: true,
         enableSeconds: true,
         dateFormat: "Y-m-d H:i:S",
         time_24hr: true,
-        defaultDate: input.value || null
+        defaultDate: defaultDate
     });
 }
 
