@@ -148,7 +148,7 @@
     }
 
 function showPart() {
-        alert("Bug đã được fix trước một phần - bug chỉ tái hiện được tại local hoặc chỉ tái hiện được trên môi trường somee.\nHoặc bug đang được mô tả thì đã được fix, nhưng chưa kiểm tra các phạm vi trường hợp ảnh hưởng liên quan khác (nếu có).");
+        alert("Bug đã được fix trước một phần - bug chỉ tái hiện được tại local hoặc chỉ tái hiện được trên môi trường somee.\nHoặc bug đang được mô tả thì đã được fix, nhưng chưa kiểm tra các phạm vi trường hợp ảnh hưởng liên quan khác (nếu có).\nHoặc bug đã được vá tạm thời bằng cách sử dụng chức năng inject HTML PLAY.");
     }
 </script>
 <script>
