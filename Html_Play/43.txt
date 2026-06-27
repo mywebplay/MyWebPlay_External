@@ -1,0 +1,31 @@
+<!-- POST - map/render lại vào các input form mà user đã input và gửi đến server  -->
+@@ input_json_form @@
+<script>
+(() => {
+    const txt = document.getElementById("jsForm");
+    if (!txt) return;
+
+    const json = JSON.parse(txt.value);
+
+    for (const [key, value] of Object.entries(json)) {
+        const els = document.getElementsByName(key);
+        if (els.length === 0) continue;
+
+        const el = els[0];
+
+        if (el instanceof HTMLInputElement) {
+            if (el.type === "checkbox" && value === "on") {
+                el.checked = true;
+            } else {
+                el.value = value;
+            }
+        }
+        else if (
+            el instanceof HTMLTextAreaElement ||
+            el instanceof HTMLSelectElement
+        ) {
+            el.value = value;
+        }
+    }
+})();
+</script>
