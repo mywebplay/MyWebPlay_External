@@ -210,7 +210,7 @@ function showPart() {
   DanhDauPending([7,8,14,20,55,62]);
   DanhDauTrick([3,5,9,18,30,31,59]);
   DanhDauNoBug([25,40,57,61,63,65,68]);
-  DanhDauClosed([22,52]);
+  DanhDauClosed([22,52,54]);
   DanhDauPart([21,43,51]);
 
 //---------------------------------------
