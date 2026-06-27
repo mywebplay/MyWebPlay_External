@@ -2503,6 +2503,10 @@
                           }
                       }
                   }
+                else
+                {
+                    document.getElementById("thietkeKara").innerHTML = "";
+                }
           
                   document.getElementById("txtKaraoke1").innerHTML = '<span id="xanhX1" class="word"></span>';
                   document.getElementById("txtKaraoke2").innerHTML = '<span id="xanhX2" class="work"></span>';
