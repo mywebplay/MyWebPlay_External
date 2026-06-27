@@ -183,7 +183,8 @@ function SeeTitle(i, nguyennhan, giaiphap)
     SeeTitle(25, "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).", null);
     SeeTitle(35, "Do tên bài hát đang có chứa kí tự đặc biệt (VD: &) và chưa được xử lý encode đúng cách khi truyền vào param URL.", null);
     SeeTitle(40, "Logic hiện tại chỉ gửi thông báo kết quả send mail cho operator khi quá trình send e-mail này đã xảy ra exception/error ngoài ý muốn.", null);
-    SeeTitle(56, "[VỀ VẤN ĐỀ CHƯA BAO GIỜ NHẬN ĐƯỢC E-MAIL 2]\n=> Do admin tự setting chặn nhận mail chứa nội dung này, nên không phải BUG.", null);
+    SeeTitle(54, "[CHAT GPT]: Đây không phải bug mà là hành vi mặc định của trình duyệt (Safari/iOS và một số browser khác) tự động request /apple-touch-icon.png và /apple-touch-icon-precomposed.png để tìm icon phục vụ bookmark hoặc “Add to Home Screen”, hoàn toàn không do user thao tác hay hệ thống gọi API; request này an toàn, không ảnh hưởng chức năng, việc trả 404 là bình thường và có thể coi là noise trong log nên bug list này có thể CLOSED và không cần xử lý thêm.", null);
+    SeeTitle(56, "[VỀ VẤN ĐỀ CHƯA BAO GIỜ NHẬN ĐƯỢC E-MAIL 2] => Do admin tự setting chặn nhận mail chứa nội dung này, nên không phải BUG.", null);
     SeeTitle(57, "Kiểm nha nhầm/sót: một số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2) => đã có sự thiếu sót/nhầm lẫn trong quá trình kiểm tra, không phải BUG.", null);
     SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.", null);
     SeeTitle(63, "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING.", null);
