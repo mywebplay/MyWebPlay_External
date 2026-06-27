@@ -2606,6 +2606,9 @@
                              mau = document.getElementById("mau").value;
                              document.getElementById("temp_text").value = x[1];
                              document.getElementById("thietkeKara").innerHTML = document.getElementById("temp_text").value;
+                             if (LBH[n] == "[Empty]" || LBH[n] == "[Empty-X]" || LBH[n] == "[Music]") {
+                                document.getElementById("thietkeKara").innerHTML = "";
+                             }
                              document.getElementById("thietkeKara").style.color = x[2];
          
                              //Check member is has singer
