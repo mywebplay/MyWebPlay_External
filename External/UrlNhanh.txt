@@ -275,6 +275,10 @@ body
                     ⚙️ Admin Setting
                 </a>
 
+                 <a class="btn api" href="http://mywebplayapi.somee.com/Cover/IAmMyWebPlay" target="_blank">
+                    🌻 I'm MyWebPlay
+                </a>
+
             </div>
         </div>
 
@@ -302,6 +306,10 @@ body
                     ⚙️ Admin Setting
                 </a>
 
+                <a class="btn normal" href="http://normalwebbasic.somee.com/Cover/IAmMyWebPlay" target="_blank">
+                    🌻 I'm MyWebPlay
+                </a>
+
             </div>
         </div>
 
@@ -312,7 +320,7 @@ body
             </div>
 
             <div class="link-list">
-                <a class="btn api" href="http://submywebplay.somee.com/add-local-storage" target="_blank">
+                <a class="btn sub" href="http://submywebplay.somee.com/add-local-storage" target="_blank">
                     💾 Add Local Storage
                 </a>
                 <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08exfrJpSs6gzTDO1MUFgImxC+PXW/S8nS0NuNc88dZtwZJj751cpM9h89yMAbZ/kB'); return false;">📁 Save Data DX</a>
@@ -324,6 +332,9 @@ body
 
                 <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM081dtnDnL3776jzXv7AOZfRcgxk0JKJC/3Tf0z3JdqRUHmzwo/akmLgHtRJUj8gHcxwMC28wQCHGRta8k2+bgULCM5iW3v8BbEMlhaUmbscO0='); return false;">🔐 Session Play</a>
                 <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">⚙️ Admin Setting</a>
+                <a class="btn sub" href="http://submywebplay.somee.com/Cover/IAmMyWebPlay" target="_blank">
+                    🌻 I'm MyWebPlay
+                </a>
 
             </div>
         </div>
