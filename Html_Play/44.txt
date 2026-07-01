@@ -1,0 +1,402 @@
+<!-- [FILE STATIC PRIVATE] Chia thành nhiều part và xoá từng phần tử + áp dụng lại vào textarea data của file -->
+<div id="mwp_hp_remove_line_root" style="display:none;">
+
+    <div id="mwp_hp_remove_line_toolbar">
+        <button id="mwp_hp_remove_line_btn" type="button">
+            REMOVE IN THE LINE
+        </button>
+    </div>
+
+    <div id="mwp_hp_remove_line_overlay">
+
+        <div id="mwp_hp_remove_line_modal">
+
+            <button id="mwp_hp_remove_line_close"
+                    type="button"
+                    title="Đóng">
+                ✕
+            </button>
+
+            <div id="mwp_hp_remove_line_header">
+                <span>REMOVE IN THE LINE</span>
+            </div>
+
+            <div id="mwp_hp_remove_line_body">
+
+                <div id="mwp_hp_remove_line_list">
+
+                </div>
+
+            </div>
+
+            <div id="mwp_hp_remove_line_footer">
+
+                <button id="mwp_hp_remove_line_confirm"
+                        type="button">
+                    Xác nhận
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<style>
+
+#mwp_hp_remove_line_root{
+    display:none;
+}
+
+#mwp_hp_remove_line_toolbar{
+    margin-top:8px;
+}
+
+#mwp_hp_remove_line_btn{
+    padding:8px 18px;
+    font-size:14px;
+    cursor:pointer;
+    border:1px solid #999;
+    border-radius:6px;
+    background:#fff;
+}
+
+#mwp_hp_remove_line_btn:hover{
+    background:#f3f3f3;
+}
+
+#mwp_hp_remove_line_overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:2147483646;
+}
+
+#mwp_hp_remove_line_modal{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:900px;
+    max-width:95vw;
+    height:90vh;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+#mwp_hp_remove_line_header{
+    flex-shrink:0;
+    padding:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+    background:#fafafa;
+}
+
+#mwp_hp_remove_line_close{
+    position:absolute;
+    right:14px;
+    top:14px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#d60000;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#mwp_hp_remove_line_close:hover{
+    background:#b40000;
+}
+
+#mwp_hp_remove_line_body{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:18px;
+}
+
+#mwp_hp_remove_line_list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+</style>
+<style>
+
+.mwp_hp_remove_line_item{
+    position:relative;
+    display:flex;
+    align-items:center;
+    min-height:46px;
+    padding:10px 52px 10px 14px;
+    border:1px solid #d8d8d8;
+    border-radius:8px;
+    background:#f7f7f7;
+    transition:all .25s ease;
+}
+
+.mwp_hp_remove_line_item:hover{
+    background:#efefef;
+}
+
+.mwp_hp_hp_remove_line_text{
+    width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:15px;
+    line-height:22px;
+}
+
+.mwp_hp_remove_line_remove{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    width:24px;
+    height:24px;
+    line-height:22px;
+    text-align:center;
+    border-radius:50%;
+    cursor:pointer;
+    color:#d60000;
+    font-weight:bold;
+    font-size:18px;
+    user-select:none;
+}
+
+.mwp_hp_remove_line_remove:hover{
+    background:#d60000;
+    color:#fff;
+}
+
+.mwp_hp_remove_line_item_remove{
+    opacity:0;
+    transform:translateX(-20px);
+}
+
+#mwp_hp_remove_line_footer{
+    flex-shrink:0;
+    position:sticky;
+    bottom:0;
+    background:#fff;
+    border-top:1px solid #ddd;
+    padding:16px;
+    text-align:center;
+}
+
+#mwp_hp_remove_line_confirm{
+    min-width:180px;
+    padding:11px 24px;
+    border:none;
+    border-radius:8px;
+    background:#18a44b;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#mwp_hp_remove_line_confirm:hover{
+    background:#12873d;
+}
+
+</style>
+<script>
+
+var listFileCanRemove = [];
+
+(function () {
+
+    if (document.getElementById("mwp_hp_remove_line_initialized"))
+    {
+        return;
+    }
+
+    var initFlag = document.createElement("div");
+    initFlag.id = "mwp_hp_remove_line_initialized";
+    initFlag.style.display = "none";
+    document.body.appendChild(initFlag);
+
+    function init()
+    {
+        var txtFile = document.getElementById("filene");
+        var txtData = document.getElementById("data");
+
+        if (!txtFile || !txtData)
+        {
+            return;
+        }
+
+        if (listFileCanRemove.indexOf(txtFile.value) < 0)
+        {
+            return;
+        }
+
+        var root = document.getElementById("mwp_hp_remove_line_root");
+        var btn = document.getElementById("mwp_hp_remove_line_btn");
+
+        if (!root || !btn)
+        {
+            return;
+        }
+
+        root.style.display = "";
+
+        if (!btn.parentNode.__mwp_inserted)
+        {
+            txtData.insertAdjacentElement("afterend", btn.parentNode);
+            btn.parentNode.__mwp_inserted = true;
+        }
+
+        bindEvent();
+    }
+
+    var binded = false;
+    var lineData = [];
+
+    function bindEvent()
+    {
+        if (binded)
+        {
+            return;
+        }
+
+        binded = true;
+
+        document.getElementById("mwp_hp_remove_line_btn").addEventListener("click", openModal);
+
+        document.getElementById("mwp_hp_remove_line_close").addEventListener("click", closeModal);
+
+        document.getElementById("mwp_hp_remove_line_confirm").addEventListener("click", confirmData);
+
+        document.getElementById("mwp_hp_remove_line_list").addEventListener("click", function (e)
+        {
+            if (!e.target.classList.contains("mwp_hp_remove_line_remove"))
+            {
+                return;
+            }
+
+            var index = parseInt(e.target.parentNode.dataset.index);
+
+            removeItem(index);
+        });
+    }
+
+    function openModal()
+    {
+        var txtData = document.getElementById("data");
+
+        lineData = txtData.value
+            .split(/\r\n|\n|\r/)
+            .filter(function (x)
+            {
+                return x.trim() !== "";
+            });
+
+        renderList();
+
+        document.getElementById("mwp_hp_remove_line_overlay").style.display = "block";
+
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeModal()
+    {
+        document.getElementById("mwp_hp_remove_line_overlay").style.display = "none";
+
+        document.body.style.overflow = "";
+    }
+
+    function renderList()
+    {
+        var list = document.getElementById("mwp_hp_remove_line_list");
+
+        list.innerHTML = "";
+
+        for (var i = 0; i < lineData.length; i++)
+        {
+            var item = document.createElement("div");
+
+            item.className = "mwp_hp_remove_line_item";
+
+            item.dataset.index = i;
+
+            var text = lineData[i];
+
+            if (text.length > 300)
+            {
+                text = text.substring(0, 300) + "...";
+            }
+
+            item.innerHTML =
+                '<div class="mwp_hp_hp_remove_line_text">' +
+                escapeHtml(text) +
+                '</div>' +
+                '<div class="mwp_hp_remove_line_remove">×</div>';
+
+            list.appendChild(item);
+        }
+    }
+
+    function removeItem(index)
+    {
+        var list = document.getElementById("mwp_hp_remove_line_list");
+
+        var item = list.querySelector('[data-index="' + index + '"]');
+
+        if (!item)
+        {
+            return;
+        }
+
+        item.classList.add("mwp_hp_remove_line_item_remove");
+
+        setTimeout(function ()
+        {
+            lineData.splice(index, 1);
+
+            renderList();
+
+        }, 180);
+    }
+
+    function confirmData()
+    {
+        document.getElementById("data").value = lineData.join("\r\n");
+
+        closeModal();
+    }
+
+    function escapeHtml(text)
+    {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    if (document.readyState === "loading")
+    {
+        document.addEventListener("DOMContentLoaded", init);
+    }
+    else
+    {
+        init();
+    }
+
+})();
+
+</script>
