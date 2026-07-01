@@ -3,7 +3,7 @@
 
     <div id="mwp_hp_remove_line_toolbar">
         <button id="mwp_hp_remove_line_btn" type="button">
-            REMOVE IN THE LINE
+            <b style="color:red;">REMOVE IN THE LINE</b>
         </button>
     </div>
 
