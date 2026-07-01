@@ -309,7 +309,7 @@ var listFileCanRemove = ["/ClientConnect/ListIPComeHere.txt", "/Admin/ListIPCome
 
         document.getElementById("mwp_hp_remove_line_overlay").style.display = "block";
 
-        document.body.style.overflow = "hidden";
+        // document.body.style.overflow = "hidden";
     }
 
     function closeModal()
