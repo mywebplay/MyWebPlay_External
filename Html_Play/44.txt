@@ -295,6 +295,7 @@ var listFileCanRemove = ["/ClientConnect/ListIPComeHere.txt", "/Admin/ListIPCome
 
     function openModal()
     {
+        document.getElementById("mwp_hp_remove_line_root").style.display = "block";
         var txtData = document.getElementById("data");
 
         lineData = txtData.value
@@ -343,7 +344,9 @@ var listFileCanRemove = ["/ClientConnect/ListIPComeHere.txt", "/Admin/ListIPCome
                 '<div class="mwp_hp_hp_remove_line_text">' +
                 escapeHtml(text) +
                 '</div>' +
-                '<div class="mwp_hp_remove_line_remove">×</div>';
+                (i === 0
+                    ? ''
+                    : '<div class="mwp_hp_remove_line_remove">×</div>');
 
             list.appendChild(item);
         }
