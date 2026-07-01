@@ -214,7 +214,7 @@
 </style>
 <script>
 
-var listFileCanRemove = [];
+var listFileCanRemove = ["/ClientConnect/ListIPComeHere.txt", "/Admin/ListIPComeToHereTheFirst.txt"];
 
 (function () {
 
