@@ -291,8 +291,8 @@ case "Game2048":window.location.href="/game-2048";break;
 case "GameFlappyBird":window.location.href="/game-flappy-bird";break;
 case "GameTyping":window.location.href="/game-typing";break;
 case "GameMemory":window.location.href="/game-memory";break;
-/* case "Studocu":showmodal1();break; */
-case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break;
+case "Studocu":showmodal1();break;
+/* case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break; */
 }
 });
 });
