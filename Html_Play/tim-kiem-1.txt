@@ -138,6 +138,7 @@ const placeholders = [
      "Nhập từ khoá tìm kiếm theo ngày truy cập (kết thúc, định dạng: yyyy-MM-dd HH:mm:ss)",
     "Nhập từ khoá tìm kiếm theo thông tin truy cập",
     "Nhập từ khoá tìm kiếm theo trạng thái",
+    "Nhập từ khoá tìm kiếm theo mã code của thời điểm được insert/update"
 ];
 
 for (let i = 0; i < placeholders.length; i++) {
