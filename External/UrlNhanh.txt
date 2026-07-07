@@ -279,6 +279,10 @@ body
                     🌻 I'm MyWebPlay
                 </a>
 
+                <a class="btn api" href="http://mywebplayapi.somee.com/Cover/IAmNotMyWebPlay" target="_blank">
+                    🌹 I'm Not MyWebPlay
+                </a>
+
             </div>
         </div>
 
@@ -310,6 +314,10 @@ body
                     🌻 I'm MyWebPlay
                 </a>
 
+                <a class="btn normal" href="http://normalwebbasic.somee.com/Cover/IAmNotMyWebPlay" target="_blank">
+                    🌹 I'm Not MyWebPlay
+                </a>
+
             </div>
         </div>
 
@@ -334,6 +342,9 @@ body
                 <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08dDHIr6vR1KjmuyvG+cldLpRx12bMGh3M2+wWfCevWdUIDLQo4RO16dqe4zVk6zI0uYht4Xk7frKxh5RZgsZ7zx4D3iVB5W6O7hmnC5Z9sN8='); return false;">⚙️ Admin Setting</a>
                 <a class="btn sub" href="http://submywebplay.somee.com/Cover/IAmMyWebPlay" target="_blank">
                     🌻 I'm MyWebPlay
+                </a>
+                <a class="btn sub" href="http://submywebplay.somee.com/Cover/IAmNotMyWebPlay" target="_blank">
+                    🌹 I'm Not MyWebPlay
                 </a>
 
             </div>
