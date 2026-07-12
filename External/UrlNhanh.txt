@@ -283,6 +283,14 @@ body
                     🌹 I'm Not MyWebPlay
                 </a>
 
+                <a class="btn api" onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2C7z55rqiFhlI+k6AGt3NoMHDBybgN0Y5ooKaw/LD+5lt+Bu2DdVL3n7MytQ0xN2Q1JZQ/NUt8TcMRs75s7l4ox04YvsboOqO5u7Lak7rOqr');return false;">
+                    💚 See Temp Page (First IP)
+                </a>
+
+                <a class="btn api" onclick="RedirectToUrl('vDg0r0TWQmyOUlLQz6xu/zRc70fqsmQLfhUA673FC0Ys/ExMkJAOQ4bEWafRyISSWNhBGMip27Tuem3/js7c2C7z55rqiFhlI+k6AGt3NoMHDBybgN0Y5ooKaw/LD+5lt+Bu2DdVL3n7MytQ0xN2Q47AfJAr8S3AmVHPIR9RquEOo8NKSc9DYaxIZv36TSm8');return false;">
+                    🧡 See Temp Page (Request Info)
+                </a>
+
             </div>
         </div>
 
@@ -318,6 +326,14 @@ body
                     🌹 I'm Not MyWebPlay
                 </a>
 
+                <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMF/0Mi4FwmznTFO++ys9Dn57WbpVPu9ElDQZUGCwWBYzCmmop5O45Gt4aLVaiE5aBA8VmqW23Mx+J65O19jmdhEMyNXkaHuGQI4B/qOdzkGTg==');return false;">
+                    💚 See Temp Page (First IP)
+                </a>
+
+                <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMF/0Mi4FwmznTFO++ys9Dn57WbpVPu9ElDQZUGCwWBYzA3pcRwxYmtQ/p7vNZnfQLcaax54S0l85WDZnRtUbpnz');return false;">
+                    🧡 See Temp Page (Request Info)
+                </a>
+
             </div>
         </div>
 
@@ -345,6 +361,14 @@ body
                 </a>
                 <a class="btn sub" href="http://submywebplay.somee.com/Cover/IAmNotMyWebPlay" target="_blank">
                     🌹 I'm Not MyWebPlay
+                </a>
+
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisgmCPKI39i/IUkLNZucHeLCPKpf7R/3wHJa/Or6FaEtMwU+uN6lUqXdz8QLKHg9Grgf56tV3r8yExJegaKfdfmKla+9FSTvQX2hO2YDTXKuJ');return false;">
+                    💚 See Temp Page (First IP)
+                </a>
+
+                <a class="btn sub" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisgmCPKI39i/IUkLNZucHeLCPKpf7R/3wHJa/Or6FaEtMwU+uN6lUqXdz8QLKHg9GrurFV1Z8Wb+rmEojWdQQRsJx+jA0mHm0KePs9fKYJ0TH');return false;">
+                    🧡 See Temp Page (Request Info)
                 </a>
 
             </div>
