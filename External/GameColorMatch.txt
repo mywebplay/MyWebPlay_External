@@ -916,7 +916,7 @@
 
         let roundStartTime = 0;
 
-        let currentTimeLimit = 4000;
+        let currentTimeLimit = 5000;
 
 
         const MIN_TIME_LIMIT = 1000;
