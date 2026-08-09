@@ -1,0 +1,2042 @@
+const HANGMAN_LEVELS = [
+
+    // ============================================================
+    // 1 - 50: EASY
+    // ============================================================
+
+    {
+        word: "ELEPHANT",
+        hint: "An animal with a long trunk"
+    },
+    {
+        word: "COMPUTER",
+        hint: "An electronic device used for work and entertainment"
+    },
+    {
+        word: "MOUNTAIN",
+        hint: "A very high natural landform"
+    },
+    {
+        word: "BASKETBALL",
+        hint: "A sport played with a ball and a hoop"
+    },
+    {
+        word: "KEYBOARD",
+        hint: "You use it to type on a computer"
+    },
+    {
+        word: "AIRPLANE",
+        hint: "A vehicle that flies in the sky"
+    },
+    {
+        word: "CHOCOLATE",
+        hint: "A sweet food made from cocoa"
+    },
+    {
+        word: "TIGER",
+        hint: "A large wild cat with stripes"
+    },
+    {
+        word: "GUITAR",
+        hint: "A musical instrument with strings"
+    },
+    {
+        word: "RAINBOW",
+        hint: "You may see it after rain"
+    },
+    {
+        word: "TELEVISION",
+        hint: "A device used to watch programs"
+    },
+    {
+        word: "BICYCLE",
+        hint: "A vehicle with two wheels and pedals"
+    },
+    {
+        word: "OCEAN",
+        hint: "A very large body of salt water"
+    },
+    {
+        word: "PIZZA",
+        hint: "A popular Italian food with cheese and toppings"
+    },
+    {
+        word: "BROWSER",
+        hint: "You use it to visit websites"
+    },
+    {
+        word: "BUTTERFLY",
+        hint: "An insect with colorful wings"
+    },
+    {
+        word: "SCHOOL",
+        hint: "A place where students learn"
+    },
+    {
+        word: "MOTORCYCLE",
+        hint: "A two-wheeled motor vehicle"
+    },
+    {
+        word: "SUNFLOWER",
+        hint: "A tall yellow flower"
+    },
+    {
+        word: "CAMERA",
+        hint: "A device used to take pictures"
+    },
+    {
+        word: "APPLE",
+        hint: "A common round fruit"
+    },
+    {
+        word: "BANANA",
+        hint: "A long yellow fruit"
+    },
+    {
+        word: "ORANGE",
+        hint: "A citrus fruit and a color"
+    },
+    {
+        word: "TOMATO",
+        hint: "A red fruit often used in salads"
+    },
+    {
+        word: "PENCIL",
+        hint: "You use it to write or draw"
+    },
+    {
+        word: "WINDOW",
+        hint: "You can look through it in a building"
+    },
+    {
+        word: "DOOR",
+        hint: "You open it to enter a room"
+    },
+    {
+        word: "CHAIR",
+        hint: "A piece of furniture for sitting"
+    },
+    {
+        word: "TABLE",
+        hint: "Furniture with a flat surface"
+    },
+    {
+        word: "BOTTLE",
+        hint: "A container commonly used for liquids"
+    },
+    {
+        word: "SCHOOLBAG",
+        hint: "Students carry books in it"
+    },
+    {
+        word: "TEACHER",
+        hint: "A person who helps students learn"
+    },
+    {
+        word: "DOCTOR",
+        hint: "A person who treats sick people"
+    },
+    {
+        word: "FARMER",
+        hint: "A person who grows crops or raises animals"
+    },
+    {
+        word: "POLICE",
+        hint: "People who help enforce the law"
+    },
+    {
+        word: "FIREMAN",
+        hint: "A person who fights fires"
+    },
+    {
+        word: "KITCHEN",
+        hint: "A room where food is prepared"
+    },
+    {
+        word: "BEDROOM",
+        hint: "A room where people sleep"
+    },
+    {
+        word: "GARDEN",
+        hint: "A place where plants and flowers grow"
+    },
+    {
+        word: "WINDOW",
+        hint: "An opening in a wall covered with glass"
+    },
+    {
+        word: "SUMMER",
+        hint: "The warmest season of the year"
+    },
+    {
+        word: "WINTER",
+        hint: "The coldest season of the year"
+    },
+    {
+        word: "SPRING",
+        hint: "The season when many flowers bloom"
+    },
+    {
+        word: "AUTUMN",
+        hint: "The season when many leaves change color"
+    },
+    {
+        word: "MORNING",
+        hint: "The early part of the day"
+    },
+    {
+        word: "EVENING",
+        hint: "The part of the day before night"
+    },
+    {
+        word: "BREAKFAST",
+        hint: "The first meal of the day"
+    },
+    {
+        word: "DINNER",
+        hint: "A main meal often eaten in the evening"
+    },
+    {
+        word: "WATERMELON",
+        hint: "A large fruit with green skin and juicy flesh"
+    },
+    {
+        word: "STRAWBERRY",
+        hint: "A small red fruit with tiny seeds on its surface"
+    },
+
+
+    // ============================================================
+    // 51 - 100
+    // ============================================================
+
+    {
+        word: "DOG",
+        hint: "A common domestic animal that barks"
+    },
+    {
+        word: "CAT",
+        hint: "A small domestic animal that often purrs"
+    },
+    {
+        word: "HORSE",
+        hint: "An animal commonly used for riding"
+    },
+    {
+        word: "RABBIT",
+        hint: "A small animal with long ears"
+    },
+    {
+        word: "MONKEY",
+        hint: "A clever animal that can climb trees"
+    },
+    {
+        word: "LION",
+        hint: "A large wild cat often called the king of animals"
+    },
+    {
+        word: "BEAR",
+        hint: "A large mammal with thick fur"
+    },
+    {
+        word: "ZEBRA",
+        hint: "An animal with black and white stripes"
+    },
+    {
+        word: "GIRAFFE",
+        hint: "The tallest animal with a very long neck"
+    },
+    {
+        word: "KANGAROO",
+        hint: "An Australian animal that moves by jumping"
+    },
+    {
+        word: "PENGUIN",
+        hint: "A flightless bird that is excellent at swimming"
+    },
+    {
+        word: "DOLPHIN",
+        hint: "An intelligent marine mammal"
+    },
+    {
+        word: "WHALE",
+        hint: "One of the largest animals in the ocean"
+    },
+    {
+        word: "SHARK",
+        hint: "A large fish with many sharp teeth"
+    },
+    {
+        word: "OCTOPUS",
+        hint: "A sea animal with eight arms"
+    },
+    {
+        word: "TURTLE",
+        hint: "A reptile protected by a hard shell"
+    },
+    {
+        word: "FROG",
+        hint: "An amphibian that can jump and croak"
+    },
+    {
+        word: "SNAKE",
+        hint: "A long reptile without legs"
+    },
+    {
+        word: "CROCODILE",
+        hint: "A large reptile that lives near water"
+    },
+    {
+        word: "PARROT",
+        hint: "A colorful bird that can imitate sounds"
+    },
+    {
+        word: "EAGLE",
+        hint: "A large bird known for its powerful eyesight"
+    },
+    {
+        word: "OWL",
+        hint: "A bird that is often associated with nighttime"
+    },
+    {
+        word: "PEACOCK",
+        hint: "A bird famous for its colorful tail"
+    },
+    {
+        word: "DOLPHIN",
+        hint: "A highly intelligent animal that lives in the sea"
+    },
+    {
+        word: "SEAHORSE",
+        hint: "A small sea creature shaped somewhat like a horse"
+    },
+    {
+        word: "STARFISH",
+        hint: "A sea animal commonly shaped like a star"
+    },
+    {
+        word: "JELLYFISH",
+        hint: "A soft sea animal that can sting"
+    },
+    {
+        word: "CRAB",
+        hint: "A sea animal that walks sideways"
+    },
+    {
+        word: "LOBSTER",
+        hint: "A sea animal with large claws"
+    },
+    {
+        word: "SQUIRREL",
+        hint: "A small animal that often collects nuts"
+    },
+    {
+        word: "HAMSTER",
+        hint: "A small pet that likes running in a wheel"
+    },
+    {
+        word: "GOAT",
+        hint: "A farm animal known for climbing and eating plants"
+    },
+    {
+        word: "SHEEP",
+        hint: "A farm animal covered in wool"
+    },
+    {
+        word: "CHICKEN",
+        hint: "A common farm bird that lays eggs"
+    },
+    {
+        word: "ROOSTER",
+        hint: "A male chicken known for crowing"
+    },
+    {
+        word: "DUCK",
+        hint: "A bird that commonly swims on ponds"
+    },
+    {
+        word: "GOOSE",
+        hint: "A large water bird with a long neck"
+    },
+    {
+        word: "DONKEY",
+        hint: "A working animal related to the horse"
+    },
+    {
+        word: "CAMEL",
+        hint: "A desert animal famous for its hump"
+    },
+    {
+        word: "PANDA",
+        hint: "A black and white animal that eats bamboo"
+    },
+    {
+        word: "KOALA",
+        hint: "An Australian animal that lives in trees"
+    },
+    {
+        word: "CHEETAH",
+        hint: "The fastest land animal"
+    },
+    {
+        word: "LEOPARD",
+        hint: "A spotted wild cat"
+    },
+    {
+        word: "WOLF",
+        hint: "A wild canine that often lives in packs"
+    },
+    {
+        word: "FOX",
+        hint: "A small wild canine with a bushy tail"
+    },
+    {
+        word: "DEER",
+        hint: "A forest animal whose males may grow antlers"
+    },
+    {
+        word: "MOOSE",
+        hint: "A very large deer with broad antlers"
+    },
+    {
+        word: "GORILLA",
+        hint: "A powerful great ape"
+    },
+    {
+        word: "CHIMPANZEE",
+        hint: "A highly intelligent great ape"
+    },
+
+
+    // ============================================================
+    // 101 - 150
+    // ============================================================
+
+    {
+        word: "BREAD",
+        hint: "A baked food commonly made from flour"
+    },
+    {
+        word: "CHEESE",
+        hint: "A dairy food often put on pizza"
+    },
+    {
+        word: "BUTTER",
+        hint: "A dairy product often spread on bread"
+    },
+    {
+        word: "MILK",
+        hint: "A white drink produced by mammals"
+    },
+    {
+        word: "COFFEE",
+        hint: "A popular drink made from roasted beans"
+    },
+    {
+        word: "TEA",
+        hint: "A drink commonly made by steeping leaves in hot water"
+    },
+    {
+        word: "JUICE",
+        hint: "A drink made from fruit or vegetables"
+    },
+    {
+        word: "NOODLES",
+        hint: "Long thin strips of dough commonly used in Asian dishes"
+    },
+    {
+        word: "SANDWICH",
+        hint: "Food made by putting ingredients between slices of bread"
+    },
+    {
+        word: "HAMBURGER",
+        hint: "A sandwich containing a cooked patty"
+    },
+    {
+        word: "PANCAKE",
+        hint: "A flat round breakfast food cooked in a pan"
+    },
+    {
+        word: "COOKIE",
+        hint: "A small sweet baked snack"
+    },
+    {
+        word: "CAKE",
+        hint: "A sweet baked dessert often eaten at celebrations"
+    },
+    {
+        word: "ICECREAM",
+        hint: "A frozen sweet dessert"
+    },
+    {
+        word: "POPCORN",
+        hint: "A snack made from heated corn kernels"
+    },
+    {
+        word: "POTATO",
+        hint: "A common underground vegetable"
+    },
+    {
+        word: "CARROT",
+        hint: "An orange root vegetable"
+    },
+    {
+        word: "ONION",
+        hint: "A vegetable that can make you cry when cut"
+    },
+    {
+        word: "GARLIC",
+        hint: "A strongly flavored ingredient used in cooking"
+    },
+    {
+        word: "MUSHROOM",
+        hint: "An edible fungus often used in cooking"
+    },
+    {
+        word: "BROCCOLI",
+        hint: "A green vegetable with small tree-like heads"
+    },
+    {
+        word: "CABBAGE",
+        hint: "A leafy vegetable that forms a round head"
+    },
+    {
+        word: "CUCUMBER",
+        hint: "A long green vegetable often used in salads"
+    },
+    {
+        word: "PUMPKIN",
+        hint: "A large orange fruit often associated with Halloween"
+    },
+    {
+        word: "PINEAPPLE",
+        hint: "A tropical fruit with rough skin and spiky leaves"
+    },
+    {
+        word: "COCONUT",
+        hint: "A tropical fruit with a hard shell"
+    },
+    {
+        word: "AVOCADO",
+        hint: "A green fruit often used to make guacamole"
+    },
+    {
+        word: "LEMON",
+        hint: "A yellow citrus fruit with a sour taste"
+    },
+    {
+        word: "CHERRY",
+        hint: "A small round red fruit with a stone"
+    },
+    {
+        word: "GRAPE",
+        hint: "A small round fruit that grows in bunches"
+    },
+    {
+        word: "PEACH",
+        hint: "A soft fruit with fuzzy skin"
+    },
+    {
+        word: "PEAR",
+        hint: "A fruit that is usually wider at the bottom"
+    },
+    {
+        word: "MANGO",
+        hint: "A sweet tropical fruit with yellow-orange flesh"
+    },
+    {
+        word: "PAPAYA",
+        hint: "A tropical fruit with orange flesh and black seeds"
+    },
+    {
+        word: "KIWI",
+        hint: "A small fruit with brown fuzzy skin and green flesh"
+    },
+    {
+        word: "BLUEBERRY",
+        hint: "A small blue-purple berry"
+    },
+    {
+        word: "RASPBERRY",
+        hint: "A soft red berry made of many small sections"
+    },
+    {
+        word: "WALNUT",
+        hint: "A nut with a hard wrinkled shell"
+    },
+    {
+        word: "PEANUT",
+        hint: "A common edible seed that grows underground"
+    },
+    {
+        word: "ALMOND",
+        hint: "An oval-shaped edible nut"
+    },
+    {
+        word: "CASHEW",
+        hint: "A curved kidney-shaped nut"
+    },
+    {
+        word: "HONEY",
+        hint: "A sweet substance made by bees"
+    },
+    {
+        word: "SUGAR",
+        hint: "A sweet ingredient used in many foods"
+    },
+    {
+        word: "SALT",
+        hint: "A mineral commonly used to season food"
+    },
+    {
+        word: "PEPPER",
+        hint: "A spice commonly used to add heat or flavor"
+    },
+    {
+        word: "CINNAMON",
+        hint: "A fragrant spice often used in desserts"
+    },
+    {
+        word: "VANILLA",
+        hint: "A flavor commonly used in cakes and ice cream"
+    },
+    {
+        word: "NOODLE",
+        hint: "A single strand of pasta-like food"
+    },
+    {
+        word: "OMELETTE",
+        hint: "A dish made mainly from beaten eggs"
+    },
+    {
+        word: "SPAGHETTI",
+        hint: "Long thin Italian pasta"
+    },
+
+
+    // ============================================================
+    // 151 - 200
+    // ============================================================
+
+    {
+        word: "TELEPHONE",
+        hint: "A device used to communicate with people remotely"
+    },
+    {
+        word: "SMARTPHONE",
+        hint: "A mobile device with apps and internet access"
+    },
+    {
+        word: "HEADPHONES",
+        hint: "A device worn over or in the ears for listening"
+    },
+    {
+        word: "SPEAKER",
+        hint: "A device that produces sound"
+    },
+    {
+        word: "MICROPHONE",
+        hint: "A device used to capture or amplify sound"
+    },
+    {
+        word: "PRINTER",
+        hint: "A machine that puts digital documents onto paper"
+    },
+    {
+        word: "MONITOR",
+        hint: "A screen used with a computer"
+    },
+    {
+        word: "LAPTOP",
+        hint: "A portable computer"
+    },
+    {
+        word: "TABLET",
+        hint: "A portable touchscreen computer"
+    },
+    {
+        word: "CHARGER",
+        hint: "A device used to supply power to electronics"
+    },
+    {
+        word: "BATTERY",
+        hint: "A device that stores electrical energy"
+    },
+    {
+        word: "CAMCORDER",
+        hint: "A device designed to record video"
+    },
+    {
+        word: "KEYBOARD",
+        hint: "A computer input device with many keys"
+    },
+    {
+        word: "MOUSE",
+        hint: "A computer pointing device"
+    },
+    {
+        word: "WEBCAM",
+        hint: "A camera commonly used for video calls"
+    },
+    {
+        word: "ROUTER",
+        hint: "A device that directs network traffic"
+    },
+    {
+        word: "INTERNET",
+        hint: "A worldwide network connecting computers"
+    },
+    {
+        word: "WEBSITE",
+        hint: "A collection of pages available on the internet"
+    },
+    {
+        word: "PASSWORD",
+        hint: "A secret string used to protect an account"
+    },
+    {
+        word: "DATABASE",
+        hint: "An organized collection of stored information"
+    },
+    {
+        word: "SOFTWARE",
+        hint: "Programs and applications that run on a computer"
+    },
+    {
+        word: "HARDWARE",
+        hint: "The physical parts of a computer"
+    },
+    {
+        word: "PROGRAM",
+        hint: "A set of instructions executed by a computer"
+    },
+    {
+        word: "ALGORITHM",
+        hint: "A step-by-step procedure for solving a problem"
+    },
+    {
+        word: "SERVER",
+        hint: "A computer that provides services to other computers"
+    },
+    {
+        word: "NETWORK",
+        hint: "A group of connected computers or devices"
+    },
+    {
+        word: "DOWNLOAD",
+        hint: "To transfer data from the internet to your device"
+    },
+    {
+        word: "UPLOAD",
+        hint: "To transfer data from your device to a server"
+    },
+    {
+        word: "DOCUMENT",
+        hint: "A file containing written or formatted information"
+    },
+    {
+        word: "FOLDER",
+        hint: "A container used to organize files"
+    },
+    {
+        word: "CALCULATOR",
+        hint: "A device or program used to perform mathematical operations"
+    },
+    {
+        word: "CALENDAR",
+        hint: "A system used to organize days and dates"
+    },
+    {
+        word: "CLOCK",
+        hint: "A device that shows the time"
+    },
+    {
+        word: "WATCH",
+        hint: "A small timepiece usually worn on the wrist"
+    },
+    {
+        word: "TELESCOPE",
+        hint: "An instrument used to observe distant objects in space"
+    },
+    {
+        word: "MICROSCOPE",
+        hint: "An instrument used to view extremely small objects"
+    },
+    {
+        word: "ROBOT",
+        hint: "A machine capable of performing programmed tasks"
+    },
+    {
+        word: "SATELLITE",
+        hint: "An object that travels around a planet or moon"
+    },
+    {
+        word: "ROCKET",
+        hint: "A vehicle designed to travel through space"
+    },
+    {
+        word: "SPACESHIP",
+        hint: "A vehicle designed for travel in outer space"
+    },
+    {
+        word: "ASTRONAUT",
+        hint: "A person trained to travel into space"
+    },
+    {
+        word: "ELECTRICITY",
+        hint: "A form of energy involving electric charge"
+    },
+    {
+        word: "MAGNET",
+        hint: "An object that attracts certain metals"
+    },
+    {
+        word: "ENGINE",
+        hint: "A machine that converts energy into mechanical motion"
+    },
+    {
+        word: "MACHINE",
+        hint: "A device designed to perform a task"
+    },
+    {
+        word: "CIRCUIT",
+        hint: "A path through which electric current can flow"
+    },
+    {
+        word: "SENSOR",
+        hint: "A device that detects changes in its surroundings"
+    },
+    {
+        word: "CAMERA",
+        hint: "A device that captures images"
+    },
+    {
+        word: "DRONE",
+        hint: "An aircraft controlled without a person onboard"
+    },
+    {
+        word: "CONSOLE",
+        hint: "A device designed mainly for playing video games"
+    },
+
+
+    // ============================================================
+    // 201 - 250
+    // ============================================================
+
+    {
+        word: "FOOTBALL",
+        hint: "A sport played by two teams trying to score goals"
+    },
+    {
+        word: "VOLLEYBALL",
+        hint: "A sport where players hit a ball over a net"
+    },
+    {
+        word: "BADMINTON",
+        hint: "A racket sport played with a shuttlecock"
+    },
+    {
+        word: "TENNIS",
+        hint: "A racket sport played over a net"
+    },
+    {
+        word: "BASEBALL",
+        hint: "A bat-and-ball sport played between two teams"
+    },
+    {
+        word: "SWIMMING",
+        hint: "Moving through water using your body"
+    },
+    {
+        word: "RUNNING",
+        hint: "Moving quickly on foot"
+    },
+    {
+        word: "CYCLING",
+        hint: "Riding a bicycle as an activity or sport"
+    },
+    {
+        word: "SKATEBOARD",
+        hint: "A board with wheels used for riding"
+    },
+    {
+        word: "SURFING",
+        hint: "Riding waves on a board"
+    },
+    {
+        word: "BOXING",
+        hint: "A combat sport involving punches"
+    },
+    {
+        word: "WRESTLING",
+        hint: "A sport involving grappling with an opponent"
+    },
+    {
+        word: "ARCHERY",
+        hint: "The sport of shooting arrows at a target"
+    },
+    {
+        word: "FENCING",
+        hint: "A sport involving sword fighting with protective equipment"
+    },
+    {
+        word: "GYMNASTICS",
+        hint: "A sport involving strength, balance, and flexibility"
+    },
+    {
+        word: "MARATHON",
+        hint: "A long-distance running race"
+    },
+    {
+        word: "CHAMPION",
+        hint: "A person or team that wins a competition"
+    },
+    {
+        word: "TOURNAMENT",
+        hint: "A competition involving multiple players or teams"
+    },
+    {
+        word: "REFEREE",
+        hint: "An official who enforces the rules of a sport"
+    },
+    {
+        word: "STADIUM",
+        hint: "A large venue where sporting events are held"
+    },
+    {
+        word: "MEDAL",
+        hint: "An award given to athletes for achievement"
+    },
+    {
+        word: "TROPHY",
+        hint: "A prize awarded to the winner of a competition"
+    },
+    {
+        word: "VICTORY",
+        hint: "Success in a competition or battle"
+    },
+    {
+        word: "GOALKEEPER",
+        hint: "A player who protects the goal in football"
+    },
+    {
+        word: "SCOREBOARD",
+        hint: "A display showing the score of a game"
+    },
+    {
+        word: "ATHLETE",
+        hint: "A person who competes in sports"
+    },
+    {
+        word: "COACH",
+        hint: "A person who trains a sports team or athlete"
+    },
+    {
+        word: "PRACTICE",
+        hint: "Repeated activity done to improve a skill"
+    },
+    {
+        word: "COMPETITION",
+        hint: "An event in which people compete against each other"
+    },
+    {
+        word: "CHALLENGE",
+        hint: "A difficult task that tests your ability"
+    },
+    {
+        word: "VIOLIN",
+        hint: "A small string instrument played with a bow"
+    },
+    {
+        word: "PIANO",
+        hint: "A keyboard instrument with strings inside"
+    },
+    {
+        word: "DRUMMER",
+        hint: "A musician who plays drums"
+    },
+    {
+        word: "TRUMPET",
+        hint: "A brass musical instrument played by blowing into it"
+    },
+    {
+        word: "FLUTE",
+        hint: "A wind instrument that produces sound through a tube"
+    },
+    {
+        word: "SAXOPHONE",
+        hint: "A curved wind instrument often used in jazz"
+    },
+    {
+        word: "ORCHESTRA",
+        hint: "A large group of musicians playing instruments together"
+    },
+    {
+        word: "CONCERT",
+        hint: "A live musical performance"
+    },
+    {
+        word: "MELODY",
+        hint: "A sequence of musical notes that forms a tune"
+    },
+    {
+        word: "RHYTHM",
+        hint: "The pattern of beats in music"
+    },
+    {
+        word: "SINGER",
+        hint: "A person who performs using their voice"
+    },
+    {
+        word: "MUSICIAN",
+        hint: "A person who plays or creates music"
+    },
+    {
+        word: "SONGWRITER",
+        hint: "A person who writes songs"
+    },
+    {
+        word: "GALLERY",
+        hint: "A place where artworks are displayed"
+    },
+    {
+        word: "SCULPTURE",
+        hint: "A three-dimensional work of art"
+    },
+    {
+        word: "PAINTING",
+        hint: "An artwork created using paint"
+    },
+    {
+        word: "PHOTOGRAPH",
+        hint: "An image captured by a camera"
+    },
+    {
+        word: "NOVEL",
+        hint: "A long fictional story in book form"
+    },
+    {
+        word: "POETRY",
+        hint: "Literature that often uses rhythm and expressive language"
+    },
+    {
+        word: "THEATER",
+        hint: "A place where plays are performed"
+    },
+
+
+    // ============================================================
+    // 251 - 300
+    // ============================================================
+
+    {
+        word: "HOSPITAL",
+        hint: "A place where sick or injured people receive treatment"
+    },
+    {
+        word: "LIBRARY",
+        hint: "A place where books can be borrowed or read"
+    },
+    {
+        word: "MUSEUM",
+        hint: "A place where historical or cultural objects are displayed"
+    },
+    {
+        word: "RESTAURANT",
+        hint: "A place where people pay to eat prepared food"
+    },
+    {
+        word: "AIRPORT",
+        hint: "A place where airplanes take off and land"
+    },
+    {
+        word: "STATION",
+        hint: "A place where trains or buses regularly stop"
+    },
+    {
+        word: "SUPERMARKET",
+        hint: "A large store selling many kinds of food and household goods"
+    },
+    {
+        word: "PHARMACY",
+        hint: "A place where medicines are sold"
+    },
+    {
+        word: "FACTORY",
+        hint: "A building where goods are manufactured"
+    },
+    {
+        word: "OFFICE",
+        hint: "A place where many people do administrative or professional work"
+    },
+    {
+        word: "CLASSROOM",
+        hint: "A room where students have lessons"
+    },
+    {
+        word: "UNIVERSITY",
+        hint: "An institution of higher education"
+    },
+    {
+        word: "LABORATORY",
+        hint: "A place where scientific experiments are performed"
+    },
+    {
+        word: "COURTHOUSE",
+        hint: "A building where legal cases are heard"
+    },
+    {
+        word: "EMBASSY",
+        hint: "An official diplomatic building representing a country abroad"
+    },
+    {
+        word: "RECEPTION",
+        hint: "The front desk or area where visitors are welcomed"
+    },
+    {
+        word: "NEIGHBORHOOD",
+        hint: "An area of a town where people live"
+    },
+    {
+        word: "COMMUNITY",
+        hint: "A group of people living or working together"
+    },
+    {
+        word: "CAPITAL",
+        hint: "The main city where a country's government is based"
+    },
+    {
+        word: "VILLAGE",
+        hint: "A small settlement in the countryside"
+    },
+    {
+        word: "ISLAND",
+        hint: "Land completely surrounded by water"
+    },
+    {
+        word: "DESERT",
+        hint: "A very dry region with little rainfall"
+    },
+    {
+        word: "FOREST",
+        hint: "A large area covered mainly with trees"
+    },
+    {
+        word: "VALLEY",
+        hint: "Low land between hills or mountains"
+    },
+    {
+        word: "VOLCANO",
+        hint: "An opening in Earth's crust that can release lava"
+    },
+    {
+        word: "WATERFALL",
+        hint: "Water falling from a height over rocks"
+    },
+    {
+        word: "GLACIER",
+        hint: "A large slow-moving mass of ice"
+    },
+    {
+        word: "CANYON",
+        hint: "A deep narrow valley with steep sides"
+    },
+    {
+        word: "ISLAND",
+        hint: "A piece of land surrounded by water"
+    },
+    {
+        word: "RIVER",
+        hint: "A natural stream of flowing water"
+    },
+    {
+        word: "LAKE",
+        hint: "A large body of water surrounded by land"
+    },
+    {
+        word: "BEACH",
+        hint: "A sandy or rocky area beside the sea"
+    },
+    {
+        word: "JUNGLE",
+        hint: "A dense tropical forest"
+    },
+    {
+        word: "MEADOW",
+        hint: "A field covered mainly with grass and flowers"
+    },
+    {
+        word: "CAVE",
+        hint: "A natural hollow space inside rock"
+    },
+    {
+        word: "CLIFF",
+        hint: "A steep rock face, often beside the sea"
+    },
+    {
+        word: "HORIZON",
+        hint: "The apparent line where the sky meets the land or sea"
+    },
+    {
+        word: "SUNSET",
+        hint: "The time when the sun disappears below the horizon"
+    },
+    {
+        word: "SUNRISE",
+        hint: "The time when the sun appears above the horizon"
+    },
+    {
+        word: "THUNDER",
+        hint: "The loud sound that follows lightning"
+    },
+    {
+        word: "LIGHTNING",
+        hint: "A bright electrical flash during a storm"
+    },
+    {
+        word: "HURRICANE",
+        hint: "A powerful rotating tropical storm"
+    },
+    {
+        word: "TORNADO",
+        hint: "A violently rotating column of air"
+    },
+    {
+        word: "EARTHQUAKE",
+        hint: "A sudden shaking of the ground"
+    },
+    {
+        word: "AVALANCHE",
+        hint: "A mass of snow and ice falling down a mountain"
+    },
+    {
+        word: "DROUGHT",
+        hint: "A long period with unusually little rainfall"
+    },
+    {
+        word: "FLOOD",
+        hint: "A large amount of water covering normally dry land"
+    },
+    {
+        word: "RAINSTORM",
+        hint: "A storm involving significant rainfall"
+    },
+    {
+        word: "SNOWFLAKE",
+        hint: "A single crystal of falling snow"
+    },
+
+
+    // ============================================================
+    // 301 - 350
+    // ============================================================
+
+    {
+        word: "ASTRONOMY",
+        hint: "The scientific study of stars, planets, and space"
+    },
+    {
+        word: "BIOLOGY",
+        hint: "The scientific study of living things"
+    },
+    {
+        word: "CHEMISTRY",
+        hint: "The study of substances and how they interact"
+    },
+    {
+        word: "PHYSICS",
+        hint: "The study of matter, energy, and natural forces"
+    },
+    {
+        word: "GEOLOGY",
+        hint: "The study of Earth's rocks and structure"
+    },
+    {
+        word: "ECOLOGY",
+        hint: "The study of relationships between organisms and their environment"
+    },
+    {
+        word: "BOTANY",
+        hint: "The scientific study of plants"
+    },
+    {
+        word: "ZOOLOGY",
+        hint: "The scientific study of animals"
+    },
+    {
+        word: "GRAVITY",
+        hint: "The force that attracts objects toward each other"
+    },
+    {
+        word: "MOLECULE",
+        hint: "A group of atoms bonded together"
+    },
+    {
+        word: "ELEMENT",
+        hint: "A pure substance made of one type of atom"
+    },
+    {
+        word: "ATOM",
+        hint: "A basic unit of matter"
+    },
+    {
+        word: "PROTON",
+        hint: "A positively charged particle in an atomic nucleus"
+    },
+    {
+        word: "NEUTRON",
+        hint: "A particle in an atomic nucleus with no electric charge"
+    },
+    {
+        word: "ELECTRON",
+        hint: "A negatively charged subatomic particle"
+    },
+    {
+        word: "NUCLEUS",
+        hint: "The central part of an atom or cell"
+    },
+    {
+        word: "CELL",
+        hint: "The basic structural unit of living organisms"
+    },
+    {
+        word: "TISSUE",
+        hint: "A group of similar cells working together"
+    },
+    {
+        word: "ORGAN",
+        hint: "A body structure with a specific function"
+    },
+    {
+        word: "MUSCLE",
+        hint: "Body tissue that produces movement"
+    },
+    {
+        word: "SKELETON",
+        hint: "The framework of bones supporting the body"
+    },
+    {
+        word: "DIAMETER",
+        hint: "A line passing through the center of a circle"
+    },
+    {
+        word: "TRIANGLE",
+        hint: "A shape with three sides"
+    },
+    {
+        word: "RECTANGLE",
+        hint: "A four-sided shape with four right angles"
+    },
+    {
+        word: "PARALLEL",
+        hint: "Describes lines that never meet"
+    },
+    {
+        word: "FRACTION",
+        hint: "A number representing part of a whole"
+    },
+    {
+        word: "EQUATION",
+        hint: "A mathematical statement that two expressions are equal"
+    },
+    {
+        word: "VARIABLE",
+        hint: "A symbol representing an unknown or changing value"
+    },
+    {
+        word: "INTEGER",
+        hint: "A whole number that can be positive, negative, or zero"
+    },
+    {
+        word: "GEOMETRY",
+        hint: "The branch of mathematics dealing with shapes and space"
+    },
+    {
+        word: "PHOTOSYNTHESIS",
+        hint: "The process plants use to convert light into chemical energy"
+    },
+    {
+        word: "CHLOROPHYLL",
+        hint: "The green pigment used by plants to absorb light"
+    },
+    {
+        word: "ECOSYSTEM",
+        hint: "A community of organisms interacting with their environment"
+    },
+    {
+        word: "HABITAT",
+        hint: "The natural home of an organism"
+    },
+    {
+        word: "PREDATOR",
+        hint: "An animal that hunts other animals"
+    },
+    {
+        word: "CAMOUFLAGE",
+        hint: "A way of blending into the surrounding environment"
+    },
+    {
+        word: "METAMORPHOSIS",
+        hint: "A major change in body form during an animal's development"
+    },
+    {
+        word: "EVOLUTION",
+        hint: "The process by which living populations change over generations"
+    },
+    {
+        word: "GENETICS",
+        hint: "The study of heredity and genes"
+    },
+    {
+        word: "CHROMOSOME",
+        hint: "A structure containing genetic information"
+    },
+    {
+        word: "BACTERIA",
+        hint: "Microscopic single-celled organisms"
+    },
+    {
+        word: "VIRUS",
+        hint: "A microscopic infectious agent that needs a host to reproduce"
+    },
+    {
+        word: "VACCINE",
+        hint: "A preparation that helps the body develop immune protection"
+    },
+    {
+        word: "IMMUNITY",
+        hint: "The body's ability to resist a particular infection"
+    },
+    {
+        word: "DIGESTION",
+        hint: "The process of breaking food into usable substances"
+    },
+    {
+        word: "RESPIRATION",
+        hint: "The process of exchanging gases or producing energy from nutrients"
+    },
+    {
+        word: "METABOLISM",
+        hint: "The chemical processes that keep an organism alive"
+    },
+    {
+        word: "PHOTOSPHERE",
+        hint: "The visible surface layer of the Sun"
+    },
+    {
+        word: "CONSTELLATION",
+        hint: "A recognized pattern of stars in the night sky"
+    },
+
+
+    // ============================================================
+    // 351 - 400
+    // ============================================================
+
+    {
+        word: "ARCHITECTURE",
+        hint: "The art and science of designing buildings"
+    },
+    {
+        word: "ENGINEERING",
+        hint: "The application of science and mathematics to solve practical problems"
+    },
+    {
+        word: "INVENTION",
+        hint: "A new device, method, or idea created by someone"
+    },
+    {
+        word: "DISCOVERY",
+        hint: "Something found or learned for the first time"
+    },
+    {
+        word: "EXPERIMENT",
+        hint: "A scientific test performed to investigate an idea"
+    },
+    {
+        word: "KNOWLEDGE",
+        hint: "Information and understanding gained through learning"
+    },
+    {
+        word: "EDUCATION",
+        hint: "The process of learning knowledge and skills"
+    },
+    {
+        word: "LANGUAGE",
+        hint: "A system used by people to communicate"
+    },
+    {
+        word: "DICTIONARY",
+        hint: "A book or resource containing word meanings"
+    },
+    {
+        word: "VOCABULARY",
+        hint: "The collection of words known or used by someone"
+    },
+    {
+        word: "GRAMMAR",
+        hint: "Rules governing how words are arranged in a language"
+    },
+    {
+        word: "TRANSLATION",
+        hint: "Changing written or spoken language into another language"
+    },
+    {
+        word: "COMMUNICATION",
+        hint: "The process of exchanging information"
+    },
+    {
+        word: "CONVERSATION",
+        hint: "An informal exchange of spoken words"
+    },
+    {
+        word: "ADVENTURE",
+        hint: "An exciting or unusual experience"
+    },
+    {
+        word: "JOURNEY",
+        hint: "Travel from one place to another"
+    },
+    {
+        word: "VACATION",
+        hint: "A period when someone takes time away from work or school"
+    },
+    {
+        word: "PASSPORT",
+        hint: "An official document used for international travel"
+    },
+    {
+        word: "SUITCASE",
+        hint: "A container used for carrying clothes while traveling"
+    },
+    {
+        word: "DESTINATION",
+        hint: "The place someone is traveling to"
+    },
+    {
+        word: "TOURIST",
+        hint: "A person traveling for pleasure"
+    },
+    {
+        word: "MAP",
+        hint: "A drawing representing a geographical area"
+    },
+    {
+        word: "COMPASS",
+        hint: "An instrument used to determine direction"
+    },
+    {
+        word: "DIRECTION",
+        hint: "A course or path toward a particular place"
+    },
+    {
+        word: "NORTHWEST",
+        hint: "The direction between north and west"
+    },
+    {
+        word: "SOUTHEAST",
+        hint: "The direction between south and east"
+    },
+    {
+        word: "VEHICLE",
+        hint: "Something used to transport people or goods"
+    },
+    {
+        word: "AMBULANCE",
+        hint: "A vehicle used to transport sick or injured people"
+    },
+    {
+        word: "HELICOPTER",
+        hint: "An aircraft with rotating blades that can hover"
+    },
+    {
+        word: "SUBMARINE",
+        hint: "A vessel designed to travel underwater"
+    },
+    {
+        word: "LOCOMOTIVE",
+        hint: "An engine that pulls railway cars"
+    },
+    {
+        word: "HIGHWAY",
+        hint: "A major road designed for fast travel"
+    },
+    {
+        word: "TRAFFIC",
+        hint: "Vehicles moving along roads"
+    },
+    {
+        word: "CROSSWALK",
+        hint: "A marked place where pedestrians can cross a road"
+    },
+    {
+        word: "INTERSECTION",
+        hint: "A place where roads cross or meet"
+    },
+    {
+        word: "ROUNDABOUT",
+        hint: "A circular road junction where traffic moves around a center"
+    },
+    {
+        word: "BRIDGE",
+        hint: "A structure built over a river, road, or other obstacle"
+    },
+    {
+        word: "TUNNEL",
+        hint: "An underground or enclosed passage"
+    },
+    {
+        word: "SKYSCRAPER",
+        hint: "A very tall building with many floors"
+    },
+    {
+        word: "APARTMENT",
+        hint: "A set of rooms used as a home within a larger building"
+    },
+    {
+        word: "BUILDING",
+        hint: "A structure with walls and a roof"
+    },
+    {
+        word: "BALCONY",
+        hint: "A platform extending from an upper floor of a building"
+    },
+    {
+        word: "STAIRCASE",
+        hint: "A set of steps connecting different levels"
+    },
+    {
+        word: "ELEVATOR",
+        hint: "A machine that carries people between floors"
+    },
+    {
+        word: "BASEMENT",
+        hint: "A floor of a building below ground level"
+    },
+    {
+        word: "ROOFTOP",
+        hint: "The outside upper surface of a building"
+    },
+    {
+        word: "CORRIDOR",
+        hint: "A long passage inside a building"
+    },
+    {
+        word: "FURNITURE",
+        hint: "Movable objects such as chairs, tables, and beds"
+    },
+    {
+        word: "DECORATION",
+        hint: "Something used to make a place look more attractive"
+    },
+
+
+    // ============================================================
+    // 401 - 450
+    // ============================================================
+
+    {
+        word: "PHOTOGRAPHY",
+        hint: "The art or practice of creating images with a camera"
+    },
+    {
+        word: "CINEMATOGRAPHY",
+        hint: "The art and technique of creating motion-picture images"
+    },
+    {
+        word: "DOCUMENTARY",
+        hint: "A nonfiction film or program about real events"
+    },
+    {
+        word: "SCREENPLAY",
+        hint: "A written script for a movie"
+    },
+    {
+        word: "CHARACTER",
+        hint: "A person or figure appearing in a story"
+    },
+    {
+        word: "PROTAGONIST",
+        hint: "The main character in a story"
+    },
+    {
+        word: "ANTAGONIST",
+        hint: "A character who opposes the main character"
+    },
+    {
+        word: "NARRATOR",
+        hint: "The person or voice telling a story"
+    },
+    {
+        word: "PLOT",
+        hint: "The sequence of events in a story"
+    },
+    {
+        word: "MYSTERY",
+        hint: "A story or situation involving something unknown to be solved"
+    },
+    {
+        word: "FANTASY",
+        hint: "A genre involving magical or imaginary elements"
+    },
+    {
+        word: "ADVENTURE",
+        hint: "A story involving exciting journeys or dangerous experiences"
+    },
+    {
+        word: "FICTION",
+        hint: "Stories created from imagination"
+    },
+    {
+        word: "NONFICTION",
+        hint: "Writing based on real facts and events"
+    },
+    {
+        word: "ENCYCLOPEDIA",
+        hint: "A reference work containing information on many subjects"
+    },
+    {
+        word: "MANUSCRIPT",
+        hint: "An author's original written work"
+    },
+    {
+        word: "PUBLISHER",
+        hint: "A company or person responsible for producing and distributing books"
+    },
+    {
+        word: "MAGAZINE",
+        hint: "A periodical publication containing articles and images"
+    },
+    {
+        word: "NEWSPAPER",
+        hint: "A publication containing current news and information"
+    },
+    {
+        word: "HEADLINE",
+        hint: "The title of a news story"
+    },
+    {
+        word: "JOURNALIST",
+        hint: "A person who gathers and reports news"
+    },
+    {
+        word: "INTERVIEW",
+        hint: "A conversation in which someone is asked questions"
+    },
+    {
+        word: "REPORTER",
+        hint: "A person who reports news or events"
+    },
+    {
+        word: "BROADCAST",
+        hint: "To transmit a program by radio, television, or internet"
+    },
+    {
+        word: "TELEGRAM",
+        hint: "A message historically sent through a telegraph system"
+    },
+    {
+        word: "SIGNATURE",
+        hint: "A person's handwritten name used for identification or approval"
+    },
+    {
+        word: "DOCUMENTATION",
+        hint: "Written material explaining or recording something"
+    },
+    {
+        word: "INFORMATION",
+        hint: "Facts or knowledge communicated about something"
+    },
+    {
+        word: "ANALYSIS",
+        hint: "Detailed examination of something to understand it"
+    },
+    {
+        word: "STRATEGY",
+        hint: "A plan designed to achieve a particular goal"
+    },
+    {
+        word: "TACTICS",
+        hint: "Specific actions used to achieve a strategy"
+    },
+    {
+        word: "DECISION",
+        hint: "A choice made after considering possibilities"
+    },
+    {
+        word: "PROBLEM",
+        hint: "A difficult situation that needs to be solved"
+    },
+    {
+        word: "SOLUTION",
+        hint: "An answer or method for solving a problem"
+    },
+    {
+        word: "CREATIVITY",
+        hint: "The ability to produce new and original ideas"
+    },
+    {
+        word: "IMAGINATION",
+        hint: "The ability to form ideas or images in the mind"
+    },
+    {
+        word: "CURIOSITY",
+        hint: "A strong desire to learn or know something"
+    },
+    {
+        word: "PERSEVERANCE",
+        hint: "Continuing to work despite difficulty"
+    },
+    {
+        word: "CONFIDENCE",
+        hint: "Belief in your own ability or judgment"
+    },
+    {
+        word: "RESPONSIBILITY",
+        hint: "A duty or obligation to deal with something"
+    },
+    {
+        word: "OPPORTUNITY",
+        hint: "A favorable chance to do something"
+    },
+    {
+        word: "EXPERIENCE",
+        hint: "Knowledge gained through doing or observing things"
+    },
+    {
+        word: "ACHIEVEMENT",
+        hint: "Something successfully accomplished"
+    },
+    {
+        word: "MOTIVATION",
+        hint: "A reason or force that encourages someone to act"
+    },
+    {
+        word: "DISCIPLINE",
+        hint: "The ability to control behavior and follow rules or routines"
+    },
+    {
+        word: "CONCENTRATION",
+        hint: "The ability to focus attention on something"
+    },
+    {
+        word: "ATTENTION",
+        hint: "Careful notice or focus given to something"
+    },
+    {
+        word: "MEMORY",
+        hint: "The ability to store and recall information"
+    },
+    {
+        word: "PERCEPTION",
+        hint: "The way something is noticed or understood through the senses"
+    },
+
+
+    // ============================================================
+    // 451 - 500: HARD
+    // ============================================================
+
+    {
+        word: "ARCHAEOLOGY",
+        hint: "The study of human history through excavated remains"
+    },
+    {
+        word: "ANTHROPOLOGY",
+        hint: "The study of humans, cultures, and societies"
+    },
+    {
+        word: "PSYCHOLOGY",
+        hint: "The scientific study of the mind and behavior"
+    },
+    {
+        word: "PHILOSOPHY",
+        hint: "The study of fundamental questions about existence and knowledge"
+    },
+    {
+        word: "SOCIOLOGY",
+        hint: "The study of society and social relationships"
+    },
+    {
+        word: "LINGUISTICS",
+        hint: "The scientific study of language"
+    },
+    {
+        word: "ECONOMICS",
+        hint: "The study of production, distribution, and consumption of resources"
+    },
+    {
+        word: "POLITICS",
+        hint: "The activities involved in governing a society"
+    },
+    {
+        word: "DEMOCRACY",
+        hint: "A system of government in which people have political power"
+    },
+    {
+        word: "CONSTITUTION",
+        hint: "A fundamental set of principles governing a country or organization"
+    },
+    {
+        word: "LEGISLATION",
+        hint: "Laws considered or enacted by a governing body"
+    },
+    {
+        word: "JURISDICTION",
+        hint: "The official power to make legal decisions in a particular area"
+    },
+    {
+        word: "DIPLOMACY",
+        hint: "The practice of managing relations between countries"
+    },
+    {
+        word: "NEGOTIATION",
+        hint: "A discussion intended to reach an agreement"
+    },
+    {
+        word: "INTERNATIONAL",
+        hint: "Involving more than one country"
+    },
+    {
+        word: "ENVIRONMENTAL",
+        hint: "Relating to the natural world and its protection"
+    },
+    {
+        word: "SUSTAINABILITY",
+        hint: "The ability to continue without exhausting resources or causing serious harm"
+    },
+    {
+        word: "BIODIVERSITY",
+        hint: "The variety of living organisms in an environment"
+    },
+    {
+        word: "CONSERVATION",
+        hint: "The protection and careful management of natural resources"
+    },
+    {
+        word: "DEFORESTATION",
+        hint: "The large-scale removal of forests"
+    },
+    {
+        word: "CLIMATOLOGY",
+        hint: "The scientific study of climate"
+    },
+    {
+        word: "METEOROLOGY",
+        hint: "The scientific study of weather and the atmosphere"
+    },
+    {
+        word: "ATMOSPHERE",
+        hint: "The layer of gases surrounding a planet"
+    },
+    {
+        word: "STRATOSPHERE",
+        hint: "A major layer of Earth's atmosphere above the troposphere"
+    },
+    {
+        word: "TROPOSPHERE",
+        hint: "The lowest layer of Earth's atmosphere"
+    },
+    {
+        word: "PHOTOSYNTHESIS",
+        hint: "The process by which plants use light to make chemical energy"
+    },
+    {
+        word: "BIOLUMINESCENCE",
+        hint: "The production of light by a living organism"
+    },
+    {
+        word: "CRYPTOGRAPHY",
+        hint: "The practice of protecting information through codes and encryption"
+    },
+    {
+        word: "CYBERSECURITY",
+        hint: "The practice of protecting computer systems and networks"
+    },
+    {
+        word: "AUTHENTICATION",
+        hint: "The process of verifying someone's identity"
+    },
+    {
+        word: "AUTHORIZATION",
+        hint: "The process of determining what someone is allowed to access"
+    },
+    {
+        word: "ENCRYPTION",
+        hint: "The process of converting information into protected coded form"
+    },
+    {
+        word: "VULNERABILITY",
+        hint: "A weakness that can be exploited or cause harm"
+    },
+    {
+        word: "INFRASTRUCTURE",
+        hint: "The basic systems and facilities supporting a society or organization"
+    },
+    {
+        word: "ARCHITECTURE",
+        hint: "The structure or design of a system or building"
+    },
+    {
+        word: "IMPLEMENTATION",
+        hint: "The process of putting a plan or system into practice"
+    },
+    {
+        word: "OPTIMIZATION",
+        hint: "The process of making something as effective or efficient as possible"
+    },
+    {
+        word: "COMPATIBILITY",
+        hint: "The ability of systems or things to work together"
+    },
+    {
+        word: "CONFIGURATION",
+        hint: "The arrangement of settings or components in a system"
+    },
+    {
+        word: "AUTHENTICITY",
+        hint: "The quality of being genuine or real"
+    },
+    {
+        word: "TRANSPARENCY",
+        hint: "The quality of being open and easy to understand"
+    },
+    {
+        word: "COLLABORATION",
+        hint: "The act of working together toward a shared goal"
+    },
+    {
+        word: "ENTREPRENEUR",
+        hint: "A person who starts and manages a business"
+    },
+    {
+        word: "ORGANIZATION",
+        hint: "A structured group of people working toward a purpose"
+    },
+    {
+        word: "ADMINISTRATION",
+        hint: "The management of an organization or system"
+    },
+    {
+        word: "PROCRASTINATION",
+        hint: "The habit of delaying something that should be done"
+    },
+    {
+        word: "UNPREDICTABLE",
+        hint: "Something that cannot easily be known in advance"
+    },
+    {
+        word: "EXTRAORDINARY",
+        hint: "Very unusual or remarkable"
+    },
+    {
+        word: "MISUNDERSTANDING",
+        hint: "A failure to understand something correctly"
+    },
+    {
+        word: "RESPONSIVENESS",
+        hint: "The quality of reacting quickly or appropriately to something"
+    }
+
+];
