@@ -2037,6 +2037,30 @@ const HANGMAN_LEVELS = [
     {
         word: "RESPONSIVENESS",
         hint: "The quality of reacting quickly or appropriately to something"
+    },
+    {
+        word: "QUICKSILVER",
+        hint: "An old name for the metallic element mercury"
+    },
+    
+    {
+        word: "PERSPECTIVE",
+        hint: "A particular way of viewing or understanding something"
+    },
+    
+    {
+        word: "ARCHIPELAGO",
+        hint: "A group or chain of islands"
+    },
+    
+    {
+        word: "KALEIDOSCOPE",
+        hint: "A tube that creates changing patterns from pieces of colored glass"
+    },
+    
+    {
+        word: "INCOMPREHENSIBLE",
+        hint: "Too difficult to understand or make sense of"
     }
 
 ];
