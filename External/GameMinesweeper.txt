@@ -1,197 +1,297 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Game Minesweeper</title>
+
     <style>
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #172235;
-            color: #f5f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-
-        .game-container {
-            width: min(900px, 100%);
-            text-align: center;
-        }
-
-        h1 {
-            margin: 0 0 20px;
-            font-size: 32px;
-        }
-
-        .top-panel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 18px;
-        }
-
-        .info-box {
-            min-width: 130px;
-            padding: 12px 18px;
-            background: #273348;
-            border: 1px solid #3b485d;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        select,
-        button {
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 18px;
-            cursor: pointer;
-        }
-
-        select {
-            background: #273348;
-            color: #fff;
-            border: 1px solid #3b485d;
-        }
-
-        #restartBtn {
-            background: #f5a000;
-            color: #172235;
-        }
-
-        #restartBtn:hover {
-            background: #ffb52e;
-        }
-
-        .status {
-            min-height: 25px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 17px;
-        }
-
-        .board-wrapper {
+            padding: 0;
             width: 100%;
-            overflow: auto;
-            padding: 8px;
+            height: 100%;
+            overflow: hidden;
         }
 
-        .board {
-            display: grid;
-            gap: 3px;
-            justify-content: center;
-            margin: auto;
-            width: max-content;
-            background: #111a29;
-            padding: 8px;
-            border-radius: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            background: #1b1d22;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            visibility: hidden;
             user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        #game {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #topBar {
+            flex: 0 0 auto;
+            width: 100%;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: #252830;
+            border-bottom: 1px solid #3a3d46;
+            z-index: 5;
+        }
+
+        .infoBox {
+            min-width: 85px;
+            padding: 6px 10px;
+            background: #15171b;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        #restartButton {
+            border: none;
+            background: #3b82f6;
+            color: white;
+            border-radius: 7px;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        #restartButton:active {
+            transform: scale(0.96);
+        }
+
+        #status {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        #boardArea {
+            flex: 1 1 auto;
+            min-height: 0;
+            min-width: 0;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+            padding: 4px;
+        }
+
+        #board {
+            display: grid;
+
+            width: min(100%, 100%);
+            height: min(100%, 100%);
+
+            background: #555a64;
+            border: 2px solid #777c86;
+            gap: 1px;
+
+            overflow: hidden;
+            flex-shrink: 1;
         }
 
         .cell {
-            width: 36px;
-            height: 36px;
-            background: #344157;
-            border: 2px solid #45536a;
-            border-radius: 5px;
+            min-width: 0;
+            min-height: 0;
+
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
+
+            background: #747984;
+            border-top: 2px solid #9297a1;
+            border-left: 2px solid #9297a1;
+            border-right: 2px solid #555a64;
+            border-bottom: 2px solid #555a64;
+
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .cell.revealed {
+            background: #c7cad0;
+            border: 1px solid #a5a8ae;
+            cursor: default;
+        }
+
+        .cell.mine {
+            background: #ef4444;
+        }
+
+        .cell.flag {
+            color: #ff3333;
+        }
+
+        .cell.wrongFlag {
+            background: #f59e0b;
+        }
+
+        .number-1 {
+            color: #2563eb;
+        }
+
+        .number-2 {
+            color: #16a34a;
+        }
+
+        .number-3 {
+            color: #dc2626;
+        }
+
+        .number-4 {
+            color: #7c3aed;
+        }
+
+        .number-5 {
+            color: #b45309;
+        }
+
+        .number-6 {
+            color: #0891b2;
+        }
+
+        .number-7 {
+            color: #111827;
+        }
+
+        .number-8 {
+            color: #6b7280;
+        }
+
+        #help {
+            flex: 0 0 auto;
+            width: 100%;
+            text-align: center;
+            padding: 5px 8px;
+            background: #252830;
+            border-top: 1px solid #3a3d46;
+            color: #c8cad0;
+            font-size: 12px;
+        }
+
+        #resultOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 20;
+            padding: 20px;
+        }
+
+        #resultBox {
+            width: min(350px, 90vw);
+            background: #252830;
+            border: 1px solid #454952;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        #resultTitle {
+            margin: 0 0 10px;
+            font-size: 26px;
+        }
+
+        #resultText {
+            margin: 0 0 20px;
+            color: #c8cad0;
+        }
+
+        #resultRestart {
+            border: none;
+            background: #3b82f6;
+            color: white;
+            border-radius: 7px;
+            padding: 10px 20px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .cell:hover:not(.revealed) {
-            background: #40506a;
-        }
-
-        .cell.revealed {
-            background: #202b3d;
-            border: 1px solid #303c50;
-            cursor: default;
-        }
-
-        .cell.flagged {
-            background: #344157;
-        }
-
-        .cell.mine {
-            background: #6b2931;
-        }
-
-        .number-1 {
-            color: #5ca9ff;
-        }
-
-        .number-2 {
-            color: #64d98b;
-        }
-
-        .number-3 {
-            color: #ff6565;
-        }
-
-        .number-4 {
-            color: #b28cff;
-        }
-
-        .number-5 {
-            color: #ff9d5c;
-        }
-
-        .number-6 {
-            color: #5ce0df;
-        }
-
-        .number-7 {
-            color: #ffffff;
-        }
-
-        .number-8 {
-            color: #aeb8c7;
-        }
-
-        .instructions {
-            margin-top: 18px;
-            color: #aeb8c7;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
         @media (max-width: 600px) {
-            body {
-                padding: 15px;
-                align-items: flex-start;
+            #topBar {
+                padding: 6px 8px;
             }
 
-            h1 {
-                margin-top: 15px;
+            .infoBox {
+                min-width: 65px;
+                padding: 5px 7px;
+                font-size: 12px;
             }
 
-            .cell {
-                width: 30px;
-                height: 30px;
-                font-size: 15px;
+            #restartButton {
+                padding: 7px 10px;
+                font-size: 12px;
             }
 
-            .board {
-                gap: 2px;
-                padding: 5px;
+            #status {
+                font-size: 12px;
+            }
+
+            #help {
+                font-size: 11px;
+                padding: 4px 5px;
+            }
+
+            #boardArea {
+                padding: 2px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            #topBar {
+                padding: 4px 8px;
+            }
+
+            .infoBox {
+                padding: 3px 7px;
+                font-size: 11px;
+            }
+
+            #restartButton {
+                padding: 5px 9px;
+                font-size: 11px;
+            }
+
+            #help {
+                padding: 2px 5px;
+                font-size: 10px;
             }
         }
     </style>
@@ -199,251 +299,398 @@
 
 <body>
 
-    <div class="game-container">
+    <div id="game">
 
-        <h1>💣 Minesweeper</h1>
+        <div id="topBar">
 
-        <div class="top-panel">
-
-            <div class="info-box">
-                💣 Mìn: <span id="mineCount">10</span>
+            <div class="infoBox">
+                💣 <span id="mineCount">0</span>
             </div>
 
-            <div class="info-box">
-                ⏱ Thời gian: <span id="timer">0</span>
+            <div id="status">
+                Minesweeper
             </div>
 
-            <select id="difficulty">
-                <option value="easy">Easy - 9 × 9</option>
-                <option value="medium">Medium - 16 × 16</option>
-                <option value="hard">Hard - 16 × 30</option>
-            </select>
+            <button id="restartButton">
+                🔄 Chơi lại
+            </button>
 
-            <button id="restartBtn">🔄 Chơi lại</button>
+            <div class="infoBox">
+                ⏱️ <span id="timer">0</span>
+            </div>
 
         </div>
 
-        <div class="status" id="status">
-            Hãy mở một ô để bắt đầu!
+        <div id="boardArea">
+            <div id="board"></div>
         </div>
 
-        <div class="board-wrapper">
-            <div class="board" id="board"></div>
-        </div>
-
-        <div class="instructions">
-            🖱️ Click trái: mở ô &nbsp;&nbsp;|&nbsp;&nbsp;
-            🚩 Click phải: cắm/gỡ cờ
+        <div id="help">
+            🖱️ PC: Click trái mở ô | Click phải cắm/gỡ cờ
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            📱 SP: Chạm mở ô | Nhấn giữ cắm/gỡ cờ
         </div>
 
     </div>
 
+
+    <div id="resultOverlay">
+
+        <div id="resultBox">
+
+            <h2 id="resultTitle"></h2>
+
+            <p id="resultText"></p>
+
+            <button id="resultRestart">
+                🔄 Chơi lại
+            </button>
+
+        </div>
+
+    </div>
+
+
     <script>
+        // ============================================================
+        // MINESWEEPER
+        // ============================================================
+
         const boardElement = document.getElementById("board");
+        const boardArea = document.getElementById("boardArea");
+
         const mineCountElement = document.getElementById("mineCount");
         const timerElement = document.getElementById("timer");
         const statusElement = document.getElementById("status");
-        const difficultyElement = document.getElementById("difficulty");
-        const restartButton = document.getElementById("restartBtn");
 
-        const difficulties = {
-            easy: {
-                rows: 9,
-                cols: 9,
-                mines: 10
-            },
+        const restartButton = document.getElementById("restartButton");
+        const resultOverlay = document.getElementById("resultOverlay");
+        const resultTitle = document.getElementById("resultTitle");
+        const resultText = document.getElementById("resultText");
+        const resultRestart = document.getElementById("resultRestart");
 
-            medium: {
-                rows: 16,
-                cols: 16,
-                mines: 40
-            },
 
-            hard: {
-                rows: 16,
-                cols: 30,
-                mines: 99
-            }
-        };
-
-        let rows;
-        let cols;
-        let totalMines;
+        let rows = 0;
+        let cols = 0;
+        let totalCells = 0;
+        let mineCount = 0;
 
         let board = [];
+
         let gameStarted = false;
         let gameOver = false;
-        let flags = 0;
-        let revealedCells = 0;
+
+        let revealedCount = 0;
+        let flagCount = 0;
 
         let timer = 0;
         let timerInterval = null;
 
+        let longPressTimer = null;
+        let longPressTriggered = false;
 
-        function startNewGame() {
 
-            const difficulty = difficulties[difficultyElement.value];
+        // ============================================================
+        // TÍNH KÍCH THƯỚC BOARD THEO MÀN HÌNH
+        // ============================================================
 
-            rows = difficulty.rows;
-            cols = difficulty.cols;
-            totalMines = difficulty.mines;
+        function calculateBoardSize() {
 
-            board = [];
-            gameStarted = false;
-            gameOver = false;
-            flags = 0;
-            revealedCells = 0;
+            const width = boardArea.clientWidth;
+            const height = boardArea.clientHeight;
+
+            const isMobile = window.innerWidth <= 600;
+
+            /*
+             * Ô trên SP nhỏ hơn PC để có nhiều ô hơn.
+             */
+            const cellSize = isMobile ? 34 : 38;
+
+            cols = Math.max(5, Math.floor((width - 4) / cellSize));
+            rows = Math.max(5, Math.floor((height - 4) / cellSize));
+
+            /*
+             * Giới hạn một chút để game không tạo
+             * board quá lớn gây nặng máy.
+             */
+            cols = Math.min(cols, isMobile ? 18 : 30);
+            rows = Math.min(rows, isMobile ? 28 : 20);
+
+            totalCells = rows * cols;
+
+            /*
+             * Khoảng 16% số ô là mìn.
+             * Luôn đảm bảo có ít nhất 5 mìn.
+             */
+            mineCount = Math.max(5, Math.floor(totalCells * 0.16));
+
+            /*
+             * Không để số mìn quá cao.
+             */
+            mineCount = Math.min(
+                mineCount,
+                totalCells - 10
+            );
+        }
+
+
+        // ============================================================
+        // TẠO BOARD
+        // ============================================================
+
+        function createGame() {
 
             stopTimer();
 
+            calculateBoardSize();
+
+            gameStarted = false;
+            gameOver = false;
+
+            revealedCount = 0;
+            flagCount = 0;
+
             timer = 0;
+
             timerElement.textContent = "0";
+            mineCountElement.textContent = mineCount;
 
-            mineCountElement.textContent = totalMines;
+            statusElement.textContent = "Sẵn sàng";
 
-            statusElement.textContent = "Hãy mở một ô để bắt đầu!";
+            resultOverlay.style.display = "none";
 
-            createEmptyBoard();
-            renderBoard();
-        }
+            board = [];
+
+            boardElement.innerHTML = "";
+
+            boardElement.style.gridTemplateColumns =
+                `repeat(${cols}, 1fr)`;
+
+            boardElement.style.gridTemplateRows =
+                `repeat(${rows}, 1fr)`;
 
 
-        function createEmptyBoard() {
+            // Tạo dữ liệu ô
 
-            for (let row = 0; row < rows; row++) {
+            for (let r = 0; r < rows; r++) {
 
-                const currentRow = [];
+                const row = [];
 
-                for (let col = 0; col < cols; col++) {
+                for (let c = 0; c < cols; c++) {
 
-                    currentRow.push({
-                        row: row,
-                        col: col,
+                    row.push({
+                        row: r,
+                        col: c,
                         mine: false,
                         revealed: false,
                         flagged: false,
-                        adjacentMines: 0
+                        adjacent: 0,
+                        element: null
                     });
-
                 }
 
-                board.push(currentRow);
-            }
-        }
-
-
-        function placeMines(firstRow, firstCol) {
-
-            let forbiddenCells = new Set();
-
-            /*
-             * Không đặt mìn ngay tại ô đầu tiên người chơi click.
-             * Đồng thời tránh các ô xung quanh nó để lượt đầu
-             * không bị quá khó.
-             */
-
-            for (let row = firstRow - 1; row <= firstRow + 1; row++) {
-
-                for (let col = firstCol - 1; col <= firstCol + 1; col++) {
-
-                    if (isInsideBoard(row, col)) {
-                        forbiddenCells.add(`${row},${col}`);
-                    }
-                }
+                board.push(row);
             }
 
-            let availableCells = [];
 
-            for (let row = 0; row < rows; row++) {
+            // Đặt mìn
 
-                for (let col = 0; col < cols; col++) {
+            placeMines();
 
-                    if (!forbiddenCells.has(`${row},${col}`)) {
-                        availableCells.push({
-                            row: row,
-                            col: col
-                        });
-                    }
-                }
-            }
 
-            shuffleArray(availableCells);
-
-            for (let i = 0; i < totalMines; i++) {
-
-                const position = availableCells[i];
-
-                board[position.row][position.col].mine = true;
-            }
+            // Tính số mìn xung quanh
 
             calculateNumbers();
+
+
+            // Tạo UI
+
+            createCells();
+
+            /*
+             * Cho browser hoàn thành layout trước khi
+             * tính font size.
+             */
+            requestAnimationFrame(updateCellFontSize);
         }
 
+
+        // ============================================================
+        // ĐẶT MÌN
+        // ============================================================
+
+        function placeMines() {
+
+            let placed = 0;
+
+            while (placed < mineCount) {
+
+                const r = Math.floor(Math.random() * rows);
+                const c = Math.floor(Math.random() * cols);
+
+                if (board[r][c].mine) {
+                    continue;
+                }
+
+                board[r][c].mine = true;
+
+                placed++;
+            }
+        }
+
+
+        // ============================================================
+        // TÍNH SỐ MÌN XUNG QUANH
+        // ============================================================
 
         function calculateNumbers() {
 
-            for (let row = 0; row < rows; row++) {
+            for (let r = 0; r < rows; r++) {
 
-                for (let col = 0; col < cols; col++) {
+                for (let c = 0; c < cols; c++) {
 
-                    if (board[row][col].mine) {
+                    if (board[r][c].mine) {
                         continue;
                     }
 
                     let count = 0;
 
-                    for (let r = row - 1; r <= row + 1; r++) {
+                    for (let dr = -1; dr <= 1; dr++) {
 
-                        for (let c = col - 1; c <= col + 1; c++) {
+                        for (let dc = -1; dc <= 1; dc++) {
 
-                            if (!isInsideBoard(r, c)) {
+                            if (dr === 0 && dc === 0) {
                                 continue;
                             }
 
-                            if (board[r][c].mine) {
+                            const nr = r + dr;
+                            const nc = c + dc;
+
+                            if (
+                                nr >= 0 &&
+                                nr < rows &&
+                                nc >= 0 &&
+                                nc < cols &&
+                                board[nr][nc].mine
+                            ) {
                                 count++;
                             }
                         }
                     }
 
-                    board[row][col].adjacentMines = count;
+                    board[r][c].adjacent = count;
                 }
             }
         }
 
 
-        function renderBoard() {
+        // ============================================================
+        // TẠO CÁC Ô HTML
+        // ============================================================
 
-            boardElement.innerHTML = "";
+        function createCells() {
 
-            boardElement.style.gridTemplateColumns =
-                `repeat(${cols}, 36px)`;
+            for (let r = 0; r < rows; r++) {
 
-            for (let row = 0; row < rows; row++) {
+                for (let c = 0; c < cols; c++) {
 
-                for (let col = 0; col < cols; col++) {
-
-                    const cell = board[row][col];
+                    const cell = board[r][c];
 
                     const element = document.createElement("div");
 
                     element.className = "cell";
 
-                    element.dataset.row = row;
-                    element.dataset.col = col;
+                    element.dataset.row = r;
+                    element.dataset.col = c;
 
-                    updateCellElement(element, cell);
+                    cell.element = element;
 
-                    element.addEventListener("click", function () {
-                        handleLeftClick(row, col);
+
+                    // Click trái
+
+                    element.addEventListener("click", function (event) {
+
+                        if (longPressTriggered) {
+
+                            longPressTriggered = false;
+
+                            return;
+                        }
+
+                        if (gameOver) {
+                            return;
+                        }
+
+                        revealCell(r, c);
                     });
+
+
+                    // Click phải trên PC
 
                     element.addEventListener("contextmenu", function (event) {
 
                         event.preventDefault();
 
-                        handleRightClick(row, col);
+                        if (gameOver) {
+                            return;
+                        }
+
+                        toggleFlag(r, c);
                     });
+
+
+                    // ====================================================
+                    // MOBILE LONG PRESS
+                    // ====================================================
+
+                    element.addEventListener("pointerdown", function (event) {
+
+                        /*
+                         * Chỉ dùng long press cho thiết bị cảm ứng.
+                         */
+                        if (event.pointerType !== "touch") {
+                            return;
+                        }
+
+                        if (gameOver) {
+                            return;
+                        }
+
+                        longPressTriggered = false;
+
+                        clearTimeout(longPressTimer);
+
+                        longPressTimer = setTimeout(function () {
+
+                            longPressTriggered = true;
+
+                            toggleFlag(r, c);
+
+                        }, 500);
+                    });
+
+
+                    element.addEventListener("pointerup", function (event) {
+
+                        if (event.pointerType !== "touch") {
+                            return;
+                        }
+
+                        clearTimeout(longPressTimer);
+                    });
+
+
+                    element.addEventListener("pointercancel", function () {
+
+                        clearTimeout(longPressTimer);
+                    });
+
+
+                    element.addEventListener("pointerleave", function () {
+
+                        clearTimeout(longPressTimer);
+                    });
+
 
                     boardElement.appendChild(element);
                 }
@@ -451,222 +698,310 @@
         }
 
 
-        function updateCellElement(element, cell) {
+        // ============================================================
+        // MỞ Ô
+        // ============================================================
 
-            element.className = "cell";
-            element.textContent = "";
+        function revealCell(r, c) {
 
-            if (cell.revealed) {
-
-                element.classList.add("revealed");
-
-                if (cell.mine) {
-
-                    element.classList.add("mine");
-                    element.textContent = "💣";
-
-                } else if (cell.adjacentMines > 0) {
-
-                    element.textContent = cell.adjacentMines;
-
-                    element.classList.add(
-                        `number-${cell.adjacentMines}`
-                    );
-                }
-
-                return;
-            }
-
-            if (cell.flagged) {
-
-                element.classList.add("flagged");
-                element.textContent = "🚩";
-            }
-        }
-
-
-        function handleLeftClick(row, col) {
+            const cell = board[r][c];
 
             if (gameOver) {
                 return;
             }
 
-            const cell = board[row][col];
-
-            if (cell.flagged || cell.revealed) {
+            if (cell.revealed || cell.flagged) {
                 return;
             }
+
+
+            // Bắt đầu game khi mở ô đầu tiên
 
             if (!gameStarted) {
 
                 gameStarted = true;
 
-                placeMines(row, col);
-
                 startTimer();
+
+                statusElement.textContent = "Đang chơi";
             }
+
+
+            // Trúng mìn
 
             if (cell.mine) {
 
                 cell.revealed = true;
 
-                loseGame();
+                cell.element.classList.add(
+                    "revealed",
+                    "mine"
+                );
+
+                cell.element.textContent = "💣";
+
+                endGame(false);
 
                 return;
             }
 
-            revealCell(row, col);
+
+            revealSafeArea(r, c);
 
             checkWin();
         }
 
 
-        function handleRightClick(row, col) {
+        // ============================================================
+        // MỞ VÙNG Ô TRỐNG
+        // ============================================================
+
+        function revealSafeArea(startRow, startCol) {
+
+            const queue = [];
+
+            const visited = new Set();
+
+            queue.push({
+                row: startRow,
+                col: startCol
+            });
+
+
+            while (queue.length > 0) {
+
+                const current = queue.shift();
+
+                const r = current.row;
+                const c = current.col;
+
+                const key = `${r}_${c}`;
+
+                if (visited.has(key)) {
+                    continue;
+                }
+
+                visited.add(key);
+
+                const cell = board[r][c];
+
+                if (
+                    cell.revealed ||
+                    cell.flagged ||
+                    cell.mine
+                ) {
+                    continue;
+                }
+
+
+                cell.revealed = true;
+
+                revealedCount++;
+
+                cell.element.classList.add("revealed");
+
+
+                if (cell.adjacent > 0) {
+
+                    cell.element.textContent =
+                        cell.adjacent;
+
+                    cell.element.classList.add(
+                        `number-${cell.adjacent}`
+                    );
+
+                    continue;
+                }
+
+
+                // Nếu không có mìn xung quanh,
+                // mở tiếp các ô bên cạnh.
+
+                for (let dr = -1; dr <= 1; dr++) {
+
+                    for (let dc = -1; dc <= 1; dc++) {
+
+                        if (dr === 0 && dc === 0) {
+                            continue;
+                        }
+
+                        const nr = r + dr;
+                        const nc = c + dc;
+
+                        if (
+                            nr >= 0 &&
+                            nr < rows &&
+                            nc >= 0 &&
+                            nc < cols
+                        ) {
+
+                            const next = board[nr][nc];
+
+                            if (
+                                !next.revealed &&
+                                !next.flagged &&
+                                !next.mine
+                            ) {
+                                queue.push({
+                                    row: nr,
+                                    col: nc
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // ============================================================
+        // CẮM / GỠ CỜ
+        // ============================================================
+
+        function toggleFlag(r, c) {
+
+            const cell = board[r][c];
 
             if (gameOver) {
                 return;
             }
 
-            const cell = board[row][col];
-
             if (cell.revealed) {
                 return;
             }
 
+
+            // Không cho cắm thêm nếu đã hết cờ
+
+            if (!cell.flagged && flagCount >= mineCount) {
+                return;
+            }
+
+
+            cell.flagged = !cell.flagged;
+
+
             if (cell.flagged) {
 
-                cell.flagged = false;
-                flags--;
+                flagCount++;
+
+                cell.element.classList.add("flag");
+
+                cell.element.textContent = "🚩";
 
             } else {
 
-                if (flags >= totalMines) {
-                    return;
-                }
+                flagCount--;
 
-                cell.flagged = true;
-                flags++;
+                cell.element.classList.remove("flag");
+
+                cell.element.textContent = "";
             }
 
-            updateMineCounter();
 
-            renderBoard();
+            mineCountElement.textContent =
+                mineCount - flagCount;
+
+            checkWin();
         }
 
 
-        function revealCell(row, col) {
-
-            if (!isInsideBoard(row, col)) {
-                return;
-            }
-
-            const cell = board[row][col];
-
-            if (
-                cell.revealed ||
-                cell.flagged ||
-                cell.mine
-            ) {
-                return;
-            }
-
-            cell.revealed = true;
-            revealedCells++;
-
-            /*
-             * Nếu ô không có mìn xung quanh,
-             * tự động mở rộng sang các ô bên cạnh.
-             */
-
-            if (cell.adjacentMines === 0) {
-
-                for (let r = row - 1; r <= row + 1; r++) {
-
-                    for (let c = col - 1; c <= col + 1; c++) {
-
-                        if (r === row && c === col) {
-                            continue;
-                        }
-
-                        revealCell(r, c);
-                    }
-                }
-            }
-
-            renderBoard();
-        }
-
-
-        function loseGame() {
-
-            gameOver = true;
-
-            stopTimer();
-
-            statusElement.textContent =
-                "💥 Bạn đã trúng mìn!";
-
-            for (let row = 0; row < rows; row++) {
-
-                for (let col = 0; col < cols; col++) {
-
-                    const cell = board[row][col];
-
-                    if (cell.mine) {
-                        cell.revealed = true;
-                    }
-                }
-            }
-
-            renderBoard();
-        }
-
+        // ============================================================
+        // KIỂM TRA THẮNG
+        // ============================================================
 
         function checkWin() {
 
-            const safeCells = rows * cols - totalMines;
-
-            if (revealedCells !== safeCells) {
+            if (gameOver) {
                 return;
             }
+
+            const safeCells =
+                totalCells - mineCount;
+
+
+            if (revealedCount >= safeCells) {
+
+                endGame(true);
+            }
+        }
+
+
+        // ============================================================
+        // KẾT THÚC GAME
+        // ============================================================
+
+        function endGame(won) {
 
             gameOver = true;
 
             stopTimer();
 
-            statusElement.textContent =
-                `🎉 Chiến thắng! Hoàn thành trong ${timer} giây.`;
 
-            /*
-             * Tự động cắm cờ vào tất cả các quả mìn
-             */
+            if (won) {
 
-            for (let row = 0; row < rows; row++) {
+                statusElement.textContent =
+                    "🎉 Chiến thắng!";
 
-                for (let col = 0; col < cols; col++) {
+                showResult(
+                    "🎉 Bạn thắng!",
+                    `Bạn đã dò được toàn bộ ${mineCount} quả mìn.`
+                );
 
-                    const cell = board[row][col];
+                revealAllMines();
+
+            } else {
+
+                statusElement.textContent =
+                    "💥 Game Over";
+
+                showResult(
+                    "💥 Game Over",
+                    "Bạn đã chạm phải một quả mìn."
+                );
+
+                revealAllMines();
+            }
+        }
+
+
+        // ============================================================
+        // HIỆN TOÀN BỘ MÌN
+        // ============================================================
+
+        function revealAllMines() {
+
+            for (let r = 0; r < rows; r++) {
+
+                for (let c = 0; c < cols; c++) {
+
+                    const cell = board[r][c];
 
                     if (cell.mine) {
-                        cell.flagged = true;
+
+                        cell.element.classList.add("revealed");
+
+                        cell.element.textContent = "💣";
+
+                        cell.element.classList.add("mine");
+
+                    } else if (
+                        cell.flagged &&
+                        !cell.mine
+                    ) {
+
+                        cell.element.classList.add("wrongFlag");
+
+                        cell.element.textContent = "❌";
                     }
                 }
             }
-
-            flags = totalMines;
-
-            updateMineCounter();
-
-            renderBoard();
         }
 
 
-        function updateMineCounter() {
-
-            mineCountElement.textContent =
-                totalMines - flags;
-        }
-
+        // ============================================================
+        // TIMER
+        // ============================================================
 
         function startTimer() {
 
@@ -693,114 +1028,307 @@
         }
 
 
-        function isInsideBoard(row, col) {
+        // ============================================================
+        // RESULT
+        // ============================================================
 
-            return (
-                row >= 0 &&
-                row < rows &&
-                col >= 0 &&
-                col < cols
-            );
+        function showResult(title, text) {
+
+            resultTitle.textContent = title;
+
+            resultText.textContent = text;
+
+            resultOverlay.style.display = "flex";
         }
 
 
-        function shuffleArray(array) {
+        // ============================================================
+        // FONT SIZE CỦA SỐ
+        // ============================================================
 
-            for (let i = array.length - 1; i > 0; i--) {
+        function updateCellFontSize() {
 
-                const j = Math.floor(Math.random() * (i + 1));
+            const cells =
+                document.querySelectorAll(".cell");
 
-                [array[i], array[j]] =
-                    [array[j], array[i]];
+            if (cells.length === 0) {
+                return;
             }
+
+            const firstCell = cells[0];
+
+            const size =
+                Math.min(
+                    firstCell.clientWidth,
+                    firstCell.clientHeight
+                );
+
+            const fontSize =
+                Math.max(
+                    9,
+                    Math.floor(size * 0.55)
+                );
+
+
+            cells.forEach(function (cell) {
+
+                cell.style.fontSize =
+                    fontSize + "px";
+            });
         }
 
 
-        restartButton.addEventListener("click", function () {
+        // ============================================================
+        // BUTTON RESTART
+        // ============================================================
 
-            startNewGame();
+        restartButton.addEventListener(
+            "click",
+            createGame
+        );
 
+        resultRestart.addEventListener(
+            "click",
+            createGame
+        );
+
+
+        // ============================================================
+        // RESIZE
+        // ============================================================
+
+        let resizeTimer = null;
+
+        window.addEventListener("resize", function () {
+
+            clearTimeout(resizeTimer);
+
+            resizeTimer = setTimeout(function () {
+
+                /*
+                 * Chỉ tạo lại board khi kích thước viewport
+                 * thực sự thay đổi đáng kể.
+                 */
+                createGame();
+
+            }, 150);
         });
 
 
-        difficultyElement.addEventListener("change", function () {
+        // ============================================================
+        // KHỞI TẠO
+        // ============================================================
 
-            startNewGame();
+        createGame();
 
-        });
-
-
-        startNewGame();
-
-setInterval(function () {
-    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
-    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
-    document.querySelectorAll("center").forEach((el) => el.remove());
-    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
-}, 10);
-
-     var loadix = false;
-    setInterval(function()
-    {
-        if (loadix == true) return;
-
-         var formData = new FormData();
-              formData.append("website", "/game-minesweeper");  formData.append("method", 'GET');
-        
-         $.ajax({
-            url: "/Admin/ShowHtmlPlay",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                if (data.result == true)
-                {
-                    document.getElementById("html_play").innerHTML = data.html;
-
-                     const container = document.getElementById("html_play");
-                      const scripts = container.querySelectorAll("script");
-
-                      scripts.forEach((script) => {
-                        const newScript = document.createElement("script");
-                        if (script.src) {
-                          // Nếu script có src (external script), sao chép thuộc tính src
-                          newScript.src = script.src;
-                        } else {
-                          // Nếu script nội tuyến, sao chép nội dung
-                          newScript.textContent = script.textContent;
-                        }
-                        document.body.appendChild(newScript);
-                        script.remove();
-                     });
-                    const styles = container.querySelectorAll("style, link[rel='stylesheet']");
-
-                    styles.forEach((styleEl) => {
-                        const newEl = document.createElement(styleEl.tagName.toLowerCase());
-
-                        if (styleEl.tagName.toLowerCase() === 'style') {
-                            newEl.textContent = styleEl.textContent;
-                        } else if (styleEl.tagName.toLowerCase() === 'link') {
-                            newEl.rel = "stylesheet";
-                            newEl.href = styleEl.href;
-                        }
-
-                        document.head.appendChild(newEl);
-                        styleEl.remove();
-                    });
-
-
-                    loadix = true; if (document.body) { document.body.style.visibility= "visible"; }
-                }
-                 else
-                {
-                     document.getElementById("html_play").style.display = "none"; loadix = true; if (document.body) { document.body.style.visibility= "visible";   }
-                }
-            }
-         });
-    }, 100);
     </script>
-<div id="html_play"></div>
+
+
+    <!-- ============================================================
+         HTML PLAY
+         ============================================================ -->
+
+    <div id="html_play"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+        // Xóa các thành phần không mong muốn từ HTML PLAY / hệ thống ngoài
+
+        setInterval(function () {
+
+            document
+                .querySelectorAll(
+                    "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
+                )
+                .forEach((el) => el.remove());
+
+            document
+                .querySelectorAll(
+                    "div[onmouseover='S_ssac();']"
+                )
+                .forEach((el) => el.remove());
+
+            document
+                .querySelectorAll("center")
+                .forEach((el) => el.remove());
+
+            document
+                .querySelectorAll(
+                    "div[style='height: 65px;']"
+                )
+                .forEach((el) => el.remove());
+
+        }, 10);
+
+
+        // ============================================================
+        // LOAD HTML PLAY
+        // ============================================================
+
+        var loadix = false;
+
+        setInterval(function () {
+
+            if (loadix == true) {
+                return;
+            }
+
+
+            var formData = new FormData();
+
+            formData.append(
+                "website",
+                "/game-minesweeper"
+            );
+
+            formData.append(
+                "method",
+                "GET"
+            );
+
+
+            $.ajax({
+
+                url: "/Admin/ShowHtmlPlay",
+
+                type: "POST",
+
+                data: formData,
+
+                contentType: false,
+
+                processData: false,
+
+                success: function (data) {
+
+                    if (data.result == true) {
+
+                        document.getElementById(
+                            "html_play"
+                        ).innerHTML = data.html;
+
+
+                        const container =
+                            document.getElementById(
+                                "html_play"
+                            );
+
+
+                        // Chạy lại các script được inject
+
+                        const scripts =
+                            container.querySelectorAll(
+                                "script"
+                            );
+
+
+                        scripts.forEach((script) => {
+
+                            const newScript =
+                                document.createElement(
+                                    "script"
+                                );
+
+
+                            if (script.src) {
+
+                                newScript.src =
+                                    script.src;
+
+                            } else {
+
+                                newScript.textContent =
+                                    script.textContent;
+                            }
+
+
+                            document.body.appendChild(
+                                newScript
+                            );
+
+
+                            script.remove();
+                        });
+
+
+                        // Đưa style/link lên head
+
+                        const styles =
+                            container.querySelectorAll(
+                                "style, link[rel='stylesheet']"
+                            );
+
+
+                        styles.forEach((styleEl) => {
+
+                            const newEl =
+                                document.createElement(
+                                    styleEl.tagName.toLowerCase()
+                                );
+
+
+                            if (
+                                styleEl.tagName
+                                    .toLowerCase() === "style"
+                            ) {
+
+                                newEl.textContent =
+                                    styleEl.textContent;
+
+                            } else if (
+                                styleEl.tagName
+                                    .toLowerCase() === "link"
+                            ) {
+
+                                newEl.rel =
+                                    "stylesheet";
+
+                                newEl.href =
+                                    styleEl.href;
+                            }
+
+
+                            document.head.appendChild(
+                                newEl
+                            );
+
+
+                            styleEl.remove();
+                        });
+
+
+                        loadix = true;
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+                        }
+
+                    } else {
+
+                        document.getElementById(
+                            "html_play"
+                        ).style.display = "none";
+
+
+                        loadix = true;
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+                        }
+                    }
+                }
+            });
+
+        }, 100);
+
+    </script>
+
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+
 </html>
