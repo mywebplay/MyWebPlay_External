@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Game Color Match</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #172235;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            width: min(650px, 100%);
+            background: #202c40;
+            border: 1px solid #35455d;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 7px;
+            font-size: 34px;
+        }
+
+        .subtitle {
+            color: #aeb8c7;
+            margin-bottom: 22px;
+        }
+
+        .top-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            min-width: 125px;
+            background: #2b3850;
+            border: 1px solid #40506a;
+            border-radius: 9px;
+            padding: 10px 17px;
+            font-weight: bold;
+        }
+
+        .timer-container {
+            width: 100%;
+            height: 10px;
+            background: #303d52;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 100%;
+            background: #f5a000;
+            transition: width 0.05s linear;
+        }
+
+        .question-box {
+            background: #29364b;
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin-bottom: 22px;
+        }
+
+        .instruction {
+            color: #aeb8c7;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .color-word {
+            font-size: clamp(42px, 10vw, 72px);
+            font-weight: 900;
+            letter-spacing: 2px;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        .answers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .color-button {
+            min-height: 90px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.12s, filter 0.12s;
+            box-shadow:
+                inset 0 0 0 3px rgba(255, 255, 255, 0.15),
+                0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .color-button:active {
+            transform: scale(0.95);
+        }
+
+        .color-button:disabled {
+            cursor: default;
+        }
+
+        .red {
+            background: #e53935;
+        }
+
+        .blue {
+            background: #1e88e5;
+        }
+
+        .green {
+            background: #43a047;
+        }
+
+        .yellow {
+            background: #fbc02d;
+        }
+
+        .feedback {
+            min-height: 30px;
+            margin-top: 18px;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .correct-feedback {
+            color: #66d99a;
+        }
+
+        .wrong-feedback {
+            color: #ff7373;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        .main-button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 25px;
+            background: #f5a000;
+            color: #172235;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .main-button:hover {
+            filter: brightness(1.08);
+        }
+
+        .game-message {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.62);
+            padding: 20px;
+        }
+
+        .message-box {
+            width: min(380px, 100%);
+            background: #202c40;
+            border: 1px solid #45546b;
+            border-radius: 15px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .message-box h2 {
+            margin: 0 0 12px;
+            font-size: 30px;
+        }
+
+        .message-box p {
+            color: #c6cfdb;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .level-info {
+            color: #aeb8c7;
+            font-size: 14px;
+            margin-top: 17px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .game-container {
+                margin-top: 10px;
+                padding: 18px 12px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 17px;
+            }
+
+            .top-panel {
+                margin-bottom: 15px;
+            }
+
+            .info-box {
+                min-width: 105px;
+                padding: 9px 12px;
+                font-size: 14px;
+            }
+
+            .question-box {
+                padding: 20px 10px;
+            }
+
+            .color-word {
+                min-height: 75px;
+            }
+
+            .answers {
+                gap: 9px;
+            }
+
+            .color-button {
+                min-height: 75px;
+                border-radius: 10px;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            .answers {
+                gap: 7px;
+            }
+
+            .color-button {
+                min-height: 65px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body style="visibility: hidden;">
+
+    <div class="game-container">
+
+        <h1>🎨 Color Match</h1>
+
+        <div class="subtitle">
+            Match the color, not the word!
+        </div>
+
+
+        <div class="top-panel">
+
+            <div class="info-box">
+                ⭐ Score:
+                <span id="score">0</span>
+            </div>
+
+            <div class="info-box">
+                🏆 Best:
+                <span id="bestScore">0</span>
+            </div>
+
+            <div class="info-box">
+                🎯 Round:
+                <span id="round">1</span>
+            </div>
+
+        </div>
+
+
+        <div class="timer-container">
+
+            <div
+                class="timer-bar"
+                id="timerBar">
+            </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+            <div class="instruction">
+                Chọn màu mà chữ đang được hiển thị
+            </div>
+
+
+            <div
+                class="color-word"
+                id="colorWord">
+                RED
+            </div>
+
+        </div>
+
+
+        <div
+            class="answers"
+            id="answers">
+
+            <button
+                type="button"
+                class="color-button red"
+                data-color="red">
+            </button>
+
+            <button
+                type="button"
+                class="color-button blue"
+                data-color="blue">
+            </button>
+
+            <button
+                type="button"
+                class="color-button green"
+                data-color="green">
+            </button>
+
+            <button
+                type="button"
+                class="color-button yellow"
+                data-color="yellow">
+            </button>
+
+        </div>
+
+
+        <div
+            class="feedback"
+            id="feedback">
+        </div>
+
+
+        <div class="level-info">
+            Tốc độ sẽ tăng dần khi bạn trả lời đúng.
+        </div>
+
+
+        <div class="controls">
+
+            <button
+                type="button"
+                class="main-button"
+                id="restartButton">
+                🔄 Restart
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="game-message"
+        id="gameMessage">
+
+        <div class="message-box">
+
+            <h2 id="messageTitle">
+                🎨 Color Match
+            </h2>
+
+            <p id="messageText">
+                Hãy chọn đúng màu của chữ.
+                Đừng chọn theo nội dung chữ!
+            </p>
+
+            <button
+                type="button"
+                class="main-button"
+                id="startButton">
+                ▶ Start Game
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="html_play"></div>
+
+
+    <script>
+
+        /*
+         * ============================================================
+         * COLOR MATCH DATA
+         * ============================================================
+         *
+         * Mỗi object là một màu có thể xuất hiện trong game.
+         *
+         * Muốn thêm màu mới thì thêm object vào đây và tạo thêm
+         * button tương ứng trong HTML.
+         */
+
+        const COLOR_MATCH_COLORS = [
+
+            {
+                name: "RED",
+                className: "red"
+            },
+
+            {
+                name: "BLUE",
+                className: "blue"
+            },
+
+            {
+                name: "GREEN",
+                className: "green"
+            },
+
+            {
+                name: "YELLOW",
+                className: "yellow"
+            }
+
+        ];
+
+
+        /*
+         * ============================================================
+         * GAME VARIABLES
+         * ============================================================
+         */
+
+        const colorWord =
+            document.getElementById("colorWord");
+
+        const answers =
+            document.getElementById("answers");
+
+        const scoreElement =
+            document.getElementById("score");
+
+        const bestScoreElement =
+            document.getElementById("bestScore");
+
+        const roundElement =
+            document.getElementById("round");
+
+        const timerBar =
+            document.getElementById("timerBar");
+
+        const feedback =
+            document.getElementById("feedback");
+
+        const gameMessage =
+            document.getElementById("gameMessage");
+
+        const messageTitle =
+            document.getElementById("messageTitle");
+
+        const messageText =
+            document.getElementById("messageText");
+
+        const startButton =
+            document.getElementById("startButton");
+
+        const restartButton =
+            document.getElementById("restartButton");
+
+
+        let score = 0;
+
+        let round = 1;
+
+        let bestScore =
+            Number(
+                localStorage.getItem(
+                    "colorMatchBestScore"
+                )
+            ) || 0;
+
+
+        let currentAnswer = "";
+
+        let gameRunning = false;
+
+        let roundLocked = false;
+
+        let timer = null;
+
+        let roundStartTime = 0;
+
+        let currentTimeLimit = 4000;
+
+
+        const MIN_TIME_LIMIT = 1000;
+
+        const TIME_DECREASE = 120;
+
+
+        /*
+         * ============================================================
+         * UPDATE BEST SCORE
+         * ============================================================
+         */
+
+        bestScoreElement.textContent =
+            bestScore;
+
+
+        /*
+         * ============================================================
+         * RANDOM ITEM
+         * ============================================================
+         */
+
+        function randomItem(array) {
+
+            return array[
+                Math.floor(
+                    Math.random() * array.length
+                )
+            ];
+
+        }
+
+
+        /*
+         * ============================================================
+         * START GAME
+         * ============================================================
+         */
+
+        function startGame() {
+
+            clearTimer();
+
+            score = 0;
+
+            round = 1;
+
+            currentTimeLimit = 4000;
+
+            gameRunning = true;
+
+            roundLocked = false;
+
+
+            scoreElement.textContent =
+                score;
+
+            roundElement.textContent =
+                round;
+
+
+            feedback.textContent =
+                "";
+
+            feedback.className =
+                "feedback";
+
+
+            gameMessage.classList.add(
+                "hidden"
+            );
+
+
+            nextRound();
+
+        }
+
+
+        /*
+         * ============================================================
+         * NEXT ROUND
+         * ============================================================
+         */
+
+        function nextRound() {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            roundLocked = false;
+
+
+            feedback.textContent =
+                "";
+
+            feedback.className =
+                "feedback";
+
+
+            /*
+             * Chọn màu thực tế của chữ.
+             */
+
+            const actualColor =
+                randomItem(
+                    COLOR_MATCH_COLORS
+                );
+
+
+            /*
+             * Chọn nội dung chữ.
+             *
+             * Nội dung và màu được chọn độc lập
+             * để tạo hiệu ứng đánh lừa não.
+             */
+
+            let displayedWord =
+                randomItem(
+                    COLOR_MATCH_COLORS
+                );
+
+
+            /*
+             * Từ round 2 trở đi ưu tiên tạo
+             * trường hợp chữ và màu khác nhau.
+             */
+
+            if (
+                COLOR_MATCH_COLORS.length > 1 &&
+                Math.random() < 0.8
+            ) {
+
+                const otherColors =
+                    COLOR_MATCH_COLORS.filter(
+                        function (item) {
+
+                            return (
+                                item.name !==
+                                actualColor.name
+                            );
+
+                        }
+                    );
+
+
+                displayedWord =
+                    randomItem(
+                        otherColors
+                    );
+
+            }
+
+
+            currentAnswer =
+                actualColor.name;
+
+
+            colorWord.textContent =
+                displayedWord.name;
+
+
+            colorWord.style.color =
+                getColorValue(
+                    actualColor.className
+                );
+
+
+            roundElement.textContent =
+                round;
+
+
+            startTimer();
+
+        }
+
+
+        /*
+         * ============================================================
+         * COLOR VALUE
+         * ============================================================
+         */
+
+        function getColorValue(className) {
+
+            const colors = {
+
+                red: "#e53935",
+
+                blue: "#1e88e5",
+
+                green: "#43a047",
+
+                yellow: "#fbc02d"
+
+            };
+
+
+            return colors[className];
+
+        }
+
+
+        /*
+         * ============================================================
+         * TIMER
+         * ============================================================
+         */
+
+        function startTimer() {
+
+            clearTimer();
+
+
+            roundStartTime =
+                performance.now();
+
+
+            timerBar.style.width =
+                "100%";
+
+
+            timer =
+                requestAnimationFrame(
+                    updateTimer
+                );
+
+        }
+
+
+        function updateTimer(timestamp) {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            if (roundLocked) {
+                return;
+            }
+
+
+            const elapsed =
+                timestamp -
+                roundStartTime;
+
+
+            const remaining =
+                Math.max(
+                    0,
+                    currentTimeLimit - elapsed
+                );
+
+
+            const percentage =
+                (
+                    remaining /
+                    currentTimeLimit
+                ) * 100;
+
+
+            timerBar.style.width =
+                percentage + "%";
+
+
+            if (remaining <= 0) {
+
+                timeUp();
+
+                return;
+
+            }
+
+
+            timer =
+                requestAnimationFrame(
+                    updateTimer
+                );
+
+        }
+
+
+        function clearTimer() {
+
+            if (timer !== null) {
+
+                cancelAnimationFrame(
+                    timer
+                );
+
+                timer = null;
+
+            }
+
+        }
+
+
+        /*
+         * ============================================================
+         * ANSWER
+         * ============================================================
+         */
+
+        function selectColor(color) {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            if (roundLocked) {
+                return;
+            }
+
+
+            roundLocked = true;
+
+            clearTimer();
+
+
+            if (color === currentAnswer) {
+
+                handleCorrect();
+
+            }
+            else {
+
+                handleWrong();
+
+            }
+
+        }
+
+
+        /*
+         * ============================================================
+         * CORRECT
+         * ============================================================
+         */
+
+        function handleCorrect() {
+
+            score +=
+                calculateScore();
+
+
+            scoreElement.textContent =
+                score;
+
+
+            feedback.textContent =
+                "✓ Correct!";
+
+
+            feedback.className =
+                "feedback correct-feedback";
+
+
+            /*
+             * Mỗi round đúng sẽ nhanh hơn.
+             */
+
+            currentTimeLimit =
+                Math.max(
+                    MIN_TIME_LIMIT,
+                    currentTimeLimit -
+                    TIME_DECREASE
+                );
+
+
+            round++;
+
+
+            setTimeout(
+                function () {
+
+                    nextRound();
+
+                },
+                220
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * SCORE
+         * ============================================================
+         */
+
+        function calculateScore() {
+
+            /*
+             * Điểm cơ bản tăng dần theo round.
+             */
+
+            return 10 + Math.min(
+                round,
+                20
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * WRONG
+         * ============================================================
+         */
+
+        function handleWrong() {
+
+            feedback.textContent =
+                "✗ Wrong!";
+
+
+            feedback.className =
+                "feedback wrong-feedback";
+
+
+            setTimeout(
+                function () {
+
+                    endGame();
+
+                },
+                350
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * TIME UP
+         * ============================================================
+         */
+
+        function timeUp() {
+
+            if (roundLocked) {
+                return;
+            }
+
+
+            roundLocked = true;
+
+            clearTimer();
+
+
+            feedback.textContent =
+                "⏰ Time's up!";
+
+
+            feedback.className =
+                "feedback wrong-feedback";
+
+
+            setTimeout(
+                function () {
+
+                    endGame();
+
+                },
+                350
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * GAME OVER
+         * ============================================================
+         */
+
+        function endGame() {
+
+            clearTimer();
+
+
+            gameRunning = false;
+
+            roundLocked = true;
+
+
+            if (score > bestScore) {
+
+                bestScore =
+                    score;
+
+
+                localStorage.setItem(
+                    "colorMatchBestScore",
+                    bestScore
+                );
+
+            }
+
+
+            bestScoreElement.textContent =
+                bestScore;
+
+
+            messageTitle.textContent =
+                "💥 Game Over";
+
+
+            messageText.innerHTML =
+                `
+                    Score: <strong>${score}</strong><br>
+                    Best: <strong>${bestScore}</strong><br>
+                    Reached round: <strong>${round}</strong>
+                `;
+
+
+            startButton.textContent =
+                "🔄 Play Again";
+
+
+            gameMessage.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * BUTTON EVENTS
+         * ============================================================
+         */
+
+        document
+            .querySelectorAll(".color-button")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            selectColor(
+                                button.dataset.color
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        startButton.addEventListener(
+            "click",
+            function () {
+
+                startGame();
+
+            }
+        );
+
+
+        restartButton.addEventListener(
+            "click",
+            function () {
+
+                startGame();
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * KEYBOARD SUPPORT
+         * ============================================================
+         *
+         * PC:
+         *
+         * R = Red
+         * B = Blue
+         * G = Green
+         * Y = Yellow
+         */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (!gameRunning) {
+                    return;
+                }
+
+
+                const key =
+                    event.key.toLowerCase();
+
+
+                const keyMap = {
+
+                    r: "red",
+
+                    b: "blue",
+
+                    g: "green",
+
+                    y: "yellow"
+
+                };
+
+
+                if (keyMap[key]) {
+
+                    selectColor(
+                        keyMap[key]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * MYWEBPLAY HTML PLAY
+         * ============================================================
+         */
+
+        setInterval(function () {
+
+            document
+                .querySelectorAll(
+                    "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
+                )
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll(
+                    "div[onmouseover='S_ssac();']"
+                )
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll("center")
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll(
+                    "div[style='height: 65px;']"
+                )
+                .forEach((el) => el.remove());
+
+        }, 10);
+
+
+        var loadix = false;
+
+
+        setInterval(function () {
+
+            if (loadix == true) {
+                return;
+            }
+
+
+            var formData =
+                new FormData();
+
+
+            formData.append(
+                "website",
+                "/game-color-match"
+            );
+
+
+            formData.append(
+                "method",
+                "GET"
+            );
+
+
+            $.ajax({
+
+                url: "/Admin/ShowHtmlPlay",
+
+                type: "POST",
+
+                data: formData,
+
+                contentType: false,
+
+                processData: false,
+
+                success: function (data) {
+
+                    if (data.result == true) {
+
+                        document
+                            .getElementById("html_play")
+                            .innerHTML =
+                            data.html;
+
+
+                        const container =
+                            document.getElementById(
+                                "html_play"
+                            );
+
+
+                        const scripts =
+                            container.querySelectorAll(
+                                "script"
+                            );
+
+
+                        scripts.forEach(
+                            function (script) {
+
+                                const newScript =
+                                    document.createElement(
+                                        "script"
+                                    );
+
+
+                                if (script.src) {
+
+                                    newScript.src =
+                                        script.src;
+
+                                }
+                                else {
+
+                                    newScript.textContent =
+                                        script.textContent;
+
+                                }
+
+
+                                document.body.appendChild(
+                                    newScript
+                                );
+
+
+                                script.remove();
+
+                            }
+                        );
+
+
+                        const styles =
+                            container.querySelectorAll(
+                                "style, link[rel='stylesheet']"
+                            );
+
+
+                        styles.forEach(
+                            function (styleEl) {
+
+                                const newEl =
+                                    document.createElement(
+                                        styleEl.tagName
+                                            .toLowerCase()
+                                    );
+
+
+                                if (
+                                    styleEl.tagName
+                                        .toLowerCase() ===
+                                    "style"
+                                ) {
+
+                                    newEl.textContent =
+                                        styleEl.textContent;
+
+                                }
+                                else if (
+                                    styleEl.tagName
+                                        .toLowerCase() ===
+                                    "link"
+                                ) {
+
+                                    newEl.rel =
+                                        "stylesheet";
+
+                                    newEl.href =
+                                        styleEl.href;
+
+                                }
+
+
+                                document.head.appendChild(
+                                    newEl
+                                );
+
+
+                                styleEl.remove();
+
+                            }
+                        );
+
+
+                        loadix = true;
+
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+
+                        }
+
+                    }
+                    else {
+
+                        document
+                            .getElementById(
+                                "html_play"
+                            )
+                            .style.display =
+                            "none";
+
+
+                        loadix = true;
+
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }, 100);
+
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+
+</html>
