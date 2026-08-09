@@ -707,7 +707,7 @@
 
 
             currentAnswer =
-                actualColor.name;
+                actualColor.className;
 
 
             colorWord.textContent =
