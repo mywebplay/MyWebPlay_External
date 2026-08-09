@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Game Car Dodging</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #172235;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .game-container {
+            width: min(520px, 100%);
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #aeb8c7;
+            margin-bottom: 15px;
+        }
+
+        .top-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            min-width: 120px;
+            padding: 10px 15px;
+            background: #273348;
+            border: 1px solid #3b485d;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .road-wrapper {
+            position: relative;
+            width: 100%;
+            height: min(720px, 75vh);
+            min-height: 500px;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 3px solid #3e4c62;
+            background: #333333;
+            touch-action: none;
+            user-select: none;
+        }
+
+        .road {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    to right,
+                    #303030 0%,
+                    #3b3b3b 49%,
+                    #303030 100%
+                );
+        }
+
+        .road-line {
+            position: absolute;
+            top: -120px;
+            width: 5px;
+            height: 80px;
+            background: #eeeeee;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        .road-line.line-1 {
+            left: 33.333%;
+        }
+
+        .road-line.line-2 {
+            left: 66.666%;
+        }
+
+        .road-edge {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: #eeeeee;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .road-edge.left {
+            left: 0;
+        }
+
+        .road-edge.right {
+            right: 0;
+        }
+
+        .car {
+            position: absolute;
+            width: 58px;
+            height: 100px;
+            border-radius: 14px 14px 10px 10px;
+            z-index: 5;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        .player {
+            background: #e53935;
+        }
+
+        .enemy {
+            background: #1976d2;
+        }
+
+        .car::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            top: 15px;
+            height: 30px;
+            border-radius: 8px;
+            background: #b9e2f5;
+        }
+
+        .car::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 13px;
+            height: 22px;
+            border-radius: 5px;
+            background: #222222;
+        }
+
+        .wheel {
+            position: absolute;
+            width: 9px;
+            height: 23px;
+            background: #111111;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .wheel.left-front {
+            left: -6px;
+            top: 15px;
+        }
+
+        .wheel.right-front {
+            right: -6px;
+            top: 15px;
+        }
+
+        .wheel.left-back {
+            left: -6px;
+            bottom: 15px;
+        }
+
+        .wheel.right-back {
+            right: -6px;
+            bottom: 15px;
+        }
+
+        .light {
+            position: absolute;
+            width: 10px;
+            height: 7px;
+            background: #ffe082;
+            border-radius: 3px;
+            z-index: 3;
+        }
+
+        .light.left {
+            left: 9px;
+            top: 5px;
+        }
+
+        .light.right {
+            right: 9px;
+            top: 5px;
+        }
+
+        .enemy .light {
+            background: #ef5350;
+        }
+
+        .game-message {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .message-box {
+            width: min(330px, 85%);
+            padding: 25px;
+            background: #202c40;
+            border: 1px solid #45546b;
+            border-radius: 14px;
+        }
+
+        .message-box h2 {
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+
+        .message-box p {
+            margin: 8px 0;
+            color: #c7d0dd;
+        }
+
+        .play-button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #f5a000;
+            color: #172235;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .play-button:hover {
+            background: #ffb52e;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .direction-button {
+            width: 100px;
+            height: 55px;
+            border: none;
+            border-radius: 10px;
+            background: #344157;
+            color: #ffffff;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .direction-button:active {
+            background: #4a5b75;
+            transform: scale(0.96);
+        }
+
+        .mobile-instruction {
+            display: none;
+            color: #aeb8c7;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .pc-instruction {
+            color: #aeb8c7;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .game-container {
+                margin-top: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                margin-bottom: 10px;
+            }
+
+            .road-wrapper {
+                height: calc(100vh - 190px);
+                min-height: 420px;
+                max-height: 700px;
+            }
+
+            .pc-instruction {
+                display: none;
+            }
+
+            .mobile-instruction {
+                display: block;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .car {
+                width: 48px;
+                height: 84px;
+                border-radius: 11px 11px 8px 8px;
+            }
+
+            .car::before {
+                left: 7px;
+                right: 7px;
+                top: 12px;
+                height: 25px;
+            }
+
+            .car::after {
+                left: 7px;
+                right: 7px;
+                bottom: 11px;
+                height: 18px;
+            }
+
+            .wheel {
+                width: 7px;
+                height: 20px;
+            }
+
+            .wheel.left-front,
+            .wheel.right-front {
+                top: 12px;
+            }
+
+            .wheel.left-back,
+            .wheel.right-back {
+                bottom: 12px;
+            }
+
+            .road-line {
+                width: 4px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body style="visibility: hidden;">
+
+    <div class="game-container">
+
+        <h1>🚗 Car Dodging</h1>
+
+        <div class="subtitle">
+            Dodge the traffic and survive as long as possible!
+        </div>
+
+
+        <div class="top-panel">
+
+            <div class="info-box">
+                🏆 Score:
+                <span id="score">0</span>
+            </div>
+
+            <div class="info-box">
+                ⭐ Best:
+                <span id="bestScore">0</span>
+            </div>
+
+        </div>
+
+
+        <div
+            class="road-wrapper"
+            id="roadWrapper"
+        >
+
+            <div class="road" id="road">
+
+                <div class="road-edge left"></div>
+                <div class="road-edge right"></div>
+
+                <div class="road-line line-1"></div>
+                <div class="road-line line-2"></div>
+
+
+                <div
+                    class="car player"
+                    id="player"
+                >
+
+                    <div class="wheel left-front"></div>
+                    <div class="wheel right-front"></div>
+                    <div class="wheel left-back"></div>
+                    <div class="wheel right-back"></div>
+
+                    <div class="light left"></div>
+                    <div class="light right"></div>
+
+                </div>
+
+
+                <div
+                    class="game-message"
+                    id="gameMessage"
+                >
+
+                    <div class="message-box">
+
+                        <h2 id="messageTitle">
+                            🚗 Car Dodging
+                        </h2>
+
+                        <p id="messageText">
+                            Dodge the cars and survive!
+                        </p>
+
+                        <button
+                            type="button"
+                            class="play-button"
+                            id="playButton"
+                        >
+                            ▶ Start Game
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button
+                type="button"
+                class="direction-button"
+                id="leftButton"
+            >
+                ←
+            </button>
+
+            <button
+                type="button"
+                class="direction-button"
+                id="rightButton"
+            >
+                →
+            </button>
+
+        </div>
+
+
+        <div class="pc-instruction">
+            ⌨️ Dùng phím <b>←</b> <b>→</b> hoặc 2 nút bên dưới để điều khiển
+        </div>
+
+        <div class="mobile-instruction">
+            📱 Vuốt sang trái / phải để điều khiển xe
+        </div>
+
+    </div>
+
+
+    <div id="html_play"></div>
+
+
+    <script>
+
+        /*
+         * ============================================================
+         * GAME VARIABLES
+         * ============================================================
+         */
+
+        const road =
+            document.getElementById("road");
+
+        const roadWrapper =
+            document.getElementById("roadWrapper");
+
+        const player =
+            document.getElementById("player");
+
+        const scoreElement =
+            document.getElementById("score");
+
+        const bestScoreElement =
+            document.getElementById("bestScore");
+
+        const gameMessage =
+            document.getElementById("gameMessage");
+
+        const messageTitle =
+            document.getElementById("messageTitle");
+
+        const messageText =
+            document.getElementById("messageText");
+
+        const playButton =
+            document.getElementById("playButton");
+
+        const leftButton =
+            document.getElementById("leftButton");
+
+        const rightButton =
+            document.getElementById("rightButton");
+
+
+        let gameRunning = false;
+
+        let animationFrame = null;
+
+        let lastTime = 0;
+
+        let score = 0;
+
+        let bestScore =
+            Number(localStorage.getItem("carDodgingBestScore")) || 0;
+
+        let speed = 180;
+
+        let enemySpawnTimer = 0;
+
+        let enemySpawnInterval = 1000;
+
+        let lineOffset = 0;
+
+        let playerX = 0;
+
+        let playerTargetX = 0;
+
+        let enemies = [];
+
+        let enemyId = 0;
+
+
+        /*
+         * ============================================================
+         * PLAYER SETTINGS
+         * ============================================================
+         */
+
+        function getCarWidth() {
+
+            return player.offsetWidth;
+
+        }
+
+
+        function getRoadWidth() {
+
+            return road.clientWidth;
+
+        }
+
+
+        function getPlayerY() {
+
+            return road.clientHeight - player.offsetHeight - 25;
+
+        }
+
+
+        function setPlayerPosition() {
+
+            player.style.left =
+                playerX + "px";
+
+            player.style.top =
+                getPlayerY() + "px";
+
+        }
+
+
+        /*
+         * ============================================================
+         * START GAME
+         * ============================================================
+         */
+
+        function startGame() {
+
+            stopGame();
+
+            clearEnemies();
+
+            gameRunning = true;
+
+            score = 0;
+
+            speed = 180;
+
+            enemySpawnTimer = 0;
+
+            enemySpawnInterval = 1000;
+
+            lineOffset = 0;
+
+            lastTime = performance.now();
+
+
+            scoreElement.textContent =
+                "0";
+
+
+            playerX =
+                (getRoadWidth() - getCarWidth()) / 2;
+
+            playerTargetX =
+                playerX;
+
+
+            setPlayerPosition();
+
+
+            gameMessage.style.display =
+                "none";
+
+
+            animationFrame =
+                requestAnimationFrame(gameLoop);
+
+        }
+
+
+        /*
+         * ============================================================
+         * STOP GAME
+         * ============================================================
+         */
+
+        function stopGame() {
+
+            gameRunning = false;
+
+
+            if (animationFrame !== null) {
+
+                cancelAnimationFrame(
+                    animationFrame
+                );
+
+                animationFrame = null;
+
+            }
+
+        }
+
+
+        /*
+         * ============================================================
+         * CLEAR ENEMIES
+         * ============================================================
+         */
+
+        function clearEnemies() {
+
+            enemies.forEach(function (enemy) {
+
+                enemy.element.remove();
+
+            });
+
+
+            enemies = [];
+
+        }
+
+
+        /*
+         * ============================================================
+         * GAME LOOP
+         * ============================================================
+         */
+
+        function gameLoop(timestamp) {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            let deltaTime =
+                timestamp - lastTime;
+
+
+            lastTime = timestamp;
+
+
+            if (deltaTime > 100) {
+                deltaTime = 100;
+            }
+
+
+            updateGame(deltaTime);
+
+
+            animationFrame =
+                requestAnimationFrame(gameLoop);
+
+        }
+
+
+        /*
+         * ============================================================
+         * UPDATE GAME
+         * ============================================================
+         */
+
+        function updateGame(deltaTime) {
+
+            updateRoadLines(deltaTime);
+
+            updatePlayer();
+
+            updateEnemies(deltaTime);
+
+            updateDifficulty(deltaTime);
+
+            spawnEnemies(deltaTime);
+
+            checkCollisions();
+
+        }
+
+
+        /*
+         * ============================================================
+         * ROAD ANIMATION
+         * ============================================================
+         */
+
+        function updateRoadLines(deltaTime) {
+
+            lineOffset +=
+                speed * deltaTime / 1000;
+
+
+            const lineHeight = 80;
+
+            const gap = 45;
+
+            const cycle =
+                lineHeight + gap;
+
+
+            lineOffset %= cycle;
+
+
+            const lines =
+                road.querySelectorAll(".road-line");
+
+
+            lines.forEach(function (line) {
+
+                line.style.transform =
+                    `translateY(${lineOffset}px)`;
+
+            });
+
+        }
+
+
+        /*
+         * ============================================================
+         * PLAYER MOVEMENT
+         * ============================================================
+         */
+
+        function updatePlayer() {
+
+            const difference =
+                playerTargetX - playerX;
+
+
+            playerX +=
+                difference * 0.22;
+
+
+            const maxX =
+                getRoadWidth() - getCarWidth();
+
+
+            if (playerX < 0) {
+                playerX = 0;
+            }
+
+
+            if (playerX > maxX) {
+                playerX = maxX;
+            }
+
+
+            player.style.left =
+                playerX + "px";
+
+
+            player.style.top =
+                getPlayerY() + "px";
+
+        }
+
+
+        /*
+         * ============================================================
+         * MOVE PLAYER
+         * ============================================================
+         */
+
+        function movePlayer(direction) {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            const roadWidth =
+                getRoadWidth();
+
+            const carWidth =
+                getCarWidth();
+
+
+            const moveDistance =
+                roadWidth / 3;
+
+
+            playerTargetX +=
+                direction * moveDistance;
+
+
+            const maxX =
+                roadWidth - carWidth;
+
+
+            if (playerTargetX < 0) {
+                playerTargetX = 0;
+            }
+
+
+            if (playerTargetX > maxX) {
+                playerTargetX = maxX;
+            }
+
+        }
+
+
+        /*
+         * ============================================================
+         * SPAWN ENEMIES
+         * ============================================================
+         */
+
+        function spawnEnemies(deltaTime) {
+
+            enemySpawnTimer +=
+                deltaTime;
+
+
+            if (
+                enemySpawnTimer <
+                enemySpawnInterval
+            ) {
+                return;
+            }
+
+
+            enemySpawnTimer = 0;
+
+
+            createEnemy();
+
+        }
+
+
+        /*
+         * ============================================================
+         * CREATE ENEMY
+         * ============================================================
+         */
+
+        function createEnemy() {
+
+            const enemy =
+                document.createElement("div");
+
+
+            enemy.className =
+                "car enemy";
+
+
+            const wheel1 =
+                document.createElement("div");
+
+            wheel1.className =
+                "wheel left-front";
+
+
+            const wheel2 =
+                document.createElement("div");
+
+            wheel2.className =
+                "wheel right-front";
+
+
+            const wheel3 =
+                document.createElement("div");
+
+            wheel3.className =
+                "wheel left-back";
+
+
+            const wheel4 =
+                document.createElement("div");
+
+            wheel4.className =
+                "wheel right-back";
+
+
+            const light1 =
+                document.createElement("div");
+
+            light1.className =
+                "light left";
+
+
+            const light2 =
+                document.createElement("div");
+
+            light2.className =
+                "light right";
+
+
+            enemy.appendChild(wheel1);
+            enemy.appendChild(wheel2);
+            enemy.appendChild(wheel3);
+            enemy.appendChild(wheel4);
+            enemy.appendChild(light1);
+            enemy.appendChild(light2);
+
+
+            road.appendChild(enemy);
+
+
+            const roadWidth =
+                getRoadWidth();
+
+
+            const enemyWidth =
+                enemy.offsetWidth;
+
+
+            const laneCount = 3;
+
+
+            const lane =
+                Math.floor(
+                    Math.random() * laneCount
+                );
+
+
+            const laneWidth =
+                roadWidth / laneCount;
+
+
+            const x =
+                lane * laneWidth +
+                (laneWidth - enemyWidth) / 2;
+
+
+            const y =
+                -enemy.offsetHeight - 20;
+
+
+            enemy.style.left =
+                x + "px";
+
+
+            enemy.style.top =
+                y + "px";
+
+
+            /*
+             * Tránh spawn 2 xe quá gần nhau
+             * ở cùng vị trí.
+             */
+
+            const tooClose =
+                enemies.some(function (existing) {
+
+                    return (
+                        Math.abs(
+                            existing.x - x
+                        ) < enemyWidth * 1.2 &&
+                        existing.y < 180
+                    );
+
+                });
+
+
+            if (tooClose) {
+
+                enemy.remove();
+
+                return;
+
+            }
+
+
+            const enemyObject = {
+
+                id: ++enemyId,
+
+                element: enemy,
+
+                x: x,
+
+                y: y
+
+            };
+
+
+            enemies.push(
+                enemyObject
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * UPDATE ENEMIES
+         * ============================================================
+         */
+
+        function updateEnemies(deltaTime) {
+
+            const move =
+                speed * deltaTime / 1000;
+
+
+            for (
+                let i = enemies.length - 1;
+                i >= 0;
+                i--
+            ) {
+
+                const enemy =
+                    enemies[i];
+
+
+                enemy.y += move;
+
+
+                enemy.element.style.top =
+                    enemy.y + "px";
+
+
+                if (
+                    enemy.y >
+                    road.clientHeight + 120
+                ) {
+
+                    enemy.element.remove();
+
+                    enemies.splice(i, 1);
+
+                }
+
+            }
+
+        }
+
+
+        /*
+         * ============================================================
+         * DIFFICULTY
+         * ============================================================
+         */
+
+        function updateDifficulty(deltaTime) {
+
+            score +=
+                deltaTime / 1000;
+
+
+            const displayScore =
+                Math.floor(score);
+
+
+            scoreElement.textContent =
+                displayScore;
+
+
+            /*
+             * Tốc độ tăng dần theo thời gian.
+             */
+
+            speed =
+                180 +
+                Math.min(
+                    score * 5,
+                    420
+                );
+
+
+            /*
+             * Khoảng cách spawn giảm dần.
+             */
+
+            enemySpawnInterval =
+                Math.max(
+                    400,
+                    1000 - score * 7
+                );
+
+        }
+
+
+        /*
+         * ============================================================
+         * COLLISION DETECTION
+         * ============================================================
+         */
+
+        function checkCollisions() {
+
+            const playerRect =
+                player.getBoundingClientRect();
+
+
+            for (const enemy of enemies) {
+
+                const enemyRect =
+                    enemy.element.getBoundingClientRect();
+
+
+                if (
+                    isColliding(
+                        playerRect,
+                        enemyRect
+                    )
+                ) {
+
+                    endGame();
+
+                    return;
+
+                }
+
+            }
+
+        }
+
+
+        function isColliding(rect1, rect2) {
+
+            const padding = 8;
+
+
+            return (
+                rect1.left + padding <
+                rect2.right - padding &&
+
+                rect1.right - padding >
+                rect2.left + padding &&
+
+                rect1.top + padding <
+                rect2.bottom - padding &&
+
+                rect1.bottom - padding >
+                rect2.top + padding
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * GAME OVER
+         * ============================================================
+         */
+
+        function endGame() {
+
+            stopGame();
+
+
+            const finalScore =
+                Math.floor(score);
+
+
+            if (finalScore > bestScore) {
+
+                bestScore =
+                    finalScore;
+
+
+                localStorage.setItem(
+                    "carDodgingBestScore",
+                    bestScore
+                );
+
+            }
+
+
+            bestScoreElement.textContent =
+                bestScore;
+
+
+            messageTitle.textContent =
+                "💥 Crash!";
+
+
+            messageText.textContent =
+                `Score: ${finalScore} | Best: ${bestScore}`;
+
+
+            playButton.textContent =
+                "🔄 Play Again";
+
+
+            gameMessage.style.display =
+                "flex";
+
+        }
+
+
+        /*
+         * ============================================================
+         * KEYBOARD
+         * ============================================================
+         */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "ArrowLeft" ||
+                    event.key.toLowerCase() === "a"
+                ) {
+
+                    event.preventDefault();
+
+                    movePlayer(-1);
+
+                }
+
+
+                if (
+                    event.key === "ArrowRight" ||
+                    event.key.toLowerCase() === "d"
+                ) {
+
+                    event.preventDefault();
+
+                    movePlayer(1);
+
+                }
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * PC BUTTONS
+         * ============================================================
+         */
+
+        leftButton.addEventListener(
+            "mousedown",
+            function () {
+
+                movePlayer(-1);
+
+            }
+        );
+
+
+        rightButton.addEventListener(
+            "mousedown",
+            function () {
+
+                movePlayer(1);
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * TOUCH / SWIPE
+         * ============================================================
+         */
+
+        let touchStartX = 0;
+
+        let touchStartY = 0;
+
+
+        roadWrapper.addEventListener(
+            "touchstart",
+            function (event) {
+
+                if (!gameRunning) {
+                    return;
+                }
+
+
+                const touch =
+                    event.changedTouches[0];
+
+
+                touchStartX =
+                    touch.clientX;
+
+
+                touchStartY =
+                    touch.clientY;
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        roadWrapper.addEventListener(
+            "touchend",
+            function (event) {
+
+                if (!gameRunning) {
+                    return;
+                }
+
+
+                const touch =
+                    event.changedTouches[0];
+
+
+                const deltaX =
+                    touch.clientX - touchStartX;
+
+
+                const deltaY =
+                    touch.clientY - touchStartY;
+
+
+                /*
+                 * Chỉ xử lý swipe ngang.
+                 * Swipe dọc không điều khiển xe.
+                 */
+
+                if (
+                    Math.abs(deltaX) <
+                    30
+                ) {
+                    return;
+                }
+
+
+                if (
+                    Math.abs(deltaX) <=
+                    Math.abs(deltaY)
+                ) {
+                    return;
+                }
+
+
+                if (deltaX < 0) {
+
+                    movePlayer(-1);
+
+                }
+                else {
+
+                    movePlayer(1);
+
+                }
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * START BUTTON
+         * ============================================================
+         */
+
+        playButton.addEventListener(
+            "click",
+            function () {
+
+                startGame();
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * WINDOW RESIZE
+         * ============================================================
+         */
+
+        window.addEventListener(
+            "resize",
+            function () {
+
+                if (!gameRunning) {
+                    setPlayerPosition();
+                    return;
+                }
+
+
+                const maxX =
+                    getRoadWidth() -
+                    getCarWidth();
+
+
+                if (playerTargetX > maxX) {
+                    playerTargetX = maxX;
+                }
+
+
+                if (playerX > maxX) {
+                    playerX = maxX;
+                }
+
+            }
+        );
+
+
+        /*
+         * ============================================================
+         * INITIAL STATE
+         * ============================================================
+         */
+
+        bestScoreElement.textContent =
+            bestScore;
+
+
+        setPlayerPosition();
+
+    </script>
+
+
+    <script>
+
+        /*
+         * ============================================================
+         * MYWEBPLAY HTML PLAY
+         * ============================================================
+         */
+
+        setInterval(function () {
+
+            document
+                .querySelectorAll(
+                    "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
+                )
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll(
+                    "div[onmouseover='S_ssac();']"
+                )
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll("center")
+                .forEach((el) => el.remove());
+
+
+            document
+                .querySelectorAll(
+                    "div[style='height: 65px;']"
+                )
+                .forEach((el) => el.remove());
+
+        }, 10);
+
+
+        var loadix = false;
+
+
+        setInterval(function () {
+
+            if (loadix == true) {
+                return;
+            }
+
+
+            var formData =
+                new FormData();
+
+
+            formData.append(
+                "website",
+                "/game-car-dodging"
+            );
+
+
+            formData.append(
+                "method",
+                "GET"
+            );
+
+
+            $.ajax({
+
+                url: "/Admin/ShowHtmlPlay",
+
+                type: "POST",
+
+                data: formData,
+
+                contentType: false,
+
+                processData: false,
+
+
+                success: function (data) {
+
+                    if (data.result == true) {
+
+                        document
+                            .getElementById("html_play")
+                            .innerHTML = data.html;
+
+
+                        const container =
+                            document.getElementById("html_play");
+
+
+                        const scripts =
+                            container.querySelectorAll("script");
+
+
+                        scripts.forEach(function (script) {
+
+                            const newScript =
+                                document.createElement("script");
+
+
+                            if (script.src) {
+
+                                newScript.src =
+                                    script.src;
+
+                            }
+                            else {
+
+                                newScript.textContent =
+                                    script.textContent;
+
+                            }
+
+
+                            document.body.appendChild(
+                                newScript
+                            );
+
+
+                            script.remove();
+
+                        });
+
+
+                        const styles =
+                            container.querySelectorAll(
+                                "style, link[rel='stylesheet']"
+                            );
+
+
+                        styles.forEach(function (styleEl) {
+
+                            const newEl =
+                                document.createElement(
+                                    styleEl.tagName.toLowerCase()
+                                );
+
+
+                            if (
+                                styleEl.tagName.toLowerCase() ===
+                                "style"
+                            ) {
+
+                                newEl.textContent =
+                                    styleEl.textContent;
+
+                            }
+                            else if (
+                                styleEl.tagName.toLowerCase() ===
+                                "link"
+                            ) {
+
+                                newEl.rel =
+                                    "stylesheet";
+
+                                newEl.href =
+                                    styleEl.href;
+
+                            }
+
+
+                            document.head.appendChild(
+                                newEl
+                            );
+
+
+                            styleEl.remove();
+
+                        });
+
+
+                        loadix = true;
+
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+
+                        }
+
+                    }
+                    else {
+
+                        document
+                            .getElementById("html_play")
+                            .style.display = "none";
+
+
+                        loadix = true;
+
+
+                        if (document.body) {
+
+                            document.body.style.visibility =
+                                "visible";
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }, 100);
+
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+
+</html>
