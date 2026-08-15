@@ -69,14 +69,16 @@
 <body>
 
 <div class="container">
-    <h1>INSERT ERROR/BUG LIST</h1>
+    <h1>INSERT MAIL TEMPLATE</h1>
 
     <form id="bugForm">
        <label for="data">Nhập tiêu đề mail</label>
-        <input type="text" name="data" id="data1" szie="100" />
+        <input type="text" name="data" id="data1" size="128" />
+        <br />
         <br />
         <label for="data">Nhập nội dung mail</label>
         <textarea name="data" id="data2" rows="20"></textarea>
+        <br />
         <br />
         <label for="data">Secret key</label>
         <input id="key" size="50" type="password" />
@@ -96,8 +98,8 @@
         bodyMail = bodyMail.replaceAll(/'/g, '"');
         const key = document.getElementById("key").value.trim();
 
-        if (!dataValue) {
-            alert("Vui lòng nhập nội dung lỗi!");
+        if (!subjectMail || !bodyMail) {
+            alert("Vui lòng nhập đầy đủ vào các trường input bên dướii!");
             return;
         }
 
