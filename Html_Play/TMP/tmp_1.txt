@@ -1,0 +1,12 @@
+/Home/ToPlayKaraoke
+/Admin/ReadAdminFileByStatic
+/Admin/EditFileAdminStatic
+/game-flappy-bird
+/game-typing
+/game-ne-tranh-vat-the
+/game-ran-san-moi
+/game-2048
+/game-memory-card
+/play-karaoke-1
+/play-karaoke-2
+/karaoke
