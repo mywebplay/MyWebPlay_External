@@ -228,6 +228,18 @@ footer{
     </div>
 @@>
 
+<@@hideshow_context:"Referer": "https://coccoc.com/----YES----CONTAINS
+#3275_5828_3#
+    <div class="section" id="docs">
+    <h2>📕 Studocu</h2>
+    <div class="grid">
+    <div class="card warning menu-itemX1" data-action="Studocu">
+    <h3>Lấy PDF tài liệu từ Studocu</h3>
+    </div>
+    </div>
+    </div>
+@@>
+
 <footer>© MyWebPlay</footer>
 
 <!-- BẮT BUỘC PHẢI CÓ -->
