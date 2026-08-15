@@ -1,0 +1,11 @@
+/Admin/SettingXYZ_DarkAdmin
+/Home/ToPlayKaraoke
+/trac-nghiem-3
+/trac-nghiem-2
+/trac-nghiem-4
+/game-ne-tranh-vat-the
+/game-typing
+/game-memory-card
+/play-karaoke-1
+/play-karaoke-2
+/karaoke
