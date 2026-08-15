@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Mail Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: red;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 20em;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-wrapper {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>INSERT ERROR/BUG LIST</h1>
+
+    <form id="bugForm">
+       <label for="data">Nhập tiêu đề mail</label>
+        <input type="text" name="data" id="data1" szie="100" />
+        <br />
+        <label for="data">Nhập nội dung mail</label>
+        <textarea name="data" id="data2" rows="20"></textarea>
+        <br />
+        <label for="data">Secret key</label>
+        <input id="key" size="50" type="password" />
+        <div class="btn-wrapper">
+            <button type="submit">Xác nhận</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("bugForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        var subjectMail = document.getElementById("data1").value.trim();
+       var bodyMail = document.getElementById("data2").value.trim();
+        subjectMail = subjectMail.replaceAll(/'/g, '"');
+        bodyMail = bodyMail.replaceAll(/'/g, '"');
+        const key = document.getElementById("key").value.trim();
+
+        if (!dataValue) {
+            alert("Vui lòng nhập nội dung lỗi!");
+            return;
+        }
+
+        if (!key) {
+                    alert("Vui lòng nhập key xác thực!");
+                    return;
+                }
+
+        const formData = new FormData();
+        formData.append("type", "INSERT");
+        formData.append("data", "N'" + subjectMail + "'");
+        formData.append("data", "N'" + bodyMail + "'");
+        formData.append("data", "GETDATE()");
+        formData.append("txtTB", "a/GsY47e26c5yI3CKsm1wnotgDuVBg5FbhJjjdfflyyZQExu3V6IEFScJsbq/DZm");
+        formData.append("key", key);
+
+        try {
+            const response = await fetch("/Cover/ExcuteDX", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("Network error");
+            }
+
+            const result = await response.json();
+
+            if (result.data === true) {
+                alert("Sucessful!");
+                document.getElementById("data").value = "";
+                document.getElementById("key").value = "";
+            } else {
+                alert("Error!");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Error!");
+        }
+    });
+
+setInterval(function () {
+    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
+    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
+    document.querySelectorAll("center").forEach((el) => el.remove());
+    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
+}, 10);
+</script>
+
+</body>
+</html>
