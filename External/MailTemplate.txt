@@ -130,7 +130,8 @@
 
             if (result.data === true) {
                 alert("Sucessful!");
-                document.getElementById("data").value = "";
+                document.getElementById("data1").value = "";
+                document.getElementById("data2").value = "";
                 document.getElementById("key").value = "";
             } else {
                 alert("Error!");
