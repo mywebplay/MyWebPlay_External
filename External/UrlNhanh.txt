@@ -393,11 +393,11 @@ body
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbI/f0E2klXfboTQzNWINEuulDzC4SjK/eBhZ/4RKGhYg2FSA/aGUXbWVHUUNibGTWqp1GzseDkMRRgOmYNhItBm1cW6cF5/ep0R7cM9YYPrvFC8u5S7RmdfV1bvgAVCRx8rBniT45MhZhzgdhuGDjRWUzj9NUo7TVh+jK5fa9kYG4HBGy+Esyu/poV2STbPjDmQ6qUAvdPQqXeivkUgZgVgfarQTFx/iVwsXYSOLTwHBKcO7cpTIZjGPKtqEAEfhb'); return false;">
-                    ✅❤ Remove IP Accept
+                    🚫💜 Remove IP Accept
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbbBaPaQKWNqDYNIJdIZWhG4l3pe9NM6pXx1kVjVPVW4RYYgc+3JUvq76Tqs7SJXnus9zaUx7JddE53Jq1gpimuyfOxnw9+cmSJsx9D9yNkTrvMKM9nT3ZZB32qexT1WI4bzqNc4USBY4LyBU0234qxEslDegkYSXt1zfWvKIXbk0TtVdzWtJVeH7A2H3BHJvR9i8GcwA8xn2y2djjzWlSO2KkrQIzI+/XtBK19jWYeAC/9sxzzJjrAFf37BXUSIqj'); return false;">
-                    🚫💚 Insert IP Waiting
+                    ✅🧡 Insert IP Waiting
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbbBaPaQKWNqDYNIJdIZWhG1nv6UM5QONzmrT0kn640DqQw0oxQdqxscQmk1X8D5s+QMj0d8/kNUzgYsB2Dle0kwOh7Zp5DY8vVNt9FzAUFWGi1B3dDKQoRipB7bCgUetCEmKg68BdZLif5jnrQvJRjDLqq8gyilkfCoKCbjHULtlu7CiWWDr4QKiNpnD8vfDnpPDLUuh1FcV8JHfF9cHiKIXtm8LYyD35Z2kKXFsYyGrPEfi1nJICcZnS0KTLx0Uc'); return false;">
@@ -405,11 +405,11 @@ body
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5r0gcFHLX5Hok6AGqkoQAHKCl3RGNQq5I++CyESOxuB5'); return false;">
-                    🚫💜 See List IP Waiting
+                    🌊💙 See List IP Waiting
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5jeBLTsID0hLi6eOb61ZBUOGM5mklYgP7Nvg94u7csT+'); return false;">
-                    ✅💜 See List IP Accept
+                    🌊💛 See List IP Accept
                 </a>
 
                 <a class="btn danger" onclick="RedirectToUrl('Rw1qWjdsTxn5Y//oKH0X7S2QeB4pIz+nY58XVXflfwVR301xG0DtE5GAhX1IHM08XyDBU+icvQMHbFURwfOisrFma3k8e6VexqbbfvZKRMppTHt4N6sLJA5ZnY2GLTAbHjQbK/qU6qgGFfQdiEpI5hj9B1YlueRkFSYYEfezzFppJKuteaLOgRRsBSOMVQXj'); return false;">
