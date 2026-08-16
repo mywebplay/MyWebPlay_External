@@ -357,7 +357,7 @@
     <script>
         setTimeout(function () {
             window.location.href = '@@ url @@';
-        }, 3000);
+        }, 5000);
 
         setInterval(function () {
             document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
