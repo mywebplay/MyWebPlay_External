@@ -355,7 +355,9 @@
     <div class="ground"></div>
 
     <script>
-        window.location.href = '@@ url @@';
+        setTimeout(function () {
+            window.location.href = '@@ url @@';
+        }, 3000);
 
         setInterval(function () {
             document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
