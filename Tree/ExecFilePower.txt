@@ -50,9 +50,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        button:hover {
-            background: #45a049;
-        }
         #resultArea, #downloadLink {
             margin-top: 20px;
             display: none;
@@ -329,7 +326,7 @@
                 value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgNFuywkuj6x171YYBspnauBZ4pCKtL3qLsWfsQgIXfxX2RGjusZOpU8cV16ZYHGevXLmcLRt46Fk74Vz+GMZPj5ACVIgvUS910S9SGo9Pc1kawLGE9D0zJXCYaLYfc1chlx7iqVeHFsvi5QPF038DujnPo2QFMBLLGbLJVFHmeec="
             },
             {
-                key: web.config",
+                key: "web.config",
                 value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgNFuywkuj6x171YYBspnauBZ4pCKtL3qLsWfsQgIXfxX2RGjusZOpU8cV16ZYHGevXLmcLRt46Fk74Vz+GMZPj5ACVIgvUS910S9SGo9Pc1kzNsi0PH5D03nGeXUZxcMMnptAUZdVztPWGgpczja/Dg=="
             }
         ];
