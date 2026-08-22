@@ -183,8 +183,12 @@
         <div class="form-group">
             <label for="Path">Path</label>
             <input type="text" id="Path" name="Path">
+            <br />
+            <!-- Link mở modal -->
+            <a href="javascript:void(0);" id="btnSelectPath">
+                Chọn các path hiện có
+            </a>
         </div>
-
         <div class="form-group">
             <label for="PathX">PathX</label>
             <input type="text" id="PathX" name="PathX">
@@ -237,10 +241,6 @@
     <div id="downloadLink">
         <a id="downloadA" href="#" target="_blank" download>Click vào đây để tải xuống</a>
     </div>
-<!-- Link mở modal -->
-<a href="javascript:void(0);" id="btnSelectPath">
-    Chọn các path hiện có
-</a>
 
 <!-- Modal -->
 <div id="pathModalOverlay" class="path-modal-overlay">
@@ -314,36 +314,36 @@
         
         const pathAPI = [
             {
-                key: "API - Menu",
-                value: "/API/Menu"
+                key: "appsettings.json",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgvcDNmwvSKZEOp9z5XSeAyPJXoKjknlu394bBTJdm3U+0AMZYwtWGMpDR3tGDkJV+Mu7ugVQRYenImtx+u6ZE5jfQ6kJwC6IfGcuALBGu74h+dTX8QsSCk8rPrmK+7CGSYpcbJiW5EteApKo7cwQwPw=="
             },
             {
-                key: "API - Login",
-                value: "/API/Login"
+                key: "web.config",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgvcDNmwvSKZEOp9z5XSeAyPJXoKjknlu394bBTJdm3U+0AMZYwtWGMpDR3tGDkJV+Mu7ugVQRYenImtx+u6ZE5jOc6/hGUrp+BMMqCSSzCrKr+fGtbeSnQL2kZEErfKNI"
             }
         ];
         
         
         const pathNormal = [
             {
-                key: "Normal - Home",
-                value: "/Home"
+                key: "appsettings.json",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgNFuywkuj6x171YYBspnauBZ4pCKtL3qLsWfsQgIXfxX2RGjusZOpU8cV16ZYHGevXLmcLRt46Fk74Vz+GMZPj5ACVIgvUS910S9SGo9Pc1kawLGE9D0zJXCYaLYfc1chlx7iqVeHFsvi5QPF038DujnPo2QFMBLLGbLJVFHmeec="
             },
             {
-                key: "Normal - Login",
-                value: "/Login"
+                key: web.config",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/uFrrbN6sXRvVTSQz3nILgNFuywkuj6x171YYBspnauBZ4pCKtL3qLsWfsQgIXfxX2RGjusZOpU8cV16ZYHGevXLmcLRt46Fk74Vz+GMZPj5ACVIgvUS910S9SGo9Pc1kzNsi0PH5D03nGeXUZxcMMnptAUZdVztPWGgpczja/Dg=="
             }
         ];
         
         
         const pathSub = [
             {
-                key: "Sub - Home",
-                value: "/Home"
+                key: "appsettings.json",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/wlnYdO/zeWsz1SF58PhjLmH4V0RChu4y3RuHSxoE1utQacthSXfDqLN8ZXGlyg9DqkFMzKa9zb5wPGA7LhI/pFgaKy2KVUEN75KFx9NOO1Ysnk49Q5d0TH/3wEpIWrx5uv0HmHi1zH6IZCnBb+QTaSNhhTyCRNPlIhpFIJn7RBg=="
             },
             {
-                key: "Sub - Login",
-                value: "/Login"
+                key: "web.config",
+                value: "EjXQ9SQCJWdB4YxmeMwqRDYQEiLwvNi1rGqb84ecm4/wlnYdO/zeWsz1SF58PhjLmH4V0RChu4y3RuHSxoE1utQacthSXfDqLN8ZXGlyg9DqkFMzKa9zb5wPGA7LhI/pFgaKy2KVUEN75KFx9NOO1Zrw9wmkcQZ1N6Yziti4CNsP3G1d4tNnklDOIXE8fROz"
             }
         ];
         
