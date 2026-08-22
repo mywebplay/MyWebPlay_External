@@ -281,8 +281,8 @@
             document.getElementById("downloadLink").style.display = "none";
 
             if (action === "READ" && data.noidung !== undefined) {
-                document.getElementById("resultText").value = data.noidung;
-                document.getElementById("resultArea").style.display = "block";
+                document.getElementById("Content").value = data.noidung;
+                // document.getElementById("resultArea").style.display = "block";
             }
             else if ((action === "LIST-FILE" || action === "LIST-FOLDER") && data.list !== undefined) {
                 document.getElementById("resultText").value = data.list;
