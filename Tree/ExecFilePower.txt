@@ -182,7 +182,7 @@
             <input type="text" id="Path" name="Path">
             <br />
             <!-- Link mở modal -->
-            <a href="javascript:void(0);" id="btnSelectPath">
+            <a href="javascript:void(0);" id="btnSelectPath" style="text-decoration: none;">
                 Chọn các path hiện có
             </a>
             <!-- Modal -->
@@ -224,7 +224,7 @@
             <label for="Content">Content</label>
             <textarea id="Content" name="Content"  rows="20" style="height:500px;"></textarea>
             <br />
-             <a href="javascript:void(0);" onclick="deleteContent()">
+             <a href="javascript:void(0);" onclick="deleteContent()" style="text-decoration: none;">
                 🗑
             </a>
         </div>
