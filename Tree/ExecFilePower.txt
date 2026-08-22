@@ -188,6 +188,26 @@
             <a href="javascript:void(0);" id="btnSelectPath">
                 Chọn các path hiện có
             </a>
+            <!-- Modal -->
+            <div id="pathModalOverlay" class="path-modal-overlay">
+                <div id="pathModal" class="path-modal">
+            
+                    <!-- Nút X đóng modal -->
+                    <button type="button" id="btnClosePathModal" class="path-modal-close">
+                        ×
+                    </button>
+            
+                    <label for="pathSelect">Chọn path</label>
+            
+                    <select id="pathSelect">
+                    </select>
+            
+                    <button type="button" id="btnUsePath">
+                        SỬ DỤNG
+                    </button>
+            
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="PathX">PathX</label>
@@ -241,27 +261,6 @@
     <div id="downloadLink">
         <a id="downloadA" href="#" target="_blank" download>Click vào đây để tải xuống</a>
     </div>
-
-<!-- Modal -->
-<div id="pathModalOverlay" class="path-modal-overlay">
-    <div id="pathModal" class="path-modal">
-
-        <!-- Nút X đóng modal -->
-        <button type="button" id="btnClosePathModal" class="path-modal-close">
-            ×
-        </button>
-
-        <label for="pathSelect">Chọn path</label>
-
-        <select id="pathSelect">
-        </select>
-
-        <button type="button" id="btnUsePath">
-            SỬ DỤNG
-        </button>
-
-    </div>
-</div>
 
     <script>
         document.getElementById("fileForm").addEventListener("submit", async function(e) {
