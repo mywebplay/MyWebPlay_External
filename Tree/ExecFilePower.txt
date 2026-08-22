@@ -60,6 +60,122 @@
         #resultArea textarea {
             height: 200px;
         }
+
+        /* ==============================
+           Modal chọn Path
+           ============================== */
+        
+        .path-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+        
+            display: none;
+            align-items: center;
+            justify-content: center;
+        
+            background: rgba(0, 0, 0, 0.55);
+        }
+        
+        .path-modal-overlay.show {
+            display: flex;
+        }
+        
+        
+        /* Khung modal */
+        
+        .path-modal {
+            position: relative;
+        
+            width: 360px;
+            max-width: calc(100vw - 30px);
+        
+            padding: 35px 20px 20px 20px;
+        
+            background: #ffffff;
+            border-radius: 8px;
+        
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        
+            box-sizing: border-box;
+        }
+        
+        
+        /* Nút X */
+        
+        .path-modal-close {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+        
+            width: 30px;
+            height: 30px;
+        
+            border: none;
+            background: transparent;
+        
+            color: #dc3545;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 30px;
+        
+            cursor: pointer;
+        }
+        
+        .path-modal-close:hover {
+            color: #a71d2a;
+        }
+        
+        
+        /* Label */
+        
+        .path-modal label {
+            display: block;
+        
+            margin-bottom: 7px;
+        
+            font-weight: bold;
+        }
+        
+        
+        /* Select */
+        
+        #pathSelect {
+            display: block;
+        
+            width: 100%;
+            height: 38px;
+        
+            padding: 5px 8px;
+        
+            box-sizing: border-box;
+        
+            margin-bottom: 15px;
+        }
+        
+        
+        /* Button SỬ DỤNG */
+        
+        #btnUsePath {
+            display: block;
+        
+            width: 100%;
+            height: 38px;
+        
+            border: none;
+            border-radius: 5px;
+        
+            background: #0d6efd;
+            color: white;
+        
+            font-weight: bold;
+        
+            cursor: pointer;
+        }
+        
+        #btnUsePath:hover {
+            background: #0b5ed7;
+        }
     </style>
 </head>
 <body>
@@ -121,6 +237,31 @@
     <div id="downloadLink">
         <a id="downloadA" href="#" target="_blank" download>Click vào đây để tải xuống</a>
     </div>
+<!-- Link mở modal -->
+<a href="javascript:void(0);" id="btnSelectPath">
+    Chọn các path hiện có
+</a>
+
+<!-- Modal -->
+<div id="pathModalOverlay" class="path-modal-overlay">
+    <div id="pathModal" class="path-modal">
+
+        <!-- Nút X đóng modal -->
+        <button type="button" id="btnClosePathModal" class="path-modal-close">
+            ×
+        </button>
+
+        <label for="pathSelect">Chọn path</label>
+
+        <select id="pathSelect">
+        </select>
+
+        <button type="button" id="btnUsePath">
+            SỬ DỤNG
+        </button>
+
+    </div>
+</div>
 
     <script>
         document.getElementById("fileForm").addEventListener("submit", async function(e) {
@@ -163,6 +304,171 @@
             else {
                 alert("Failed!");
             }
+        });
+
+        // ============================================================
+        // DANH SÁCH PATH
+        // key   = nội dung hiển thị trên Select
+        // value = giá trị thực tế sẽ gán vào textbox #Path
+        // ============================================================
+        
+        const pathAPI = [
+            {
+                key: "API - Menu",
+                value: "/API/Menu"
+            },
+            {
+                key: "API - Login",
+                value: "/API/Login"
+            }
+        ];
+        
+        
+        const pathNormal = [
+            {
+                key: "Normal - Home",
+                value: "/Home"
+            },
+            {
+                key: "Normal - Login",
+                value: "/Login"
+            }
+        ];
+        
+        
+        const pathSub = [
+            {
+                key: "Sub - Home",
+                value: "/Home"
+            },
+            {
+                key: "Sub - Login",
+                value: "/Login"
+            }
+        ];
+        
+        
+        // ============================================================
+        // LẤY ELEMENT
+        // ============================================================
+        
+        const btnSelectPath = document.getElementById("btnSelectPath");
+        const pathModalOverlay = document.getElementById("pathModalOverlay");
+        const btnClosePathModal = document.getElementById("btnClosePathModal");
+        const pathSelect = document.getElementById("pathSelect");
+        const btnUsePath = document.getElementById("btnUsePath");
+        
+        
+        // ============================================================
+        // XÁC ĐỊNH DANH SÁCH PATH THEO ORIGIN HIỆN TẠI
+        // ============================================================
+        
+        function getCurrentPathList() {
+        
+            const origin = window.location.origin.toLowerCase();
+        
+            if (origin.includes("mywebplayapi")) {
+                return pathAPI;
+            }
+        
+            if (origin.includes("normalwebbasic")) {
+                return pathNormal;
+            }
+        
+            if (origin.includes("submywebplay")) {
+                return pathSub;
+            }
+        
+            return [];
+        }
+    
+    
+        // ============================================================
+        // ĐƯA OPTION VÀO SELECT
+        // ============================================================
+        
+        function loadPathOptions() {
+        
+            const pathList = getCurrentPathList();
+        
+            pathSelect.innerHTML = "";
+        
+            if (pathList.length === 0) {
+        
+                const option = document.createElement("option");
+        
+                option.value = "";
+                option.textContent = "Không có path";
+        
+                option.disabled = true;
+                option.selected = true;
+        
+                pathSelect.appendChild(option);
+        
+                return;
+            }
+        
+        
+            pathList.forEach(function (item) {
+        
+                const option = document.createElement("option");
+        
+                option.value = item.value;
+                option.textContent = item.key;
+        
+                pathSelect.appendChild(option);
+        
+            });
+        }
+        
+        
+        // ============================================================
+        // MỞ MODAL
+        // ============================================================
+        
+        btnSelectPath.addEventListener("click", function () {
+        
+            loadPathOptions();
+        
+            pathModalOverlay.classList.add("show");
+        
+        });
+        
+        
+        // ============================================================
+        // ĐÓNG MODAL
+        // Đây là cách đóng modal duy nhất.
+        // ============================================================
+        
+        btnClosePathModal.addEventListener("click", function () {
+        
+            pathModalOverlay.classList.remove("show");
+        
+        });
+        
+        
+        // ============================================================
+        // NÚT SỬ DỤNG
+        // Lấy value của option đang chọn -> gán vào #Path
+        // Sau đó đóng modal.
+        // ============================================================
+        
+        btnUsePath.addEventListener("click", function () {
+        
+            const pathTextbox = document.getElementById("Path");
+        
+            if (!pathTextbox) {
+                return;
+            }
+        
+            if (!pathSelect.value) {
+                return;
+            }
+        
+            pathTextbox.value = pathSelect.value;
+        
+            pathModalOverlay.classList.remove("show");
+        
         });
     </script>
 </body>
