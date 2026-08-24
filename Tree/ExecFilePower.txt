@@ -174,6 +174,52 @@
             background: #0b5ed7;
         }
     </style>
+    <style>
+        #loadingModal_load2 {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.45);
+        }
+    
+        #loadingBox_load2 {
+            min-width: 180px;
+            padding: 25px 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+    
+        #loadingSpinner_load2 {
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 15px;
+            border: 5px solid #e0e0e0;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: loadingSpin_load2 0.8s linear infinite;
+        }
+    
+        #loadingText_load2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+        }
+    
+        @keyframes loadingSpin_load2 {
+            from {
+                transform: rotate(0deg);
+            }
+    
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
     <form id="fileForm" enctype="multipart/form-data">
@@ -253,7 +299,13 @@
 
         <button type="submit">Submit</button>
     </form>
-
+    <!-- Loading Modal -->
+    <div id="loadingModal_load2">
+        <div id="loadingBox_load2">
+            <div id="loadingSpinner_load2"></div>
+            <div id="loadingText_load2">Đang xử lý...</div>
+        </div>
+    </div>
     <div id="resultArea">
         <label>Kết quả <b id="count" style="color:red;"></b></label>
         <textarea readonly id="resultText" rows="20" style="height:500px;"></textarea>
@@ -270,44 +322,63 @@
         }
 
         document.getElementById("fileForm").addEventListener("submit", async function(e) {
-         e.preventDefault();
-        var confirmX = confirm("Bạn có chắc chắn không? Kiểm tra kỹ mọi hành động trước khi OK nhé...");
-        if (confirmX == false) return;
-            
-            const form = e.target;
-            const formData = new FormData(form);
-
-            const action = formData.get("Action");
-            const res = await fetch("/Cover/ExectFilePower", {
-                method: "POST",
-                body: formData
-            });
-
-            const data = await res.json();
-
-            // Ẩn vùng kết quả trước
-            document.getElementById("resultArea").style.display = "none";
-            document.getElementById("downloadLink").style.display = "none";
-
-            if (action === "READ" && data.noidung !== undefined) {
-                document.getElementById("Content").value = data.noidung;
-                // document.getElementById("resultArea").style.display = "block";
+            e.preventDefault();
+        
+            var confirmX = confirm("Bạn có chắc chắn không? Kiểm tra kỹ mọi hành động trước khi OK nhé...");
+            if (confirmX == false) return;
+        
+            const loadingModal = document.getElementById("loadingModal_load2");
+        
+            // Hiện loading modal trước khi gọi API
+            loadingModal.style.display = "flex";
+        
+            try {
+                const form = e.target;
+                const formData = new FormData(form);
+        
+                const action = formData.get("Action");
+        
+                const res = await fetch("/Cover/ExectFilePower", {
+                    method: "POST",
+                    body: formData
+                });
+        
+                const data = await res.json();
+        
+                // Ẩn vùng kết quả trước
+                document.getElementById("resultArea").style.display = "none";
+                document.getElementById("downloadLink").style.display = "none";
+        
+                if (action === "READ" && data.noidung !== undefined) {
+                    document.getElementById("Content").value = data.noidung;
+                    // document.getElementById("resultArea").style.display = "block";
+                }
+                else if ((action === "LIST-FILE" || action === "LIST-FOLDER") && data.list !== undefined) {
+                    document.getElementById("resultText").value = data.list;
+        
+                    var count = document.getElementById("resultText").value.split('\n').length;
+                    document.getElementById("count").innerText = "(" + count + ")";
+        
+                    document.getElementById("resultArea").style.display = "block";
+                }
+                else if (action === "DOWNLOAD" && data.link !== undefined) {
+                    document.getElementById("downloadA").href = data.link;
+                    document.getElementById("downloadLink").style.display = "block";
+                }
+                else if (data.result === true) {
+                    alert("Successful!");
+                }
+                else {
+                    alert("Failed!");
+                }
             }
-            else if ((action === "LIST-FILE" || action === "LIST-FOLDER") && data.list !== undefined) {
-                document.getElementById("resultText").value = data.list;
-                var count = document.getElementById("resultText").value.split('\n').length;
-                document.getElementById("count").innerText = "("+count+")";
-                document.getElementById("resultArea").style.display = "block";
-            }
-            else if (action === "DOWNLOAD" && data.link !== undefined) {
-                document.getElementById("downloadA").href = data.link;
-                document.getElementById("downloadLink").style.display = "block";
-            }
-            else if (data.result === true) {
-                alert("Successful!");
-            }
-            else {
+            catch (error) {
+                console.error("ExectFilePower error:", error);
                 alert("Failed!");
+            }
+            finally {
+                // API hoàn tất dù thành công hay lỗi đều đóng loading
+                loadingModal.style.display = "none";
             }
         });
 
