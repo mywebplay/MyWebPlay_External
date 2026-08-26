@@ -81,11 +81,11 @@
 
 function SeeTitle(data)
 {
-    for (var i = 0; i < data.length; i++)
+    for (let i = 0; i < data.length; i++)
     {
-        var item = data[i];
+        let item = data[i];
 
-        var row = document.getElementById("tr_" + item.Index);
+        let row = document.getElementById("tr_" + item.Index);
 
         if (row == null)
         {
@@ -94,14 +94,14 @@ function SeeTitle(data)
 
         row.style.cursor = "pointer";
 
-        var nguyennhan = item.NguyenNhan;
-        var giaiphap = item.GiaiPhap;
+        let nguyennhan = item.NguyenNhan;
+        let giaiphap = item.GiaiPhap;
 
-        var hasNguyenNhan =
+        let hasNguyenNhan =
             nguyennhan != null &&
             nguyennhan.toString().trim() !== "";
 
-        var hasGiaiPhap =
+        let hasGiaiPhap =
             giaiphap != null &&
             giaiphap.toString().trim() !== "";
 
@@ -112,14 +112,14 @@ function SeeTitle(data)
 
         row.ondblclick = function ()
         {
-            var oldModal = document.getElementById("myModalGlobal");
+            let oldModal = document.getElementById("myModalGlobal");
 
             if (oldModal)
             {
                 oldModal.remove();
             }
 
-            var html = "";
+            let html = "";
 
             if (hasNguyenNhan)
             {
@@ -151,7 +151,7 @@ function SeeTitle(data)
                 `;
             }
 
-            var modal = document.createElement("div");
+            let modal = document.createElement("div");
 
             modal.id = "myModalGlobal";
 
@@ -184,7 +184,6 @@ function SeeTitle(data)
         };
     }
 }
-
 
 SeeTitle(seeTitleData);
 </script>
