@@ -471,25 +471,31 @@ var seeTitleData = [
         Index: 106,
         Status: "NOBUG",
         NguyenNhan: null,
-        GiaiPhap: null
+        GiaiPhap: "Gõ sai đường dẫn file: appsettings.json; nhưng gõ nhầm thành: appsetting.json. Ngoài ra, đã fix bug cho câu thông báo khi path file không tồn tại thì phải được trỏ đúng path file đó."
     },
     {
         Index: 109,
         Status: "TRICK",
         NguyenNhan: null,
-        GiaiPhap: null
+        GiaiPhap: "Bỏ qua màn hình login, bypass bước đăng nhập admin và cho phép đi thẳng đến page setting khi đã là I Am MyWebPlay. Nút đăng xuất bị ẩn."
     },
     {
         Index: 110,
         Status: "TRICK",
         NguyenNhan: null,
-        GiaiPhap: null
+        GiaiPhap: "Bỏ qua màn hình login, bypass bước đăng nhập admin và cho phép đi thẳng đến page setting khi đã là I Am MyWebPlay. Nút đăng xuất bị ẩn."
     },
     {
         Index: 111,
         Status: "TRICK",
         NguyenNhan: null,
-        GiaiPhap: null
+        GiaiPhap: "Bỏ qua màn hình login, bypass bước đăng nhập admin và cho phép đi thẳng đến page setting khi đã là I Am MyWebPlay. Nút đăng xuất bị ẩn."
+    },
+    {
+        Index: 114,
+        Status: "TRICK",
+        NguyenNhan: "Khi truyền key 'IsPlayApi' = 'true' vào phần header của request, logic sẽ không lấy thông tin IP từ API/data của bên thứ ba. Tuy nhiên, đang tồn tại 1 rule của HTTP METHOD PLAY bị chặn truy cập nếu IP thuộc Amazon.",
+        GiaiPhap: "Tạm thời bỏ kích hoạt rule HTTP METHOD PLAY nếu phần header của request có key 'IsPlayApi' = 'true'"
     },
     {
         Index: 115,
