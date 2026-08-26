@@ -76,119 +76,115 @@
 </style>
 
 <script>
-function SeeTitle(i, nguyennhan, giaiphap)
+
+<@@path:https://mywebplay.github.io/MyWebPlay_External/Html_Play/bug-list-3.txt@@>
+
+function SeeTitle(data)
 {
-    var row = document.getElementById("tr_" + i);
-
-    if (row == null)
+    for (var i = 0; i < data.length; i++)
     {
-        return;
-    }
+        var item = data[i];
 
-    row.style.cursor = "pointer";
+        var row = document.getElementById("tr_" + item.Index);
 
-    var hasNguyenNhan =
-        nguyennhan != null &&
-        nguyennhan.toString().trim() !== "";
-
-    var hasGiaiPhap =
-        giaiphap != null &&
-        giaiphap.toString().trim() !== "";
-
-    if (!hasNguyenNhan && !hasGiaiPhap)
-    {
-        return;
-    }
-
-    row.ondblclick = function ()
-    {
-        var oldModal = document.getElementById("myModalGlobal");
-
-        if (oldModal)
+        if (row == null)
         {
-            oldModal.remove();
+            continue;
         }
 
-        var html = "";
+        row.style.cursor = "pointer";
 
-        if (hasNguyenNhan)
+        var nguyennhan = item.NguyenNhan;
+        var giaiphap = item.GiaiPhap;
+
+        var hasNguyenNhan =
+            nguyennhan != null &&
+            nguyennhan.toString().trim() !== "";
+
+        var hasGiaiPhap =
+            giaiphap != null &&
+            giaiphap.toString().trim() !== "";
+
+        if (!hasNguyenNhan && !hasGiaiPhap)
         {
-            html += `
-                <div class="my-modal-section">
-                    <h2 class="my-modal-title">
-                        NGUYÊN NHÂN PHÁT SINH:
-                    </h2>
-
-                    <div class="my-modal-text">
-                        ${nguyennhan}
-                    </div>
-                </div>
-            `;
+            continue;
         }
 
-        if (hasGiaiPhap)
+        row.ondblclick = function ()
         {
-            html += `
-                <div class="my-modal-section">
-                    <h2 class="my-modal-title">
-                        GIẢI PHÁP ĐÃ ÁP DỤNG:
-                    </h2>
+            var oldModal = document.getElementById("myModalGlobal");
 
-                    <div class="my-modal-text">
-                        ${giaiphap}
-                    </div>
-                </div>
-            `;
-        }
-
-        var modal = document.createElement("div");
-
-        modal.id = "myModalGlobal";
-
-        modal.innerHTML = `
-            <div class="my-modal-overlay">
-                <div class="my-modal-box">
-
-                    <button
-                        type="button"
-                        class="my-modal-close">
-                        ✕
-                    </button>
-
-                    <div class="my-modal-content">
-                        ${html}
-                    </div>
-
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        modal
-            .querySelector(".my-modal-close")
-            .onclick = function ()
+            if (oldModal)
             {
-                modal.remove();
-            };
-    };
+                oldModal.remove();
+            }
+
+            var html = "";
+
+            if (hasNguyenNhan)
+            {
+                html += `
+                    <div class="my-modal-section">
+                        <h2 class="my-modal-title">
+                            NGUYÊN NHÂN PHÁT SINH:
+                        </h2>
+
+                        <div class="my-modal-text">
+                            ${nguyennhan}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (hasGiaiPhap)
+            {
+                html += `
+                    <div class="my-modal-section">
+                        <h2 class="my-modal-title">
+                            GIẢI PHÁP ĐÃ ÁP DỤNG:
+                        </h2>
+
+                        <div class="my-modal-text">
+                            ${giaiphap}
+                        </div>
+                    </div>
+                `;
+            }
+
+            var modal = document.createElement("div");
+
+            modal.id = "myModalGlobal";
+
+            modal.innerHTML = `
+                <div class="my-modal-overlay">
+                    <div class="my-modal-box">
+
+                        <button
+                            type="button"
+                            class="my-modal-close">
+                            ✕
+                        </button>
+
+                        <div class="my-modal-content">
+                            ${html}
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            modal
+                .querySelector(".my-modal-close")
+                .onclick = function ()
+                {
+                    modal.remove();
+                };
+        };
+    }
 }
 
-    SeeTitle(3, null, "Rule setting của URL REDIRECT TO METHOD không áp dụng khi tự chính admin truy cập hoặc cần cẩn thận hơn khi muốn setting rule.");
-    SeeTitle(4, "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía back-end.", null);
-    SeeTitle(5, null, "Kiểm tra các url không tồn tại và redirect sang page /Home/Error (404) bằng cách sử dụng file setting  ListPageSetting.txt, không cần dựa vào web.config nữa.");
-    SeeTitle(10, "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía Javascript.", null);
-    SeeTitle(13, "Khi truy cập web lần đầu, hệ thống sẽ redirect đến 1 page tạm để get info IP của user nhưng sau đó lại redirect về url gốc, thay vì url EncryptX.", "Không redirect qua page tạm mà việc get info IP của user sẽ được xử lý trước ở Middle ware.");
-    SeeTitle(18, null, "Sau khi xác minh yêu cầu sử dụng dịch vụ thành công thì tạm thời rule setting referrer URL sẽ không có hiệu lực lúc đó.");
-    SeeTitle(25, "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).", null);
-    SeeTitle(35, "Do tên bài hát đang có chứa kí tự đặc biệt (VD: &) và chưa được xử lý encode đúng cách khi truyền vào param URL.", null);
-    SeeTitle(40, "Logic hiện tại chỉ gửi thông báo kết quả send mail cho operator khi quá trình send e-mail này đã xảy ra exception/error ngoài ý muốn.", null);
-    SeeTitle(54, "[CHAT GPT]: Đây không phải bug mà là hành vi mặc định của trình duyệt (Safari/iOS và một số browser khác) tự động request /apple-touch-icon.png và /apple-touch-icon-precomposed.png để tìm icon phục vụ bookmark hoặc “Add to Home Screen”, hoàn toàn không do user thao tác hay hệ thống gọi API; request này an toàn, không ảnh hưởng chức năng, việc trả 404 là bình thường và có thể coi là noise trong log nên bug list này có thể CLOSED và không cần xử lý thêm.", null);
-    SeeTitle(55, "Do inject HTML PLAY bổ sung khiến trình duyệt tự ý sửa lại format HTML gốc => quyết định pending BUG này và cần tìm cách sửa code logic của HTML PLAY được inject (bug của tính năng trắc nghiệm không liên quan hoặc không phải là bug)", null);
-    SeeTitle(56, "[VỀ VẤN ĐỀ CHƯA BAO GIỜ NHẬN ĐƯỢC E-MAIL 2] => Do admin tự setting chặn nhận mail chứa nội dung này, nên không phải BUG.", null);
-    SeeTitle(57, "Kiểm nha nhầm/sót: một số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2) => đã có sự thiếu sót/nhầm lẫn trong quá trình kiểm tra, không phải BUG.", null);
-    SeeTitle(61, "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.", null);
-    SeeTitle(63, "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING.", null);
-    SeeTitle(65, "Do quên bổ sung url mới vào file ListPageSetting.txt.", null);
-    SeeTitle(68, "Trên màn hình do hiển thị theo format HTML nên nhìn bằng mắt thường thì giống kiểu 'Name: ABC', nhưng nếu backup DB xem kĩ thì sau dấu hai chấm phải là 2 space.", null);
+
+SeeTitle(seeTitleData);
 </script>
