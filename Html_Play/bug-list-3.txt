@@ -1,5 +1,17 @@
 var seeTitleData = [
     {
+        Index: 1,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 2,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 3,
         Status: "TRICK",
         NguyenNhan: null,
@@ -18,6 +30,30 @@ var seeTitleData = [
         GiaiPhap: "Kiểm tra các url không tồn tại và redirect sang page /Home/Error (404) bằng cách sử dụng file setting  ListPageSetting.txt, không cần dựa vào web.config nữa."
     },
     {
+        Index: 6,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 7,
+        Status: "PENDING",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 8,
+        Status: "PENDING",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 9,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 10,
         Status: "FIXED",
         NguyenNhan: "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía Javascript.",
@@ -30,15 +66,93 @@ var seeTitleData = [
         GiaiPhap: "Không redirect qua page tạm mà việc get info IP của user sẽ được xử lý trước ở Middle ware."
     },
     {
+        Index: 14,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 18,
         Status: "TRICK",
         NguyenNhan: null,
         GiaiPhap: "Sau khi xác minh yêu cầu sử dụng dịch vụ thành công thì tạm thời rule setting referrer URL sẽ không có hiệu lực lúc đó."
     },
     {
+        Index: 20,
+        Status: "PENDING",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 21,
+        Status: "PART",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 22,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 23,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 24,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 25,
         Status: "NOBUG",
         NguyenNhan: "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).",
+        GiaiPhap: null
+    },
+    {
+        Index: 28,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 29,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 30,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 31,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 32,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 33,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 34,
+        Status: "FIXED",
+        NguyenNhan: null,
         GiaiPhap: null
     },
     {
@@ -48,9 +162,105 @@ var seeTitleData = [
         GiaiPhap: null
     },
     {
+        Index: 36,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 37,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 38,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 39,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 40,
         Status: "NOBUG",
         NguyenNhan: "Logic hiện tại chỉ gửi thông báo kết quả send mail cho operator khi quá trình send e-mail này đã xảy ra exception/error ngoài ý muốn.",
+        GiaiPhap: null
+    },
+    {
+        Index: 41,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 42,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 43,
+        Status: "PART",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 45,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 46,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 47,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 48,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 49,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 50,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 51,
+        Status: "PART",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 52,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 53,
+        Status: "FIXED",
+        NguyenNhan: null,
         GiaiPhap: null
     },
     {
@@ -78,15 +288,33 @@ var seeTitleData = [
         GiaiPhap: null
     },
     {
+        Index: 59,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 61,
         Status: "NOBUG",
         NguyenNhan: "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.",
         GiaiPhap: null
     },
     {
+        Index: 62,
+        Status: "PENDING",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 63,
         Status: "NOBUG",
         NguyenNhan: "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING.",
+        GiaiPhap: null
+    },
+    {
+        Index: 64,
+        Status: "FIXED",
+        NguyenNhan: null,
         GiaiPhap: null
     },
     {
@@ -99,6 +327,174 @@ var seeTitleData = [
         Index: 68,
         Status: "NOBUG",
         NguyenNhan: "Trên màn hình do hiển thị theo format HTML nên nhìn bằng mắt thường thì giống kiểu 'Name: ABC', nhưng nếu backup DB xem kĩ thì sau dấu hai chấm phải là 2 space.",
+        GiaiPhap: null
+    },
+    {
+        Index: 71,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 72,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 75,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 76,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 79,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 80,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 82,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 84,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 88,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 89,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 90,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 93,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 94,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 95,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 96,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 97,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 98,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 99,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 100,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 101,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 102,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 103,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 104,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 106,
+        Status: "NOBUG",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 109,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 110,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 111,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 115,
+        Status: "FIXED",
+        NguyenNhan: null,
         GiaiPhap: null
     }
 ];
