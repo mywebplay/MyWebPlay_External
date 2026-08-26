@@ -1,86 +1,103 @@
 var seeTitleData = [
     {
         Index: 3,
+        Status: "TRICK",
         NguyenNhan: null,
         GiaiPhap: "Rule setting của URL REDIRECT TO METHOD không áp dụng khi tự chính admin truy cập hoặc cần cẩn thận hơn khi muốn setting rule."
     },
     {
         Index: 4,
+        Status: "FIXED",
         NguyenNhan: "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía back-end.",
         GiaiPhap: null
     },
     {
         Index: 5,
+        Status: "TRICK",
         NguyenNhan: null,
         GiaiPhap: "Kiểm tra các url không tồn tại và redirect sang page /Home/Error (404) bằng cách sử dụng file setting  ListPageSetting.txt, không cần dựa vào web.config nữa."
     },
     {
         Index: 10,
+        Status: "FIXED",
         NguyenNhan: "Do dropdown lựa chọn size ảnh trên UI vừa bổ sung thêm 2 option mới nhưng các option này chưa được bổ sung xử lý ở phía Javascript.",
         GiaiPhap: null
     },
     {
         Index: 13,
+        Status: "FIXED",
         NguyenNhan: "Khi truy cập web lần đầu, hệ thống sẽ redirect đến 1 page tạm để get info IP của user nhưng sau đó lại redirect về url gốc, thay vì url EncryptX.",
         GiaiPhap: "Không redirect qua page tạm mà việc get info IP của user sẽ được xử lý trước ở Middle ware."
     },
     {
         Index: 18,
+        Status: "TRICK",
         NguyenNhan: null,
         GiaiPhap: "Sau khi xác minh yêu cầu sử dụng dịch vụ thành công thì tạm thời rule setting referrer URL sẽ không có hiệu lực lúc đó."
     },
     {
         Index: 25,
+        Status: "NOBUG",
         NguyenNhan: "Setting sai thành phần phân tách (hãy chú ý vào đoạn: ---).",
         GiaiPhap: null
     },
     {
         Index: 35,
+        Status: "FIXED",
         NguyenNhan: "Do tên bài hát đang có chứa kí tự đặc biệt (VD: &) và chưa được xử lý encode đúng cách khi truyền vào param URL.",
         GiaiPhap: null
     },
     {
         Index: 40,
+        Status: "NOBUG",
         NguyenNhan: "Logic hiện tại chỉ gửi thông báo kết quả send mail cho operator khi quá trình send e-mail này đã xảy ra exception/error ngoài ý muốn.",
         GiaiPhap: null
     },
     {
         Index: 54,
+        Status: "CLOSED",
         NguyenNhan: "[CHAT GPT]: Đây không phải bug mà là hành vi mặc định của trình duyệt (Safari/iOS và một số browser khác) tự động request /apple-touch-icon.png và /apple-touch-icon-precomposed.png để tìm icon phục vụ bookmark hoặc “Add to Home Screen”, hoàn toàn không do user thao tác hay hệ thống gọi API; request này an toàn, không ảnh hưởng chức năng, việc trả 404 là bình thường và có thể coi là noise trong log nên bug list này có thể CLOSED và không cần xử lý thêm.",
         GiaiPhap: null
     },
     {
         Index: 55,
+        Status: "PENDING",
         NguyenNhan: "Do inject HTML PLAY bổ sung khiến trình duyệt tự ý sửa lại format HTML gốc => quyết định pending BUG này và cần tìm cách sửa code logic của HTML PLAY được inject (bug của tính năng trắc nghiệm không liên quan hoặc không phải là bug)",
         GiaiPhap: null
     },
     {
         Index: 56,
+        Status: "NOBUG",
         NguyenNhan: "[VỀ VẤN ĐỀ CHƯA BAO GIỜ NHẬN ĐƯỢC E-MAIL 2] => Do admin tự setting chặn nhận mail chứa nội dung này, nên không phải BUG.",
         GiaiPhap: null
     },
     {
         Index: 57,
+        Status: "NOBUG",
         NguyenNhan: "Kiểm nha nhầm/sót: một số câu hỏi trắc nghiệm và đáp án vẫn nằm trong phạm vi setting (TH1 hoặc TH2) => đã có sự thiếu sót/nhầm lẫn trong quá trình kiểm tra, không phải BUG.",
         GiaiPhap: null
     },
     {
         Index: 61,
+        Status: "NOBUG",
         NguyenNhan: "Setting sai: trang web đang yêu cầu nhập key là web sub nhưng lại set nhầm cookie ở web normal.",
         GiaiPhap: null
     },
     {
         Index: 63,
+        Status: "NOBUG",
         NguyenNhan: "Các url externalX nếu nằm trong list URL cấm vào chỉ khi IP đang truy cập không phải là admin hoặc setting NOT_IS_ADMINUSING.",
         GiaiPhap: null
     },
     {
         Index: 65,
+        Status: "NOBUG",
         NguyenNhan: "Do quên bổ sung url mới vào file ListPageSetting.txt.",
         GiaiPhap: null
     },
     {
         Index: 68,
+        Status: "NOBUG",
         NguyenNhan: "Trên màn hình do hiển thị theo format HTML nên nhìn bằng mắt thường thì giống kiểu 'Name: ABC', nhưng nếu backup DB xem kĩ thì sau dấu hai chấm phải là 2 space.",
         GiaiPhap: null
     }
