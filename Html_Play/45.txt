@@ -1,0 +1,56 @@
+<!-- Thêm nút download file API.html (API PLAY - POST FORM INPUT)  -->
+<style>
+#downloadApiBtn {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 6px;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    z-index: 99999;
+
+    transition: background 0.15s ease,
+                transform 0.15s ease;
+}
+
+#downloadApiBtn svg {
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#downloadApiBtn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.08);
+}
+
+#downloadApiBtn:active {
+    transform: scale(0.95);
+}
+</style>
+<a href="/API/API.html"
+   download
+   id="downloadApiBtn"
+   title="Tải API.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v11"></path>
+        <path d="m7 10 5 5 5-5"></path>
+        <path d="M5 21h14"></path>
+    </svg>
+</a>
