@@ -81,9 +81,43 @@
 
 function SeeTitle(data)
 {
+    var fixedIndexes = [];
+    var pendingIndexes = [];
+    var trickIndexes = [];
+    var noBugIndexes = [];
+    var closedIndexes = [];
+    var partIndexes = [];
+
     for (let i = 0; i < data.length; i++)
     {
         let item = data[i];
+
+        switch (item.Status)
+        {
+            case "FIXED":
+                fixedIndexes.push(item.Index);
+                break;
+
+            case "PENDING":
+                pendingIndexes.push(item.Index);
+                break;
+
+            case "TRICK":
+                trickIndexes.push(item.Index);
+                break;
+
+            case "NOBUG":
+                noBugIndexes.push(item.Index);
+                break;
+
+            case "CLOSED":
+                closedIndexes.push(item.Index);
+                break;
+
+            case "PART":
+                partIndexes.push(item.Index);
+                break;
+        }
 
         let row = document.getElementById("tr_" + item.Index);
 
@@ -182,6 +216,36 @@ function SeeTitle(data)
                     modal.remove();
                 };
         };
+    }
+
+    if (fixedIndexes.length > 0)
+    {
+        DanhDauFixed(fixedIndexes);
+    }
+
+    if (pendingIndexes.length > 0)
+    {
+        DanhDauPending(pendingIndexes);
+    }
+
+    if (trickIndexes.length > 0)
+    {
+        DanhDauTrick(trickIndexes);
+    }
+
+    if (noBugIndexes.length > 0)
+    {
+        DanhDauNoBug(noBugIndexes);
+    }
+
+    if (closedIndexes.length > 0)
+    {
+        DanhDauClosed(closedIndexes);
+    }
+
+    if (partIndexes.length > 0)
+    {
+        DanhDauPart(partIndexes);
     }
 }
 
