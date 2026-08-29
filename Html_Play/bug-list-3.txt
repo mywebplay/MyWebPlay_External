@@ -98,7 +98,7 @@ var seeTitleData = [
     {
         Index: 23,
         Status: "FIXED",
-        NguyenNhan: null,
+        NguyenNhan: "Do trong một nội dung có chứa một đoạn HTML con (nội dung đầy đủ của một file HTML chính thường) nhưng quên encode nội dung để hiển thị lên UI.",
         GiaiPhap: null
     },
     {
