@@ -85,10 +85,58 @@
 	    button:hover {
 	        background: #0056b3;
 	    }
+
+		#loadingModal {
+		    display: none;
+		    position: fixed;
+		    inset: 0;
+		    z-index: 99999;
+		
+		    background: rgba(0, 0, 0, 0.6);
+		
+		    align-items: center;
+		    justify-content: center;
+		}
+		
+		#loadingModal.show {
+		    display: flex;
+		}
+		
+		.loading-modal-content {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+		
+		.loading-spinner {
+		    width: 50px;
+		    height: 50px;
+		
+		    border: 5px solid rgba(255, 255, 255, 0.3);
+		    border-top: 5px solid #ffffff;
+		
+		    border-radius: 50%;
+		
+		    animation: loading-spin 0.8s linear infinite;
+		}
+		
+		@keyframes loading-spin {
+		    from {
+		        transform: rotate(0deg);
+		    }
+		
+		    to {
+		        transform: rotate(360deg);
+		    }
+		}
 	</style>
 </head>
 <body>
-
+<div id="loadingModal" class="loading-modal">
+    <div class="loading-modal-content">
+        <div class="loading-spinner"></div>
+    </div>
+</div>
 <div class="card">
     <h2>Regist Data Secure To DX</h2>
 
@@ -113,10 +161,61 @@
 	</div>
 	
 	<button id="action" onclick="callApi(event)">Hành động</button>
+	<br /><br />
+    <a style="cursor: pointer; text-decoration: none;" onclick="locIP()">Lọc danh sách IP</a>
 </div>
 
 <script>
+    function locIP()
+	{
+		showLoadingModal();
+		try {
+			const formData = new FormData();
+       		formData.append("Key", "YbP2NXqq0QF7HwzMb2oYT28SO5omW5uRDMSYtM8CqEI=");
+            const response = await fetch("/Cover/FilterUserFirstIP", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.result === true) {
+                alert('Successful!');
+            }
+			else
+			{
+				alert('Failed!');
+			}
+        } catch (err) {
+			alert("Đã xảy ra lỗi!");
+            console.log("API error:", err);
+        }
+
+		hideLoadingModal();
+	}
+
+	function showLoadingModal() {
+	    const modal = document.getElementById("loadingModal");
+	
+	    if (!modal) {
+	        return;
+	    }
+	
+	    modal.classList.add("show");
+	}
+	
+	function hideLoadingModal() {
+	    const modal = document.getElementById("loadingModal");
+	
+	    if (!modal) {
+	        return;
+	    }
+	
+	    modal.classList.remove("show");
+	}
+
     async function callApi(e) {
+        showLoadingModal();
 		e.preventDefault();
         document.getElementById("action").disabled = true;
         const formData = new FormData();
@@ -149,6 +248,8 @@
             console.log("API error:", err);
             document.getElementById("action").disabled = false;
         }
+
+		hideLoadingModal();
     }
 
 setInterval(function () {
