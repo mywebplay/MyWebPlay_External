@@ -162,11 +162,11 @@
 	
 	<button id="action" onclick="callApi(event)">Hành động</button>
 	<br /><br />
-    <a style="cursor: pointer; text-decoration: none;" onclick="locIP()">Lọc danh sách IP</a>
+    <a style="display: block; text-align: center; color: green; cursor: pointer; text-decoration: none;" onclick="locIP()">Lọc danh sách IP</a>
 </div>
 
 <script>
-    function locIP()
+    async function locIP()
 	{
 		showLoadingModal();
 		try {
