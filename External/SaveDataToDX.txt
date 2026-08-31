@@ -162,7 +162,7 @@
 	
 	<button id="action" onclick="callApi(event)">Hành động</button>
 	<br /><br />
-    <a style="display: block; text-align: center; color: green; cursor: pointer; text-decoration: none;" onclick="locIP()">Lọc danh sách IP</a>
+    <a style="display: block; text-align: center; color: green; cursor: pointer; text-decoration: none;" onclick="locIP()">Lọc danh sách IP truy cập lần đầu</a>
 </div>
 
 <script>
