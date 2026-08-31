@@ -180,7 +180,7 @@
             const data = await response.json();
 
             if (data.result === true) {
-                alert('Successful!');
+                alert(data.message);
             }
 			else
 			{
