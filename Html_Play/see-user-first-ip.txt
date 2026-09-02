@@ -6,12 +6,10 @@
 
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
 
     color: #333;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
 
     cursor: pointer;
 
@@ -23,9 +21,13 @@
 }
 
 .check-ip-icon {
-    font-size: 22px;
-    line-height: 1;
-    font-weight: bold;
+    width: 36px;
+    height: 36px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
 }
 
 #check-ip-loading {
@@ -79,8 +81,10 @@
 }
 </style>
 <a href="javascript:void(0);" id="check-ip-button" title="Kiểm tra tồn tại IP">
-    <span class="check-ip-icon">⌕</span>
-    <span>Kiểm tra IP</span>
+    <svg class="check-ip-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="16.5" y1="16.5" x2="22" y2="22"></line>
+    </svg>
 </a>
 
 <div id="check-ip-loading">
@@ -90,61 +94,57 @@
     </div>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+const checkIPButton = document.getElementById("check-ip-button");
+const loadingModal = document.getElementById("check-ip-loading");
 
-    const checkIPButton = document.getElementById("check-ip-button");
-    const loadingModal = document.getElementById("check-ip-loading");
+checkIPButton.addEventListener("click", async function () {
 
-    checkIPButton.addEventListener("click", async function () {
+    const ip = prompt("Nhập IP cần kiểm tra:");
 
-        const ip = prompt("Nhập IP cần kiểm tra:");
+    // Người dùng bấm Cancel hoặc không nhập gì
+    if (ip === null || ip.trim() === "") {
+        return;
+    }
 
-        // Người dùng bấm Cancel hoặc không nhập gì
-        if (ip === null || ip.trim() === "") {
-            return;
+    const inputIP = ip.trim();
+
+    // Hiện modal loading
+    loadingModal.style.display = "flex";
+
+    try {
+
+        const response = await fetch(
+            "/Cover/CheckIPAtList?ip=" + encodeURIComponent(inputIP),
+            {
+                method: "GET"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("HTTP Status " + response.status);
         }
 
-        const inputIP = ip.trim();
+        const data = await response.json();
 
-        // Hiện modal loading
-        loadingModal.style.display = "flex";
+        let message = data.message || "";
 
-        try {
-
-            const response = await fetch(
-                "/Cover/CheckIPAtList?ip=" + encodeURIComponent(inputIP),
-                {
-                    method: "GET"
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("HTTP Status " + response.status);
-            }
-
-            const data = await response.json();
-
-            let message = data.message || "";
-
-            if (data.url) {
-                message += "\nURL: " + data.url;
-            }
-
-            alert(message);
-
-        } catch (error) {
-
-            alert(
-                "Không thể kiểm tra IP.\n" +
-                "Lỗi: " + error.message
-            );
-
-        } finally {
-
-            // Tắt modal loading dù API thành công hay lỗi
-            loadingModal.style.display = "none";
+        if (data.url) {
+            message += "\nURL: " + data.url;
         }
-    });
 
+        alert(message);
+
+    } catch (error) {
+
+        alert(
+            "Không thể kiểm tra IP.\n" +
+            "Lỗi: " + error.message
+        );
+
+    } finally {
+
+        // Tắt modal loading dù API thành công hay lỗi
+        loadingModal.style.display = "none";
+    }
 });
 </script>
