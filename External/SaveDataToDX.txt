@@ -190,7 +190,7 @@
             }
 			else
 			{
-				alert('Failed!');
+				alert(data.message);
 			}
         } catch (err) {
 			alert("Đã xảy ra lỗi!");
