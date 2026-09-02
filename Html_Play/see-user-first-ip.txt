@@ -94,26 +94,26 @@
     </div>
 </div>
 <script>
-const checkIPButton = document.getElementById("check-ip-button");
-const loadingModal = document.getElementById("check-ip-loading");
+var checkIPButton = document.getElementById("check-ip-button");
+var loadingModal = document.getElementById("check-ip-loading");
 
 checkIPButton.addEventListener("click", async function () {
 
-    const ip = prompt("Nhập IP cần kiểm tra:");
+    var ip = prompt("Nhập IP cần kiểm tra:");
 
     // Người dùng bấm Cancel hoặc không nhập gì
     if (ip === null || ip.trim() === "") {
         return;
     }
 
-    const inputIP = ip.trim();
+    var inputIP = ip.trim();
 
     // Hiện modal loading
     loadingModal.style.display = "flex";
 
     try {
 
-        const response = await fetch(
+        var response = await fetch(
             "/Cover/CheckIPAtList?ip=" + encodeURIComponent(inputIP),
             {
                 method: "GET"
@@ -124,7 +124,7 @@ checkIPButton.addEventListener("click", async function () {
             throw new Error("HTTP Status " + response.status);
         }
 
-        const data = await response.json();
+        var data = await response.json();
 
         let message = data.message || "";
 
