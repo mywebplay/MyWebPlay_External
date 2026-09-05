@@ -180,11 +180,13 @@
             const data = await response.json();
 
             if (data.result === true) {
-                alert(data.message + '\n(xem nội dung F12 - tab Console để biết thêm thông tin)');
+				var info = data.duplicateIP.join("\n");
+                var noi = (Array.isArray(data.duplicateIP) && data.duplicateIP.length > 0) ? '\n(xem nội dung F12 - tab Console để biết thêm thông tin)' : '';
+                alert(data.message + noi);
 				if (Array.isArray(data.duplicateIP) && data.duplicateIP.length > 0) {
 				    console.log(
 				        "DANH SÁCH CÁC IP ĐÃ BỊ LỌC RA KHỎI DANH SÁCH CỦA BẠN:\n\n" +
-				        data.duplicateIP.join("\n")
+				        info
 				    );
 				}
             }
