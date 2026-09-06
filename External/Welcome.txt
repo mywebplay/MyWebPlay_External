@@ -764,7 +764,7 @@
         <p>
             Chào mừng bạn đến với <strong>MyWebPlay</strong>.<br><br>
 
-            Trang web đang được chuẩn bị và khởi động cho lần đầu bạn truy cập.<br><br>
+            Trang web đang được chuẩn bị và khởi động cho lần đầu truy cập.<br><br>
 
             <strong>Vui lòng kiên nhẫn và chờ trong ít phút nhé...</strong>
         </p>
