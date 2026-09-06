@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đang chuyển hướng...</title>
+    <title>Đang khởi động...</title>
 
     <style>
         * {
@@ -19,7 +19,8 @@
             height: 100%;
             overflow: hidden;
             font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(180deg,#7cc8ff 0%,#bfe9ff 45%,#eafcff 100%);
+            background:
+                radial-gradient(circle at 50% 35%, #5c3a91 0%, #24134d 35%, #0d0822 75%, #05030f 100%);
         }
 
         body {
@@ -29,253 +30,616 @@
             position: relative;
         }
 
-        /* ===== Bầu trời ===== */
+        /* ===== Ánh sáng nền ===== */
 
-        .sun {
+        .light {
             position: absolute;
-            top: 60px;
-            right: 80px;
-            width: 120px;
-            height: 120px;
+            width: 420px;
+            height: 420px;
             border-radius: 50%;
-            background: #ffe066;
-            box-shadow: 0 0 50px #ffd43b;
-            animation: sunGlow 3s infinite alternate;
+            filter: blur(70px);
+            opacity: .35;
+            animation: lightPulse 4s ease-in-out infinite alternate;
         }
 
-        @keyframes sunGlow {
+        .light1 {
+            top: -180px;
+            left: -100px;
+            background: #ff4fd8;
+        }
+
+        .light2 {
+            top: -150px;
+            right: -100px;
+            background: #4fc3ff;
+            animation-delay: 1s;
+        }
+
+        .light3 {
+            bottom: -250px;
+            left: 25%;
+            background: #ffd84d;
+            animation-delay: 2s;
+        }
+
+        @keyframes lightPulse {
             from {
-                transform: scale(1);
+                transform: scale(.9);
+                opacity: .25;
             }
 
             to {
-                transform: scale(1.08);
-                box-shadow: 0 0 80px #ffd43b;
+                transform: scale(1.15);
+                opacity: .45;
             }
         }
 
-        /* ===== Mây ===== */
+        /* ===== Đèn sân khấu ===== */
 
-        .cloud {
+        .spotlight {
             position: absolute;
-            width: 180px;
-            height: 60px;
-            background: rgba(255,255,255,.9);
-            border-radius: 100px;
+            top: -150px;
+            width: 230px;
+            height: 700px;
+            opacity: .18;
+            filter: blur(8px);
+            transform-origin: top center;
+            background: linear-gradient(
+                180deg,
+                rgba(255,255,255,.8),
+                rgba(255,255,255,.05)
+            );
         }
 
-        .cloud::before,
-        .cloud::after {
+        .spotlight.left {
+            left: 12%;
+            transform: rotate(25deg);
+            animation: spotlightLeft 5s ease-in-out infinite alternate;
+        }
+
+        .spotlight.right {
+            right: 12%;
+            transform: rotate(-25deg);
+            animation: spotlightRight 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes spotlightLeft {
+            from {
+                transform: rotate(18deg);
+            }
+
+            to {
+                transform: rotate(35deg);
+            }
+        }
+
+        @keyframes spotlightRight {
+            from {
+                transform: rotate(-18deg);
+            }
+
+            to {
+                transform: rotate(-35deg);
+            }
+        }
+
+        /* ===== Vòng sáng ===== */
+
+        .halo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,.12);
+            transform: translate(-50%, -50%);
+            box-shadow:
+                0 0 60px rgba(255,255,255,.08),
+                inset 0 0 60px rgba(255,255,255,.05);
+            animation: haloRotate 15s linear infinite;
+        }
+
+        .halo::before,
+        .halo::after {
             content: "";
             position: absolute;
-            background: inherit;
+            inset: 35px;
             border-radius: 50%;
+            border: 1px solid rgba(255,215,100,.18);
         }
 
-        .cloud::before {
-            width: 80px;
-            height: 80px;
-            left: 20px;
-            top: -35px;
+        .halo::after {
+            inset: 75px;
+            border-color: rgba(100,220,255,.16);
         }
 
-        .cloud::after {
-            width: 100px;
-            height: 100px;
-            right: 20px;
-            top: -45px;
-        }
-
-        .cloud1 {
-            top: 70px;
-            left: -250px;
-            animation: cloudMove 28s linear infinite;
-        }
-
-        .cloud2 {
-            top: 180px;
-            left: -350px;
-            transform: scale(.8);
-            animation: cloudMove 35s linear infinite;
-        }
-
-        .cloud3 {
-            top: 300px;
-            left: -220px;
-            transform: scale(.6);
-            animation: cloudMove 22s linear infinite;
-        }
-
-        @keyframes cloudMove {
+        @keyframes haloRotate {
             from {
-                transform: translateX(0);
+                transform: translate(-50%, -50%) rotate(0deg);
             }
 
             to {
-                transform: translateX(calc(100vw + 500px));
+                transform: translate(-50%, -50%) rotate(360deg);
             }
         }
 
-        /* ===== Mặt đất ===== */
+        /* ===== Hạt sáng ===== */
 
-        .ground {
+        .sparkles {
             position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(#67d35e,#42b943);
+            inset: 0;
+            pointer-events: none;
         }
 
-        /* ===== Đường ===== */
-
-        .road {
+        .sparkles span {
             position: absolute;
-            bottom: 70px;
-            width: 100%;
-            height: 70px;
-            background: #4d4d4d;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: white;
+            box-shadow:
+                0 0 8px white,
+                0 0 18px #fff;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkles span:nth-child(1) {
+            left: 8%;
+            top: 20%;
+            animation-delay: .1s;
+        }
+
+        .sparkles span:nth-child(2) {
+            left: 17%;
+            top: 70%;
+            animation-delay: .8s;
+        }
+
+        .sparkles span:nth-child(3) {
+            left: 27%;
+            top: 12%;
+            animation-delay: 1.3s;
+        }
+
+        .sparkles span:nth-child(4) {
+            left: 38%;
+            top: 80%;
+            animation-delay: .4s;
+        }
+
+        .sparkles span:nth-child(5) {
+            left: 49%;
+            top: 17%;
+            animation-delay: 1.6s;
+        }
+
+        .sparkles span:nth-child(6) {
+            left: 61%;
+            top: 75%;
+            animation-delay: .7s;
+        }
+
+        .sparkles span:nth-child(7) {
+            left: 73%;
+            top: 18%;
+            animation-delay: 1.1s;
+        }
+
+        .sparkles span:nth-child(8) {
+            left: 84%;
+            top: 68%;
+            animation-delay: .2s;
+        }
+
+        .sparkles span:nth-child(9) {
+            left: 92%;
+            top: 30%;
+            animation-delay: 1.8s;
+        }
+
+        .sparkles span:nth-child(10) {
+            left: 12%;
+            top: 45%;
+            animation-delay: 1.5s;
+        }
+
+        .sparkles span:nth-child(11) {
+            left: 88%;
+            top: 52%;
+            animation-delay: .9s;
+        }
+
+        .sparkles span:nth-child(12) {
+            left: 57%;
+            top: 10%;
+            animation-delay: .3s;
+        }
+
+        @keyframes sparkle {
+            0%,100% {
+                transform: scale(.3);
+                opacity: .2;
+            }
+
+            50% {
+                transform: scale(2);
+                opacity: 1;
+            }
+        }
+
+        /* ===== Sao 4 cánh ===== */
+
+        .stars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .stars span {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            animation: starTwinkle 2.5s ease-in-out infinite;
+        }
+
+        .stars span::before,
+        .stars span::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            box-shadow: 0 0 15px white;
+        }
+
+        .stars span::before {
+            width: 3px;
+            height: 20px;
+        }
+
+        .stars span::after {
+            width: 20px;
+            height: 3px;
+        }
+
+        .stars span:nth-child(1) {
+            left: 20%;
+            top: 25%;
+            animation-delay: .2s;
+        }
+
+        .stars span:nth-child(2) {
+            left: 78%;
+            top: 23%;
+            animation-delay: 1s;
+        }
+
+        .stars span:nth-child(3) {
+            left: 10%;
+            top: 60%;
+            animation-delay: 1.7s;
+        }
+
+        .stars span:nth-child(4) {
+            left: 87%;
+            top: 58%;
+            animation-delay: .6s;
+        }
+
+        .stars span:nth-child(5) {
+            left: 68%;
+            top: 12%;
+            animation-delay: 1.3s;
+        }
+
+        @keyframes starTwinkle {
+            0%,100% {
+                transform: scale(.3) rotate(0deg);
+                opacity: .2;
+            }
+
+            50% {
+                transform: scale(1) rotate(45deg);
+                opacity: 1;
+            }
+        }
+
+        /* ===== Confetti ===== */
+
+        .confetti {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
             overflow: hidden;
         }
 
-        .road::before {
+        .confetti span {
+            position: absolute;
+            top: -30px;
+            width: 9px;
+            height: 18px;
+            border-radius: 2px;
+            animation: confettiFall linear infinite;
+        }
+
+        .confetti span:nth-child(1) {
+            left: 5%;
+            background: #ffdf4f;
+            animation-duration: 4.2s;
+            animation-delay: .2s;
+        }
+
+        .confetti span:nth-child(2) {
+            left: 13%;
+            background: #ff5ca8;
+            animation-duration: 5s;
+            animation-delay: 1.4s;
+        }
+
+        .confetti span:nth-child(3) {
+            left: 22%;
+            background: #55e6ff;
+            animation-duration: 4.5s;
+            animation-delay: .8s;
+        }
+
+        .confetti span:nth-child(4) {
+            left: 31%;
+            background: #b47cff;
+            animation-duration: 5.5s;
+            animation-delay: 2s;
+        }
+
+        .confetti span:nth-child(5) {
+            left: 42%;
+            background: #ffe066;
+            animation-duration: 4.8s;
+            animation-delay: .5s;
+        }
+
+        .confetti span:nth-child(6) {
+            left: 54%;
+            background: #ff6b8a;
+            animation-duration: 5.2s;
+            animation-delay: 1.7s;
+        }
+
+        .confetti span:nth-child(7) {
+            left: 65%;
+            background: #4de1ff;
+            animation-duration: 4.4s;
+            animation-delay: .9s;
+        }
+
+        .confetti span:nth-child(8) {
+            left: 76%;
+            background: #d77bff;
+            animation-duration: 5.7s;
+            animation-delay: 2.2s;
+        }
+
+        .confetti span:nth-child(9) {
+            left: 87%;
+            background: #ffd84d;
+            animation-duration: 4.6s;
+            animation-delay: .3s;
+        }
+
+        .confetti span:nth-child(10) {
+            left: 96%;
+            background: #ff649b;
+            animation-duration: 5.3s;
+            animation-delay: 1.1s;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform:
+                    translateY(-30px)
+                    rotate(0deg)
+                    translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            50% {
+                transform:
+                    translateY(50vh)
+                    rotate(300deg)
+                    translateX(35px);
+            }
+
+            100% {
+                transform:
+                    translateY(110vh)
+                    rotate(700deg)
+                    translateX(-35px);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Sân khấu ===== */
+
+        .stage {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 95px;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255,255,255,.12),
+                    rgba(255,255,255,.02)
+                );
+            border-top: 2px solid rgba(255,255,255,.12);
+            box-shadow:
+                0 -15px 50px rgba(255,255,255,.05);
+        }
+
+        .stage::before {
             content: "";
             position: absolute;
-            top: 50%;
-            width: 200%;
-            height: 8px;
-            background: repeating-linear-gradient(
-                to right,
-                transparent 0 40px,
-                #fff 40px 90px
-            );
-            animation: roadMove .8s linear infinite;
+            left: 50%;
+            top: -10px;
+            width: 75%;
+            height: 20px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: rgba(255,255,255,.12);
+            filter: blur(10px);
         }
 
-        @keyframes roadMove {
-            from {
-                transform: translateX(0);
-            }
+        /* ===== Đèn sân khấu nhỏ ===== */
 
-            to {
-                transform: translateX(-90px);
-            }
-        }
-
-        /* ===== Xe ===== */
-
-        .car {
+        .stageLights {
             position: absolute;
-            bottom: 102px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 38px;
-            background: #1f6feb;
-            border-radius: 8px;
-            animation: bounce .25s infinite alternate;
+            display: flex;
+            gap: 35px;
         }
 
-        .car::before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            left: 25px;
-            width: 70px;
-            height: 25px;
-            background: #52a8ff;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .wheel {
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            background: #222;
+        .stageLights span {
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            bottom: -10px;
-            animation: spin .4s linear infinite;
+            background: white;
+            box-shadow:
+                0 0 10px white,
+                0 0 25px #ffdc73;
+            animation: stageLight 1s ease-in-out infinite alternate;
         }
 
-        .wheel::after {
-            content: "";
-            position: absolute;
-            left: 9px;
-            top: 0;
-            width: 3px;
-            height: 22px;
-            background: #ddd;
+        .stageLights span:nth-child(2) {
+            animation-delay: .2s;
         }
 
-        .left {
-            left: 18px;
+        .stageLights span:nth-child(3) {
+            animation-delay: .4s;
         }
 
-        .right {
-            right: 18px;
+        .stageLights span:nth-child(4) {
+            animation-delay: .6s;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .stageLights span:nth-child(5) {
+            animation-delay: .8s;
         }
 
-        @keyframes bounce {
+        @keyframes stageLight {
             from {
-                transform: translateX(-50%) translateY(0);
+                transform: scale(.6);
+                opacity: .45;
             }
 
             to {
-                transform: translateX(-50%) translateY(-2px);
+                transform: scale(1.4);
+                opacity: 1;
             }
         }
 
-        /* ===== Card ===== */
+        /* ===== Panel ===== */
 
         .panel {
             position: relative;
-            z-index: 10;
-            width: min(720px,90%);
-            background: transparent;
-            border-radius: 22px;
-            padding: 40px 45px;
+            z-index: 20;
+            width: min(720px, 90%);
+            padding: 45px 50px;
             text-align: center;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 20px 50px rgba(0,0,0,.18);
+            border-radius: 28px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.22);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow:
+                0 25px 80px rgba(0,0,0,.35),
+                inset 0 1px 0 rgba(255,255,255,.18);
+            animation: panelAppear 1.2s ease-out;
         }
 
-        h1 {
-            color: #1769aa;
-            font-size: 36px;
-            margin-bottom: 18px;
+        @keyframes panelAppear {
+            from {
+                opacity: 0;
+                transform: scale(.92) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .welcomeIcon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 38px;
+            background: rgba(255,255,255,.13);
+            border: 1px solid rgba(255,255,255,.25);
+            box-shadow:
+                0 0 25px rgba(255,215,100,.35),
+                inset 0 0 20px rgba(255,255,255,.08);
+            animation: iconGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes iconGlow {
+            from {
+                transform: scale(.95);
+                box-shadow:
+                    0 0 20px rgba(255,215,100,.25),
+                    inset 0 0 15px rgba(255,255,255,.06);
+            }
+
+            to {
+                transform: scale(1.05);
+                box-shadow:
+                    0 0 45px rgba(255,215,100,.5),
+                    inset 0 0 25px rgba(255,255,255,.12);
+            }
         }
 
         p {
-            color: #444;
+            color: rgba(255,255,255,.92);
             font-size: 20px;
             line-height: 1.8;
+            text-shadow: 0 2px 8px rgba(0,0,0,.3);
         }
 
-        .brand {
-            font-size: 42px;
-            font-weight: bold;
-            color: #1976d2;
-            margin-bottom: 22px;
-            letter-spacing: 1px;
+        p strong {
+            color: #fff4a8;
+            text-shadow:
+                0 0 10px rgba(255,220,100,.55);
         }
+
+        /* ===== Loading ===== */
 
         .loader {
             margin: 35px auto 20px;
             width: 260px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .loader span {
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #1976d2;
+            background: #fff;
+            box-shadow:
+                0 0 10px #fff,
+                0 0 25px #8ed8ff;
             animation: jump 1s infinite;
         }
 
@@ -297,33 +661,105 @@
 
         @keyframes jump {
             0%,100% {
-                transform: translateY(0);
-                opacity: .5;
+                transform: translateY(0) scale(.75);
+                opacity: .45;
             }
 
             50% {
-                transform: translateY(-14px);
+                transform: translateY(-16px) scale(1.15);
                 opacity: 1;
             }
         }
 
+        /* ===== Footer ===== */
+
         .footer {
             margin-top: 18px;
-            color: #777;
+            color: rgba(255,255,255,.55);
             font-size: 15px;
+        }
+
+        /* ===== Responsive ===== */
+
+        @media (max-width: 600px) {
+
+            .panel {
+                padding: 35px 22px;
+            }
+
+            p {
+                font-size: 17px;
+                line-height: 1.7;
+            }
+
+            .loader {
+                width: 210px;
+            }
+
+            .halo {
+                width: 380px;
+                height: 380px;
+            }
+
+            .spotlight {
+                opacity: .12;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="sun"></div>
+    <div class="light light1"></div>
+    <div class="light light2"></div>
+    <div class="light light3"></div>
 
-    <div class="cloud cloud1"></div>
-    <div class="cloud cloud2"></div>
-    <div class="cloud cloud3"></div>
+    <div class="spotlight left"></div>
+    <div class="spotlight right"></div>
+
+    <div class="halo"></div>
+
+    <div class="sparkles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="stars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="confetti">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
     <div class="panel">
+
+        <div class="welcomeIcon">
+			<img src="/favicon.ico" />
+		</div>
 
         <p>
             Chào mừng bạn đến với <strong>MyWebPlay</strong>.<br><br>
@@ -343,17 +779,9 @@
 
     </div>
 
-    <div class="car">
-        <div class="wheel left"></div>
-        <div class="wheel right"></div>
-    </div>
-
-    <div class="road"></div>
-    <div class="ground"></div>
-
     <script>
         setTimeout(function () {
-            window.location.href = '@@ url @@';
+            // window.location.href = '@@ url @@';
         }, 5000);
 
         setInterval(function () {
