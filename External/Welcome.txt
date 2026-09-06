@@ -325,15 +325,12 @@
 
     <div class="panel">
 
-        <h1>Đang chuẩn bị mọi thứ...</h1>
-
         <p>
             Chào mừng bạn đến với <strong>MyWebPlay</strong>.<br><br>
 
-            Hệ thống hiện đang xử lý dữ liệu lần đầu cho bạn và sẽ
-            chuyển hướng bạn đến đúng nơi.<br><br>
+            Trang web đang được chuẩn bị và khởi động cho lần đầu bạn truy cập.<br><br>
 
-            <strong>Vui lòng kiên nhẫn chờ trong ít phút...</strong>
+            <strong>Vui lòng kiên nhẫn và chờ trong ít phút nhé...</strong>
         </p>
 
         <div class="loader">
