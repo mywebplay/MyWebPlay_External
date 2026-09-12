@@ -12,8 +12,6 @@
     text-decoration: none;
 
     cursor: pointer;
-
-    z-index: 9999;
 }
 
 #check-ip-button:hover {
