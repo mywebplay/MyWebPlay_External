@@ -518,7 +518,7 @@ var seeTitleData = [
     {
         Index: 122,
         Status: "FIXED",
-        NguyenNhan: "[AI CHAT GPT ĐIỀU TRA CODE] Do chỉ xử lý để ẩn các thẻ <td> với các dòng [BUILD], nhưng vẫn tạo ra các thẻ <tr> trống."
+        NguyenNhan: "[AI CHAT GPT ĐIỀU TRA CODE] Do chỉ xử lý để ẩn các thẻ <td> với các dòng [BUILD], nhưng vẫn tạo ra các thẻ <tr> trống.",
         GiaiPhap: null
     },
     {
