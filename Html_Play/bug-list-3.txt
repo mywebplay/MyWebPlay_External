@@ -502,5 +502,29 @@ var seeTitleData = [
         Status: "FIXED",
         NguyenNhan: null,
         GiaiPhap: null
+    },
+    {
+        Index: 120,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: "[OTHER] Nếu sau khi giải mã, kiểm tra tất cả phần tử của list IP tiền kiếp nếu không đúng format IP thì vẫn sẽ huỷ bỏ cookie và tạo lại từ đầu theo logic mới"
+    },
+    {
+        Index: 121,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 122,
+        Status: "FIXED",
+        NguyenNhan: "[AI CHAT GPT ĐIỀU TRA CODE] Do chỉ xử lý để ẩn các thẻ <td> với các dòng [BUILD], nhưng vẫn tạo ra các thẻ <tr> trống."
+        GiaiPhap: null
+    },
+    {
+        Index: 123,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
     }
 ];
