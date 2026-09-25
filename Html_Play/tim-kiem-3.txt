@@ -1,5 +1,5 @@
 <script>
-const placeholders = [
+var placeholders = [
     "Nhập từ khoá tìm kiếm theo địa chỉ mail gửi",
     "Nhập từ khoá tìm kiếm theo địa chỉ mail nhận",
     "Nhập từ khoá tìm kiếm theo subject mail",
