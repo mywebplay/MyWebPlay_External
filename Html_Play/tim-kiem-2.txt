@@ -131,7 +131,7 @@
   </div>
 </div>
 <script>
-const placeholders = [
+var placeholders = [
     "Nhập từ khoá tìm kiếm theo địa chỉ IP",
     "Nhập từ khoá tìm kiếm theo thông tin user",
     "Nhập từ khoá tìm kiếm theo ngày truy cập lần đầu (bắt đầu, định dạng: yyyy-MM-dd HH:mm:ss)",
@@ -146,8 +146,8 @@ for (let i = 0; i < placeholders.length; i++) {
     document.getElementById("txtParam" + i).title = placeholders[i];
 }
 
-const url2 = new URL(window.location.href);
-const types2 = url2.searchParams.getAll("type");
+var url2 = new URL(window.location.href);
+var types2 = url2.searchParams.getAll("type");
 if (!types2[2] || types2[2].trim() == "") {
     document.getElementById("txtType2").selectedIndex = 5;
 }
@@ -165,7 +165,7 @@ let picker = null;
 
 // ===== BIND TEXTBOX =====
 function bindDateTimePicker(id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     if (!el) return;
 
     el.addEventListener('click', function () {
@@ -177,7 +177,7 @@ function bindDateTimePicker(id) {
 function openDateTimeModal(input) {
     currentInput = input;
 
-    const modal = document.getElementById('dtModal');
+    var modal = document.getElementById('dtModal');
 
     modal.style.display = 'block';
 
@@ -189,7 +189,7 @@ function openDateTimeModal(input) {
 
     if (!defaultDate) {
 
-        const now = new Date();
+        var now = new Date();
 
         if (input.id === "txtParam2") {
             now.setHours(0, 0, 0, 0);
@@ -216,7 +216,7 @@ document.addEventListener('change', function (e) {
 
         if (!picker) return;
 
-        const selected = picker.selectedDates[0];
+        var selected = picker.selectedDates[0];
 
         picker.destroy();
 
@@ -238,16 +238,16 @@ document.addEventListener('click', function (e) {
 
         if (!picker || !currentInput) return;
 
-        const selected = picker.selectedDates[0];
+        var selected = picker.selectedDates[0];
         if (!selected) return;
 
-        const useTime = document.getElementById('chkUseTime').checked;
+        var useTime = document.getElementById('chkUseTime').checked;
 
          // let value = useTime
            // ? formatDateTime(selected)
            // : formatDate(selected);
 
-        const value = formatDateTime(selected);
+        var value = formatDateTime(selected);
 
         currentInput.value = value;
 
@@ -281,28 +281,28 @@ document.addEventListener('click', function (e) {
 });
 // ===== CLOSE MODAL =====
 function closeModal() {
-    const modal = document.getElementById('dtModal');
+    var modal = document.getElementById('dtModal');
     if (modal) modal.style.display = 'none';
 }
 
 // ===== FORMAT DATE =====
 function formatDate(d) {
-    const yyyy = d.getFullYear();
-    const MM = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
+    var yyyy = d.getFullYear();
+    var MM = String(d.getMonth() + 1).padStart(2, '0');
+    var dd = String(d.getDate()).padStart(2, '0');
 
     return `${yyyy}-${MM}-${dd}`;
 }
 
 // ===== FORMAT DATETIME =====
 function formatDateTime(d) {
-    const yyyy = d.getFullYear();
-    const MM = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
+    var yyyy = d.getFullYear();
+    var MM = String(d.getMonth() + 1).padStart(2, '0');
+    var dd = String(d.getDate()).padStart(2, '0');
 
-    const HH = String(d.getHours()).padStart(2, '0');
-    const mm = String(d.getMinutes()).padStart(2, '0');
-    const ss = String(d.getSeconds()).padStart(2, '0');
+    var HH = String(d.getHours()).padStart(2, '0');
+    var mm = String(d.getMinutes()).padStart(2, '0');
+    var ss = String(d.getSeconds()).padStart(2, '0');
 
     return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`;
 }
