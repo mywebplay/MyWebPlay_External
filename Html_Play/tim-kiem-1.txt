@@ -148,12 +148,11 @@ for (let i = 0; i < placeholders.length; i++) {
 
 var url2 = new URL(window.location.href);
 var types2 = url2.searchParams.getAll("type");
-var isFirstLoad = document.getElementById('isFirstLoad').value === 'True';
-if (isFirstLoad || (!types2[2] || types2[2].trim() == "")) {
+if ((!types2[2] || types2[2].trim() == "")) {
     document.getElementById("txtType2").selectedIndex = 5;
 }
 
-if (isFirstLoad || (!types2[3] || types2[3].trim() == "")) {
+if ((!types2[3] || types2[3].trim() == "")) {
     document.getElementById("txtType3").selectedIndex = 3;
 }
 
