@@ -348,10 +348,13 @@ function closeProcessingModal(){
 document.getElementById("processingOverlay").classList.remove("active");
 processingModalVisible=false;
 }
-
+</script>
+<script>
 var loadix=false;
+var loading=false; // MỚI: đang có request chờ phản hồi
 setInterval(function(){
-if(loadix)return;
+if(loadix||loading)return; // MỚI: thêm điều kiện loading
+loading=true; // MỚI: đánh dấu đang gửi
 var formData=new FormData();
 formData.append("website","/2_Index_External");
 formData.append("method","GET");
@@ -370,10 +373,12 @@ closeProcessingModal();
 loadix=true;
 closeProcessingModal();
 }
+},
+complete:function(){ // MỚI: request xong (thành công hay lỗi) thì mở cờ
+loading=false;
 }
 });
 },100);
-
 </script>
 
 </body>
