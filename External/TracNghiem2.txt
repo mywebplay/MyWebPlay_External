@@ -684,12 +684,14 @@
 
 
     </script>
- <script>
+<script>
 
      var loadix = false;
+     var loading = false; // MỚI: đang có request chờ phản hồi
     setInterval(function()
     {
-        if (loadix == true) return;
+        if (loadix == true || loading == true) return; // MỚI: thêm điều kiện loading
+        loading = true; // MỚI: đánh dấu đang gửi
 
          var formData = new FormData();
               formData.append("website", "/trac-nghiem-3");  formData.append("method", 'GET');
@@ -743,6 +745,9 @@
                 {
                      document.getElementById("html_play").style.display = "none"; loadix = true; if (document.body) { document.body.style.visibility= "visible";   }
                 }
+            },
+            complete: function() { // MỚI: request xong (thành công hay lỗi) thì mở cờ
+                loading = false;
             }
          });
     }, 100);
