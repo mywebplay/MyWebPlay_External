@@ -474,6 +474,12 @@ var seeTitleData = [
         GiaiPhap: "Gõ sai đường dẫn file: appsettings.json; nhưng gõ nhầm thành: appsetting.json. Ngoài ra, đã fix bug cho câu thông báo khi path file không tồn tại thì phải được trỏ đúng path file đó."
     },
     {
+        Index: 107,
+        Status: "TRICK",
+        NguyenNhan: "[Hỗ trợ điều tra bởi AI Claude] Do trên PC, cache trình duyệt đã lưu sẵn favicon.ico nên không cần request lại. Trong khi tại SP, request /favicon.ico bị chen vào giữa  (sau khi request page /first và sau khi màn hình Welcome)",
+        GiaiPhap: "Không xoá referer cũ nếu bị request /favicon.ico vô tình chen vào giữa, mục đích là để sau khi reload đến page /index thì referer vẫn là /first."
+    },
+    {
         Index: 109,
         Status: "TRICK",
         NguyenNhan: null,
