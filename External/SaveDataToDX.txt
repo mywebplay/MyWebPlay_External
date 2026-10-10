@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Regist Data Secure Save To DX</title>
 
 	  <style>
@@ -129,6 +130,98 @@
 		        transform: rotate(360deg);
 		    }
 		}
+
+		/* ===== Modal danh sách IP đã bị lọc ===== */
+		#ipResultModal {
+		    display: none;               /* mặc định đóng khi load trang */
+		    position: fixed;
+		    inset: 0;
+		    z-index: 100000;
+		    background: rgba(0, 0, 0, 0.6);
+		    align-items: center;
+		    justify-content: center;
+		    padding: 16px;
+		    box-sizing: border-box;
+		}
+
+		#ipResultModal.show {
+		    display: flex;
+		}
+
+		.ip-modal-box {
+		    position: relative;
+		    background: #fff;
+		    width: 100%;
+		    max-width: 520px;
+		    max-height: 80vh;
+		    max-height: 80dvh;
+		    display: flex;
+		    flex-direction: column;
+		    border-radius: 12px;
+		    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		    padding: 20px;
+		    box-sizing: border-box;
+		}
+
+		.ip-modal-close {
+		    position: absolute;
+		    top: 10px;
+		    right: 10px;
+		    width: 32px;
+		    height: 32px;
+		    padding: 0;
+		    margin: 0;
+		    border: none;
+		    border-radius: 50%;
+		    background: #e53935;
+		    color: #fff;
+		    font-size: 20px;
+		    line-height: 32px;
+		    text-align: center;
+		    cursor: pointer;
+		}
+
+		.ip-modal-close:hover {
+		    background: #b71c1c;
+		}
+
+		.ip-modal-title {
+		    color: #e53935;
+		    font-size: 16px;
+		    font-weight: bold;
+		    margin: 0 0 16px 0;
+		    padding-right: 40px;         /* chừa chỗ cho nút X */
+		    line-height: 1.4;
+		    text-align: left;
+		}
+
+		.ip-modal-body {
+		    flex: 1 1 auto;
+		    min-height: 0;
+		    overflow-y: auto;            /* cuộn lên/xuống */
+		    -webkit-overflow-scrolling: touch;
+		    color: #000;
+		    font-size: 14px;
+		    line-height: 1.6;
+		    white-space: pre-wrap;       /* giữ nguyên \n */
+		    word-break: break-all;
+		}
+
+		@media (max-width: 480px) {
+		    .ip-modal-box {
+		        padding: 16px;
+		        max-height: 85vh;
+		        max-height: 85dvh;
+		    }
+
+		    .ip-modal-title {
+		        font-size: 14px;
+		    }
+
+		    .ip-modal-body {
+		        font-size: 13px;
+		    }
+		}
 	</style>
 </head>
 <body>
@@ -137,6 +230,16 @@
         <div class="loading-spinner"></div>
     </div>
 </div>
+
+<!-- Modal danh sách IP đã bị lọc (đóng mặc định) -->
+<div id="ipResultModal">
+    <div class="ip-modal-box">
+        <button type="button" class="ip-modal-close" onclick="hideIpResultModal()" aria-label="Đóng">&times;</button>
+        <h3 class="ip-modal-title">DANH SÁCH CÁC IP ĐÃ BỊ LỌC RA KHỎI DANH SÁCH CỦA BẠN</h3>
+        <div id="ipResultBody" class="ip-modal-body"></div>
+    </div>
+</div>
+
 <div class="card">
     <h2>Regist Data Secure To DX</h2>
 
@@ -181,13 +284,10 @@
 
             if (data.result === true) {
 				var info = data.duplicateIP.join("\n");
-                var noi = (Array.isArray(data.duplicateIP) && data.duplicateIP.length > 0) ? '\n(xem nội dung F12 - tab Console để biết thêm thông tin)' : '';
+                var noi = (Array.isArray(data.duplicateIP) && data.duplicateIP.length > 0) ? '\n(một cửa sổ popup chứa kết quả danh sách các IP đã bị lọc của bạn sẽ hiện ra sau đó)' : '';
                 alert(data.message + noi);
 				if (Array.isArray(data.duplicateIP) && data.duplicateIP.length > 0) {
-				    console.log(
-				        "DANH SÁCH CÁC IP ĐÃ BỊ LỌC RA KHỎI DANH SÁCH CỦA BẠN:\n\n" +
-				        info
-				    );
+				    showIpResultModal(info);
 				}
             }
 			else
@@ -200,6 +300,29 @@
         }
 
 		hideLoadingModal();
+	}
+
+	function showIpResultModal(info) {
+	    const modal = document.getElementById("ipResultModal");
+	    const body = document.getElementById("ipResultBody");
+
+	    if (!modal || !body) {
+	        return;
+	    }
+
+	    body.textContent = info;   // textContent: an toàn, giữ nguyên \n nhờ white-space: pre-wrap
+	    body.scrollTop = 0;
+	    modal.classList.add("show");
+	}
+
+	function hideIpResultModal() {
+	    const modal = document.getElementById("ipResultModal");
+
+	    if (!modal) {
+	        return;
+	    }
+
+	    modal.classList.remove("show");
 	}
 
 	function showLoadingModal() {
