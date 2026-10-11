@@ -291,6 +291,14 @@ body
                     🧡 See Temp Page (Request Info)
                 </a>
 
+                <a class="btn api" href="http://mywebplayapi.somee.com/see-performance-request" target="_blank">
+                    📊 See performance request
+                </a>
+
+                <a class="btn api" href="http://mywebplayapi.somee.com/see-request-info" target="_blank">
+                    👁 See request info
+                </a>
+
             </div>
         </div>
 
@@ -332,6 +340,14 @@ body
 
                 <a class="btn normal" onclick="RedirectToUrl('nVG1LjPXWZei7pxfemycgAgCgJhlwOe+HbjVhXdPso9UoMMRQwWynG4YvqIPvWS9dpabxb3bRfj2hN9R63P863KQCx1LPsc6ZfI5AuSrTMF/0Mi4FwmznTFO++ys9Dn57WbpVPu9ElDQZUGCwWBYzA3pcRwxYmtQ/p7vNZnfQLcaax54S0l85WDZnRtUbpnz');return false;">
                     🧡 See Temp Page (Request Info)
+                </a>
+
+                <a class="btn normal" href="http://normalwebbasic.somee.com/see-performance-request" target="_blank">
+                    📊 See performance request
+                </a>
+
+                <a class="btn normal" href="http://normalwebbasic.somee.com/see-request-info" target="_blank">
+                    👁 See request info
                 </a>
 
             </div>
