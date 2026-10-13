@@ -390,7 +390,7 @@
          if (rawJson == "" && localStorage.getItem("json_tracnghiem") != null)
          {
                rawJson = localStorage.getItem("json_tracnghiem");
-               localStorage.removeItem("json_tracnghiem");
+               // localStorage.removeItem("json_tracnghiem");
          }
 
         if(rawJson === "")
