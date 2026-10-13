@@ -433,6 +433,68 @@ document.body.style.overflow = 'auto';
                 });
             });
 
+            // Đọc file TXT: ưu tiên UTF-8, nếu lỗi ký tự thì đọc lại bằng ANSI tiếng Việt
+            async function docFileTxt(file) {
+                const buf = await file.arrayBuffer();
+                try {
+                    return new TextDecoder("utf-8", { fatal: true }).decode(buf);
+                } catch {
+                    return new TextDecoder("windows-1258").decode(buf);
+                }
+            }
+            
+            // Parse 1 file -> mảng { q, ans[4], dung, giuThuTu }. Sai format thì throw.
+            function parseTracNghiemTxt(text) {
+                const result = [];
+                text = text.replace(/^\uFEFF/, ""); // bỏ BOM nếu có
+            
+                // Gom các dòng thành từng khối, phân cách bởi dòng "#"
+                const blocks = [];
+                let cur = [];
+                for (const raw of text.split(/\r?\n/)) {
+                    const line = raw.trim();
+                    if (line === "#") {
+                        blocks.push(cur);
+                        cur = [];
+                    } else if (line !== "") {
+                        cur.push(line);
+                    }
+                }
+                blocks.push(cur);
+            
+                for (const block of blocks) {
+                    if (block.length === 0) continue; // khối rỗng (ví dụ # ở cuối file)
+            
+                    // đúng 6 dòng: đề + 4 đáp án + [đáp án đúng]
+                    if (block.length !== 6) throw new Error("Sai số dòng");
+            
+                    const m = block[5].match(/^\[(.*)\]$/);
+                    if (!m) throw new Error("Thiếu dòng đáp án đúng");
+            
+                    const ans = block.slice(1, 5);
+                    const dung = m[1].trim();
+                    if (!ans.includes(dung)) throw new Error("Đáp án đúng không khớp");
+            
+                    let q = block[0];
+                    let giuThuTu = false;
+                    if (q.startsWith("$")) {
+                        giuThuTu = true;
+                        q = q.substring(1);
+                    }
+            
+                    result.push({ q: q, ans: ans, dung: dung, giuThuTu: giuThuTu });
+                }
+                return result;
+            }
+            
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+            
             async function lambai() {
                 var socauTN = Number(document.getElementById("socauTN").value);
                 var timeTN = Number(document.getElementById("timeTN").value);
@@ -454,11 +516,19 @@ document.body.style.overflow = 'auto';
                     return;
                 }
             
+                for (let i = 0; i < txtFile.files.length; i++) {
+                    if (!txtFile.files[i].name.toLowerCase().endsWith(".txt")) {
+                        alert("File \"" + txtFile.files[i].name + "\" không phải file .txt !");
+                        return;
+                    }
+                }
+            
                 try {
             
                     btnStart.disabled = true;
                     btnStart.textContent = "Đang xử lý...";
             
+                    /* [CŨ - đã thay bằng xử lý phía client]
                     const formData = new FormData();
             
                     formData.append("txtSoCau", socauTN);
@@ -477,6 +547,43 @@ document.body.style.overflow = 'auto';
                     if (!response.ok) {
                         throw new Error();
                     }
+                    */
+            
+                    // [MỚI] Gộp câu hỏi từ tất cả file (câu trùng vẫn tính là câu riêng)
+                    let all = [];
+                    for (let i = 0; i < txtFile.files.length; i++) {
+                        const text = await docFileTxt(txtFile.files[i]);
+                        all = all.concat(parseTracNghiemTxt(text));
+                    }
+            
+                    const tongsocau = all.length;
+                    if (tongsocau === 0 || socauTN > tongsocau) {
+                        throw new Error("Số câu yêu cầu vượt quá tổng số câu");
+                    }
+            
+                    // Bốc ngẫu nhiên socauTN câu (thứ tự ngẫu nhiên giữ nguyên trong ch)
+                    const chosen = shuffleArray(all.slice()).slice(0, socauTN);
+            
+                    const data = {
+                        tongsocau: tongsocau,
+                        gioihancau: socauTN,
+                        timelambai: timeTN,
+                        tenmon: "",
+                        ch: [], a: [], b: [], c: [], d: [], dung: []
+                    };
+            
+                    for (const item of chosen) {
+                        // Câu có $ giữ nguyên thứ tự đáp án, câu không có $ thì xáo
+                        const ans = item.giuThuTu ? item.ans.slice() : shuffleArray(item.ans.slice());
+                        data.ch.push(item.q);
+                        data.a.push(ans[0]);
+                        data.b.push(ans[1]);
+                        data.c.push(ans[2]);
+                        data.d.push(ans[3]);
+                        data.dung.push(item.dung);
+                    }
+            
+                    localStorage.setItem("json_tracnghiem", JSON.stringify(data));
             
                     window.location.href = "/trac-nghiem";
                 }
@@ -485,10 +592,10 @@ document.body.style.overflow = 'auto';
                     btnStart.disabled = false;
                     btnStart.textContent = "Bắt đầu làm bài";
             
-                    alert("Xử lý thất bại!");
+                    alert("Đã xảy ra lỗi trong quá trình xử lý dữ liệu của bạn. Vui lòng kiểm tra lại!");
                 }
             }
-        </script>
+            </script>
 <script>
 
      var loadix = false;
