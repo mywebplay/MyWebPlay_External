@@ -386,7 +386,7 @@
 
     <script>
 
-        const rawJson = document.getElementById("noidungTN").value.trim();
+        var rawJson = document.getElementById("noidungTN").value.trim();
          if (rawJson == "" && localStorage.getItem("json_tracnghiem") != null)
          {
                rawJson = localStorage.getItem("json_tracnghiem");
