@@ -557,16 +557,19 @@ document.body.style.overflow = 'auto';
                     }
             
                     const tongsocau = all.length;
-                    if (tongsocau === 0 || socauTN > tongsocau) {
-                        throw new Error("Số câu yêu cầu vượt quá tổng số câu");
+                    if (tongsocau === 0) {
+                        throw new Error("Không có câu hỏi nào");
                     }
-            
-                    // Bốc ngẫu nhiên socauTN câu (thứ tự ngẫu nhiên giữ nguyên trong ch)
-                    const chosen = shuffleArray(all.slice()).slice(0, socauTN);
-            
+                    
+                    // Nếu user nhập lớn hơn tổng số câu thì lấy hết
+                    const gioihancau = Math.min(socauTN, tongsocau);
+                    
+                    // Bốc ngẫu nhiên gioihancau câu (thứ tự ngẫu nhiên giữ nguyên trong ch)
+                    const chosen = shuffleArray(all.slice()).slice(0, gioihancau);
+                    
                     const data = {
                         tongsocau: tongsocau,
-                        gioihancau: socauTN,
+                        gioihancau: gioihancau,
                         timelambai: timeTN,
                         tenmon: "",
                         ch: [], a: [], b: [], c: [], d: [], dung: []
