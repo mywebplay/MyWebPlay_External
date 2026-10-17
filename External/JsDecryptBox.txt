@@ -1,0 +1,46 @@
+const ITERATIONS = 500; // phải trùng với C#
+const codeEn = Number(document.currentScript.dataset.code ?? 0);
+var keyEn = '<@@session_string:' + codeEn + '@@>';
+
+// Uint8Array -> CryptoJS WordArray
+function toWordArray(u8) {
+  const words = [];
+  for (let i = 0; i < u8.length; i++) {
+    words[i >>> 2] |= u8[i] << (24 - (i % 4) * 8);
+  }
+  return CryptoJS.lib.WordArray.create(words, u8.length);
+}
+
+function decryptBox(base64Data) {
+  const raw = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+  if (raw.length < 16 + 16 + 16 + 32) throw new Error("Dữ liệu không hợp lệ");
+
+  const salt   = raw.slice(0, 16);
+  const iv     = raw.slice(16, 32);
+  const cipher = raw.slice(32, raw.length - 32);
+  const mac    = raw.slice(raw.length - 32);
+  const body   = raw.slice(0, raw.length - 32);
+
+  // Sinh 64 byte (16 word) giống C#
+  const derived = CryptoJS.PBKDF2(keyEn, toWordArray(salt), {
+    keySize: 16,
+    iterations: ITERATIONS,
+    hasher: CryptoJS.algo.SHA256
+  });
+  const aesKey = CryptoJS.lib.WordArray.create(derived.words.slice(0, 8), 32);
+  const macKey = CryptoJS.lib.WordArray.create(derived.words.slice(8, 16), 32);
+
+  // Kiểm tra HMAC trước: sai key hoặc dữ liệu bị sửa sẽ dừng ở đây
+  const expectedMac = CryptoJS.HmacSHA256(toWordArray(body), macKey).toString();
+  const actualMac = toWordArray(mac).toString();
+  if (expectedMac !== actualMac) {
+    throw new Error("Sai key hoặc dữ liệu đã bị chỉnh sửa");
+  }
+
+  const decrypted = CryptoJS.AES.decrypt(
+    { ciphertext: toWordArray(cipher) },
+    aesKey,
+    { iv: toWordArray(iv), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+  );
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}
