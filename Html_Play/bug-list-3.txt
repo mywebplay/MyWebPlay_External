@@ -538,5 +538,11 @@ var seeTitleData = [
         Status: "PART",
         NguyenNhan: "BUG 3: Nhờ HTML PLAY, DDL sẽ tự động chọn condition để phù hợp với nhu cầu tìm kiếm theo cột Ngày truy cập. Do HTML Play bỉ hỏng, giá trị DDL chưa được lựa chọn phù hợp dẫn đến câu lệnh SQL khi thực thi bị sai.",
         GiaiPhap: null
+    },
+    {
+        Index: 129,
+        Status: "FIXED",
+        NguyenNhan: "Nguyên nhân và cách fix bug thì cũng gần tương tự như BUG #121.",
+        GiaiPhap: null
     }
 ];
