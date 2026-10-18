@@ -1,5 +1,6 @@
 const ITERATIONS = 500; // phải trùng với C#
 const codeEn = document.currentScript.dataset.code;
+alert("haha: " + codeEn);
 var keyEn = '<@@session_string:' + codeEn + '@@>';
 
 // Uint8Array -> CryptoJS WordArray
