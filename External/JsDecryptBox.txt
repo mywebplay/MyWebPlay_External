@@ -1,5 +1,5 @@
 const ITERATIONS = 500; // phải trùng với C#
-
+const keyEn = '<@@session_string:<@#param:keyBoxCode#@>@@>';
 // Uint8Array -> CryptoJS WordArray
 function toWordArray(u8) {
   const words = [];
