@@ -1,4 +1,4 @@
-<script>
+<script id="box_code">
 		// =====================================================================
 		//  EXPORT PDF v4 - toàn bộ logic (thay thế hoàn toàn đoạn cũ)
 		//  Cần có sẵn trong trang: jsPDF, html2canvas, biến khogiay,
