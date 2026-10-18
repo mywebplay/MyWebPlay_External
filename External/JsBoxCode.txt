@@ -1,0 +1,24 @@
+async function callBoxApi(code) {
+  try {
+    const formData = new FormData();
+    formData.append("code", code);
+
+    const res = await fetch("/Cover/SecureBoxCode", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!res.ok) return false;
+
+    const json = await res.json();
+
+    if (json.result === true) {
+      BOX_DATA = json.data;
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error("callBoxApi lỗi:", e);
+    return false;
+  }
+}
