@@ -98,6 +98,7 @@
 		// Khung chung: khóa giao diện -> chạy work() -> luôn khôi phục giao diện
 		async function runExport(preDelay, work) {
 		    const btnExport = $("btnExport");
+			const btnModal = $("btnModal");
 		    const btnExtend = $("btnExtend");
 		    const khoin = $("khoin");
 		    const sl = $("slOption");
@@ -117,6 +118,7 @@
 		    document.documentElement.style.overflow = "hidden";
 		    btnExport.style.display = "none";
 		    btnExtend.style.display = "none";
+			btnModal.style.display = "none";
 		    khoin.style.display = "none";
 		    if (sl) sl.style.display = "none";
 		
@@ -131,6 +133,7 @@
 		        document.documentElement.style.overflow = originalHtmlOverflow;
 		        btnExport.style.display = "flex";
 		        btnExtend.style.display = "flex";
+				btnModal.style.display = "flex";
 		        khoin.style.display = "flex";
 		        if (sl) sl.style.display = originalSlDisplay;
 		        btnExport.innerText = "Download PDF";
