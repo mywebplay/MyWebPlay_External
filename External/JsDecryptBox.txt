@@ -32,7 +32,9 @@ function decryptBox(base64Data) {
   const expectedMac = CryptoJS.HmacSHA256(toWordArray(body), macKey).toString();
   const actualMac = toWordArray(mac).toString();
   if (expectedMac !== actualMac) {
-    throw new Error("Error code!");
+      alert("Đã xảy ra lỗi. Vui lòng thử lại sau!");
+      resetWeb();
+      return;
   }
 
   const decrypted = CryptoJS.AES.decrypt(
