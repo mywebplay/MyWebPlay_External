@@ -544,5 +544,11 @@ var seeTitleData = [
         Status: "FIXED",
         NguyenNhan: "Nguyên nhân và cách fix bug thì cũng gần tương tự như BUG #121.",
         GiaiPhap: null
+    },
+    {
+        Index: 132,
+        Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
     }
 ];
