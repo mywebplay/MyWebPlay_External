@@ -89,6 +89,22 @@ p{
   box-shadow:0 10px 25px rgba(34,197,94,0.4);
 }
 
+.action2{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border-radius:12px;
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.25s;
+}
+
+.action2:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(34,197,94,0.4);
+}
+
 .secondary{
   margin-top:15px;
   font-size:13px;
@@ -182,6 +198,10 @@ p{
 
     <a class="action" href="/xac-thuc-1">
       🚀 Kích hoạt ngay
+    </a>
+
+    <a class="action2" href="https://www.youtube.com/watch?v=XboJbkTiIio">
+          👁 Xem video hướng dẫn
     </a>
 
     <div class="secondary">
