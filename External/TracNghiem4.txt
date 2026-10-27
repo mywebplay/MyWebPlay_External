@@ -202,7 +202,7 @@
               formData.append("website", "/trac-nghiem-4");  formData.append("method", 'GET');
         
          $.ajax({
-            url: "/Admin/ShowHtmlPlay",
+            url: "/html-play",
             type: "POST",
             data: formData,
             contentType: false,
