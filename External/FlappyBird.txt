@@ -269,7 +269,7 @@ setInterval(function () {
               formData.append("website", "/game-flappy-bird");  formData.append("method", 'GET');
         
          $.ajax({
-            url: "/Admin/ShowHtmlPlay",
+            url: "/html-play",
             type: "POST",
             data: formData,
             contentType: false,
