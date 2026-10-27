@@ -246,9 +246,6 @@ footer{
 
 <footer>© MyWebPlay</footer>
 
-<!-- BẮT BUỘC PHẢI CÓ -->
-<div id="html_play"></div>
-
 <div id="processingOverlay" class="processing-overlay">
   <div class="processing-modal">
     <div class="processing-title">Loading...</div>
