@@ -262,7 +262,7 @@ document.addEventListener("click", () => {
               formData.append("website", "/game-dap-chuot");  formData.append("method", 'GET');
         
          $.ajax({
-            url: "/Admin/ShowHtmlPlay",
+            url: "/html-play",
             type: "POST",
             data: formData,
             contentType: false,
