@@ -242,7 +242,7 @@ setInterval(function () {
               formData.append("website", "/game-ne-tranh-vat-the");  formData.append("method", 'GET');
         
          $.ajax({
-            url: "/Admin/ShowHtmlPlay",
+            url: "/html-play",
             type: "POST",
             data: formData,
             contentType: false,
