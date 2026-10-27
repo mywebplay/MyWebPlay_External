@@ -177,7 +177,7 @@
              formData.append("website", "/play-karaoke-2");
              formData.append("method", 'POST');
          
-             fetch("/Admin/ShowHtmlPlay", {
+             fetch("/html-play", {
                  method: "POST",
                  body: formData
              })
