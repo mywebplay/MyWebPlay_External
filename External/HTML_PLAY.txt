@@ -1,0 +1,184 @@
+
+<!-- ============================= -->
+<!-- HTML PLAY - HTML -->
+<!-- ============================= -->
+
+<div id="html_play"></div>
+
+<div id="processingOverlay" class="processing-overlay">
+    <div class="processing-modal">
+        <div class="processing-title">Loading...</div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================= -->
+<!-- HTML PLAY - CSS -->
+<!-- ============================= -->
+
+<style>
+.processing-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s;
+}
+
+.processing-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.processing-modal {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    color: black;
+}
+
+.processing-title {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.progress-container {
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg,#4caf50,#81c784);
+    animation: move 1.2s infinite;
+}
+
+@keyframes move {
+    0% { margin-left: -40%; }
+    50% { margin-left: 100%; }
+    100% { margin-left: -40%; }
+}
+</style>
+
+<!-- ============================= -->
+<!-- HTML PLAY - LIBRARY -->
+<!-- ============================= -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- ============================= -->
+<!-- HTML PLAY - JAVASCRIPT -->
+<!-- ============================= -->
+
+<script>
+var loadix = false;
+var loading = false;
+var processingModalVisible = false;
+
+showProcessingModal();
+
+function showProcessingModal() {
+    var overlay = document.getElementById("processingOverlay");
+    overlay.classList.add("active");
+    processingModalVisible = true;
+}
+
+function closeProcessingModal() {
+    document.getElementById("processingOverlay").classList.remove("active");
+    processingModalVisible = false;
+}
+
+setInterval(function () {
+    if (loadix == true || loading == true) return;
+
+    loading = true;
+
+    var formData = new FormData();
+    formData.append("website", "@@ Html_Play_Path @@");
+    formData.append("method", "@@ Html_Play_Method @@");
+
+    $.ajax({
+        url: "/html-play",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        success: function (data) {
+            if (data.result == true) {
+
+                document.getElementById("html_play").innerHTML = data.html;
+
+                var container = document.getElementById("html_play");
+                var scripts = container.querySelectorAll("script");
+
+                scripts.forEach(function (script) {
+                    var newScript = document.createElement("script");
+
+                    if (script.src) {
+                        newScript.src = script.src;
+                    } else {
+                        newScript.textContent = script.textContent;
+                    }
+
+                    document.body.appendChild(newScript);
+                    script.remove();
+                });
+
+                var styles = container.querySelectorAll("style, link[rel='stylesheet']");
+
+                styles.forEach(function (styleEl) {
+                    var newEl = document.createElement(styleEl.tagName.toLowerCase());
+
+                    if (styleEl.tagName.toLowerCase() === "style") {
+                        newEl.textContent = styleEl.textContent;
+                    } else if (styleEl.tagName.toLowerCase() === "link") {
+                        newEl.rel = "stylesheet";
+                        newEl.href = styleEl.href;
+                    }
+
+                    document.head.appendChild(newEl);
+                    styleEl.remove();
+                });
+
+                loadix = true;
+
+                if (document.body) {
+                    document.body.style.visibility = "visible";
+                }
+
+                closeProcessingModal();
+
+            } else {
+
+                document.getElementById("html_play").style.display = "none";
+
+                loadix = true;
+
+                if (document.body) {
+                    document.body.style.visibility = "visible";
+                }
+
+                closeProcessingModal();
+            }
+        },
+
+        complete: function () {
+            loading = false;
+        }
+    });
+
+}, 100);
+</script>
