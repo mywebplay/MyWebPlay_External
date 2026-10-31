@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,6 +115,8 @@
             user-select: none;
             text-align: center;
             line-height: 1.1;
+            /* viền sáng mờ: màu chữ trùng màu nền vẫn nhìn thấy */
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 1px rgba(255, 255, 255, 0.6);
         }
 
         /* ===== ĐÁP ÁN: số cột do JS set (--cols), số nút do JS quyết định ===== */
@@ -135,7 +138,7 @@
             position: relative;
             transition: transform 0.12s, filter 0.12s;
             box-shadow:
-                inset 0 0 0 3px rgba(255, 255, 255, 0.15),
+                inset 0 0 0 3px rgba(255, 255, 255, 0.3),
                 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
@@ -302,9 +305,20 @@
 
     <script>
         /*
-         * 32 màu (pool). Mỗi round chỉ hiển thị một phần trong số này.
+         * ===== BIẾN GLOBAL: TẤT CẢ MÀU CỦA GAME =====
+         *
+         * window.ALL_COLORS chứa toàn bộ 46 màu của game
+         * (32 màu gốc + 14 màu lấy từ CSS giao diện)
+         * (key = logic, name = chữ hiển thị, value = màu thật).
+         *
+         * Game không dùng trực tiếp cả 32 màu cùng lúc:
+         * mỗi round chỉ bốc ra một số màu vừa kích thước màn hình
+         * (xem getBoardSize + pickBoardColors), mỗi round bốc lại
+         * từ đầu và đảo vị trí.
+         *
+         * Có thể gõ ALL_COLORS trong console để xem toàn bộ.
          */
-        const COLOR_MATCH_COLORS = [
+        window.ALL_COLORS = [
             { key: "red", name: "RED", value: "#ef4444" },
             { key: "blue", name: "BLUE", value: "#2196f3" },
             { key: "green", name: "GREEN", value: "#4caf50" },
@@ -336,7 +350,23 @@
             { key: "coral", name: "CORAL", value: "#ff7f50" },
             { key: "turquoise", name: "TURQUOISE", value: "#14b8a6" },
             { key: "salmon", name: "SALMON", value: "#fa8072" },
-            { key: "crimson", name: "CRIMSON", value: "#dc143c" }
+            { key: "crimson", name: "CRIMSON", value: "#dc143c" },
+
+            /* ----- Màu lấy từ CSS của giao diện ----- */
+            { key: "light-red", name: "LIGHT RED", value: "#ff7373" },
+            { key: "pure-white", name: "PURE WHITE", value: "#ffffff" },
+            { key: "cloud-gray", name: "CLOUD GRAY", value: "#aeb8c7" },
+            { key: "mist", name: "MIST", value: "#c6cfdb" },
+            { key: "honey", name: "HONEY", value: "#f5a000" },
+            { key: "mint", name: "MINT", value: "#66d99a" },
+            { key: "slate", name: "SLATE", value: "#45546b" },
+            { key: "slate-blue", name: "SLATE BLUE", value: "#40506a" },
+            { key: "steel", name: "STEEL", value: "#35455d" },
+            { key: "shadow", name: "SHADOW", value: "#303d52" },
+            { key: "ink-blue", name: "INK BLUE", value: "#2b3850" },
+            { key: "dark-slate", name: "DARK SLATE", value: "#29364b" },
+            { key: "midnight", name: "MIDNIGHT", value: "#202c40" },
+            { key: "deep-navy", name: "DEEP NAVY", value: "#172235" }
         ];
 
         /*
@@ -396,20 +426,32 @@
         }
 
         /*
-         * ===== TẠO NÚT ĐÁP ÁN CHO MỖI ROUND =====
+         * ===== KÍCH THƯỚC BÀN CHƠI THEO MÀN HÌNH =====
+         */
+        function getBoardSize() {
+
+            if (desktopQuery.matches) {
+                return {
+                    count: ANSWER_COUNT_DESKTOP,
+                    columns: COLUMNS_DESKTOP
+                };
+            }
+
+            return {
+                count: ANSWER_COUNT_MOBILE,
+                columns: COLUMNS_MOBILE
+            };
+        }
+
+        /*
+         * ===== BỐC MÀU CHO MỘT BÀN CHƠI (1 ROUND) =====
          *
-         * Gồm:
+         * Bốc ngẫu nhiên từ ALL_COLORS, luôn có:
          * 1. Đáp án đúng (màu thật của chữ)
          * 2. Màu mà chữ đang "viết" (cái bẫy) - nếu khác đáp án đúng
-         * 3. Các màu ngẫu nhiên khác cho đủ số lượng
-         *
-         * Sau đó xáo trộn vị trí.
+         * Phần còn lại là màu ngẫu nhiên, rồi đảo vị trí toàn bộ.
          */
-        function renderAnswers(actualColor, displayedWord) {
-
-            const isDesktop = desktopQuery.matches;
-            const count = isDesktop ? ANSWER_COUNT_DESKTOP : ANSWER_COUNT_MOBILE;
-            const columns = isDesktop ? COLUMNS_DESKTOP : COLUMNS_MOBILE;
+        function pickBoardColors(actualColor, displayedWord, count) {
 
             const chosen = [actualColor];
 
@@ -418,7 +460,7 @@
             }
 
             const others = shuffle(
-                COLOR_MATCH_COLORS.filter(function (item) {
+                ALL_COLORS.filter(function (item) {
                     return !chosen.some(function (c) {
                         return c.key === item.key;
                     });
@@ -429,10 +471,23 @@
                 chosen.push(others.pop());
             }
 
+            return shuffle(chosen);
+        }
+
+        function renderAnswers(actualColor, displayedWord) {
+
+            const size = getBoardSize();
+            const columns = size.columns;
+            const boardColors = pickBoardColors(
+                actualColor,
+                displayedWord,
+                size.count
+            );
+
             answers.style.setProperty("--cols", columns);
             answers.innerHTML = "";
 
-            shuffle(chosen).forEach(function (color) {
+            boardColors.forEach(function (color) {
 
                 const button = document.createElement("button");
 
@@ -480,14 +535,14 @@
             feedback.textContent = "";
             feedback.className = "feedback";
 
-            const actualColor = randomItem(COLOR_MATCH_COLORS);
+            const actualColor = randomItem(ALL_COLORS);
 
-            let displayedWord = randomItem(COLOR_MATCH_COLORS);
+            let displayedWord = randomItem(ALL_COLORS);
 
             /* 80% chữ và màu khác nhau */
             if (Math.random() < 0.8) {
                 displayedWord = randomItem(
-                    COLOR_MATCH_COLORS.filter(function (item) {
+                    ALL_COLORS.filter(function (item) {
                         return item.key !== actualColor.key;
                     })
                 );
@@ -506,7 +561,7 @@
         }
 
         function getColorValue(key) {
-            const color = COLOR_MATCH_COLORS.find(function (item) {
+            const color = ALL_COLORS.find(function (item) {
                 return item.key === key;
             });
             return color ? color.value : "#ffffff";
@@ -641,8 +696,8 @@
          * để layout không bị trống phía sau popup.
          */
         (function initPreview() {
-            const a = COLOR_MATCH_COLORS[0];
-            const b = COLOR_MATCH_COLORS[1];
+            const a = ALL_COLORS[0];
+            const b = ALL_COLORS[1];
             renderAnswers(a, b);
         })();
 
@@ -677,4 +732,5 @@
         );
     </script>
 </body>
+
 </html>
