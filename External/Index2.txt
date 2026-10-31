@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -89,7 +90,7 @@ footer{
     opacity:.5;
 }
 
-/* ===== MODAL & PROCESSING GIỮ NGUYÊN STRUCTURE ===== */
+/* ===== MODAL GIỮ NGUYÊN STRUCTURE ===== */
 .backdrop{
   position:fixed;
   inset:0;
@@ -119,49 +120,6 @@ footer{
 }
 .btn-no{background:#ef4444;color:white}
 .btn-yes{background:#22c55e;color:white}
-
-.processing-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:10000;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
-}
-.processing-overlay.active{
-  opacity:1;
-  visibility:visible;
-}
-.processing-modal{
-  background:white;
-  padding:25px;
-  border-radius:10px;
-  width:300px;
-  text-align:center;
-  color:black;
-}
-.processing-title{color:red;margin-bottom:15px}
-.progress-container{
-  height:8px;
-  background:#ddd;
-  border-radius:4px;
-  overflow:hidden;
-}
-.progress-bar{
-  height:100%;
-  width:40%;
-  background:linear-gradient(90deg,#4caf50,#81c784);
-  animation:move 1.2s infinite;
-}
-@keyframes move{
-  0%{margin-left:-40%}
-  50%{margin-left:100%}
-  100%{margin-left:-40%}
-}
 </style>
 </head>
 
@@ -246,44 +204,33 @@ footer{
 
 <footer>© MyWebPlay</footer>
 
-<div id="processingOverlay" class="processing-overlay">
-  <div class="processing-modal">
-    <div class="processing-title">Loading...</div>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
+<iframe id="start" src="/" style="display: none;"></iframe>
+
+<div class="backdrop" id="modal1">
+    <div class="modal">
+        <button class="close-btn" onclick="closemodal1()">❌</button>
+        <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
+        <div>
+            <button class="btn-no" onclick="no1()">CHƯA</button>
+            <button class="btn-yes" onclick="yes1()">RỒI</button>
+        </div>
     </div>
-  </div>
 </div>
 
-<iframe id="start" src="/" style="display: none;"></iframe>
-        <div class="backdrop" id="modal1">
-          <div class="modal">
-            <button class="close-btn" onclick="closemodal1()">❌</button>
-            <h3>Bạn đã được cấp quyền sử dụng dịch vụ này chưa?</h3>
-            <div>
-              <button class="btn-no" onclick="no1()">CHƯA</button>
-              <button class="btn-yes" onclick="yes1()">RỒI</button>
-            </div>
-          </div>
+<div class="backdrop" id="modal2">
+    <div class="modal">
+        <button class="close-btn" onclick="closemodal2()">❌</button>
+        <h3>Mời bạn chọn giao diện sử dụng?</h3>
+        <div>
+            <button class="btn-no" onclick="cu2()">CŨ</button>
+            <button class="btn-yes" onclick="moi2()">MỚI</button>
         </div>
-        <div class="backdrop" id="modal2">
-          <div class="modal">
-            <button class="close-btn" onclick="closemodal2()">❌</button>
-            <h3>Mời bạn chọn giao diện sử dụng?</h3>
-            <div>
-              <button class="btn-no" onclick="cu2()">CŨ</button>
-              <button class="btn-yes" onclick="moi2()">MỚI</button>
-            </div>
-          </div>
-        </div>
-
-<!-- GIỮ NGUYÊN TOÀN BỘ JS CỦA BẠN BÊN DƯỚI -->
-<div id="html_play"></div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </div>
+</div>
 
 <script>
-/* ===== SCRIPT GỐC CỦA BẠN ===== */
+
+/* ===== SCRIPT GỐC CỦA EXTERNAL-X ===== */
 
 setInterval(function () {
     document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -293,133 +240,52 @@ setInterval(function () {
 }, 10);
 
 document.querySelectorAll(".menu-itemX1").forEach((item)=>{
-item.addEventListener("click",()=>{
-const action=item.dataset.action;
-switch(action){
-case "TronMau":showmodal2('/Home/TronMau','/tron-mau');break;
-case "TracNghiem":showmodal2('/Home/TracNghiemX_Multiple','/trac-nghiem-index');break;
-case "Question":window.location.href="/Home/PlayQuestion_Multiple";break;
-case "Karaoke":showmodal2('/Home/ToPlayKaraoke','/karaoke');break;
-case "GameRanSanMoi":window.location.href="/game-ran-san-moi";break;
-case "GameCoCaro":window.location.href="/game-co-caro";break;
-case "GameDapChuot":window.location.href="/game-dap-chuot";break;
-case "GameNeVatThe":window.location.href="/game-ne-tranh-vat-the";break;
-case "Game2048":window.location.href="/game-2048";break;
-case "GameFlappyBird":window.location.href="/game-flappy-bird";break;
-case "GameTyping":window.location.href="/game-typing";break;
-case "GameMemory":window.location.href="/game-memory";break;
-case "GameCarDodging":window.location.href="/game-car-dodging";break;
-case "GameColorMatch":window.location.href="/game-color-match";break;
-case "GameHangMan":window.location.href="/game-hangman";break;
-case "GameMinesweeper":window.location.href="/game-minesweeper";break;
-case "Studocu":showmodal1();break;
-/* case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break; */
-}
-});
+    item.addEventListener("click",()=>{
+        const action=item.dataset.action;
+        switch(action){
+            case "TronMau":showmodal2('/Home/TronMau','/tron-mau');break;
+            case "TracNghiem":showmodal2('/Home/TracNghiemX_Multiple','/trac-nghiem-index');break;
+            case "Question":window.location.href="/Home/PlayQuestion_Multiple";break;
+            case "Karaoke":showmodal2('/Home/ToPlayKaraoke','/karaoke');break;
+            case "GameRanSanMoi":window.location.href="/game-ran-san-moi";break;
+            case "GameCoCaro":window.location.href="/game-co-caro";break;
+            case "GameDapChuot":window.location.href="/game-dap-chuot";break;
+            case "GameNeVatThe":window.location.href="/game-ne-tranh-vat-the";break;
+            case "Game2048":window.location.href="/game-2048";break;
+            case "GameFlappyBird":window.location.href="/game-flappy-bird";break;
+            case "GameTyping":window.location.href="/game-typing";break;
+            case "GameMemory":window.location.href="/game-memory";break;
+            case "GameCarDodging":window.location.href="/game-car-dodging";break;
+            case "GameColorMatch":window.location.href="/game-color-match";break;
+            case "GameHangMan":window.location.href="/game-hangman";break;
+            case "GameMinesweeper":window.location.href="/game-minesweeper";break;
+            case "Studocu":showmodal1();break;
+            /* case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break; */
+        }
+    });
 });
 
 function yes1(){window.location.href="/lay-tai-lieu-tu-stoducu";}
 function no1(){window.location.href="/xac-thuc-1";}
 function showmodal1(){document.getElementById("modal1").classList.add("show");}
 function showmodal2(o,n){urlChooseOld=o;urlChooseNew=n;document.getElementById("modal2").classList.add("show");}
+
 function closemodal1() {
-              document.getElementById("modal1").classList.remove("show");
-            }
-  function closemodal2() {
-              urlChooseOld = "";
-              urlChooseNew = "";
-              document.getElementById("modal2").classList.remove("show");
-            }
+    document.getElementById("modal1").classList.remove("show");
+}
+
+function closemodal2() {
+    urlChooseOld = "";
+    urlChooseNew = "";
+    document.getElementById("modal2").classList.remove("show");
+}
+
 function cu2(){window.location.href=urlChooseOld;}
 function moi2(){window.location.href=urlChooseNew;}
+
 let urlChooseOld="",urlChooseNew="";
 
-let processingModalVisible=false;
-showProcessingModal();
-function showProcessingModal(){
-const overlay=document.getElementById("processingOverlay");
-overlay.classList.add("active");
-processingModalVisible=true;
-}
-function closeProcessingModal(){
-document.getElementById("processingOverlay").classList.remove("active");
-processingModalVisible=false;
-}
 </script>
-<script>
-    var loadix = false;
-    var loading = false; // đang có request chờ phản hồi
 
-    setInterval(function () {
-        if (loadix == true || loading == true) return;
-        loading = true; // đánh dấu đang gửi
-
-        var formData = new FormData();
-        formData.append("website", "/2_Index_External");
-        formData.append("method", 'GET');
-
-        $.ajax({
-            url: "/html-play",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (data.result == true) {
-                    document.getElementById("html_play").innerHTML = data.html;
-
-                    const container = document.getElementById("html_play");
-                    const scripts = container.querySelectorAll("script");
-
-                    scripts.forEach((script) => {
-                        const newScript = document.createElement("script");
-                        if (script.src) {
-                            // Script có src (external): sao chép thuộc tính src
-                            newScript.src = script.src;
-                        } else {
-                            // Script nội tuyến: sao chép nội dung
-                            newScript.textContent = script.textContent;
-                        }
-                        document.body.appendChild(newScript);
-                        script.remove();
-                    });
-
-                    const styles = container.querySelectorAll("style, link[rel='stylesheet']");
-
-                    styles.forEach((styleEl) => {
-                        const newEl = document.createElement(styleEl.tagName.toLowerCase());
-
-                        if (styleEl.tagName.toLowerCase() === 'style') {
-                            newEl.textContent = styleEl.textContent;
-                        } else if (styleEl.tagName.toLowerCase() === 'link') {
-                            newEl.rel = "stylesheet";
-                            newEl.href = styleEl.href;
-                        }
-
-                        document.head.appendChild(newEl);
-                        styleEl.remove();
-                    });
-
-                    loadix = true;
-                    if (document.body) {
-                        document.body.style.visibility = "visible";
-                    }
-                    closeProcessingModal();
-                }
-                else {
-                    document.getElementById("html_play").style.display = "none";
-                    loadix = true;
-                    if (document.body) {
-                        document.body.style.visibility = "visible";
-                    }
-                    closeProcessingModal();
-                }
-            },
-            complete: function () { // request xong (thành công hay lỗi) thì mở cờ
-                loading = false;
-            }
-        });
-    }, 100);
-</script>
 </body>
 </html>
