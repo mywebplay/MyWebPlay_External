@@ -53,23 +53,23 @@ h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
 </div>
 </div>
 <script>
-const $=id=>document.getElementById(id);
+const byId=id=>document.getElementById(id);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
 function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
 function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
-function hideMessage(){$('gameMessage').classList.add('hidden')}
-function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+function showMessage(title,html,btn){byId('messageTitle').textContent=title;byId('messageText').innerHTML=html;byId('startButton').textContent=btn||'🔄 Play Again';byId('gameMessage').classList.remove('hidden')}
+function hideMessage(){byId('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !byId('gameMessage').classList.contains('hidden')}
 
-const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const cv=byId('cv'),ctx=cv.getContext('2d'),stage=byId('stage');
 const WIN=7,KEY='pongWins',AI_SPEED=330;
 let W=300,H=400,S=1,pw=80,ph=12,br=7,pad=18;
 let px=150,ax=150,aiErr=0,score=0,aiScore=0,wins=loadBest(KEY);
 let ball={x:150,y:200,dx:0,dy:0},spdU=340,running=false,serving=true,last=0,raf=0,token=0;
 const keys={l:false,r:false};
-$('sWins').textContent=wins;
+byId('sWins').textContent=wins;
 function fit(){
  const r=stage.getBoundingClientRect(),nw=Math.max(200,Math.round(r.width)),nh=Math.max(240,Math.round(r.height));
  if(nw===W&&nh===H&&cv.width===W&&cv.height===H)return;
@@ -88,7 +88,7 @@ function hit(cx,dir,ny){
 }
 function point(playerScored){
  if(playerScored)score++;else aiScore++;
- $('sYou').textContent=score;$('sAi').textContent=aiScore;
+ byId('sYou').textContent=score;byId('sAi').textContent=aiScore;
  if(score>=WIN||aiScore>=WIN){endGame();return}
  serve(playerScored?-1:1);
 }
@@ -126,14 +126,14 @@ function loop(t){
 function startGame(){
  cancelAnimationFrame(raf);fit();
  score=0;aiScore=0;px=W/2;ax=W/2;aiErr=0;running=true;
- $('sYou').textContent=0;$('sAi').textContent=0;
+ byId('sYou').textContent=0;byId('sAi').textContent=0;
  hideMessage();serve(Math.random()<.5?1:-1);
  last=performance.now();raf=requestAnimationFrame(loop);
 }
 function endGame(){
  running=false;cancelAnimationFrame(raf);draw();
  const won=score>aiScore;
- if(won){wins++;saveBest(KEY,wins);$('sWins').textContent=wins}
+ if(won){wins++;saveBest(KEY,wins);byId('sWins').textContent=wins}
  showMessage(won?'🎉 Bạn thắng!':'🤖 Máy thắng','Tỉ số: <strong>'+score+' - '+aiScore+'</strong><br>Tổng số trận thắng: <strong>'+wins+'</strong>',won?'🔄 Chơi tiếp':'🔄 Gỡ lại');
 }
 function setPx(e){const r=cv.getBoundingClientRect();px=clamp((e.clientX-r.left)*(W/r.width),pw/2,W-pw/2)}
@@ -147,8 +147,8 @@ document.addEventListener('keyup',e=>{
  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A')keys.l=false;
  if(e.key==='ArrowRight'||e.key==='d'||e.key==='D')keys.r=false;
 });
-$('startButton').addEventListener('click',startGame);
-$('restartButton').addEventListener('click',startGame);
+byId('startButton').addEventListener('click',startGame);
+byId('restartButton').addEventListener('click',startGame);
 new ResizeObserver(fit).observe(stage);window.addEventListener('resize',fit);
 fit();draw();
 
