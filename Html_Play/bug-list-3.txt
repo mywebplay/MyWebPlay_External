@@ -536,7 +536,7 @@ var seeTitleData = [
     {
         Index: 124,
         Status: "PART",
-        NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] Do request 1 chưa xử lý xong, lại có request 2 khác chạy song song và vô tình nhanh hơn request 1. Cho dù các tag thay thế <status> ở 2 request có khác nhau đi chăng nữa, nhưng nếu request 2 nhanh hơn thì sẽ vào xử lý của khối finally khiến cho tag <status> của request 1 bị replace thành 'Fail (undetermined)"'.",
+        NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] Do request 1 chưa xử lý xong, lại có request 2 khác chạy song song và vô tình nhanh hơn request 1. Cho dù các tag thay thế <status> ở 2 request có khác nhau đi chăng nữa, nhưng nếu request 2 nhanh hơn thì sẽ vào xử lý của khối finally khiến cho tag <status> của request 1 bị replace thành 'Fail (undetermined)'.",
         GiaiPhap: null
     },
     {
