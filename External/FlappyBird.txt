@@ -256,4 +256,5 @@ setInterval(function () {
     document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
 }, 10);
 </script>
+</body>
 </html>
