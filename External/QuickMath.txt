@@ -65,19 +65,19 @@ h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
 </div>
 </div>
 <script>
-const $=id=>document.getElementById(id);
+const byId=id=>document.getElementById(id);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
 function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
 function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
-function hideMessage(){$('gameMessage').classList.add('hidden')}
-function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+function showMessage(title,html,btn){byId('messageTitle').textContent=title;byId('messageText').innerHTML=html;byId('startButton').textContent=btn||'🔄 Play Again';byId('gameMessage').classList.remove('hidden')}
+function hideMessage(){byId('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !byId('gameMessage').classList.contains('hidden')}
 
 const KEY='quickMathBest',TOTAL=60;
 let score=0,combo=0,solved=0,timeLeft=TOTAL,best=loadBest(KEY),running=false,answer=0,lastT=0,raf=0,fbTimer=0;
-$('best').textContent=best;
+byId('best').textContent=best;
 function makeQuestion(){
  const lv=Math.min(Math.floor(solved/5),5);
  const ops=lv<1?['+','-']:lv<2?['+','-','×']:['+','-','×','÷'];
@@ -91,13 +91,13 @@ function makeQuestion(){
  return {text:a+' '+op+' '+b,answer:r};
 }
 function nextQuestion(){
- const q=makeQuestion();answer=q.answer;$('q').textContent=q.text+' = ?';
+ const q=makeQuestion();answer=q.answer;byId('q').textContent=q.text+' = ?';
  const opts=new Set([q.answer]);
  while(opts.size<4){const v=q.answer+rnd(1,10)*(Math.random()<.5?-1:1);if(v>=0)opts.add(v)}
- const box=$('answers');box.innerHTML='';
+ const box=byId('answers');box.innerHTML='';
  shuffle([...opts]).forEach(v=>{const b=document.createElement('button');b.type='button';b.className='ans';b.textContent=v;b.addEventListener('click',()=>pick(v));box.appendChild(b)});
 }
-function flash(text,cls){const f=$('feedback');f.textContent=text;f.className='feedback '+cls;clearTimeout(fbTimer);fbTimer=setTimeout(()=>{f.textContent=''},450)}
+function flash(text,cls){const f=byId('feedback');f.textContent=text;f.className='feedback '+cls;clearTimeout(fbTimer);fbTimer=setTimeout(()=>{f.textContent=''},450)}
 function pick(v){
  if(!running)return;
  if(v===answer){
@@ -106,21 +106,21 @@ function pick(v){
  }else{
   combo=0;timeLeft-=3;flash('✗ Sai! −3s','bad');
  }
- $('score').textContent=score;$('combo').textContent=combo;
+ byId('score').textContent=score;byId('combo').textContent=combo;
  nextQuestion();
 }
 function loop(t){
  if(!running)return;
  timeLeft-=(t-lastT)/1000;lastT=t;
- $('timerBar').style.width=clamp(timeLeft/TOTAL*100,0,100)+'%';
- $('time').textContent=Math.max(0,Math.ceil(timeLeft));
+ byId('timerBar').style.width=clamp(timeLeft/TOTAL*100,0,100)+'%';
+ byId('time').textContent=Math.max(0,Math.ceil(timeLeft));
  if(timeLeft<=0){endGame();return}
  raf=requestAnimationFrame(loop);
 }
 function startGame(){
  cancelAnimationFrame(raf);
  score=0;combo=0;solved=0;timeLeft=TOTAL;running=true;
- $('score').textContent=0;$('combo').textContent=0;$('feedback').textContent='';
+ byId('score').textContent=0;byId('combo').textContent=0;byId('feedback').textContent='';
  hideMessage();nextQuestion();
  lastT=performance.now();raf=requestAnimationFrame(loop);
 }
@@ -128,14 +128,14 @@ function endGame(){
  running=false;cancelAnimationFrame(raf);
  let extra='';
  if(score>best){best=score;saveBest(KEY,best);extra='<br>🎉 Kỷ lục mới!'}
- $('best').textContent=best;
+ byId('best').textContent=best;
  showMessage('⏰ Hết giờ!','Score: <strong>'+score+'</strong><br>Best: <strong>'+best+'</strong><br>Đã giải: <strong>'+solved+'</strong> câu'+extra);
 }
-$('startButton').addEventListener('click',startGame);
-$('restartButton').addEventListener('click',startGame);
+byId('startButton').addEventListener('click',startGame);
+byId('restartButton').addEventListener('click',startGame);
 document.addEventListener('keydown',e=>{
  if(overlayOpen()){if(e.key==='Enter')startGame();return}
- if(e.key>='1'&&e.key<='4'){const b=$('answers').children[Number(e.key)-1];if(b)b.click()}
+ if(e.key>='1'&&e.key<='4'){const b=byId('answers').children[Number(e.key)-1];if(b)b.click()}
 });
 nextQuestion();
 
