@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>🏓 Ping Pong Arena</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100vh;height:100dvh;overflow:hidden}
+body{font-family:Arial,sans-serif;background:#172235;color:#fff;display:flex;justify-content:center;align-items:center;padding:12px;-webkit-tap-highlight-color:transparent}
+.game-container{width:min(var(--w,650px),100%);max-height:100%;background:#202c40;border:1px solid #35455d;border-radius:16px;padding:clamp(10px,2.2dvh,25px) clamp(12px,3vw,25px);box-shadow:0 15px 40px rgba(0,0,0,.3);text-align:center;display:flex;flex-direction:column}
+.game-container.fill{height:100%}
+h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
+.subtitle{color:#aeb8c7;margin-bottom:clamp(6px,1.6dvh,16px);font-size:clamp(12px,2dvh,15px)}
+.top-panel{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.info-box{flex:1 1 0;min-width:0;max-width:150px;background:#2b3850;border:1px solid #40506a;border-radius:9px;padding:clamp(6px,1.2dvh,10px) 6px;font-weight:bold;font-size:clamp(12px,1.9dvh,15px);white-space:nowrap}
+.stage{flex:1;min-height:0;position:relative}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;background:#14202f;border-radius:12px;touch-action:none;display:block}
+.feedback{min-height:clamp(20px,3.5dvh,28px);margin-top:clamp(4px,1.2dvh,14px);font-size:clamp(14px,2.3dvh,18px);font-weight:bold}
+.ok{color:#66d99a}.bad{color:#ff7373}
+.controls{margin-top:clamp(6px,1.4dvh,16px)}
+.main-button{border:none;border-radius:9px;padding:clamp(8px,1.6dvh,12px) 25px;background:#f5a000;color:#172235;font-size:16px;font-weight:bold;cursor:pointer}
+.main-button:hover{filter:brightness(1.08)}
+.game-message{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.62);padding:20px}
+.message-box{width:min(380px,100%);background:#202c40;border:1px solid #45546b;border-radius:15px;padding:28px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.message-box h2{margin:0 0 12px;font-size:30px}
+.message-box p{color:#c6cfdb;line-height:1.5;margin:8px 0 16px}
+.hidden{display:none!important}
+@media (max-height:720px){.subtitle{display:none}}
+.hint{color:#aeb8c7;font-size:clamp(11px,1.8dvh,13px);margin-top:clamp(4px,1dvh,8px)}
+</style>
+</head>
+<body style="visibility: hidden;">
+
+<div class="game-container fill" style="--w:760px">
+<h1>🏓 Pong vs Máy</h1>
+<div class="subtitle">Ai ghi 7 điểm trước sẽ thắng!</div>
+<div class="top-panel">
+<div class="info-box">🧑 Bạn: <span id="sYou">0</span></div>
+<div class="info-box">🤖 Máy: <span id="sAi">0</span></div>
+<div class="info-box">🏆 Thắng: <span id="sWins">0</span></div>
+</div>
+<div class="stage" id="stage"><canvas id="cv"></canvas></div>
+<div class="controls"><button type="button" class="main-button" id="restartButton">🔄 Restart</button></div>
+</div>
+
+<div class="game-message" id="gameMessage">
+<div class="message-box">
+<h2 id="messageTitle">🏓 Pong vs Máy</h2>
+<p id="messageText">Điều khiển thanh màu xanh ở dưới bằng chuột, ngón tay hoặc phím ←/→ (A/D).<br>Ai ghi 7 điểm trước sẽ thắng!</p>
+<button type="button" class="main-button" id="startButton">▶ Start Game</button>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
+function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
+function hideMessage(){$('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+
+const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const WIN=7,KEY='pongWins',AI_SPEED=330;
+let W=300,H=400,S=1,pw=80,ph=12,br=7,pad=18;
+let px=150,ax=150,aiErr=0,score=0,aiScore=0,wins=loadBest(KEY);
+let ball={x:150,y:200,dx:0,dy:0},spdU=340,running=false,serving=true,last=0,raf=0,token=0;
+const keys={l:false,r:false};
+$('sWins').textContent=wins;
+function fit(){
+ const r=stage.getBoundingClientRect(),nw=Math.max(200,Math.round(r.width)),nh=Math.max(240,Math.round(r.height));
+ if(nw===W&&nh===H&&cv.width===W&&cv.height===H)return;
+ const rx=nw/W,ry=nh/H;px*=rx;ax*=rx;ball.x*=rx;ball.y*=ry;
+ W=nw;H=nh;cv.width=W;cv.height=H;S=Math.min(W,H)/400;
+ pw=Math.max(60,W*.2);ph=Math.max(10,12*S);br=Math.max(5,7*S);pad=Math.max(14,H*.05);
+ draw();
+}
+function serve(dir){
+ const my=++token;ball.x=W/2;ball.y=H/2;ball.dx=0;ball.dy=0;serving=true;spdU=340;
+ setTimeout(()=>{if(!running||my!==token)return;const a=Math.random()*.8-.4;ball.dx=Math.sin(a);ball.dy=dir*Math.cos(a);serving=false},800);
+}
+function hit(cx,dir,ny){
+ const off=clamp((ball.x-cx)/(pw/2),-1,1),a=off*1.05;
+ ball.dx=Math.sin(a);ball.dy=dir*Math.cos(a);ball.y=ny;spdU=Math.min(spdU*1.04,640);
+}
+function point(playerScored){
+ if(playerScored)score++;else aiScore++;
+ $('sYou').textContent=score;$('sAi').textContent=aiScore;
+ if(score>=WIN||aiScore>=WIN){endGame();return}
+ serve(playerScored?-1:1);
+}
+function update(dt){
+ const pm=620*S*dt;
+ if(keys.l)px-=pm;if(keys.r)px+=pm;
+ px=clamp(px,pw/2,W-pw/2);
+ const tgt=(!serving&&ball.dy<0)?ball.x+aiErr:W/2,step=AI_SPEED*S*dt;
+ ax=clamp(ax+clamp(tgt-ax,-step,step),pw/2,W-pw/2);
+ if(serving)return;
+ const v=spdU*S*dt;ball.x+=ball.dx*v;ball.y+=ball.dy*v;
+ if(ball.x<br){ball.x=br;ball.dx=Math.abs(ball.dx)}
+ if(ball.x>W-br){ball.x=W-br;ball.dx=-Math.abs(ball.dx)}
+ const pY=H-pad-ph,aY=pad+ph;
+ if(ball.dy>0&&ball.y+br>=pY&&ball.y+br<=pY+ph+br*2&&Math.abs(ball.x-px)<=pw/2+br)hit(px,-1,pY-br);
+ if(ball.dy<0&&ball.y-br<=aY&&ball.y-br>=aY-ph-br*2&&Math.abs(ball.x-ax)<=pw/2+br){hit(ax,1,aY+br);aiErr=(Math.random()-.5)*pw*.9}
+ if(ball.y<-br*2)point(true);else if(ball.y>H+br*2)point(false);
+}
+function rr(x,y,w,h,r,c){ctx.fillStyle=c;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);ctx.fill()}
+function draw(){
+ ctx.clearRect(0,0,W,H);
+ ctx.fillStyle='rgba(255,255,255,.07)';ctx.font='bold '+Math.round(H*.22)+'px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillText(aiScore,W/2,H*.27);ctx.fillText(score,W/2,H*.73);
+ ctx.setLineDash([8,8]);ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();ctx.setLineDash([]);
+ rr(ax-pw/2,pad,pw,ph,ph/2,'#ff7373');
+ rr(px-pw/2,H-pad-ph,pw,ph,ph/2,'#66d99a');
+ ctx.fillStyle='#f5a000';ctx.beginPath();ctx.arc(ball.x,ball.y,br,0,Math.PI*2);ctx.fill();
+ if(!running){ctx.fillStyle='#aeb8c7';ctx.font='bold '+Math.round(14*S+4)+'px Arial';ctx.fillText('Di chuột / vuốt ngón tay để điều khiển',W/2,H*.5+H*.08)}
+}
+function loop(t){
+ if(!running){draw();return}
+ const dt=Math.min((t-last)/1000,.033);last=t;
+ update(dt);draw();raf=requestAnimationFrame(loop);
+}
+function startGame(){
+ cancelAnimationFrame(raf);fit();
+ score=0;aiScore=0;px=W/2;ax=W/2;aiErr=0;running=true;
+ $('sYou').textContent=0;$('sAi').textContent=0;
+ hideMessage();serve(Math.random()<.5?1:-1);
+ last=performance.now();raf=requestAnimationFrame(loop);
+}
+function endGame(){
+ running=false;cancelAnimationFrame(raf);draw();
+ const won=score>aiScore;
+ if(won){wins++;saveBest(KEY,wins);$('sWins').textContent=wins}
+ showMessage(won?'🎉 Bạn thắng!':'🤖 Máy thắng','Tỉ số: <strong>'+score+' - '+aiScore+'</strong><br>Tổng số trận thắng: <strong>'+wins+'</strong>',won?'🔄 Chơi tiếp':'🔄 Gỡ lại');
+}
+function setPx(e){const r=cv.getBoundingClientRect();px=clamp((e.clientX-r.left)*(W/r.width),pw/2,W-pw/2)}
+cv.addEventListener('pointermove',setPx);cv.addEventListener('pointerdown',setPx);
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){keys.l=true;e.preventDefault()}
+ if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){keys.r=true;e.preventDefault()}
+ if(e.key==='Enter'&&overlayOpen())startGame();
+});
+document.addEventListener('keyup',e=>{
+ if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A')keys.l=false;
+ if(e.key==='ArrowRight'||e.key==='d'||e.key==='D')keys.r=false;
+});
+$('startButton').addEventListener('click',startGame);
+$('restartButton').addEventListener('click',startGame);
+new ResizeObserver(fit).observe(stage);window.addEventListener('resize',fit);
+fit();draw();
+
+/* ===== MYWEBPLAY HTML PLAY ===== */
+setInterval(function(){
+document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el=>el.remove());
+document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el=>el.remove());
+document.querySelectorAll("center").forEach(el=>el.remove());
+document.querySelectorAll("div[style='height: 65px;']").forEach(el=>el.remove());
+},10);
+</script>
+</body>
+</html>
