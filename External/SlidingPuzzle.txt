@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>🧩 Sliding Puzzle</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100vh;height:100dvh;overflow:hidden}
+body{font-family:Arial,sans-serif;background:#172235;color:#fff;display:flex;justify-content:center;align-items:center;padding:12px;-webkit-tap-highlight-color:transparent}
+.game-container{width:min(var(--w,650px),100%);max-height:100%;background:#202c40;border:1px solid #35455d;border-radius:16px;padding:clamp(10px,2.2dvh,25px) clamp(12px,3vw,25px);box-shadow:0 15px 40px rgba(0,0,0,.3);text-align:center;display:flex;flex-direction:column}
+.game-container.fill{height:100%}
+h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
+.subtitle{color:#aeb8c7;margin-bottom:clamp(6px,1.6dvh,16px);font-size:clamp(12px,2dvh,15px)}
+.top-panel{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.info-box{flex:1 1 0;min-width:0;max-width:150px;background:#2b3850;border:1px solid #40506a;border-radius:9px;padding:clamp(6px,1.2dvh,10px) 6px;font-weight:bold;font-size:clamp(12px,1.9dvh,15px);white-space:nowrap}
+.stage{flex:1;min-height:0;position:relative}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;background:#14202f;border-radius:12px;touch-action:none;display:block}
+.feedback{min-height:clamp(20px,3.5dvh,28px);margin-top:clamp(4px,1.2dvh,14px);font-size:clamp(14px,2.3dvh,18px);font-weight:bold}
+.ok{color:#66d99a}.bad{color:#ff7373}
+.controls{margin-top:clamp(6px,1.4dvh,16px)}
+.main-button{border:none;border-radius:9px;padding:clamp(8px,1.6dvh,12px) 25px;background:#f5a000;color:#172235;font-size:16px;font-weight:bold;cursor:pointer}
+.main-button:hover{filter:brightness(1.08)}
+.game-message{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.62);padding:20px}
+.message-box{width:min(380px,100%);background:#202c40;border:1px solid #45546b;border-radius:15px;padding:28px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.message-box h2{margin:0 0 12px;font-size:30px}
+.message-box p{color:#c6cfdb;line-height:1.5;margin:8px 0 16px}
+.hidden{display:none!important}
+@media (max-height:720px){.subtitle{display:none}}
+
+.seg{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.seg button{border:1px solid #40506a;background:#2b3850;color:#fff;border-radius:8px;padding:clamp(5px,1dvh,8px) 14px;font-weight:bold;cursor:pointer;font-size:clamp(12px,1.9dvh,15px)}
+.seg button.on{background:#f5a000;color:#172235;border-color:#f5a000}
+.board{position:relative;margin:0 auto;width:max(180px,min(100%,calc(100dvh - 330px),520px));aspect-ratio:1;background:#14202f;border-radius:12px;touch-action:manipulation;user-select:none}
+.tile{position:absolute;width:calc(100%/var(--n));height:calc(100%/var(--n));padding:clamp(2px,.7vw,4px);transition:left .12s ease,top .12s ease;cursor:pointer}
+.tile span{display:flex;width:100%;height:100%;align-items:center;justify-content:center;background:#2b3850;border:2px solid #40506a;border-radius:10px;font-weight:bold;font-size:calc(min(100%, 520px) / var(--n) * .4);font-size:clamp(14px,calc(min(86vw,calc(100dvh - 330px),500px)/var(--n)*.4),44px)}
+.tile.good span{border-color:#66d99a;color:#66d99a}
+.tile:hover span{filter:brightness(1.2)}
+
+</style>
+</head>
+<body style="visibility: hidden;">
+
+<div class="game-container" style="--w:600px">
+<h1>🧩 Sliding Puzzle</h1>
+<div class="subtitle">Trượt các ô để xếp số theo thứ tự 1, 2, 3...</div>
+<div class="top-panel">
+<div class="info-box">👣 <span id="moves">0</span></div>
+<div class="info-box">⏱ <span id="time">0</span>s</div>
+<div class="info-box">🏆 <span id="best">-</span></div>
+</div>
+<div class="seg" id="seg"></div>
+<div class="board" id="board"></div>
+<div class="controls"><button type="button" class="main-button" id="restartButton">🔀 Trộn lại</button></div>
+</div>
+
+<div class="game-message" id="gameMessage">
+<div class="message-box">
+<h2 id="messageTitle">🧩 Sliding Puzzle</h2>
+<p id="messageText"></p>
+<button type="button" class="main-button" id="startButton">▶ Start Game</button>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
+function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
+function hideMessage(){$('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+
+let n=4,board=[],tileEls={},moves=0,secs=0,tick=0,started=false,won=false;
+const boardEl=$('board');
+const bestKey=()=>'slidingBest'+n;
+function renderBest(){const b=loadBest(bestKey());$('best').textContent=b||'-'}
+[3,4,5].forEach(s=>{const b=document.createElement('button');b.type='button';b.textContent=s+'×'+s;b.dataset.s=s;b.addEventListener('click',()=>{n=s;newGame()});$('seg').appendChild(b)});
+function markSeg(){[...$('seg').children].forEach(b=>b.classList.toggle('on',Number(b.dataset.s)===n))}
+function solved(){for(let i=0;i<n*n-1;i++)if(board[i]!==i+1)return false;return true}
+function place(){
+ for(let i=0;i<n*n;i++){
+  const v=board[i];if(!v)continue;const el=tileEls[v];
+  el.style.left=(i%n)*100/n+'%';el.style.top=Math.floor(i/n)*100/n+'%';
+  el.classList.toggle('good',v===i+1);
+ }
+ $('moves').textContent=moves;
+}
+function newGame(){
+ clearInterval(tick);started=false;won=false;moves=0;secs=0;$('time').textContent=0;hideMessage();markSeg();renderBest();
+ board=[];for(let i=1;i<n*n;i++)board.push(i);board.push(0);
+ let e=n*n-1,prev=-1;
+ do{
+  for(let k=0;k<n*n*30;k++){
+   const nb=[];const r=Math.floor(e/n),c=e%n;
+   if(r>0)nb.push(e-n);if(r<n-1)nb.push(e+n);if(c>0)nb.push(e-1);if(c<n-1)nb.push(e+1);
+   const opts=nb.filter(x=>x!==prev),p=opts[rnd(0,opts.length-1)];
+   board[e]=board[p];board[p]=0;prev=e;e=p;
+  }
+ }while(solved());
+ boardEl.innerHTML='';boardEl.style.setProperty('--n',n);tileEls={};
+ for(let v=1;v<n*n;v++){
+  const el=document.createElement('div');el.className='tile';el.innerHTML='<span>'+v+'</span>';
+  el.addEventListener('pointerdown',()=>tryMove(board.indexOf(v)));
+  boardEl.appendChild(el);tileEls[v]=el;
+ }
+ place();
+}
+function tryMove(i){
+ if(won||i<0)return;
+ const e=board.indexOf(0),r=Math.floor(i/n),c=i%n,er=Math.floor(e/n),ec=e%n;
+ let dir;
+ if(r===er)dir=ec>c?1:-1;else if(c===ec)dir=er>r?n:-n;else return;
+ if(!started){started=true;tick=setInterval(()=>{secs++;$('time').textContent=secs},1000)}
+ let cur=e;while(cur!==i){board[cur]=board[cur-dir];cur-=dir}
+ board[i]=0;moves++;place();
+ if(solved())win();
+}
+function win(){
+ won=true;clearInterval(tick);
+ const old=loadBest(bestKey());let extra='';
+ if(!old||moves<old){saveBest(bestKey(),moves);extra='<br>🎉 Kỷ lục mới!';renderBest()}
+ setTimeout(()=>showMessage('🎉 Hoàn thành!','Số bước: <strong>'+moves+'</strong><br>Thời gian: <strong>'+secs+'s</strong>'+extra,'🔀 Chơi ván mới'),350);
+}
+$('startButton').addEventListener('click',newGame);
+$('restartButton').addEventListener('click',newGame);
+document.addEventListener('keydown',e=>{
+ if(overlayOpen()){if(e.key==='Enter')newGame();return}
+ const z=board.indexOf(0),r=Math.floor(z/n),c=z%n;let i=-1;
+ if(e.key==='ArrowUp'&&r<n-1)i=z+n;
+ if(e.key==='ArrowDown'&&r>0)i=z-n;
+ if(e.key==='ArrowLeft'&&c<n-1)i=z+1;
+ if(e.key==='ArrowRight'&&c>0)i=z-1;
+ if(i>=0){e.preventDefault();tryMove(i)}
+});
+newGame();showMessage('🧩 Sliding Puzzle','Bấm vào ô cạnh ô trống để trượt (bấm 1 ô trong cùng hàng/cột sẽ trượt cả dãy).<br>Hoặc dùng phím mũi tên.<br>Xếp đúng ô sẽ viền xanh.','▶ Start Game');
+
+/* ===== MYWEBPLAY HTML PLAY ===== */
+setInterval(function(){
+document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el=>el.remove());
+document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el=>el.remove());
+document.querySelectorAll("center").forEach(el=>el.remove());
+document.querySelectorAll("div[style='height: 65px;']").forEach(el=>el.remove());
+},10);
+</script>
+</body>
+</html>
