@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>🔤 Wordle Game</title>
+<title>🧩 Sliding Puzzle</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;height:100vh;height:100dvh;overflow:hidden}
@@ -29,42 +29,36 @@ h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
 .hidden{display:none!important}
 @media (max-height:720px){.subtitle{display:none}}
 
-.board{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(3px,.8dvh,6px);--t:clamp(30px,min(calc((100dvh - 400px)/6),13vw),60px)}
-.row{display:flex;gap:clamp(3px,.8dvh,6px)}
-.tile{width:var(--t);height:var(--t);border:2px solid #40506a;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:calc(var(--t)*.55);text-transform:uppercase;transition:background-color .3s,border-color .3s,transform .1s}
-.tile.filled{border-color:#7f8ea6;transform:scale(1.04)}
-.tile.correct{background:#4caf50;border-color:#4caf50}
-.tile.present{background:#d99a00;border-color:#d99a00}
-.tile.absent{background:#3a4658;border-color:#3a4658}
-.kb{display:flex;flex-direction:column;gap:clamp(4px,.9dvh,8px);margin-top:clamp(8px,1.8dvh,16px)}
-.kr{display:flex;gap:clamp(3px,.8vw,6px);justify-content:center}
-.key{flex:1 1 0;max-width:46px;height:clamp(36px,6dvh,50px);border:none;border-radius:6px;background:#48566e;color:#fff;font-weight:bold;font-size:clamp(12px,2.2dvh,16px);cursor:pointer;padding:0;text-transform:uppercase}
-.key.wide{flex:1.6 1 0;max-width:72px}
-.key.correct{background:#4caf50}.key.present{background:#d99a00}.key.absent{background:#2a3445;color:#7f8ea6}
-.shake{animation:shake .35s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.seg{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.seg button{border:1px solid #40506a;background:#2b3850;color:#fff;border-radius:8px;padding:clamp(5px,1dvh,8px) 14px;font-weight:bold;cursor:pointer;font-size:clamp(12px,1.9dvh,15px)}
+.seg button.on{background:#f5a000;color:#172235;border-color:#f5a000}
+.board{position:relative;margin:0 auto;width:max(180px,min(100%,calc(100dvh - 330px),520px));aspect-ratio:1;background:#14202f;border-radius:12px;touch-action:manipulation;user-select:none}
+.tile{position:absolute;width:calc(100%/var(--n));height:calc(100%/var(--n));padding:clamp(2px,.7vw,4px);transition:left .12s ease,top .12s ease;cursor:pointer}
+.tile span{display:flex;width:100%;height:100%;align-items:center;justify-content:center;background:#2b3850;border:2px solid #40506a;border-radius:10px;font-weight:bold;font-size:calc(min(100%, 520px) / var(--n) * .4);font-size:clamp(14px,calc(min(86vw,calc(100dvh - 330px),500px)/var(--n)*.4),44px)}
+.tile.good span{border-color:#66d99a;color:#66d99a}
+.tile:hover span{filter:brightness(1.2)}
 
 </style>
 </head>
 <body style="visibility: hidden;">
 
-<div class="game-container" style="--w:520px">
-<h1>🔤 Wordle</h1>
-<div class="subtitle">Đoán từ tiếng Anh 5 chữ cái trong 6 lượt</div>
+<div class="game-container" style="--w:600px">
+<h1>🧩 Sliding Puzzle</h1>
+<div class="subtitle">Trượt các ô để xếp số theo thứ tự 1, 2, 3...</div>
 <div class="top-panel">
-<div class="info-box">🔥 Chuỗi: <span id="streak">0</span></div>
-<div class="info-box">🏆 Best: <span id="best">0</span></div>
-<div class="info-box">📝 Lượt: <span id="tries">1</span>/6</div>
+<div class="info-box">👣 <span id="moves">0</span></div>
+<div class="info-box">⏱ <span id="time">0</span>s</div>
+<div class="info-box">🏆 <span id="best">-</span></div>
 </div>
-<div class="board" id="grid"></div>
-<div class="feedback" id="feedback"></div>
-<div class="kb" id="kb"></div>
+<div class="seg" id="seg"></div>
+<div class="board" id="board"></div>
+<div class="controls"><button type="button" class="main-button" id="restartButton">🔀 Trộn lại</button></div>
 </div>
 
 <div class="game-message" id="gameMessage">
 <div class="message-box">
-<h2 id="messageTitle">🔤 Wordle</h2>
-<p id="messageText">Đoán từ tiếng Anh gồm 5 chữ cái trong 6 lượt.<br>🟩 đúng chữ, đúng chỗ &nbsp; 🟨 đúng chữ, sai chỗ &nbsp; ⬛ không có trong từ.<br>Gõ bằng bàn phím hoặc bấm bàn phím trên màn hình.</p>
+<h2 id="messageTitle">🧩 Sliding Puzzle</h2>
+<p id="messageText"></p>
 <button type="button" class="main-button" id="startButton">▶ Start Game</button>
 </div>
 </div>
@@ -79,67 +73,81 @@ function showMessage(title,html,btn){byId('messageTitle').textContent=title;byId
 function hideMessage(){byId('gameMessage').classList.add('hidden')}
 function overlayOpen(){return !byId('gameMessage').classList.contains('hidden')}
 
-const WORDS="about above actor adult agree ahead alarm album alive allow alone angry apple arrow aside avoid awake basic beach begin black blame blank blind block board brain brave bread break brick bring brown build cable candy carry catch cause chair chase cheap check chest chief child chose claim clean clear climb clock close cloud coach coast count court cover crazy cream cross crowd daily dance dream dress drink drive early earth eight empty enjoy enter equal error event every exact extra faith false fault field fight final first flame floor focus force frame fresh front fruit giant glass globe grace grand grape grass great green group guard guess guide happy heart heavy horse hotel house human ideal image index inner input issue judge juice knife known label large laugh layer learn least leave level light limit local lucky lunch magic major maybe media metal might minor model money month moral motor mouse mouth movie music nerve never night noise north novel nurse ocean offer often order other paint panel paper party peace phone photo piano pilot pitch place plain plane plant plate point power press price pride prime print prize proud queen quick quiet radio raise range rapid ratio reach ready right river robot rough round royal rural scale scene scope score sense serve shade shape share sharp sheep shelf shell shift shine shirt shock shoot short sight silly skill sleep slide small smart smile smoke snake solid solve sound south space speak speed spend spice split sport staff stage stair stand start state steam steel stick still stone store storm story sugar super sweet table taste teach thank theme thick thing think three throw tiger title today tooth topic total touch tower track trade train treat trend trial tribe truck truly trust truth twice uncle under union unity until upper urban usual valid value video virus visit vital voice waste watch water wheel white whole woman world worry worth would write wrong young youth zebra".split(' ');
-const KEY='wordleBestStreak',ROWS6=6;
-let target='',row=0,cur='',over=false,streak=0,best=loadBest(KEY),keyState={},msgT=0;
-byId('best').textContent=best;
-const grid=byId('grid'),kb=byId('kb');
-for(let r=0;r<6;r++){const d=document.createElement('div');d.className='row';for(let c=0;c<5;c++){const t=document.createElement('div');t.className='tile';d.appendChild(t)}grid.appendChild(d)}
-['qwertyuiop','asdfghjkl','+zxcvbnm-'].forEach(line=>{
- const d=document.createElement('div');d.className='kr';
- [...line].forEach(ch=>{
-  const b=document.createElement('button');b.type='button';b.className='key';
-  const k=ch==='+'?'ENTER':ch==='-'?'BACK':ch;
-  b.textContent=k==='ENTER'?'Enter':k==='BACK'?'⌫':ch;if(k.length>1)b.classList.add('wide');
-  b.dataset.k=k;b.addEventListener('click',()=>press(k));d.appendChild(b);
- });kb.appendChild(d);
-});
-function tiles(r){return grid.children[r].children}
-function msg(t,cls){const f=byId('feedback');f.textContent=t;f.className='feedback '+(cls||'');clearTimeout(msgT);msgT=setTimeout(()=>{f.textContent=''},1600)}
-function evaluate(g,t){
- const res=Array(5).fill('absent'),tt=t.split(''),gg=g.split('');
- gg.forEach((ch,i)=>{if(ch===tt[i]){res[i]='correct';tt[i]=null}});
- gg.forEach((ch,i)=>{if(res[i]==='correct')return;const j=tt.indexOf(ch);if(j>-1){res[i]='present';tt[j]=null}});
- return res;
-}
-function newWord(){
- target=WORDS[rnd(0,WORDS.length-1)];row=0;cur='';over=false;keyState={};
- [...grid.children].forEach(r=>[...r.children].forEach(t=>{t.textContent='';t.className='tile';t.style.transitionDelay=''}));
- kb.querySelectorAll('.key').forEach(k=>{k.classList.remove('correct','present','absent')});
- byId('tries').textContent=1;byId('feedback').textContent='';
-}
-function press(k){
- if(over||overlayOpen())return;
- if(k==='BACK'){cur=cur.slice(0,-1)}
- else if(k==='ENTER'){submit();return}
- else if(cur.length<5){cur+=k}
- const ts=tiles(row);
- for(let i=0;i<5;i++){ts[i].textContent=cur[i]||'';ts[i].classList.toggle('filled',!!cur[i])}
-}
-function submit(){
- if(cur.length<5){msg('Chưa đủ 5 chữ cái','bad');const g=grid.children[row];g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');return}
- const res=evaluate(cur,target),ts=tiles(row),rank={absent:1,present:2,correct:3};
- for(let i=0;i<5;i++){
-  ts[i].style.transitionDelay=(i*120)+'ms';ts[i].classList.remove('filled');ts[i].classList.add(res[i]);
-  const ch=cur[i];if(!keyState[ch]||rank[res[i]]>rank[keyState[ch]])keyState[ch]=res[i];
+let n=4,board=[],tileEls={},moves=0,secs=0,tick=0,started=false,won=false;
+const boardEl=byId('board');
+const bestKey=()=>'slidingBest'+n;
+function renderBest(){const b=loadBest(bestKey());byId('best').textContent=b||'-'}
+[3,4,5].forEach(s=>{const b=document.createElement('button');b.type='button';b.textContent=s+'×'+s;b.dataset.s=s;b.addEventListener('click',()=>{n=s;newGame()});byId('seg').appendChild(b)});
+function markSeg(){[...byId('seg').children].forEach(b=>b.classList.toggle('on',Number(b.dataset.s)===n))}
+function solved(){for(let i=0;i<n*n-1;i++)if(board[i]!==i+1)return false;return true}
+function place(){
+ for(let i=0;i<n*n;i++){
+  const v=board[i];if(!v)continue;const el=tileEls[v];
+  el.style.left=(i%n)*100/n+'%';el.style.top=Math.floor(i/n)*100/n+'%';
+  el.classList.toggle('good',v===i+1);
  }
- setTimeout(()=>{for(const ch in keyState){const b=kb.querySelector('[data-k="'+ch+'"]');if(b){b.classList.remove('correct','present','absent');b.classList.add(keyState[ch])}}},650);
- if(cur===target){over=true;streak++;if(streak>best){best=streak;saveBest(KEY,best)}
-  setTimeout(()=>{byId('streak').textContent=streak;byId('best').textContent=best;showMessage('🎉 Chính xác!','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong><br>Giải được sau <strong>'+(row+1)+'</strong> lượt','▶ Từ tiếp theo')},900);
- }else if(row===5){over=true;streak=0;
-  setTimeout(()=>{byId('streak').textContent=0;showMessage('😢 Hết lượt','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong>','▶ Từ mới')},900);
- }else{row++;cur='';byId('tries').textContent=row+1}
+ byId('moves').textContent=moves;
 }
-byId('startButton').addEventListener('click',()=>{hideMessage();newWord()});
+function newGame(){
+ clearInterval(tick);started=false;won=false;moves=0;secs=0;byId('time').textContent=0;hideMessage();markSeg();renderBest();
+ board=[];for(let i=1;i<n*n;i++)board.push(i);board.push(0);
+ let e=n*n-1,prev=-1;
+ do{
+  for(let k=0;k<n*n*30;k++){
+   const nb=[];const r=Math.floor(e/n),c=e%n;
+   if(r>0)nb.push(e-n);if(r<n-1)nb.push(e+n);if(c>0)nb.push(e-1);if(c<n-1)nb.push(e+1);
+   const opts=nb.filter(x=>x!==prev),p=opts[rnd(0,opts.length-1)];
+   board[e]=board[p];board[p]=0;prev=e;e=p;
+  }
+ }while(solved());
+ boardEl.innerHTML='';boardEl.style.setProperty('--n',n);tileEls={};
+ for(let v=1;v<n*n;v++){
+  const el=document.createElement('div');el.className='tile';el.innerHTML='<span>'+v+'</span>';
+  el.addEventListener('pointerdown',()=>tryMove(board.indexOf(v)));
+  boardEl.appendChild(el);tileEls[v]=el;
+ }
+ place();
+}
+function tryMove(i){
+ if(won||i<0)return;
+ const e=board.indexOf(0),r=Math.floor(i/n),c=i%n,er=Math.floor(e/n),ec=e%n;
+ let dir;
+ if(r===er)dir=ec>c?1:-1;else if(c===ec)dir=er>r?n:-n;else return;
+ if(!started){started=true;tick=setInterval(()=>{secs++;byId('time').textContent=secs},1000)}
+ let cur=e;while(cur!==i){board[cur]=board[cur-dir];cur-=dir}
+ board[i]=0;moves++;place();
+ if(solved())win();
+}
+function win(){
+ won=true;clearInterval(tick);
+ const old=loadBest(bestKey());let extra='';
+ if(!old||moves<old){saveBest(bestKey(),moves);extra='<br>🎉 Kỷ lục mới!';renderBest()}
+ setTimeout(()=>showMessage('🎉 Hoàn thành!','Số bước: <strong>'+moves+'</strong><br>Thời gian: <strong>'+secs+'s</strong>'+extra,'🔀 Chơi ván mới'),350);
+}
+byId('startButton').addEventListener('click',newGame);
+byId('restartButton').addEventListener('click',newGame);
 document.addEventListener('keydown',e=>{
- if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(overlayOpen()){if(e.key==='Enter')byId('startButton').click();return}
- if(e.key==='Enter')press('ENTER');
- else if(e.key==='Backspace')press('BACK');
- else if(/^[a-zA-Z]$/.test(e.key))press(e.key.toLowerCase());
+ if(overlayOpen()){if(e.key==='Enter')newGame();return}
+ const z=board.indexOf(0),r=Math.floor(z/n),c=z%n;let i=-1;
+ if(e.key==='ArrowUp'&&r<n-1)i=z+n;
+ if(e.key==='ArrowDown'&&r>0)i=z-n;
+ if(e.key==='ArrowLeft'&&c<n-1)i=z+1;
+ if(e.key==='ArrowRight'&&c>0)i=z-1;
+ if(i>=0){e.preventDefault();tryMove(i)}
 });
-newWord();
+newGame();showMessage('🧩 Sliding Puzzle','Bấm vào ô cạnh ô trống để trượt (bấm 1 ô trong cùng hàng/cột sẽ trượt cả dãy).<br>Hoặc dùng phím mũi tên.<br>Xếp đúng ô sẽ viền xanh.','▶ Start Game');
 
+/* ===== AUTO-FIT: không có scroll nên luôn tự thu nhỏ vừa khung nhìn, không để nút bị cắt ===== */
+function autoFit(){
+ const c=document.querySelector('.game-container');
+ if(!c||c.classList.contains('fill'))return;
+ c.style.transform='';c.style.maxHeight='none';
+ const r=c.getBoundingClientRect();
+ const s=Math.min(1,(window.innerHeight-24)/r.height,(window.innerWidth-24)/r.width);
+ c.style.transform=s<1?'scale('+s+')':'';
+}
+window.addEventListener('resize',autoFit);
+autoFit();setTimeout(autoFit,300);
 /* ===== MYWEBPLAY HTML PLAY ===== */
 setInterval(function(){
 document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el=>el.remove());
