@@ -534,6 +534,12 @@ var seeTitleData = [
         GiaiPhap: null
     },
     {
+        Index: 124,
+        Status: "PART",
+        NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] Do request 1 chưa xử lý xong, lại có request 2 khác chạy song song và vô tình nhanh hơn request 1. Cho dù các tag thay thế <status> ở 2 request có khác nhau đi chăng nữa, nhưng nếu request 2 nhanh hơn thì sẽ vào xử lý của khối finally khiến cho tag <status> của request 1 bị replace thành 'Fail (undetermined)"'.",
+        GiaiPhap: null
+    },
+    {
         Index: 127,
         Status: "PART",
         NguyenNhan: "BUG 3: Nhờ HTML PLAY, DDL sẽ tự động chọn condition để phù hợp với nhu cầu tìm kiếm theo cột Ngày truy cập. Do HTML Play bỉ hỏng, giá trị DDL chưa được lựa chọn phù hợp dẫn đến câu lệnh SQL khi thực thi bị sai.",
@@ -548,6 +554,24 @@ var seeTitleData = [
     {
         Index: 132,
         Status: "TRICK",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 134,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 135,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 136,
+        Status: "FIXED",
         NguyenNhan: null,
         GiaiPhap: null
     }
