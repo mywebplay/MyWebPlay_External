@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>🧮 Quick Math</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100vh;height:100dvh;overflow:hidden}
+body{font-family:Arial,sans-serif;background:#172235;color:#fff;display:flex;justify-content:center;align-items:center;padding:12px;-webkit-tap-highlight-color:transparent}
+.game-container{width:min(var(--w,650px),100%);max-height:100%;background:#202c40;border:1px solid #35455d;border-radius:16px;padding:clamp(10px,2.2dvh,25px) clamp(12px,3vw,25px);box-shadow:0 15px 40px rgba(0,0,0,.3);text-align:center;display:flex;flex-direction:column}
+.game-container.fill{height:100%}
+h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
+.subtitle{color:#aeb8c7;margin-bottom:clamp(6px,1.6dvh,16px);font-size:clamp(12px,2dvh,15px)}
+.top-panel{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.info-box{flex:1 1 0;min-width:0;max-width:150px;background:#2b3850;border:1px solid #40506a;border-radius:9px;padding:clamp(6px,1.2dvh,10px) 6px;font-weight:bold;font-size:clamp(12px,1.9dvh,15px);white-space:nowrap}
+.stage{flex:1;min-height:0;position:relative}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;background:#14202f;border-radius:12px;touch-action:none;display:block}
+.feedback{min-height:clamp(20px,3.5dvh,28px);margin-top:clamp(4px,1.2dvh,14px);font-size:clamp(14px,2.3dvh,18px);font-weight:bold}
+.ok{color:#66d99a}.bad{color:#ff7373}
+.controls{margin-top:clamp(6px,1.4dvh,16px)}
+.main-button{border:none;border-radius:9px;padding:clamp(8px,1.6dvh,12px) 25px;background:#f5a000;color:#172235;font-size:16px;font-weight:bold;cursor:pointer}
+.main-button:hover{filter:brightness(1.08)}
+.game-message{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.62);padding:20px}
+.message-box{width:min(380px,100%);background:#202c40;border:1px solid #45546b;border-radius:15px;padding:28px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.message-box h2{margin:0 0 12px;font-size:30px}
+.message-box p{color:#c6cfdb;line-height:1.5;margin:8px 0 16px}
+.hidden{display:none!important}
+@media (max-height:720px){.subtitle{display:none}}
+
+.timer-container{height:10px;background:#303d52;border-radius:20px;overflow:hidden;margin-bottom:clamp(8px,2dvh,20px)}
+.timer-bar{width:100%;height:100%;background:#f5a000}
+.question-box{background:#29364b;border-radius:12px;padding:clamp(12px,3dvh,32px) 10px;margin-bottom:clamp(8px,2dvh,20px)}
+.q{font-size:clamp(34px,min(10vw,9dvh),70px);font-weight:900;letter-spacing:2px;min-height:1.1em;line-height:1.1;user-select:none}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(6px,1.4dvh,12px)}
+.ans{height:clamp(50px,10dvh,82px);border:none;border-radius:10px;background:#2b3850;color:#fff;font-size:clamp(20px,4.2dvh,32px);font-weight:bold;cursor:pointer;box-shadow:inset 0 0 0 2px #40506a;transition:transform .1s,filter .1s}
+.ans:hover{filter:brightness(1.2)}.ans:active{transform:scale(.96)}
+
+</style>
+</head>
+<body style="visibility: hidden;">
+
+<div class="game-container" style="--w:560px">
+<h1>🧮 Quick Math</h1>
+<div class="subtitle">Tính nhẩm thật nhanh trước khi hết giờ!</div>
+<div class="top-panel">
+<div class="info-box">⭐ <span id="score">0</span></div>
+<div class="info-box">🏆 <span id="best">0</span></div>
+<div class="info-box">🔥 <span id="combo">0</span></div>
+<div class="info-box">⏱ <span id="time">60</span></div>
+</div>
+<div class="timer-container"><div class="timer-bar" id="timerBar"></div></div>
+<div class="question-box"><div class="q" id="q">7 + 5 = ?</div></div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback"></div>
+<div class="controls"><button type="button" class="main-button" id="restartButton">🔄 Restart</button></div>
+</div>
+
+<div class="game-message" id="gameMessage">
+<div class="message-box">
+<h2 id="messageTitle">🧮 Quick Math</h2>
+<p id="messageText">Giải phép tính trong 60 giây.<br>Đúng +1 giây, sai −3 giây.<br>Có thể bấm phím 1–4 để chọn đáp án.</p>
+<button type="button" class="main-button" id="startButton">▶ Start Game</button>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
+function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
+function hideMessage(){$('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+
+const KEY='quickMathBest',TOTAL=60;
+let score=0,combo=0,solved=0,timeLeft=TOTAL,best=loadBest(KEY),running=false,answer=0,lastT=0,raf=0,fbTimer=0;
+$('best').textContent=best;
+function makeQuestion(){
+ const lv=Math.min(Math.floor(solved/5),5);
+ const ops=lv<1?['+','-']:lv<2?['+','-','×']:['+','-','×','÷'];
+ const op=ops[rnd(0,ops.length-1)],max=[10,20,30,50,80,100][lv];
+ const mm=[9,9,9,10,12,15][lv],dm=[9,9,9,10,12,12][lv];
+ let a,b,r;
+ if(op==='+'){a=rnd(2,max);b=rnd(2,max);r=a+b}
+ else if(op==='-'){a=rnd(5,max+10);b=rnd(1,a-1);r=a-b}
+ else if(op==='×'){a=rnd(2,mm);b=rnd(2,mm);r=a*b}
+ else{b=rnd(2,dm);r=rnd(2,mm);a=b*r}
+ return {text:a+' '+op+' '+b,answer:r};
+}
+function nextQuestion(){
+ const q=makeQuestion();answer=q.answer;$('q').textContent=q.text+' = ?';
+ const opts=new Set([q.answer]);
+ while(opts.size<4){const v=q.answer+rnd(1,10)*(Math.random()<.5?-1:1);if(v>=0)opts.add(v)}
+ const box=$('answers');box.innerHTML='';
+ shuffle([...opts]).forEach(v=>{const b=document.createElement('button');b.type='button';b.className='ans';b.textContent=v;b.addEventListener('click',()=>pick(v));box.appendChild(b)});
+}
+function flash(text,cls){const f=$('feedback');f.textContent=text;f.className='feedback '+cls;clearTimeout(fbTimer);fbTimer=setTimeout(()=>{f.textContent=''},450)}
+function pick(v){
+ if(!running)return;
+ if(v===answer){
+  score+=10+Math.min(combo,10);combo++;solved++;timeLeft=Math.min(TOTAL,timeLeft+1);
+  flash('✓ Đúng! +1s','ok');
+ }else{
+  combo=0;timeLeft-=3;flash('✗ Sai! −3s','bad');
+ }
+ $('score').textContent=score;$('combo').textContent=combo;
+ nextQuestion();
+}
+function loop(t){
+ if(!running)return;
+ timeLeft-=(t-lastT)/1000;lastT=t;
+ $('timerBar').style.width=clamp(timeLeft/TOTAL*100,0,100)+'%';
+ $('time').textContent=Math.max(0,Math.ceil(timeLeft));
+ if(timeLeft<=0){endGame();return}
+ raf=requestAnimationFrame(loop);
+}
+function startGame(){
+ cancelAnimationFrame(raf);
+ score=0;combo=0;solved=0;timeLeft=TOTAL;running=true;
+ $('score').textContent=0;$('combo').textContent=0;$('feedback').textContent='';
+ hideMessage();nextQuestion();
+ lastT=performance.now();raf=requestAnimationFrame(loop);
+}
+function endGame(){
+ running=false;cancelAnimationFrame(raf);
+ let extra='';
+ if(score>best){best=score;saveBest(KEY,best);extra='<br>🎉 Kỷ lục mới!'}
+ $('best').textContent=best;
+ showMessage('⏰ Hết giờ!','Score: <strong>'+score+'</strong><br>Best: <strong>'+best+'</strong><br>Đã giải: <strong>'+solved+'</strong> câu'+extra);
+}
+$('startButton').addEventListener('click',startGame);
+$('restartButton').addEventListener('click',startGame);
+document.addEventListener('keydown',e=>{
+ if(overlayOpen()){if(e.key==='Enter')startGame();return}
+ if(e.key>='1'&&e.key<='4'){const b=$('answers').children[Number(e.key)-1];if(b)b.click()}
+});
+nextQuestion();
+
+/* ===== MYWEBPLAY HTML PLAY ===== */
+setInterval(function(){
+document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el=>el.remove());
+document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el=>el.remove());
+document.querySelectorAll("center").forEach(el=>el.remove());
+document.querySelectorAll("div[style='height: 65px;']").forEach(el=>el.remove());
+},10);
+</script>
+</body>
+</html>
