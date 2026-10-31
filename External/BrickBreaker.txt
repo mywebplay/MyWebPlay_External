@@ -54,23 +54,23 @@ h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
 </div>
 </div>
 <script>
-const $=id=>document.getElementById(id);
+const byId=id=>document.getElementById(id);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
 function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
 function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
-function hideMessage(){$('gameMessage').classList.add('hidden')}
-function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+function showMessage(title,html,btn){byId('messageTitle').textContent=title;byId('messageText').innerHTML=html;byId('startButton').textContent=btn||'🔄 Play Again';byId('gameMessage').classList.remove('hidden')}
+function hideMessage(){byId('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !byId('gameMessage').classList.contains('hidden')}
 
-const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const cv=byId('cv'),ctx=cv.getContext('2d'),stage=byId('stage');
 const KEY='brickBreakerBest',COLS=8,ROWS=6,COLORS=['#ef4444','#ff9800','#fbc02d','#4caf50','#2196f3','#9c27b0'];
 let W=300,H=400,S=1,bw=30,bh=16,bx0=10,by0=30,gap=4,pw=80,ph=12,br=6;
 let bricks=[],px=150,ball={x:150,y:380,dx:0,dy:0},launched=false,spdU=330;
 let score=0,lives=3,level=1,best=loadBest(KEY),running=false,last=0,raf=0;
 const keys={l:false,r:false};
-$('best').textContent=best;
+byId('best').textContent=best;
 const pY=()=>H-Math.max(16,H*.05)-ph;
 function layout(){
  S=Math.min(W,H)/400;gap=Math.max(2,Math.round(4*S));
@@ -93,7 +93,7 @@ function launch(){
  if(!running||launched)return;
  const a=(Math.random()-.5)*.6;ball.dx=Math.sin(a);ball.dy=-Math.cos(a);launched=true;
 }
-function setStats(){$('score').textContent=score;$('lives').textContent=lives;$('level').textContent=level}
+function setStats(){byId('score').textContent=score;byId('lives').textContent=lives;byId('level').textContent=level}
 function update(dt){
  const pm=650*S*dt;
  if(keys.l)px-=pm;if(keys.r)px+=pm;
@@ -116,7 +116,7 @@ function update(dt){
    if(Math.abs(ddx)>Math.abs(ddy))ball.dx=ddx>0?Math.abs(ball.dx):-Math.abs(ball.dx);
    else ball.dy=ddy>0?Math.abs(ball.dy):-Math.abs(ball.dy);
    bricks[i]--;score+=10;if(!bricks[i])left--;
-   $('score').textContent=score;break;
+   byId('score').textContent=score;break;
   }
  }
  if(left===0){level++;newLevel();resetBall();setStats();return}
@@ -150,7 +150,7 @@ function endGame(){
  running=false;cancelAnimationFrame(raf);draw();
  let extra='';
  if(score>best){best=score;saveBest(KEY,best);extra='<br>🎉 Kỷ lục mới!'}
- $('best').textContent=best;
+ byId('best').textContent=best;
  showMessage('💥 Game Over','Score: <strong>'+score+'</strong><br>Best: <strong>'+best+'</strong><br>Level: <strong>'+level+'</strong>'+extra);
 }
 function setPx(e){const r=cv.getBoundingClientRect();px=clamp((e.clientX-r.left)*(W/r.width),pw/2,W-pw/2)}
@@ -166,8 +166,8 @@ document.addEventListener('keyup',e=>{
  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A')keys.l=false;
  if(e.key==='ArrowRight'||e.key==='d'||e.key==='D')keys.r=false;
 });
-$('startButton').addEventListener('click',startGame);
-$('restartButton').addEventListener('click',startGame);
+byId('startButton').addEventListener('click',startGame);
+byId('restartButton').addEventListener('click',startGame);
 new ResizeObserver(fit).observe(stage);window.addEventListener('resize',fit);
 newLevel();fit();layout();resetBall();draw();
 
