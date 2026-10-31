@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>🔤 Wordle Game</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100vh;height:100dvh;overflow:hidden}
+body{font-family:Arial,sans-serif;background:#172235;color:#fff;display:flex;justify-content:center;align-items:center;padding:12px;-webkit-tap-highlight-color:transparent}
+.game-container{width:min(var(--w,650px),100%);max-height:100%;background:#202c40;border:1px solid #35455d;border-radius:16px;padding:clamp(10px,2.2dvh,25px) clamp(12px,3vw,25px);box-shadow:0 15px 40px rgba(0,0,0,.3);text-align:center;display:flex;flex-direction:column}
+.game-container.fill{height:100%}
+h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
+.subtitle{color:#aeb8c7;margin-bottom:clamp(6px,1.6dvh,16px);font-size:clamp(12px,2dvh,15px)}
+.top-panel{display:flex;justify-content:center;gap:8px;margin-bottom:clamp(8px,1.6dvh,16px)}
+.info-box{flex:1 1 0;min-width:0;max-width:150px;background:#2b3850;border:1px solid #40506a;border-radius:9px;padding:clamp(6px,1.2dvh,10px) 6px;font-weight:bold;font-size:clamp(12px,1.9dvh,15px);white-space:nowrap}
+.stage{flex:1;min-height:0;position:relative}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;background:#14202f;border-radius:12px;touch-action:none;display:block}
+.feedback{min-height:clamp(20px,3.5dvh,28px);margin-top:clamp(4px,1.2dvh,14px);font-size:clamp(14px,2.3dvh,18px);font-weight:bold}
+.ok{color:#66d99a}.bad{color:#ff7373}
+.controls{margin-top:clamp(6px,1.4dvh,16px)}
+.main-button{border:none;border-radius:9px;padding:clamp(8px,1.6dvh,12px) 25px;background:#f5a000;color:#172235;font-size:16px;font-weight:bold;cursor:pointer}
+.main-button:hover{filter:brightness(1.08)}
+.game-message{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.62);padding:20px}
+.message-box{width:min(380px,100%);background:#202c40;border:1px solid #45546b;border-radius:15px;padding:28px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.message-box h2{margin:0 0 12px;font-size:30px}
+.message-box p{color:#c6cfdb;line-height:1.5;margin:8px 0 16px}
+.hidden{display:none!important}
+@media (max-height:720px){.subtitle{display:none}}
+
+.board{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(3px,.8dvh,6px);--t:clamp(30px,min(calc((100dvh - 400px)/6),13vw),60px)}
+.row{display:flex;gap:clamp(3px,.8dvh,6px)}
+.tile{width:var(--t);height:var(--t);border:2px solid #40506a;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:calc(var(--t)*.55);text-transform:uppercase;transition:background-color .3s,border-color .3s,transform .1s}
+.tile.filled{border-color:#7f8ea6;transform:scale(1.04)}
+.tile.correct{background:#4caf50;border-color:#4caf50}
+.tile.present{background:#d99a00;border-color:#d99a00}
+.tile.absent{background:#3a4658;border-color:#3a4658}
+.kb{display:flex;flex-direction:column;gap:clamp(4px,.9dvh,8px);margin-top:clamp(8px,1.8dvh,16px)}
+.kr{display:flex;gap:clamp(3px,.8vw,6px);justify-content:center}
+.key{flex:1 1 0;max-width:46px;height:clamp(36px,6dvh,50px);border:none;border-radius:6px;background:#48566e;color:#fff;font-weight:bold;font-size:clamp(12px,2.2dvh,16px);cursor:pointer;padding:0;text-transform:uppercase}
+.key.wide{flex:1.6 1 0;max-width:72px}
+.key.correct{background:#4caf50}.key.present{background:#d99a00}.key.absent{background:#2a3445;color:#7f8ea6}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+</style>
+</head>
+<body style="visibility: hidden;">
+
+<div class="game-container" style="--w:520px">
+<h1>🔤 Wordle</h1>
+<div class="subtitle">Đoán từ tiếng Anh 5 chữ cái trong 6 lượt</div>
+<div class="top-panel">
+<div class="info-box">🔥 Chuỗi: <span id="streak">0</span></div>
+<div class="info-box">🏆 Best: <span id="best">0</span></div>
+<div class="info-box">📝 Lượt: <span id="tries">1</span>/6</div>
+</div>
+<div class="board" id="grid"></div>
+<div class="feedback" id="feedback"></div>
+<div class="kb" id="kb"></div>
+</div>
+
+<div class="game-message" id="gameMessage">
+<div class="message-box">
+<h2 id="messageTitle">🔤 Wordle</h2>
+<p id="messageText">Đoán từ tiếng Anh gồm 5 chữ cái trong 6 lượt.<br>🟩 đúng chữ, đúng chỗ &nbsp; 🟨 đúng chữ, sai chỗ &nbsp; ⬛ không có trong từ.<br>Gõ bằng bàn phím hoặc bấm bàn phím trên màn hình.</p>
+<button type="button" class="main-button" id="startButton">▶ Start Game</button>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
+function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
+function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
+function hideMessage(){$('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+
+const WORDS="about above actor adult agree ahead alarm album alive allow alone angry apple arrow aside avoid awake basic beach begin black blame blank blind block board brain brave bread break brick bring brown build cable candy carry catch cause chair chase cheap check chest chief child chose claim clean clear climb clock close cloud coach coast count court cover crazy cream cross crowd daily dance dream dress drink drive early earth eight empty enjoy enter equal error event every exact extra faith false fault field fight final first flame floor focus force frame fresh front fruit giant glass globe grace grand grape grass great green group guard guess guide happy heart heavy horse hotel house human ideal image index inner input issue judge juice knife known label large laugh layer learn least leave level light limit local lucky lunch magic major maybe media metal might minor model money month moral motor mouse mouth movie music nerve never night noise north novel nurse ocean offer often order other paint panel paper party peace phone photo piano pilot pitch place plain plane plant plate point power press price pride prime print prize proud queen quick quiet radio raise range rapid ratio reach ready right river robot rough round royal rural scale scene scope score sense serve shade shape share sharp sheep shelf shell shift shine shirt shock shoot short sight silly skill sleep slide small smart smile smoke snake solid solve sound south space speak speed spend spice split sport staff stage stair stand start state steam steel stick still stone store storm story sugar super sweet table taste teach thank theme thick thing think three throw tiger title today tooth topic total touch tower track trade train treat trend trial tribe truck truly trust truth twice uncle under union unity until upper urban usual valid value video virus visit vital voice waste watch water wheel white whole woman world worry worth would write wrong young youth zebra".split(' ');
+const KEY='wordleBestStreak',ROWS6=6;
+let target='',row=0,cur='',over=false,streak=0,best=loadBest(KEY),keyState={},msgT=0;
+$('best').textContent=best;
+const grid=$('grid'),kb=$('kb');
+for(let r=0;r<6;r++){const d=document.createElement('div');d.className='row';for(let c=0;c<5;c++){const t=document.createElement('div');t.className='tile';d.appendChild(t)}grid.appendChild(d)}
+['qwertyuiop','asdfghjkl','+zxcvbnm-'].forEach(line=>{
+ const d=document.createElement('div');d.className='kr';
+ [...line].forEach(ch=>{
+  const b=document.createElement('button');b.type='button';b.className='key';
+  const k=ch==='+'?'ENTER':ch==='-'?'BACK':ch;
+  b.textContent=k==='ENTER'?'Enter':k==='BACK'?'⌫':ch;if(k.length>1)b.classList.add('wide');
+  b.dataset.k=k;b.addEventListener('click',()=>press(k));d.appendChild(b);
+ });kb.appendChild(d);
+});
+function tiles(r){return grid.children[r].children}
+function msg(t,cls){const f=$('feedback');f.textContent=t;f.className='feedback '+(cls||'');clearTimeout(msgT);msgT=setTimeout(()=>{f.textContent=''},1600)}
+function evaluate(g,t){
+ const res=Array(5).fill('absent'),tt=t.split(''),gg=g.split('');
+ gg.forEach((ch,i)=>{if(ch===tt[i]){res[i]='correct';tt[i]=null}});
+ gg.forEach((ch,i)=>{if(res[i]==='correct')return;const j=tt.indexOf(ch);if(j>-1){res[i]='present';tt[j]=null}});
+ return res;
+}
+function newWord(){
+ target=WORDS[rnd(0,WORDS.length-1)];row=0;cur='';over=false;keyState={};
+ [...grid.children].forEach(r=>[...r.children].forEach(t=>{t.textContent='';t.className='tile';t.style.transitionDelay=''}));
+ kb.querySelectorAll('.key').forEach(k=>{k.classList.remove('correct','present','absent')});
+ $('tries').textContent=1;$('feedback').textContent='';
+}
+function press(k){
+ if(over||overlayOpen())return;
+ if(k==='BACK'){cur=cur.slice(0,-1)}
+ else if(k==='ENTER'){submit();return}
+ else if(cur.length<5){cur+=k}
+ const ts=tiles(row);
+ for(let i=0;i<5;i++){ts[i].textContent=cur[i]||'';ts[i].classList.toggle('filled',!!cur[i])}
+}
+function submit(){
+ if(cur.length<5){msg('Chưa đủ 5 chữ cái','bad');const g=grid.children[row];g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');return}
+ const res=evaluate(cur,target),ts=tiles(row),rank={absent:1,present:2,correct:3};
+ for(let i=0;i<5;i++){
+  ts[i].style.transitionDelay=(i*120)+'ms';ts[i].classList.remove('filled');ts[i].classList.add(res[i]);
+  const ch=cur[i];if(!keyState[ch]||rank[res[i]]>rank[keyState[ch]])keyState[ch]=res[i];
+ }
+ setTimeout(()=>{for(const ch in keyState){const b=kb.querySelector('[data-k="'+ch+'"]');if(b){b.classList.remove('correct','present','absent');b.classList.add(keyState[ch])}}},650);
+ if(cur===target){over=true;streak++;if(streak>best){best=streak;saveBest(KEY,best)}
+  setTimeout(()=>{$('streak').textContent=streak;$('best').textContent=best;showMessage('🎉 Chính xác!','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong><br>Giải được sau <strong>'+(row+1)+'</strong> lượt','▶ Từ tiếp theo')},900);
+ }else if(row===5){over=true;streak=0;
+  setTimeout(()=>{$('streak').textContent=0;showMessage('😢 Hết lượt','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong>','▶ Từ mới')},900);
+ }else{row++;cur='';$('tries').textContent=row+1}
+}
+$('startButton').addEventListener('click',()=>{hideMessage();newWord()});
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey||e.metaKey||e.altKey)return;
+ if(overlayOpen()){if(e.key==='Enter')$('startButton').click();return}
+ if(e.key==='Enter')press('ENTER');
+ else if(e.key==='Backspace')press('BACK');
+ else if(/^[a-zA-Z]$/.test(e.key))press(e.key.toLowerCase());
+});
+newWord();
+
+/* ===== MYWEBPLAY HTML PLAY ===== */
+setInterval(function(){
+document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach(el=>el.remove());
+document.querySelectorAll("div[onmouseover='S_ssac();']").forEach(el=>el.remove());
+document.querySelectorAll("center").forEach(el=>el.remove());
+document.querySelectorAll("div[style='height: 65px;']").forEach(el=>el.remove());
+},10);
+</script>
+</body>
+</html>
