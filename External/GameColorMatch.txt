@@ -1,1078 +1,473 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-    <meta
-        name="robots"
-        content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Game Color Match</title>
     <style>
-
         * {
             box-sizing: border-box;
         }
 
-
+        /* ===== KHÔNG SCROLL: khóa đúng bằng chiều cao màn hình ===== */
         html,
         body {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
         }
+
         body {
             font-family: Arial, sans-serif;
             background: #172235;
             color: #ffffff;
-
-            min-height: 100vh;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
-            padding: 20px;
+            padding: 12px;
         }
-
 
         .game-container {
             width: min(650px, 100%);
-
+            max-height: 100%;
             background: #202c40;
-
             border: 1px solid #35455d;
             border-radius: 16px;
-
-            padding: 25px;
-
-            box-shadow:
-                0 15px 40px rgba(0, 0, 0, 0.3);
-
+            padding: clamp(10px, 2.2dvh, 25px) clamp(12px, 3vw, 25px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
-
         h1 {
-            margin: 0 0 7px;
-
-            font-size: 34px;
+            margin: 0 0 4px;
+            font-size: clamp(24px, 4.5dvh, 34px);
         }
-
 
         .subtitle {
             color: #aeb8c7;
-
-            margin-bottom: 22px;
+            margin-bottom: clamp(8px, 2dvh, 22px);
+            font-size: clamp(12px, 2dvh, 16px);
         }
-
 
         .top-panel {
             display: flex;
-
             justify-content: center;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-
-            margin-bottom: 20px;
+            gap: 8px;
+            flex-wrap: nowrap;
+            margin-bottom: clamp(8px, 1.8dvh, 20px);
         }
-
 
         .info-box {
-            min-width: 125px;
-
+            min-width: 0;
+            flex: 1 1 0;
+            max-width: 150px;
             background: #2b3850;
-
             border: 1px solid #40506a;
-
             border-radius: 9px;
-
-            padding: 10px 17px;
-
+            padding: clamp(6px, 1.2dvh, 10px) 8px;
             font-weight: bold;
+            font-size: clamp(12px, 1.9dvh, 15px);
+            white-space: nowrap;
         }
-
 
         .timer-container {
             width: 100%;
-
             height: 10px;
-
             background: #303d52;
-
             border-radius: 20px;
-
             overflow: hidden;
-
-            margin-bottom: 25px;
+            margin-bottom: clamp(10px, 2.2dvh, 25px);
         }
-
 
         .timer-bar {
             width: 100%;
             height: 100%;
-
             background: #f5a000;
-
-            transition:
-                width 0.05s linear;
+            transition: width 0.05s linear;
         }
-
 
         .question-box {
             background: #29364b;
-
             border-radius: 12px;
-
-            padding: 25px 15px;
-
-            margin-bottom: 22px;
+            padding: clamp(10px, 2.2dvh, 25px) 10px;
+            margin-bottom: clamp(10px, 2.2dvh, 22px);
         }
-
 
         .instruction {
             color: #aeb8c7;
-
-            font-size: 14px;
-
-            margin-bottom: 15px;
+            font-size: clamp(12px, 1.8dvh, 14px);
+            margin-bottom: clamp(4px, 1.2dvh, 15px);
         }
-
 
         .color-word {
-            font-size:
-                clamp(42px, 10vw, 72px);
-
+            font-size: clamp(34px, min(10vw, 8dvh), 72px);
             font-weight: 900;
-
             letter-spacing: 2px;
-
-            min-height: 90px;
-
+            min-height: clamp(44px, 9dvh, 90px);
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             user-select: none;
+            text-align: center;
+            line-height: 1.1;
         }
 
-
+        /* ===== ĐÁP ÁN: số cột do JS set (--cols), số nút do JS quyết định ===== */
         .answers {
+            --cols: 4;
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 9px;
+            grid-template-columns: repeat(var(--cols), 1fr);
+            gap: 8px;
         }
-
 
         .color-button {
             width: 100%;
-
-            height: 70px;
-
+            height: clamp(38px, 7.5dvh, 64px);
             min-height: 0;
-
             padding: 0;
-
             border: none;
-
             border-radius: 9px;
-
             cursor: pointer;
-
             position: relative;
-
-            transition:
-                transform 0.12s,
-                filter 0.12s;
-
+            transition: transform 0.12s, filter 0.12s;
             box-shadow:
-                inset 0 0 0 3px
-                rgba(255, 255, 255, 0.15),
-
-                0 4px 8px
-                rgba(0, 0, 0, 0.2);
+                inset 0 0 0 3px rgba(255, 255, 255, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
 
         .color-button:hover {
             filter: brightness(1.1);
-
-            transform:
-                translateY(-2px);
+            transform: translateY(-2px);
         }
-
 
         .color-button:active {
-            transform:
-                scale(0.95);
+            transform: scale(0.95);
         }
-
 
         .color-button:disabled {
             cursor: default;
         }
 
-
         .feedback {
-            min-height: 30px;
-
-            margin-top: 18px;
-
-            font-size: 19px;
-
+            min-height: clamp(20px, 3.5dvh, 30px);
+            margin-top: clamp(6px, 1.5dvh, 18px);
+            font-size: clamp(15px, 2.4dvh, 19px);
             font-weight: bold;
         }
-
 
         .correct-feedback {
             color: #66d99a;
         }
 
-
         .wrong-feedback {
             color: #ff7373;
         }
 
-
         .controls {
-            margin-top: 20px;
+            margin-top: clamp(6px, 1.5dvh, 20px);
         }
-
 
         .main-button {
             border: none;
-
             border-radius: 9px;
-
-            padding: 12px 25px;
-
+            padding: clamp(8px, 1.6dvh, 12px) 25px;
             background: #f5a000;
-
             color: #172235;
-
             font-size: 16px;
-
             font-weight: bold;
-
             cursor: pointer;
         }
-
 
         .main-button:hover {
             filter: brightness(1.08);
         }
 
-
         .game-message {
             position: fixed;
-
             inset: 0;
-
             z-index: 50;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
-            background:
-                rgba(0, 0, 0, 0.62);
-
+            background: rgba(0, 0, 0, 0.62);
             padding: 20px;
         }
 
-
         .message-box {
-            width:
-                min(380px, 100%);
-
+            width: min(380px, 100%);
             background: #202c40;
-
             border: 1px solid #45546b;
-
             border-radius: 15px;
-
             padding: 28px;
-
             text-align: center;
-
-            box-shadow:
-                0 15px 40px
-                rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
-
 
         .message-box h2 {
             margin: 0 0 12px;
-
             font-size: 30px;
         }
 
-
         .message-box p {
             color: #c6cfdb;
-
             line-height: 1.5;
-
             margin: 8px 0;
         }
-
 
         .hidden {
             display: none !important;
         }
 
-
         .level-info {
             color: #aeb8c7;
-
             font-size: 14px;
-
-            margin-top: 17px;
+            margin-top: 12px;
         }
 
+        /* Màn hình thấp: bỏ bớt dòng phụ để chắc chắn không bị tràn */
+        @media (max-height: 720px) {
+
+            .subtitle,
+            .level-info {
+                display: none;
+            }
+        }
 
         @media (max-width: 600px) {
-
             body {
-                padding: 10px;
-
-                align-items: flex-start;
+                padding: 8px;
             }
-
-
-            .game-container {
-                margin-top: 10px;
-
-                padding:
-                    18px 12px;
-            }
-
-
-            h1 {
-                font-size: 29px;
-            }
-
-
-            .subtitle {
-                font-size: 14px;
-
-                margin-bottom: 17px;
-            }
-
-
-            .top-panel {
-                margin-bottom: 15px;
-            }
-
-
-            .info-box {
-                min-width: 105px;
-
-                padding:
-                    9px 12px;
-
-                font-size: 14px;
-            }
-
-
-            .question-box {
-                padding:
-                    20px 10px;
-            }
-
-
-            .color-word {
-                min-height: 75px;
-            }
-
 
             .answers {
-                gap: 7px;
+                gap: 6px;
             }
 
-
             .color-button {
-                height: 58px;
-
                 border-radius: 8px;
             }
-
         }
-
-
-        @media (max-width: 380px) {
-
-            .answers {
-                gap: 5px;
-            }
-
-
-            .color-button {
-                height: 52px;
-
-                border-radius: 7px;
-            }
-
-        }
-
     </style>
-
 </head>
-
 
 <body style="visibility: hidden;">
 
-
     <div class="game-container">
 
+        <h1>🎨 Color Match</h1>
 
-        <h1>
-            🎨 Color Match
-        </h1>
-
-
-        <div class="subtitle">
-            Match the color, not the word!
-        </div>
-
+        <div class="subtitle">Match the color, not the word!</div>
 
         <div class="top-panel">
-
-
-            <div class="info-box">
-
-                ⭐ Score:
-
-                <span id="score">
-                    0
-                </span>
-
-            </div>
-
-
-            <div class="info-box">
-
-                🏆 Best:
-
-                <span id="bestScore">
-                    0
-                </span>
-
-            </div>
-
-
-            <div class="info-box">
-
-                🎯 Round:
-
-                <span id="round">
-                    1
-                </span>
-
-            </div>
-
-
+            <div class="info-box">⭐ Score: <span id="score">0</span></div>
+            <div class="info-box">🏆 Best: <span id="bestScore">0</span></div>
+            <div class="info-box">🎯 Round: <span id="round">1</span></div>
         </div>
-
 
         <div class="timer-container">
-
-            <div
-                class="timer-bar"
-                id="timerBar">
-            </div>
-
+            <div class="timer-bar" id="timerBar"></div>
         </div>
-
 
         <div class="question-box">
-
-
-            <div class="instruction">
-
-                Chọn màu mà chữ đang được hiển thị
-
-            </div>
-
-
-            <div
-                class="color-word"
-                id="colorWord">
-
-                RED
-
-            </div>
-
-
+            <div class="instruction">Chọn màu mà chữ đang được hiển thị</div>
+            <div class="color-word" id="colorWord">RED</div>
         </div>
 
+        <div class="answers" id="answers"></div>
 
-        <div
-            class="answers"
-            id="answers">
-        </div>
+        <div class="feedback" id="feedback"></div>
 
-
-        <div
-            class="feedback"
-            id="feedback">
-        </div>
-
-
-        <div class="level-info">
-
-            Tốc độ sẽ tăng dần khi bạn trả lời đúng.
-
-        </div>
-
+        <div class="level-info">Tốc độ sẽ tăng dần khi bạn trả lời đúng.</div>
 
         <div class="controls">
-
-            <button
-                type="button"
-                class="main-button"
-                id="restartButton">
-
-                🔄 Restart
-
-            </button>
-
+            <button type="button" class="main-button" id="restartButton">🔄 Restart</button>
         </div>
-
 
     </div>
 
-
-    <div
-        class="game-message"
-        id="gameMessage">
-
-
+    <div class="game-message" id="gameMessage">
         <div class="message-box">
-
-
-            <h2 id="messageTitle">
-
-                🎨 Color Match
-
-            </h2>
-
-
+            <h2 id="messageTitle">🎨 Color Match</h2>
             <p id="messageText">
-
                 Hãy chọn đúng màu của chữ.
                 <br>
                 Đừng chọn theo nội dung chữ!
-
             </p>
-
-
-            <button
-                type="button"
-                class="main-button"
-                id="startButton">
-
-                ▶ Start Game
-
-            </button>
-
-
+            <button type="button" class="main-button" id="startButton">▶ Start Game</button>
         </div>
-
-
     </div>
+
     <script>
-
         /*
-         * ============================================================
-         * COLOR MATCH DATA
-         * ============================================================
-         *
-         * 32 màu.
-         *
-         * key:
-         * - dùng cho logic game
-         *
-         * name:
-         * - chữ hiển thị
-         *
-         * value:
-         * - màu thực tế
+         * 32 màu (pool). Mỗi round chỉ hiển thị một phần trong số này.
          */
-
         const COLOR_MATCH_COLORS = [
-
-            {
-                key: "red",
-                name: "RED",
-                value: "#ef4444"
-            },
-
-            {
-                key: "blue",
-                name: "BLUE",
-                value: "#2196f3"
-            },
-
-            {
-                key: "green",
-                name: "GREEN",
-                value: "#4caf50"
-            },
-
-            {
-                key: "yellow",
-                name: "YELLOW",
-                value: "#fbc02d"
-            },
-
-            {
-                key: "purple",
-                name: "PURPLE",
-                value: "#9c27b0"
-            },
-
-            {
-                key: "orange",
-                name: "ORANGE",
-                value: "#ff9800"
-            },
-
-            {
-                key: "pink",
-                name: "PINK",
-                value: "#e91e63"
-            },
-
-            {
-                key: "brown",
-                name: "BROWN",
-                value: "#795548"
-            },
-
-            {
-                key: "black",
-                name: "BLACK",
-                value: "#212121"
-            },
-
-            {
-                key: "white",
-                name: "WHITE",
-                value: "#f5f5f5"
-            },
-
-            {
-                key: "cyan",
-                name: "CYAN",
-                value: "#00bcd4"
-            },
-
-            {
-                key: "lime",
-                name: "LIME",
-                value: "#8bc34a"
-            },
-
-            {
-                key: "teal",
-                name: "TEAL",
-                value: "#009688"
-            },
-
-            {
-                key: "indigo",
-                name: "INDIGO",
-                value: "#3f51b5"
-            },
-
-            {
-                key: "deep-orange",
-                name: "DEEP ORANGE",
-                value: "#ff5722"
-            },
-
-            {
-                key: "deep-purple",
-                name: "DEEP PURPLE",
-                value: "#673ab7"
-            },
-
-            {
-                key: "light-blue",
-                name: "LIGHT BLUE",
-                value: "#03a9f4"
-            },
-
-            {
-                key: "light-green",
-                name: "LIGHT GREEN",
-                value: "#66bb6a"
-            },
-
-            {
-                key: "amber",
-                name: "AMBER",
-                value: "#ffc107"
-            },
-
-            {
-                key: "deep-pink",
-                name: "DEEP PINK",
-                value: "#c2185b"
-            },
-
-            {
-                key: "magenta",
-                name: "MAGENTA",
-                value: "#d000d0"
-            },
-
-            {
-                key: "violet",
-                name: "VIOLET",
-                value: "#7c3aed"
-            },
-
-            {
-                key: "navy",
-                name: "NAVY",
-                value: "#1e3a8a"
-            },
-
-            {
-                key: "sky-blue",
-                name: "SKY BLUE",
-                value: "#38bdf8"
-            },
-
-            {
-                key: "olive",
-                name: "OLIVE",
-                value: "#808000"
-            },
-
-            {
-                key: "maroon",
-                name: "MAROON",
-                value: "#800000"
-            },
-
-            {
-                key: "gold",
-                name: "GOLD",
-                value: "#d4af37"
-            },
-
-            {
-                key: "silver",
-                name: "SILVER",
-                value: "#9ca3af"
-            },
-
-            {
-                key: "coral",
-                name: "CORAL",
-                value: "#ff7f50"
-            },
-
-            {
-                key: "turquoise",
-                name: "TURQUOISE",
-                value: "#14b8a6"
-            },
-
-            {
-                key: "salmon",
-                name: "SALMON",
-                value: "#fa8072"
-            },
-
-            {
-                key: "crimson",
-                name: "CRIMSON",
-                value: "#dc143c"
-            }
-
+            { key: "red", name: "RED", value: "#ef4444" },
+            { key: "blue", name: "BLUE", value: "#2196f3" },
+            { key: "green", name: "GREEN", value: "#4caf50" },
+            { key: "yellow", name: "YELLOW", value: "#fbc02d" },
+            { key: "purple", name: "PURPLE", value: "#9c27b0" },
+            { key: "orange", name: "ORANGE", value: "#ff9800" },
+            { key: "pink", name: "PINK", value: "#e91e63" },
+            { key: "brown", name: "BROWN", value: "#795548" },
+            { key: "black", name: "BLACK", value: "#212121" },
+            { key: "white", name: "WHITE", value: "#f5f5f5" },
+            { key: "cyan", name: "CYAN", value: "#00bcd4" },
+            { key: "lime", name: "LIME", value: "#8bc34a" },
+            { key: "teal", name: "TEAL", value: "#009688" },
+            { key: "indigo", name: "INDIGO", value: "#3f51b5" },
+            { key: "deep-orange", name: "DEEP ORANGE", value: "#ff5722" },
+            { key: "deep-purple", name: "DEEP PURPLE", value: "#673ab7" },
+            { key: "light-blue", name: "LIGHT BLUE", value: "#03a9f4" },
+            { key: "light-green", name: "LIGHT GREEN", value: "#66bb6a" },
+            { key: "amber", name: "AMBER", value: "#ffc107" },
+            { key: "deep-pink", name: "DEEP PINK", value: "#c2185b" },
+            { key: "magenta", name: "MAGENTA", value: "#d000d0" },
+            { key: "violet", name: "VIOLET", value: "#7c3aed" },
+            { key: "navy", name: "NAVY", value: "#1e3a8a" },
+            { key: "sky-blue", name: "SKY BLUE", value: "#38bdf8" },
+            { key: "olive", name: "OLIVE", value: "#808000" },
+            { key: "maroon", name: "MAROON", value: "#800000" },
+            { key: "gold", name: "GOLD", value: "#d4af37" },
+            { key: "silver", name: "SILVER", value: "#9ca3af" },
+            { key: "coral", name: "CORAL", value: "#ff7f50" },
+            { key: "turquoise", name: "TURQUOISE", value: "#14b8a6" },
+            { key: "salmon", name: "SALMON", value: "#fa8072" },
+            { key: "crimson", name: "CRIMSON", value: "#dc143c" }
         ];
 
-
         /*
-         * ============================================================
-         * GAME VARIABLES
-         * ============================================================
+         * ===== CẤU HÌNH SỐ ĐÁP ÁN =====
+         * SP (điện thoại): 8 nút  = 4 cột x 2 hàng
+         * PC (màn hình lớn): 12 nút = 6 cột x 2 hàng
+         * Muốn chỉnh thì sửa 4 số này.
          */
+        const ANSWER_COUNT_MOBILE = 8;
+        const COLUMNS_MOBILE = 4;
+        const ANSWER_COUNT_DESKTOP = 12;
+        const COLUMNS_DESKTOP = 6;
 
+        const desktopQuery = window.matchMedia(
+            "(min-width: 768px) and (min-height: 560px)"
+        );
 
-        const colorWord =
-            document.getElementById(
-                "colorWord"
-            );
-
-
-        const answers =
-            document.getElementById(
-                "answers"
-            );
-
-
-        const scoreElement =
-            document.getElementById(
-                "score"
-            );
-
-
-        const bestScoreElement =
-            document.getElementById(
-                "bestScore"
-            );
-
-
-        const roundElement =
-            document.getElementById(
-                "round"
-            );
-
-
-        const timerBar =
-            document.getElementById(
-                "timerBar"
-            );
-
-
-        const feedback =
-            document.getElementById(
-                "feedback"
-            );
-
-
-        const gameMessage =
-            document.getElementById(
-                "gameMessage"
-            );
-
-
-        const messageTitle =
-            document.getElementById(
-                "messageTitle"
-            );
-
-
-        const messageText =
-            document.getElementById(
-                "messageText"
-            );
-
-
-        const startButton =
-            document.getElementById(
-                "startButton"
-            );
-
-
-        const restartButton =
-            document.getElementById(
-                "restartButton"
-            );
-
+        const colorWord = document.getElementById("colorWord");
+        const answers = document.getElementById("answers");
+        const scoreElement = document.getElementById("score");
+        const bestScoreElement = document.getElementById("bestScore");
+        const roundElement = document.getElementById("round");
+        const timerBar = document.getElementById("timerBar");
+        const feedback = document.getElementById("feedback");
+        const gameMessage = document.getElementById("gameMessage");
+        const messageTitle = document.getElementById("messageTitle");
+        const messageText = document.getElementById("messageText");
+        const startButton = document.getElementById("startButton");
+        const restartButton = document.getElementById("restartButton");
 
         let score = 0;
-
         let round = 1;
-
-
-        let bestScore =
-            Number(
-                localStorage.getItem(
-                    "colorMatchBestScore"
-                )
-            ) || 0;
-
-
+        let bestScore = Number(localStorage.getItem("colorMatchBestScore")) || 0;
         let currentAnswer = "";
-
         let gameRunning = false;
-
         let roundLocked = false;
-
         let timer = null;
-
         let roundStartTime = 0;
-
         let currentTimeLimit = 5000;
 
-
         const MIN_TIME_LIMIT = 1000;
-
         const TIME_DECREASE = 120;
 
-
-        /*
-         * ============================================================
-         * CREATE COLOR BUTTONS
-         * ============================================================
-         *
-         * 32 màu được tạo tự động.
-         *
-         * Không cần viết 32 <button> trong HTML.
-         */
-
-
-        function createColorButtons() {
-
-            answers.innerHTML = "";
-
-
-            COLOR_MATCH_COLORS.forEach(
-                function (color) {
-
-
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
-
-
-                    button.type = "button";
-
-
-                    button.className =
-                        "color-button";
-
-
-                    button.dataset.color =
-                        color.key;
-
-
-                    button.style.backgroundColor =
-                        color.value;
-
-
-                    button.setAttribute(
-                        "aria-label",
-                        color.name
-                    );
-
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            selectColor(
-                                color.key
-                            );
-
-                        }
-                    );
-
-
-                    answers.appendChild(
-                        button
-                    );
-
-                }
-            );
-
-        }
-
-
-        /*
-         * ============================================================
-         * UPDATE BEST SCORE
-         * ============================================================
-         */
-
-
-        bestScoreElement.textContent =
-            bestScore;
-
-
-        /*
-         * ============================================================
-         * RANDOM ITEM
-         * ============================================================
-         */
-
+        bestScoreElement.textContent = bestScore;
 
         function randomItem(array) {
-
-            return array[
-                Math.floor(
-                    Math.random() *
-                    array.length
-                )
-            ];
-
+            return array[Math.floor(Math.random() * array.length)];
         }
 
+        function shuffle(array) {
+            const copy = array.slice();
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
 
         /*
-         * ============================================================
-         * START GAME
-         * ============================================================
+         * ===== TẠO NÚT ĐÁP ÁN CHO MỖI ROUND =====
+         *
+         * Gồm:
+         * 1. Đáp án đúng (màu thật của chữ)
+         * 2. Màu mà chữ đang "viết" (cái bẫy) - nếu khác đáp án đúng
+         * 3. Các màu ngẫu nhiên khác cho đủ số lượng
+         *
+         * Sau đó xáo trộn vị trí.
          */
+        function renderAnswers(actualColor, displayedWord) {
 
+            const isDesktop = desktopQuery.matches;
+            const count = isDesktop ? ANSWER_COUNT_DESKTOP : ANSWER_COUNT_MOBILE;
+            const columns = isDesktop ? COLUMNS_DESKTOP : COLUMNS_MOBILE;
 
-        function startGame() {
+            const chosen = [actualColor];
 
-            clearTimer();
+            if (displayedWord.key !== actualColor.key) {
+                chosen.push(displayedWord);
+            }
 
-
-            score = 0;
-
-            round = 1;
-
-            currentTimeLimit = 4000;
-
-            gameRunning = true;
-
-            roundLocked = false;
-
-
-            scoreElement.textContent =
-                score;
-
-
-            roundElement.textContent =
-                round;
-
-
-            feedback.textContent =
-                "";
-
-
-            feedback.className =
-                "feedback";
-
-
-            gameMessage.classList.add(
-                "hidden"
+            const others = shuffle(
+                COLOR_MATCH_COLORS.filter(function (item) {
+                    return !chosen.some(function (c) {
+                        return c.key === item.key;
+                    });
+                })
             );
 
+            while (chosen.length < count && others.length > 0) {
+                chosen.push(others.pop());
+            }
 
-            nextRound();
+            answers.style.setProperty("--cols", columns);
+            answers.innerHTML = "";
 
+            shuffle(chosen).forEach(function (color) {
+
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.className = "color-button";
+                button.dataset.color = color.key;
+                button.style.backgroundColor = color.value;
+                button.setAttribute("aria-label", color.name);
+
+                button.addEventListener("click", function () {
+                    selectColor(color.key);
+                });
+
+                answers.appendChild(button);
+            });
         }
 
+        function startGame() {
+            clearTimer();
 
-        /*
-         * ============================================================
-         * NEXT ROUND
-         * ============================================================
-         */
+            score = 0;
+            round = 1;
+            currentTimeLimit = 4000;
+            gameRunning = true;
+            roundLocked = false;
 
+            scoreElement.textContent = score;
+            roundElement.textContent = round;
+            feedback.textContent = "";
+            feedback.className = "feedback";
+
+            gameMessage.classList.add("hidden");
+
+            nextRound();
+        }
 
         function nextRound() {
 
@@ -1080,383 +475,119 @@
                 return;
             }
 
-
             roundLocked = false;
 
+            feedback.textContent = "";
+            feedback.className = "feedback";
 
-            feedback.textContent =
-                "";
+            const actualColor = randomItem(COLOR_MATCH_COLORS);
 
+            let displayedWord = randomItem(COLOR_MATCH_COLORS);
 
-            feedback.className =
-                "feedback";
-
-
-            /*
-             * Màu thật của chữ.
-             */
-
-            const actualColor =
-                randomItem(
-                    COLOR_MATCH_COLORS
+            /* 80% chữ và màu khác nhau */
+            if (Math.random() < 0.8) {
+                displayedWord = randomItem(
+                    COLOR_MATCH_COLORS.filter(function (item) {
+                        return item.key !== actualColor.key;
+                    })
                 );
-
-
-            /*
-             * Nội dung chữ.
-             *
-             * Chọn độc lập với màu thật.
-             */
-
-            let displayedWord =
-                randomItem(
-                    COLOR_MATCH_COLORS
-                );
-
-
-            /*
-             * 80% tạo trường hợp
-             * chữ và màu khác nhau.
-             */
-
-            if (
-                COLOR_MATCH_COLORS.length > 1 &&
-                Math.random() < 0.8
-            ) {
-
-                const otherColors =
-                    COLOR_MATCH_COLORS.filter(
-                        function (item) {
-
-                            return (
-                                item.key !==
-                                actualColor.key
-                            );
-
-                        }
-                    );
-
-
-                displayedWord =
-                    randomItem(
-                        otherColors
-                    );
-
             }
 
+            currentAnswer = actualColor.key;
 
-            /*
-             * Đây mới là đáp án chính xác.
-             *
-             * Ví dụ:
-             *
-             * Chữ hiển thị:
-             * RED
-             *
-             * Nhưng chữ có màu BLUE.
-             *
-             * currentAnswer = "blue"
-             */
+            colorWord.textContent = displayedWord.name;
+            colorWord.style.color = actualColor.value;
 
-            currentAnswer =
-                actualColor.key;
+            roundElement.textContent = round;
 
-
-            colorWord.textContent =
-                displayedWord.name;
-
-
-            colorWord.style.color =
-                actualColor.value;
-
-
-            roundElement.textContent =
-                round;
-
+            renderAnswers(actualColor, displayedWord);
 
             startTimer();
-
         }
-
-
-        /*
-         * ============================================================
-         * COLOR VALUE
-         * ============================================================
-         *
-         * Giữ lại hàm này để tương thích
-         * với logic cũ.
-         */
-
 
         function getColorValue(key) {
-
-            const color =
-                COLOR_MATCH_COLORS.find(
-                    function (item) {
-
-                        return (
-                            item.key === key
-                        );
-
-                    }
-                );
-
-
-            return color
-                ? color.value
-                : "#ffffff";
-
+            const color = COLOR_MATCH_COLORS.find(function (item) {
+                return item.key === key;
+            });
+            return color ? color.value : "#ffffff";
         }
-
-
-        /*
-         * ============================================================
-         * TIMER
-         * ============================================================
-         */
-
 
         function startTimer() {
-
             clearTimer();
-
-
-            roundStartTime =
-                performance.now();
-
-
-            timerBar.style.width =
-                "100%";
-
-
-            timer =
-                requestAnimationFrame(
-                    updateTimer
-                );
-
+            roundStartTime = performance.now();
+            timerBar.style.width = "100%";
+            timer = requestAnimationFrame(updateTimer);
         }
-
 
         function updateTimer(timestamp) {
 
-            if (!gameRunning) {
+            if (!gameRunning || roundLocked) {
                 return;
             }
 
+            const elapsed = timestamp - roundStartTime;
+            const remaining = Math.max(0, currentTimeLimit - elapsed);
 
-            if (roundLocked) {
-                return;
-            }
-
-
-            const elapsed =
-                timestamp -
-                roundStartTime;
-
-
-            const remaining =
-                Math.max(
-                    0,
-                    currentTimeLimit -
-                    elapsed
-                );
-
-
-            const percentage =
-                (
-                    remaining /
-                    currentTimeLimit
-                ) * 100;
-
-
-            timerBar.style.width =
-                percentage + "%";
-
+            timerBar.style.width = (remaining / currentTimeLimit) * 100 + "%";
 
             if (remaining <= 0) {
-
                 timeUp();
-
                 return;
-
             }
 
-
-            timer =
-                requestAnimationFrame(
-                    updateTimer
-                );
-
+            timer = requestAnimationFrame(updateTimer);
         }
-
 
         function clearTimer() {
-
             if (timer !== null) {
-
-                cancelAnimationFrame(
-                    timer
-                );
-
+                cancelAnimationFrame(timer);
                 timer = null;
-
             }
-
         }
-
-
-        /*
-         * ============================================================
-         * ANSWER
-         * ============================================================
-         */
-
 
         function selectColor(color) {
 
-            if (!gameRunning) {
+            if (!gameRunning || roundLocked) {
                 return;
             }
-
-
-            if (roundLocked) {
-                return;
-            }
-
 
             roundLocked = true;
-
-
             clearTimer();
 
-
-            if (
-                color ===
-                currentAnswer
-            ) {
-
+            if (color === currentAnswer) {
                 handleCorrect();
-
-            }
-            else {
-
+            } else {
                 handleWrong();
-
             }
-
         }
-
-
-        /*
-         * ============================================================
-         * CORRECT
-         * ============================================================
-         */
-
 
         function handleCorrect() {
 
-            score +=
-                calculateScore();
+            score += calculateScore();
+            scoreElement.textContent = score;
 
+            feedback.textContent = "✓ Correct!";
+            feedback.className = "feedback correct-feedback";
 
-            scoreElement.textContent =
-                score;
-
-
-            feedback.textContent =
-                "✓ Correct!";
-
-
-            feedback.className =
-                "feedback correct-feedback";
-
-
-            /*
-             * Mỗi round đúng sẽ nhanh hơn.
-             */
-
-            currentTimeLimit =
-                Math.max(
-                    MIN_TIME_LIMIT,
-                    currentTimeLimit -
-                    TIME_DECREASE
-                );
-
+            currentTimeLimit = Math.max(
+                MIN_TIME_LIMIT,
+                currentTimeLimit - TIME_DECREASE
+            );
 
             round++;
 
-
-            setTimeout(
-                function () {
-
-                    nextRound();
-
-                },
-                220
-            );
-
+            setTimeout(nextRound, 220);
         }
-
-
-        /*
-         * ============================================================
-         * SCORE
-         * ============================================================
-         */
-
 
         function calculateScore() {
-
-            /*
-             * Điểm cơ bản tăng dần theo round.
-             */
-
-            return 10 +
-                Math.min(
-                    round,
-                    20
-                );
-
+            return 10 + Math.min(round, 20);
         }
-
-
-        /*
-         * ============================================================
-         * WRONG
-         * ============================================================
-         */
-
 
         function handleWrong() {
-
-            feedback.textContent =
-                "✗ Wrong!";
-
-
-            feedback.className =
-                "feedback wrong-feedback";
-
-
-            setTimeout(
-                function () {
-
-                    endGame();
-
-                },
-                350
-            );
-
+            feedback.textContent = "✗ Wrong!";
+            feedback.className = "feedback wrong-feedback";
+            setTimeout(endGame, 350);
         }
-
-
-        /*
-         * ============================================================
-         * TIME UP
-         * ============================================================
-         */
-
 
         function timeUp() {
 
@@ -1464,157 +595,62 @@
                 return;
             }
 
-
             roundLocked = true;
-
-
             clearTimer();
 
+            feedback.textContent = "⏰ Time's up!";
+            feedback.className = "feedback wrong-feedback";
 
-            feedback.textContent =
-                "⏰ Time's up!";
-
-
-            feedback.className =
-                "feedback wrong-feedback";
-
-
-            setTimeout(
-                function () {
-
-                    endGame();
-
-                },
-                350
-            );
-
+            setTimeout(endGame, 350);
         }
-
-
-        /*
-         * ============================================================
-         * GAME OVER
-         * ============================================================
-         */
-
 
         function endGame() {
 
             clearTimer();
 
-
             gameRunning = false;
-
             roundLocked = true;
 
-
-            /*
-             * Lưu Best Score.
-             */
-
-            if (
-                score >
-                bestScore
-            ) {
-
-                bestScore =
-                    score;
-
-
-                localStorage.setItem(
-                    "colorMatchBestScore",
-                    bestScore
-                );
-
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem("colorMatchBestScore", bestScore);
             }
 
+            bestScoreElement.textContent = bestScore;
 
-            bestScoreElement.textContent =
-                bestScore;
+            messageTitle.textContent = "💥 Game Over";
 
+            messageText.innerHTML = `
+                Score: <strong>${score}</strong>
+                <br>
+                Best: <strong>${bestScore}</strong>
+                <br>
+                Reached round: <strong>${round}</strong>
+            `;
 
-            messageTitle.textContent =
-                "💥 Game Over";
+            startButton.textContent = "🔄 Play Again";
 
-
-            messageText.innerHTML =
-                `
-                    Score:
-                    <strong>${score}</strong>
-                    <br>
-
-                    Best:
-                    <strong>${bestScore}</strong>
-                    <br>
-
-                    Reached round:
-                    <strong>${round}</strong>
-                `;
-
-
-            startButton.textContent =
-                "🔄 Play Again";
-
-
-            gameMessage.classList.remove(
-                "hidden"
-            );
-
+            gameMessage.classList.remove("hidden");
         }
 
+        startButton.addEventListener("click", startGame);
+        restartButton.addEventListener("click", startGame);
 
         /*
-         * ============================================================
-         * BUTTON EVENTS
-         * ============================================================
+         * Màn hình chờ ban đầu: hiển thị sẵn một bộ nút
+         * để layout không bị trống phía sau popup.
          */
-
-
-        startButton.addEventListener(
-            "click",
-            function () {
-
-                startGame();
-
-            }
-        );
-
-
-        restartButton.addEventListener(
-            "click",
-            function () {
-
-                startGame();
-
-            }
-        );
-
-
-        /*
-         * ============================================================
-         * KEYBOARD SUPPORT
-         * ============================================================
-         *
-         * 32 màu nên không dùng phím
-         * R/B/G/Y như bản 4 màu cũ nữa.
-         *
-         * Game chính thức dùng click/touch.
-         */
-
-        /*
-         * ============================================================
-         * INITIALIZE
-         * ============================================================
-         */
-
-        createColorButtons();
+        (function initPreview() {
+            const a = COLOR_MATCH_COLORS[0];
+            const b = COLOR_MATCH_COLORS[1];
+            renderAnswers(a, b);
+        })();
 
         /*
          * ============================================================
          * MYWEBPLAY HTML PLAY
          * ============================================================
          */
-
         setInterval(
             function () {
 
@@ -1622,41 +658,23 @@
                     .querySelectorAll(
                         "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
                     )
-                    .forEach(
-                        (el) => el.remove()
-                    );
-
+                    .forEach((el) => el.remove());
 
                 document
-                    .querySelectorAll(
-                        "div[onmouseover='S_ssac();']"
-                    )
-                    .forEach(
-                        (el) => el.remove()
-                    );
-
+                    .querySelectorAll("div[onmouseover='S_ssac();']")
+                    .forEach((el) => el.remove());
 
                 document
-                    .querySelectorAll(
-                        "center"
-                    )
-                    .forEach(
-                        (el) => el.remove()
-                    );
-
+                    .querySelectorAll("center")
+                    .forEach((el) => el.remove());
 
                 document
-                    .querySelectorAll(
-                        "div[style='height: 65px;']"
-                    )
-                    .forEach(
-                        (el) => el.remove()
-                    );
+                    .querySelectorAll("div[style='height: 65px;']")
+                    .forEach((el) => el.remove());
 
             },
             10
         );
     </script>
 </body>
-
 </html>
