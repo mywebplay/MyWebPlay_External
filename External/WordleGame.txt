@@ -69,21 +69,21 @@ h1{margin:0 0 4px;font-size:clamp(22px,4.2dvh,34px)}
 </div>
 </div>
 <script>
-const $=id=>document.getElementById(id);
+const byId=id=>document.getElementById(id);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
 function loadBest(k){try{return Number(localStorage.getItem(k))||0}catch(e){return 0}}
 function saveBest(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function showMessage(title,html,btn){$('messageTitle').textContent=title;$('messageText').innerHTML=html;$('startButton').textContent=btn||'🔄 Play Again';$('gameMessage').classList.remove('hidden')}
-function hideMessage(){$('gameMessage').classList.add('hidden')}
-function overlayOpen(){return !$('gameMessage').classList.contains('hidden')}
+function showMessage(title,html,btn){byId('messageTitle').textContent=title;byId('messageText').innerHTML=html;byId('startButton').textContent=btn||'🔄 Play Again';byId('gameMessage').classList.remove('hidden')}
+function hideMessage(){byId('gameMessage').classList.add('hidden')}
+function overlayOpen(){return !byId('gameMessage').classList.contains('hidden')}
 
 const WORDS="about above actor adult agree ahead alarm album alive allow alone angry apple arrow aside avoid awake basic beach begin black blame blank blind block board brain brave bread break brick bring brown build cable candy carry catch cause chair chase cheap check chest chief child chose claim clean clear climb clock close cloud coach coast count court cover crazy cream cross crowd daily dance dream dress drink drive early earth eight empty enjoy enter equal error event every exact extra faith false fault field fight final first flame floor focus force frame fresh front fruit giant glass globe grace grand grape grass great green group guard guess guide happy heart heavy horse hotel house human ideal image index inner input issue judge juice knife known label large laugh layer learn least leave level light limit local lucky lunch magic major maybe media metal might minor model money month moral motor mouse mouth movie music nerve never night noise north novel nurse ocean offer often order other paint panel paper party peace phone photo piano pilot pitch place plain plane plant plate point power press price pride prime print prize proud queen quick quiet radio raise range rapid ratio reach ready right river robot rough round royal rural scale scene scope score sense serve shade shape share sharp sheep shelf shell shift shine shirt shock shoot short sight silly skill sleep slide small smart smile smoke snake solid solve sound south space speak speed spend spice split sport staff stage stair stand start state steam steel stick still stone store storm story sugar super sweet table taste teach thank theme thick thing think three throw tiger title today tooth topic total touch tower track trade train treat trend trial tribe truck truly trust truth twice uncle under union unity until upper urban usual valid value video virus visit vital voice waste watch water wheel white whole woman world worry worth would write wrong young youth zebra".split(' ');
 const KEY='wordleBestStreak',ROWS6=6;
 let target='',row=0,cur='',over=false,streak=0,best=loadBest(KEY),keyState={},msgT=0;
-$('best').textContent=best;
-const grid=$('grid'),kb=$('kb');
+byId('best').textContent=best;
+const grid=byId('grid'),kb=byId('kb');
 for(let r=0;r<6;r++){const d=document.createElement('div');d.className='row';for(let c=0;c<5;c++){const t=document.createElement('div');t.className='tile';d.appendChild(t)}grid.appendChild(d)}
 ['qwertyuiop','asdfghjkl','+zxcvbnm-'].forEach(line=>{
  const d=document.createElement('div');d.className='kr';
@@ -95,7 +95,7 @@ for(let r=0;r<6;r++){const d=document.createElement('div');d.className='row';for
  });kb.appendChild(d);
 });
 function tiles(r){return grid.children[r].children}
-function msg(t,cls){const f=$('feedback');f.textContent=t;f.className='feedback '+(cls||'');clearTimeout(msgT);msgT=setTimeout(()=>{f.textContent=''},1600)}
+function msg(t,cls){const f=byId('feedback');f.textContent=t;f.className='feedback '+(cls||'');clearTimeout(msgT);msgT=setTimeout(()=>{f.textContent=''},1600)}
 function evaluate(g,t){
  const res=Array(5).fill('absent'),tt=t.split(''),gg=g.split('');
  gg.forEach((ch,i)=>{if(ch===tt[i]){res[i]='correct';tt[i]=null}});
@@ -106,7 +106,7 @@ function newWord(){
  target=WORDS[rnd(0,WORDS.length-1)];row=0;cur='';over=false;keyState={};
  [...grid.children].forEach(r=>[...r.children].forEach(t=>{t.textContent='';t.className='tile';t.style.transitionDelay=''}));
  kb.querySelectorAll('.key').forEach(k=>{k.classList.remove('correct','present','absent')});
- $('tries').textContent=1;$('feedback').textContent='';
+ byId('tries').textContent=1;byId('feedback').textContent='';
 }
 function press(k){
  if(over||overlayOpen())return;
@@ -125,15 +125,15 @@ function submit(){
  }
  setTimeout(()=>{for(const ch in keyState){const b=kb.querySelector('[data-k="'+ch+'"]');if(b){b.classList.remove('correct','present','absent');b.classList.add(keyState[ch])}}},650);
  if(cur===target){over=true;streak++;if(streak>best){best=streak;saveBest(KEY,best)}
-  setTimeout(()=>{$('streak').textContent=streak;$('best').textContent=best;showMessage('🎉 Chính xác!','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong><br>Giải được sau <strong>'+(row+1)+'</strong> lượt','▶ Từ tiếp theo')},900);
+  setTimeout(()=>{byId('streak').textContent=streak;byId('best').textContent=best;showMessage('🎉 Chính xác!','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong><br>Giải được sau <strong>'+(row+1)+'</strong> lượt','▶ Từ tiếp theo')},900);
  }else if(row===5){over=true;streak=0;
-  setTimeout(()=>{$('streak').textContent=0;showMessage('😢 Hết lượt','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong>','▶ Từ mới')},900);
- }else{row++;cur='';$('tries').textContent=row+1}
+  setTimeout(()=>{byId('streak').textContent=0;showMessage('😢 Hết lượt','Từ cần đoán: <strong>'+target.toUpperCase()+'</strong>','▶ Từ mới')},900);
+ }else{row++;cur='';byId('tries').textContent=row+1}
 }
-$('startButton').addEventListener('click',()=>{hideMessage();newWord()});
+byId('startButton').addEventListener('click',()=>{hideMessage();newWord()});
 document.addEventListener('keydown',e=>{
  if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(overlayOpen()){if(e.key==='Enter')$('startButton').click();return}
+ if(overlayOpen()){if(e.key==='Enter')byId('startButton').click();return}
  if(e.key==='Enter')press('ENTER');
  else if(e.key==='Backspace')press('BACK');
  else if(/^[a-zA-Z]$/.test(e.key))press(e.key.toLowerCase());
