@@ -592,5 +592,11 @@ var seeTitleData = [
         Status: "FIXED",
         NguyenNhan: null,
         GiaiPhap: null
+    },
+    {
+        Index: 140,
+        Status: "CLOSED",
+        NguyenNhan: null,
+        GiaiPhap: "Tạm thời sẽ sử dụng file setting RequestUrlAccept.txt với key 'IGNORE_LIMIT' có sẵn. Việc này sẽ tạm đóng lại, cho đến khi có quyết định khác!"
     }
 ];
