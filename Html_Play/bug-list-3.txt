@@ -580,5 +580,17 @@ var seeTitleData = [
         Status: "FIXED",
         NguyenNhan: null,
         GiaiPhap: null
+    },
+    {
+        Index: 137,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 138,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
     }
 ];
