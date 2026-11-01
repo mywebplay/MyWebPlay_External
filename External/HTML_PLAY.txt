@@ -177,6 +177,7 @@ setInterval(function () {
 
         complete: function () {
             loading = false;
+            closeProcessingModal();
         }
     });
 
