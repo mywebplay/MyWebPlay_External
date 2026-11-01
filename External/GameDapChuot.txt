@@ -209,7 +209,7 @@ let gameTimer, countdownTimer;
 let holes = [];
 let holeSize = 120;
 let session = 0; // đánh dấu ván chơi, tránh vòng lặp của ván cũ chạy tiếp
-const GAME_DURATION = 60; // giây
+const GAME_DURATION = 180; // giây
 const TARGET_SIZE = 120;  // kích thước lỗ mong muốn (px)
 const GAP = 12;
 
@@ -248,9 +248,9 @@ window.addEventListener("resize", () => {
 });
 
 /* ===== Chuột nhô lên ===== */
-// Nhiều lỗ thì cho nhiều chuột nhô cùng lúc
+// Mỗi lần chỉ 1 con chuột nhô lên
 function moleCount() {
-  return Math.max(2, Math.round(holes.length / 9));
+  return 1;
 }
 
 function randomHole() {
