@@ -555,7 +555,7 @@ var seeTitleData = [
         Index: 131,
         Status: "FIXED",
         NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] Việc file bị tải về là do chính trình trình duyệt tự quyết định, không phải server ép tải: nội dung file TempSession.txt được ghi ra có lẫn byte nhị phân (NUL, ký tự điều khiển) do các giá trị số nguyên trong session bị đọc ra như chuỗi, nên khi nhận file, trình duyệt dò nội dung thấy là nhị phân và tự chuyển sang tải về thay vì hiển thị.",
-        GiaiPhap: "Lọc nội dung trước khi ghi file, thay các ký tự điều khiển (trừ tab, xuống dòng) bằng dạng chữ \xNN để file chỉ còn văn bản thường, nhờ đó trình duyệt hiển thị trực tiếp."
+        GiaiPhap: "Lọc nội dung trước khi ghi file, thay các ký tự điều khiển (trừ tab, xuống dòng) bằng dạng chữ \\xNN để file chỉ còn văn bản thường, nhờ đó trình duyệt hiển thị trực tiếp."
     },
     {
         Index: 132,
