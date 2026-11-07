@@ -171,6 +171,18 @@ footer{
 <div class="card games menu-itemX1" data-action="GameBrickBreaker"><h3>GAME : brick breaker</h3></div>
 <div class="card games menu-itemX1" data-action="GameWordle"><h3>GAME : wordle</h3></div>
 <div class="card games menu-itemX1" data-action="GameSlidingPuzzle"><h3>GAME : sliding puzzle</h3></div>
+<div class="card games menu-itemX1" data-action="GameSpaceInvaders"><h3>GAME : space invaders</h3></div>
+<div class="card games menu-itemX1" data-action="GameDinoRunner"><h3>GAME : dino runner</h3></div>
+<div class="card games menu-itemX1" data-action="GameFruitNinja"><h3>GAME : fruit ninja</h3></div>
+<div class="card games menu-itemX1" data-action="GameCatchFallingObjects"><h3>GAME : hứng vật rơi</h3></div>
+<div class="card games menu-itemX1" data-action="GameTetris"><h3>GAME : tetris</h3></div>
+<div class="card games menu-itemX1" data-action="GameConnectFour"><h3>GAME : connect four</h3></div>
+<div class="card games menu-itemX1" data-action="GameLightsOut"><h3>GAME : lights out</h3></div>
+<div class="card games menu-itemX1" data-action="GameTowerOfHanoi"><h3>GAME : tháp hà nội</h3></div>
+<div class="card games menu-itemX1" data-action="GameSimonSays"><h3>GAME : simon says</h3></div>
+<div class="card games menu-itemX1" data-action="GameMastermind"><h3>GAME : mastermind</h3></div>
+<div class="card games menu-itemX1" data-action="GameMatch3"><h3>GAME : match 3</h3></div>
+<div class="card games menu-itemX1" data-action="GameReactionTime"><h3>GAME : reaction time</h3></div>
 <@@hideshow_context:"User-Agent"\s*:\s*".*(iPhone|iPad|iPod|Android|Mobile|Tablet).*"----NO----REGEX
 #3275_5828_3#
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
@@ -266,6 +278,18 @@ document.querySelectorAll(".menu-itemX1").forEach((item)=>{
             case "GameColorMatch":window.location.href="/game-color-match";break;
             case "GameHangMan":window.location.href="/game-hangman";break;
             case "GameMinesweeper":window.location.href="/game-minesweeper";break;
+            case "GameSpaceInvaders":window.location.href="/game-space-invaders";break;
+            case "GameDinoRunner":window.location.href="/game-dino-runner";break;
+            case "GameFruitNinja":window.location.href="/game-fruit-ninja";break;
+            case "GameCatchFallingObjects":window.location.href="/game-catch-falling-objects";break;
+            case "GameTetris":window.location.href="/game-tetris";break;
+            case "GameConnectFour":window.location.href="/game-connect-four";break;
+            case "GameLightsOut":window.location.href="/game-lights-out";break;
+            case "GameTowerOfHanoi":window.location.href="/game-tower-of-hanoi";break;
+            case "GameSimonSays":window.location.href="/game-simon-says";break;
+            case "GameMastermind":window.location.href="/game-mastermind";break;
+            case "GameMatch3":window.location.href="/game-match-3";break;
+            case "GameReactionTime":window.location.href="/game-reaction-time";break;
             case "Studocu":showmodal1();break;
             /* case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break; */
         }
