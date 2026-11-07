@@ -3,10 +3,11 @@
 canvas{display:block;width:100%;height:100%}
 #h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
 #m{position:fixed;inset:0;background:#f4ead2ee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
-#g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(90vw,340px)}
+#g{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:min(94vw,440px)}
+#g button{padding:7px 0;font-size:13px}
 button{background:#b45309;color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#d9cba8;color:#8a7a55}
 </style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
-const C=c.getContext('2d'),N=20,K='mg_dino',T='🦖 Dino Runner',hint=matchMedia('(pointer:coarse)').matches?'Chạm nửa trên để nhảy, giữ nửa dưới để cúi':'Space hoặc ↑ để nhảy, giữ ↓ để cúi';
+const C=c.getContext('2d'),N=60,K='mg_dino',T='🦖 Dino Runner',hint=matchMedia('(pointer:coarse)').matches?'Chạm nửa trên để nhảy, giữ nửa dưới để cúi':'Space hoặc ↑ để nhảy, giữ ↓ để cúi';
 let W,H,U,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
 function rs(){W=c.width=innerWidth;H=c.height=innerHeight;U=Math.min(W,H*.8)*.09}onresize=rs;rs();
 function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
@@ -14,18 +15,18 @@ function end(w){if(!run)return;run=0;if(w&&lv>=best&&best<N){best=lv+1;try{local
 function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
 function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);draw()}requestAnimationFrame(loop)}
 let gy,y,vy,duck,ob,tm,n,sc,goal,sd,dx;
-function init(){gy=H*.75;dx=W*.15;y=0;vy=0;duck=0;ob=[];tm=.8;n=0;sc=0;goal=8+lv;sd=W*(.4+lv*.025)}
+function init(){gy=H*.75;dx=W*.15;y=0;vy=0;duck=0;ob=[];tm=.8;n=0;sc=0;goal=8+Math.ceil(lv*.7);sd=W*(.38+.62*(1-Math.exp(-lv/30)))}
 function jump(){if(run&&y==0)vy=H*1.05}
 function upd(d){vy-=H*3.2*d;y=Math.max(0,y+vy*d);if(y==0&&vy<0)vy=0;
-tm-=d;if(tm<=0&&n<goal){ob.push({x:W+U,b:lv>2&&Math.random()<.3});n++;tm=1+Math.random()*.7}
+tm-=d;if(tm<=0&&n<goal){ob.push({x:W+U,b:lv>2&&Math.random()<Math.min(.25+lv*.005,.45),k:lv>=10&&Math.random()<Math.min((lv-8)*.02,.4)?2:1});n++;tm=Math.max(1-lv*.004,.78)+Math.random()*Math.max(.7-lv*.006,.3)}
 const dt=gy-y-(duck?.5:1)*U,db=gy-y;
 ob.forEach(o=>{o.x-=sd*d;if(!o.p&&o.x<dx-U){o.p=1;sc++}
-const hw=o.b?.4:.3,t=o.b?gy-1.05*U:gy-.9*U,b=o.b?gy-.55*U:gy;
+const hw=o.b?.4:.3+.3*(o.k-1),t=o.b?gy-1.05*U:gy-.9*U,b=o.b?gy-.55*U:gy;
 if(Math.abs(o.x-dx)<(hw+.35)*U&&dt<b&&db>t)end(0)});
 if(sc>=goal)end(1)}
 function draw(){C.clearRect(0,0,W,H);C.font=U+'px serif';C.textAlign='center';C.textBaseline='middle';C.fillStyle='#3b2f1a';C.fillRect(0,gy,W,3);
-ob.forEach(o=>C.fillText(o.b?'🦅':'🌵',o.x,gy-(o.b?.8:.5)*U));
-C.save();C.translate(dx,gy-y);C.scale(1,duck?.55:1);C.fillText('🦖',0,-U*.5);C.restore();h.textContent=`Màn ${lv} · ${sc}/${goal}`}
+ob.forEach(o=>{if(o.b)C.fillText('🦅',o.x,gy-.8*U);else for(let j=0;j<o.k;j++)C.fillText('🌵',o.x+(j-(o.k-1)/2)*.6*U,gy-.5*U)});
+C.save();C.translate(dx,gy-y);C.scale(-1,duck?.55:1);C.fillText('🦖',0,-U*.5);C.restore();h.textContent=`Màn ${lv} · ${sc}/${goal}`}
 onkeydown=e=>{if(e.key==' '||e.key=='ArrowUp'){e.preventDefault();jump()}if(e.key=='ArrowDown'){e.preventDefault();duck=1}};onkeyup=e=>{if(e.key=='ArrowDown')duck=0};
 c.onpointerdown=e=>{e.clientY<H/2?jump():duck=1};onpointerup=onpointercancel=()=>duck=0;
 menu();requestAnimationFrame(loop);
