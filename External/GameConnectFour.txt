@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Connect Four</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#101a33;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
+#m{position:fixed;inset:0;background:#101a33ee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
+#g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(90vw,340px)}
+button{background:#ef4444;color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#28365e;color:#7f90bd}
+</style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=20,K='mg_connect4',T='🔴 Connect Four',hint=matchMedia('(pointer:coarse)').matches?'Chạm vào cột để thả quân. Nối 4 quân thẳng hàng để thắng máy':'Click cột (hoặc phím 1-7, hoặc ← → rồi Enter) để thả quân. Nối 4 quân để thắng máy';
+let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}onresize=rs;rs();
+function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
+function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
+function loop(t){lt=t;if(run)draw();requestAnimationFrame(loop)}
+let B,tn,bz,gid=0,hc=3,s,ox,oy;
+function init(){B=Array.from({length:6},()=>Array(7).fill(0));tn=lv%2?1:2;bz=0;gid++;if(tn==2)aiT()}
+function drop(b,q,p){for(let r=5;r>=0;r--)if(!b[r][q]){b[r][q]=p;return r}return -1}
+function win(b,p){for(let r=0;r<6;r++)for(let q=0;q<7;q++)for(const[a,d]of[[0,1],[1,0],[1,1],[1,-1]]){let k=0;for(;k<4;k++){const y=r+a*k,x=q+d*k;if(y<0||y>5||x<0||x>6||b[y][x]!=p)break}if(k==4)return 1}return 0}
+function sc(b){let v=0;for(let r=0;r<6;r++)v+=b[r][3]==2?3:b[r][3]==1?-3:0;return v}
+function mm(b,d,a,be,mx){if(win(b,2))return 1e4+d;if(win(b,1))return -1e4-d;if(!d)return sc(b);let any=0,v=mx?-1e9:1e9;for(const q of[3,2,4,1,5,0,6]){const r=drop(b,q,mx?2:1);if(r<0)continue;any=1;const x=mm(b,d-1,a,be,!mx);b[r][q]=0;if(mx){v=Math.max(v,x);a=Math.max(a,v)}else{v=Math.min(v,x);be=Math.min(be,v)}if(a>=be)break}return any?v:0}
+function ai(){let best=-1e9,bc=[];const d=Math.min(1+(lv>>2),5);for(let q=0;q<7;q++){const r=drop(B,q,2);if(r<0)continue;const v=mm(B,d-1,-1e9,1e9,0);B[r][q]=0;if(v>best){best=v;bc=[q]}else if(v==best)bc.push(q)}
+let q=bc[Math.random()*bc.length|0];if(Math.random()<Math.max(.45-lv*.025,0)){const o=[0,1,2,3,4,5,6].filter(x=>!B[0][x]);q=o[Math.random()*o.length|0]}return q}
+function full(){return B[0].every(v=>v)}
+function aiT(){bz=1;tn=2;const g0=gid;setTimeout(()=>{if(g0!=gid||!run)return;drop(B,ai(),2);bz=0;if(win(B,2))return end(0);if(full())return end(0,'🤝 Hòa, thử lại');tn=1},450)}
+function mv(q){if(!run||bz||tn!=1||q<0||q>6||B[0][q])return;drop(B,q,1);if(win(B,1))return end(1);if(full())return end(0,'🤝 Hòa, thử lại');aiT()}
+function upd(){}
+function draw(){s=Math.min(W/7.4,(H-120)/7.4);ox=(W-7*s)/2;oy=H/2-3*s+s*.45;C.clearRect(0,0,W,H);C.fillStyle='#1d4ed8';C.beginPath();C.roundRect(ox-8,oy-8,7*s+16,6*s+16,14);C.fill();
+for(let r=0;r<6;r++)for(let q=0;q<7;q++){const v=B[r][q];C.fillStyle=v==1?'#ef4444':v==2?'#facc15':'#101a33';C.beginPath();C.arc(ox+q*s+s/2,oy+r*s+s/2,s*.4,0,7);C.fill()}
+if(tn==1&&!bz&&hc>=0&&!B[0][hc]){C.globalAlpha=.5;C.fillStyle='#ef4444';C.beginPath();C.arc(ox+hc*s+s/2,oy-s*.7,s*.4,0,7);C.fill();C.globalAlpha=1}
+h.textContent=`Màn ${lv} · ${tn==1?'Lượt bạn 🔴':'Máy đang nghĩ 🟡'}`}
+const col=x=>{const q=Math.floor((x-ox)/s);return q>=0&&q<7?q:-1};
+c.onpointermove=e=>hc=col(e.clientX);c.onpointerdown=e=>{hc=col(e.clientX);mv(hc)};
+onkeydown=e=>{const k=e.key;if(k>='1'&&k<='7')mv(+k-1);else if(k=='ArrowLeft'){e.preventDefault();hc=Math.max(0,(hc<0?3:hc)-1)}else if(k=='ArrowRight'){e.preventDefault();hc=Math.min(6,(hc<0?3:hc)+1)}else if(k=='Enter'||k==' '){e.preventDefault();mv(hc)}};
+menu();requestAnimationFrame(loop);
+</script>
