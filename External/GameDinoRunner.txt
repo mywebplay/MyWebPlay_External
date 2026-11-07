@@ -1,33 +1,400 @@
-<!DOCTYPE html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dino Runner</title><style>
-*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#f4ead2;color:#3b2f1a;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
-canvas{display:block;width:100%;height:100%}
-#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
-#m{position:fixed;inset:0;background:#f4ead2ee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
-#g{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:min(94vw,440px)}
-#g button{padding:7px 0;font-size:13px}
-button{background:#b45309;color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#d9cba8;color:#8a7a55}
-</style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
-const C=c.getContext('2d'),N=60,K='mg_dino',T='🦖 Dino Runner',hint=matchMedia('(pointer:coarse)').matches?'Chạm nửa trên để nhảy, giữ nửa dưới để cúi':'Space hoặc ↑ để nhảy, giữ ↓ để cúi';
-let W,H,U,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight;U=Math.min(W,H*.8)*.09}onresize=rs;rs();
-function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
-function end(w){if(!run)return;run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
-function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
-function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);draw()}requestAnimationFrame(loop)}
-let gy,y,vy,duck,ob,tm,n,sc,goal,sd,dx;
-function init(){gy=H*.75;dx=W*.15;y=0;vy=0;duck=0;ob=[];tm=.8;n=0;sc=0;goal=8+Math.ceil(lv*.7);sd=W*(.38+.62*(1-Math.exp(-lv/30)))}
-function jump(){if(run&&y==0)vy=H*1.05}
-function upd(d){vy-=H*3.2*d;y=Math.max(0,y+vy*d);if(y==0&&vy<0)vy=0;
-tm-=d;if(tm<=0&&n<goal){ob.push({x:W+U,b:lv>2&&Math.random()<Math.min(.25+lv*.005,.45),k:lv>=10&&Math.random()<Math.min((lv-8)*.02,.4)?2:1});n++;tm=Math.max(1-lv*.004,.78)+Math.random()*Math.max(.7-lv*.006,.3)}
-const dt=gy-y-(duck?.5:1)*U,db=gy-y;
-ob.forEach(o=>{o.x-=sd*d;if(!o.p&&o.x<dx-U){o.p=1;sc++}
-const hw=o.b?.4:.3+.3*(o.k-1),t=o.b?gy-1.05*U:gy-.9*U,b=o.b?gy-.55*U:gy;
-if(Math.abs(o.x-dx)<(hw+.35)*U&&dt<b&&db>t)end(0)});
-if(sc>=goal)end(1)}
-function draw(){C.clearRect(0,0,W,H);C.font=U+'px serif';C.textAlign='center';C.textBaseline='middle';C.fillStyle='#3b2f1a';C.fillRect(0,gy,W,3);
-ob.forEach(o=>{if(o.b)C.fillText('🦅',o.x,gy-.8*U);else for(let j=0;j<o.k;j++)C.fillText('🌵',o.x+(j-(o.k-1)/2)*.6*U,gy-.5*U)});
-C.save();C.translate(dx,gy-y);C.scale(-1,duck?.55:1);C.fillText('🦖',0,-U*.5);C.restore();h.textContent=`Màn ${lv} · ${sc}/${goal}`}
-onkeydown=e=>{if(e.key==' '||e.key=='ArrowUp'){e.preventDefault();jump()}if(e.key=='ArrowDown'){e.preventDefault();duck=1}};onkeyup=e=>{if(e.key=='ArrowDown')duck=0};
-c.onpointerdown=e=>{e.clientY<H/2?jump():duck=1};onpointerup=onpointercancel=()=>duck=0;
-menu();requestAnimationFrame(loop);
-</script>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dino Runner</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: #f4ead2;
+      color: #3b2f1a;
+      font: 16px system-ui, sans-serif;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #h {
+      position: fixed;
+      top: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    /* Menu overlay: tự cuộn nếu màn hình quá thấp, không cắt mất phần đầu */
+    #m {
+      position: fixed;
+      inset: 0;
+      background: #f4ead2ee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    #m > * {
+      flex: none; /* không cho phần tử con bị co lại */
+    }
+
+    #m > :first-child {
+      margin-top: auto;
+    }
+
+    #m > :last-child {
+      margin-bottom: auto;
+    }
+
+    #g {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      width: min(94vw, 520px);
+    }
+
+    #g button {
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    button {
+      background: #b45309;
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+
+    button:focus-visible {
+      outline: 2px solid #3b2f1a;
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      background: #d9cba8;
+      color: #8a7a55;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="h"></div>
+  <div id="m"></div>
+
+  <script>
+    const C = c.getContext('2d');
+    const N = 60;
+    const K = 'mg_dino';
+    const TITLE = '🦖 Dino Runner';
+    const HINT = matchMedia('(pointer:coarse)').matches
+      ? 'Chạm nửa trên để nhảy, giữ nửa dưới để cúi'
+      : 'Space hoặc ↑ để nhảy, giữ ↓ để cúi';
+
+    // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
+    // Mọi kích thước/tốc độ tính theo U (kích thước khủng long) để giống nhau trên mọi màn hình
+    const CFG = {
+      goal:       lv => 8 + Math.ceil(lv * 0.7),                            // số chướng ngại phải vượt qua
+      speed:      lv => 6 + 9 * (1 - Math.exp(-lv / 25)),                   // tốc độ chạy (U / giây)
+      airTime:    lv => Math.max(0.5, 0.64 - lv * 0.002),                   // thời gian một cú nhảy (giây)
+      birdChance: lv => (lv > 2 ? Math.min(0.25 + lv * 0.005, 0.45) : 0),   // tỉ lệ xuất hiện chim
+      cactus2:    lv => (lv >= 10 ? Math.min((lv - 8) * 0.02, 0.4) : 0),    // tỉ lệ cụm 2 xương rồng
+      cactus3:    lv => (lv >= 25 ? Math.min((lv - 24) * 0.01, 0.25) : 0),  // tỉ lệ cụm 3 xương rồng
+      combo:      lv => (lv >= 15 ? Math.min((lv - 14) * 0.01, 0.25) : 0),  // tỉ lệ 2 chướng ngại sát nhau
+      gapRandom:  lv => Math.max(8 - lv * 0.1, 2)                           // độ ngẫu nhiên khoảng cách (U)
+    };
+
+    const JUMP_PEAK = 1.5;  // độ cao cú nhảy (U): đủ qua xương rồng, KHÔNG đủ qua chim cao
+    const BUFFER = 0.12;    // bấm nhảy sớm trong 0.12s trước khi chạm đất vẫn được tính
+
+    let W, H, U;
+    let lv = 1;
+    let run = 0;
+    let best = 1;
+    let lt = 0;
+
+    try {
+      const saved = parseInt(localStorage[K], 10);
+      best = Math.min(N, Math.max(1, saved || 1));
+    } catch (e) {}
+
+    let gy = 0, dx = 0;
+    let y = 0, vy = 0, jb = 0;
+    let duck = 0;
+    let ob = [], sc = 0, n = 0, goal = 0;
+    let sinceLast = 0, nextGap = 0;
+
+    // ====== KÍCH THƯỚC ======
+    function resize() {
+      const ow = W;
+      W = c.width = innerWidth;
+      H = c.height = innerHeight;
+      U = Math.min(W, H * 0.8) * 0.09;
+      gy = H * 0.75;
+      dx = W * 0.15;
+      if (run && ow) {
+        // Co giãn vị trí chướng ngại khi đổi kích thước cửa sổ giữa ván
+        const sx = W / ow;
+        ob.forEach(o => {
+          o.x *= sx;
+          o.px *= sx;
+        });
+      }
+    }
+    onresize = resize;
+    resize();
+
+    // ====== MENU ======
+    function menu() {
+      run = 0;
+      h.textContent = '';
+      m.style.display = 'flex';
+      m.innerHTML = `
+        <h2>${TITLE}</h2>
+        <p>Chọn màn (${best}/${N})</p>
+        <div id="g"></div>
+        <p style="opacity:.7;max-width:90vw">${HINT}</p>`;
+
+      const grid = document.getElementById('g');
+      for (let i = 1; i <= N; i++) {
+        const b = document.createElement('button');
+        b.textContent = i;
+        b.disabled = i > best;
+        b.onclick = () => go(i);
+        grid.append(b);
+      }
+    }
+
+    function end(win) {
+      if (!run) return;
+      run = 0;
+
+      if (win && lv >= best && best < N) {
+        best = lv + 1;
+        try { localStorage[K] = best; } catch (e) {}
+      }
+
+      const next = win && lv < N;
+      m.style.display = 'flex';
+      m.innerHTML = `
+        <h2>${win ? '🎉 Qua màn ' + lv : '💥 Thua rồi'}</h2>
+        <div style="display:flex;gap:10px">
+          <button id="ba">${next ? 'Màn tiếp' : 'Chơi lại'}</button>
+          <button id="bm">Chọn màn</button>
+        </div>`;
+
+      document.getElementById('ba').onclick = () => go(next ? lv + 1 : lv);
+      document.getElementById('bm').onclick = menu;
+    }
+
+    function go(l) {
+      lv = Math.max(1, Math.min(l, best, N)); // không cho vào màn chưa mở khóa
+      m.style.display = 'none';
+      if (document.activeElement) document.activeElement.blur();
+      resize();
+      init();
+      run = 1;
+      lt = performance.now();
+    }
+
+    // ====== KHỞI TẠO MÀN ======
+    function init() {
+      y = 0;
+      vy = 0;
+      jb = 0;
+      duck = 0;
+      ob = [];
+      sc = 0;
+      n = 0;
+      goal = CFG.goal(lv);
+      sinceLast = 0;
+      nextGap = CFG.speed(lv) * U * 0.6; // chướng ngại đầu tiên xuất hiện sau ~0.6s
+    }
+
+    function jump() {
+      if (run) jb = BUFFER;
+    }
+
+    // ====== SINH CHƯỚNG NGẠI ======
+    function spawn() {
+      const bird = Math.random() < CFG.birdChance(lv);
+      let k = 1;
+      if (!bird) {
+        const r = Math.random();
+        if (r < CFG.cactus3(lv)) k = 3;
+        else if (r < CFG.cactus3(lv) + CFG.cactus2(lv)) k = 2;
+      }
+
+      ob.push({
+        x: W + U,
+        px: W + U,
+        b: bird,
+        k,
+        hw: bird ? 0.4 : 0.3 + 0.3 * (k - 1), // nửa chiều rộng hitbox (U)
+        lo: bird ? 0.6 : 0,                   // đáy hitbox (U, tính từ mặt đất)
+        hi: bird ? 1.7 : 0.8                  // đỉnh hitbox (U, tính từ mặt đất)
+      });
+      n++;
+
+      // Khoảng cách tới chướng ngại kế tiếp (tính theo U)
+      // A = quãng đường bay trong một cú nhảy; luôn chừa đủ để hạ cánh và phản ứng
+      const A = CFG.speed(lv) * CFG.airTime(lv);
+      nextGap = Math.random() < CFG.combo(lv)
+        ? A + 3
+        : A + 5 + Math.random() * CFG.gapRandom(lv);
+      nextGap *= U;
+      sinceLast = 0;
+    }
+
+    // ====== CẬP NHẬT ======
+    function upd(d) {
+      const T = CFG.airTime(lv);
+      const g = (8 * JUMP_PEAK * U) / (T * T);
+      const v0 = (4 * JUMP_PEAK * U) / T;
+      const sd = CFG.speed(lv) * U;
+
+      // Nhảy (có đệm phím) và vật lý chính xác theo parabol
+      jb -= d;
+      if (jb > 0 && y <= 0) {
+        vy = v0;
+        jb = 0;
+      }
+      if (y > 0 || vy > 0) {
+        y += vy * d - 0.5 * g * d * d;
+        vy -= g * d;
+        if (y <= 0) {
+          y = 0;
+          vy = 0;
+        }
+      }
+
+      // Chỉ được cúi khi đang đứng trên mặt đất (không cúi giữa không trung để né chim)
+      const ducking = duck && y <= 0;
+      const dh = (ducking ? 0.5 : 1) * U;
+
+      // Sinh chướng ngại theo quãng đường đã chạy
+      sinceLast += sd * d;
+      if (n < goal && sinceLast >= nextGap) spawn();
+
+      // Di chuyển + va chạm (kiểm tra cả đoạn đường đã đi, không bị xuyên qua khi lag)
+      const left = dx - 0.35 * U;
+      const right = dx + 0.35 * U;
+
+      for (const o of ob) {
+        o.px = o.x;
+        o.x -= sd * d;
+
+        const lo = Math.min(o.x, o.px) - o.hw * U;
+        const hi = Math.max(o.x, o.px) + o.hw * U;
+        const hitX = hi > left && lo < right;
+        const hitY = y < o.hi * U && y + dh > o.lo * U;
+        if (hitX && hitY) {
+          end(0);
+          return;
+        }
+
+        // Chỉ tính điểm khi chướng ngại đã đi qua hoàn toàn khủng long
+        if (!o.p && o.x + o.hw * U < left) {
+          o.p = 1;
+          sc++;
+        }
+      }
+
+      ob = ob.filter(o => o.x > -2 * U);
+      if (sc >= goal) end(1);
+    }
+
+    // ====== VẼ ======
+    function draw() {
+      C.clearRect(0, 0, W, H);
+      C.font = U + 'px serif';
+      C.textAlign = 'center';
+      C.textBaseline = 'middle';
+      C.fillStyle = '#3b2f1a';
+      C.fillRect(0, gy, W, 3);
+
+      ob.forEach(o => {
+        if (o.b) {
+          C.fillText('🦅', o.x, gy - 1.15 * U);
+        } else {
+          for (let j = 0; j < o.k; j++) {
+            C.fillText('🌵', o.x + (j - (o.k - 1) / 2) * 0.6 * U, gy - 0.5 * U);
+          }
+        }
+      });
+
+      const ducking = duck && y <= 0;
+      C.save();
+      C.translate(dx, gy - y);
+      C.scale(-1, ducking ? 0.55 : 1);
+      C.fillText('🦖', 0, -U * 0.5);
+      C.restore();
+
+      h.textContent = `Màn ${lv} · ${sc}/${goal}`;
+    }
+
+    function loop(t) {
+      const d = Math.min((t - lt) / 1000, 0.05);
+      lt = t;
+      if (run) {
+        upd(d);
+        if (run) draw();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    // ====== ĐIỀU KHIỂN ======
+    onkeydown = e => {
+      if (e.key === ' ' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!e.repeat) jump(); // giữ phím không tự nhảy liên tục
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        duck = 1;
+      }
+    };
+    onkeyup = e => {
+      if (e.key === 'ArrowDown') duck = 0;
+    };
+    onblur = () => { duck = 0; }; // tránh kẹt phím cúi khi chuyển tab
+
+    c.onpointerdown = e => {
+      if (e.clientY < H / 2) jump();
+      else duck = 1;
+    };
+    onpointerup = onpointercancel = () => { duck = 0; };
+
+    menu();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
