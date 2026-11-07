@@ -1,379 +1,443 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Hứng vật rơi</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:#12263a;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
-canvas{display:block;width:100%;height:100%}
-#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;z-index:2;text-shadow:0 2px 4px rgba(0,0,0,.8)}
-#m{position:fixed;inset:0;background:#12263aee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;z-index:3}
-#g{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;width:min(90vw,480px);max-height:50vh;overflow-y:auto;padding:6px;background:rgba(255,255,255,.05);border-radius:10px}
-button{background:#fbbf24;color:#2a1c00;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}
-button:disabled{background:#2b4560;color:#7f9bb8;cursor:not-allowed}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hứng vật rơi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: #12263a;
+      color: #fff;
+      font: 16px system-ui, sans-serif;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #h {
+      position: fixed;
+      top: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 2;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Menu overlay: tự cuộn nếu màn hình quá thấp, không cắt mất phần đầu */
+    #m {
+      position: fixed;
+      inset: 0;
+      background: #12263aee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      text-align: center;
+      z-index: 3;
+      overflow-y: auto;
+    }
+
+    #m > * {
+      flex: none; /* không cho phần tử con bị co lại */
+    }
+
+    #m > :first-child {
+      margin-top: auto;
+    }
+
+    #m > :last-child {
+      margin-bottom: auto;
+    }
+
+    /* Danh sách màn chơi: chỉ cuộn khi thật sự không đủ chỗ */
+    #g {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+      gap: 6px;
+      width: min(92vw, 560px);
+      max-height: calc(100vh - 200px);
+      max-height: calc(100dvh - 200px);
+      overflow-y: auto;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    #g button {
+      padding: 10px 0;
+    }
+
+    button {
+      background: #fbbf24;
+      color: #2a1c00;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      background: #2b4560;
+      color: #7f9bb8;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
+  <canvas id="c"></canvas>
+  <div id="h"></div>
+  <div id="m"></div>
 
-<canvas id="c"></canvas>
-<div id="h"></div>
-<div id="m"></div>
+  <script>
+    const canvas = document.getElementById('c');
+    const C = canvas.getContext('2d');
+    const hud = document.getElementById('h');
+    const menuEl = document.getElementById('m');
 
-<script>
-const canvas=document.getElementById('c');
-const C=canvas.getContext('2d');
-const hud=document.getElementById('h');
-const menuEl=document.getElementById('m');
+    const N = 50;
+    const K = 'mg_catch';
+    const TITLE = '🧺 Hứng vật rơi';
+    const HINT = matchMedia('(pointer:coarse)').matches
+      ? 'Kéo ngón tay để di chuyển giỏ, hứng 🍎⭐ và tránh 💣'
+      : '← → (hoặc A D) hoặc di chuột để di chuyển giỏ, hứng 🍎⭐ và tránh 💣';
 
-const N=50;
-const K='mg_catch';
-const T='🧺 Hứng vật rơi';
-const hint=matchMedia('(pointer:coarse)').matches
-    ?'Kéo ngón tay để di chuyển giỏ, hứng 🍎⭐ và tránh 💣'
-    :'← → hoặc di chuột để di chuyển giỏ, hứng 🍎⭐ và tránh 💣';
+    // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
+    const MAX_SPEED = 1.4; // tốc độ tối đa của giỏ (x chiều rộng / giây), áp dụng cho cả chuột, cảm ứng và phím
 
-let W,H,U;
-let lv=1,run=0,best=1,lt=0,px=0;
-let O=[],lf=5,sc=0,goal=0,tm=0,bw=0;
-let ks={};
-
-let activePointerId=null;
-
-try{
-    best=Math.max(1,Math.min(N,Number(localStorage[K])||1));
-}catch(e){}
-
-function clamp(x,min,max){
-    return Math.max(min,Math.min(max,x));
-}
-
-function updateBasketSize(){
-    bw=U*Math.max(2.8-lv*.025,1.2);
-    bw=Math.min(bw,W);
-    px=clamp(px,bw/2,W-bw/2);
-}
-
-function rs(){
-    const oldW=W;
-    const oldH=H;
-
-    W=innerWidth;
-    H=innerHeight;
-    U=Math.min(W,H*.8)*.09;
-
-    if(oldW>0&&oldH>0){
-        const sx=W/oldW;
-        const sy=H/oldH;
-
-        O.forEach(o=>{
-            o.x*=sx;
-            o.y*=sy;
-            o.py*=sy;
-        });
-
-        px*=sx;
-    }
-
-    updateBasketSize();
-    
-    canvas.width=W;
-    canvas.height=H;
-}
-
-window.addEventListener('resize',rs);
-rs();
-
-function resetInput(){
-    ks={};
-
-    const id=activePointerId;
-    activePointerId=null;
-
-    if(id!==null){
-        try{
-            if(canvas.hasPointerCapture(id)){
-                canvas.releasePointerCapture(id);
-            }
-        }catch(e){}
-    }
-}
-
-function menu(){
-    run=0;
-    resetInput();
-
-    menuEl.style.display='flex';
-
-    menuEl.innerHTML=`
-        <h2>${T}</h2>
-        <p>Chọn màn (${best}/${N})</p>
-        <div id="g"></div>
-        <p style="opacity:.7;max-width:90vw;font-size:.9em">${hint}</p>
-    `;
-
-    const grid=document.getElementById('g');
-
-    for(let i=1;i<=N;i++){
-        const b=document.createElement('button');
-
-        b.textContent=i;
-        b.disabled=i>best;
-        b.onclick=()=>go(i);
-
-        grid.append(b);
-    }
-}
-
-function end(w){
-    if(!run)return;
-
-    run=0;
-    resetInput();
-
-    if(w&&lv>=best&&best<N){
-        best=lv+1;
-
-        try{
-            localStorage[K]=best;
-        }catch(e){}
-    }
-
-    menuEl.style.display='flex';
-
-    menuEl.innerHTML=`
-        <h2>${w?'🎉 Qua màn '+lv:'💥 Thua rồi'}</h2>
-        <div style="display:flex;gap:10px;">
-            <button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button>
-            <button id="bm">Chọn màn</button>
-        </div>
-    `;
-
-    document.getElementById('ba').onclick=()=>{
-        go(w&&lv<N?lv+1:lv);
+    const CFG = {
+      goal:       lv => 8 + Math.ceil(lv * 1.2),                      // số vật cần hứng
+      lives:      lv => 5,                                            // số mạng
+      fall:       lv => 0.22 + lv * 0.012,                            // tốc độ rơi (x chiều cao / giây)
+      interval:   lv => Math.max(0.8 - lv * 0.01, 0.3),               // thời gian giữa 2 vật (giây)
+      bombChance: lv => (lv > 1 ? Math.min(0.08 + lv * 0.008, 0.4) : 0), // xác suất là bom
+      basket:     lv => Math.max(2.8 - lv * 0.025, 1.4)               // chiều rộng giỏ (x U)
     };
 
-    document.getElementById('bm').onclick=menu;
-}
+    let W, H, U;
+    let lv = 1, run = 0, best = 1, lt = 0;
+    let px = 0, tx = 0;           // vị trí giỏ hiện tại và vị trí mục tiêu
+    let O = [], lf = 5, sc = 0, goal = 0, tm = 0, bw = 0;
+    let lastX = 0, lastGap = 0.8;
+    let ks = {};
+    let activePointerId = null;
 
-function go(l){
-    resetInput();
+    try {
+      best = Math.max(1, Math.min(N, Number(localStorage[K]) || 1));
+    } catch (e) {}
 
-    lv=clamp(l,1,N);
-
-    menuEl.style.display='none';
-
-    init();
-
-    run=1;
-    lt=performance.now();
-}
-
-function init(){
-    O=[];
-    lf=5;
-    sc=0;
-
-    goal=8+lv*2;
-    tm=0;
-
-    px=W/2;
-
-    updateBasketSize();
-}
-
-function spawn(){
-    const x=U+Math.random()*Math.max(0,W-2*U);
-
-    const b=Math.random()<Math.min(.08+lv*.01,.55);
-
-    O.push({
-        x,
-        y:-U,
-        py:-U,
-        b,
-        e:b?'💣':Math.random()<.5?'🍎':'⭐'
-    });
-}
-
-function upd(d){
-    if(ks.ArrowLeft)px-=W*.9*d;
-    if(ks.ArrowRight)px+=W*.9*d;
-
-    px=clamp(px,bw/2,W-bw/2);
-
-    tm-=d;
-
-    if(tm<=0){
-        tm=Math.max(.8-lv*.01,.25)*(.7+Math.random()*.5);
-
-        spawn();
+    function clamp(x, min, max) {
+      return Math.max(min, Math.min(max, x));
     }
 
-    const bombChance=Math.min(.08+lv*.01,.55);
-    const fallSpeed=H*(.22+lv*.018);
+    // ====== KÍCH THƯỚC ======
+    function updateBasketSize() {
+      bw = Math.min(U * CFG.basket(lv), W);
+      px = clamp(px, bw / 2, W - bw / 2);
+      tx = clamp(tx, bw / 2, W - bw / 2);
+    }
 
-    const catchY=H-U*.95;
-    const itemRadius=U*.45;
+    // Vị trí giỏ và đường hứng (mép trên của giỏ)
+    function basketSize() {
+      return bw * 0.8;
+    }
 
-    O.forEach(o=>{
-        o.py=o.y;
-        o.y+=fallSpeed*d;
+    function basketY() {
+      return H - basketSize() * 0.55;
+    }
 
-        // Kiểm tra vật thể có đi xuyên qua đường hứng của giỏ hay không
-        if(o.py<=catchY&&o.y>=catchY){
-            const dy=o.y-o.py;
-            const ratio=dy>0?(catchY-o.py)/dy:0;
+    function catchY() {
+      return basketY() - basketSize() * 0.4;
+    }
 
-            const hitX=o.x;
+    function rs() {
+      const oldW = W;
+      const oldH = H;
 
-            // Kiểm tra vị trí ngang tại đúng thời điểm vật thể chạm giỏ
-            if(Math.abs(hitX-px)<=bw/2+itemRadius){
-                o.s=1;
+      W = innerWidth;
+      H = innerHeight;
+      U = Math.min(W, H * 0.8) * 0.09;
 
-                if(o.b){
-                    lf--;
-                }else{
-                    sc++;
-                }
-            }
+      if (oldW > 0 && oldH > 0) {
+        const sx = W / oldW;
+        const sy = H / oldH;
+
+        O.forEach(o => {
+          o.x *= sx;
+          o.y *= sy;
+          o.py *= sy;
+        });
+        px *= sx;
+        tx *= sx;
+        lastX *= sx;
+      }
+
+      updateBasketSize();
+      canvas.width = W;
+      canvas.height = H;
+    }
+
+    window.addEventListener('resize', rs);
+    rs();
+
+    function resetInput() {
+      ks = {};
+
+      const id = activePointerId;
+      activePointerId = null;
+
+      if (id !== null) {
+        try {
+          if (canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
+        } catch (e) {}
+      }
+    }
+
+    // ====== MENU ======
+    function menu() {
+      run = 0;
+      resetInput();
+      hud.textContent = '';
+
+      menuEl.style.display = 'flex';
+      menuEl.innerHTML = `
+        <h2>${TITLE}</h2>
+        <p>Chọn màn (${best}/${N})</p>
+        <div id="g"></div>
+        <p style="opacity:.7;max-width:90vw;font-size:.9em">${HINT}</p>`;
+
+      const grid = document.getElementById('g');
+      for (let i = 1; i <= N; i++) {
+        const b = document.createElement('button');
+        b.textContent = i;
+        b.disabled = i > best;
+        b.onclick = () => go(i);
+        grid.append(b);
+      }
+    }
+
+    function end(win) {
+      if (!run) return;
+      run = 0;
+      resetInput();
+
+      if (win && lv >= best && best < N) {
+        best = lv + 1;
+        try { localStorage[K] = best; } catch (e) {}
+      }
+
+      const next = win && lv < N;
+      menuEl.style.display = 'flex';
+      menuEl.innerHTML = `
+        <h2>${win ? '🎉 Qua màn ' + lv : '💥 Thua rồi'}</h2>
+        <div style="display:flex;gap:10px">
+          <button id="ba">${next ? 'Màn tiếp' : 'Chơi lại'}</button>
+          <button id="bm">Chọn màn</button>
+        </div>`;
+
+      document.getElementById('ba').onclick = () => go(next ? lv + 1 : lv);
+      document.getElementById('bm').onclick = menu;
+    }
+
+    function go(l) {
+      resetInput();
+      lv = clamp(l, 1, Math.min(best, N)); // không cho vào màn chưa mở khóa
+      menuEl.style.display = 'none';
+      if (document.activeElement) document.activeElement.blur();
+      init();
+      run = 1;
+      lt = performance.now();
+    }
+
+    function init() {
+      O = [];
+      lf = CFG.lives(lv);
+      sc = 0;
+      goal = CFG.goal(lv);
+      tm = 0.5;
+      lastGap = 0.8;
+
+      updateBasketSize();
+      px = tx = W / 2;
+      lastX = W / 2;
+    }
+
+    // ====== SINH VẬT ======
+    function spawn() {
+      // Vị trí vật mới luôn nằm trong tầm với của giỏ so với vật trước đó,
+      // nên không có vật nào "không thể hứng" vì rơi quá xa
+      const reach = W * MAX_SPEED * lastGap * 0.85;
+      const x = clamp(lastX + (Math.random() * 2 - 1) * reach, U, W - U);
+      lastX = x;
+
+      const b = Math.random() < CFG.bombChance(lv);
+      O.push({
+        x,
+        y: -U,
+        py: -U,
+        b,
+        e: b ? '💣' : Math.random() < 0.5 ? '🍎' : '⭐'
+      });
+    }
+
+    // ====== CẬP NHẬT ======
+    function upd(d) {
+      // Giỏ di chuyển với tốc độ giới hạn: chuột/cảm ứng đặt mục tiêu, giỏ đuổi theo
+      const maxStep = W * MAX_SPEED * d;
+      if (ks.ArrowLeft || ks.a || ks.A) tx -= maxStep;
+      if (ks.ArrowRight || ks.d || ks.D) tx += maxStep;
+      tx = clamp(tx, bw / 2, W - bw / 2);
+      px += clamp(tx - px, -maxStep, maxStep);
+
+      tm -= d;
+      if (tm <= 0) {
+        const gap = CFG.interval(lv) * (0.7 + Math.random() * 0.5);
+        spawn();
+        lastGap = gap;
+        tm = gap;
+      }
+
+      const fallSpeed = H * CFG.fall(lv);
+      const cy = catchY();
+      const itemRadius = U * 0.45;
+
+      O.forEach(o => {
+        o.py = o.y;
+        o.y += fallSpeed * d;
+
+        // Vật đi qua đường hứng (mép giỏ) trong khung hình này
+        if (!o.s && o.py <= cy && o.y >= cy) {
+          if (Math.abs(o.x - px) <= bw / 2 + itemRadius) {
+            o.s = 1;
+            if (o.b) lf--;
+            else sc++;
+          }
         }
 
-        // Vật phẩm rơi khỏi màn hình
-        if(!o.s&&o.y>H+U){
-            o.s=1;
-
-            if(!o.b){
-                lf--;
-            }
+        // Vật rơi khỏi màn hình: bỏ lỡ đồ tốt thì mất mạng, bom thì không sao
+        if (!o.s && o.y > H + U) {
+          o.s = 1;
+          if (!o.b) lf--;
         }
-    });
+      });
+      O = O.filter(o => !o.s);
 
-    O=O.filter(o=>!o.s);
-
-    // Ưu tiên kiểm tra thua trước khi kiểm tra thắng
-    if(lf<=0){
+      // Thua được kiểm tra trước thắng
+      if (lf <= 0) {
+        lf = 0;
         end(0);
         return;
+      }
+      if (sc >= goal) end(1);
     }
 
-    if(sc>=goal){
-        end(1);
-        return;
+    // ====== VẼ ======
+    function draw() {
+      C.clearRect(0, 0, W, H);
+      C.textAlign = 'center';
+      C.textBaseline = 'middle';
+
+      C.font = U + 'px serif';
+      O.forEach(o => C.fillText(o.e, o.x, o.y));
+
+      C.font = basketSize() + 'px serif';
+      C.fillText('🧺', px, basketY());
+
+      C.fillStyle = '#fbbf24';
+      C.fillRect(px - bw / 2, catchY(), bw, 6);
+
+      hud.textContent = `Màn ${lv}/${N} · ✅ ${sc}/${goal} · ❤️ ${lf}`;
     }
-}
 
-function draw(){
-    C.clearRect(0,0,W,H);
+    function loop(t) {
+      const d = Math.min((t - lt) / 1000, 0.05);
+      lt = t;
 
-    C.font=U+'px serif';
-    C.textAlign='center';
-    C.textBaseline='middle';
+      if (run) {
+        upd(d);
+        if (run) draw();
+      }
+      requestAnimationFrame(loop);
+    }
 
-    O.forEach(o=>{
-        C.fillText(o.e,o.x,o.y);
+    // ====== ĐIỀU KHIỂN ======
+    window.addEventListener('keydown', e => {
+      if (!run) return;
+      if (['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D'].includes(e.key)) {
+        ks[e.key] = 1;
+        if (e.key.startsWith('Arrow')) e.preventDefault();
+      }
     });
 
-    C.fillText('🧺',px,H-U*1.3);
+    window.addEventListener('keyup', e => {
+      ks[e.key] = 0;
+    });
 
-    C.fillStyle='#fbbf24';
-    C.fillRect(px-bw/2,H-U*.95,bw,6);
+    window.addEventListener('blur', resetInput);
 
-    hud.textContent=`Màn ${lv}/${N} · ✅ ${sc}/${goal} · ❤️ ${lf}`;
-}
-
-function loop(t){
-    const d=Math.min((t-lt)/1000,.05);
-    lt=t;
-
-    if(run){
-        upd(d);
-
-        if(run){
-            draw();
-        }
+    function pointerX(e) {
+      const rect = canvas.getBoundingClientRect();
+      return clamp((e.clientX - rect.left) * (W / rect.width), bw / 2, W - bw / 2);
     }
 
-    requestAnimationFrame(loop);
-}
+    canvas.addEventListener('pointerdown', e => {
+      if (!run || !e.isPrimary) return;
 
-// Điều khiển bàn phím
-window.addEventListener('keydown',e=>{
-    if(!run)return;
+      activePointerId = e.pointerId;
+      tx = pointerX(e);
 
-    if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
-        ks[e.key]=1;
-        e.preventDefault();
-    }
-});
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    });
 
-window.addEventListener('keyup',e=>{
-    ks[e.key]=0;
-});
+    canvas.addEventListener('pointermove', e => {
+      if (!run) return;
 
-window.addEventListener('blur',resetInput);
-
-// Điều khiển chuột và cảm ứng
-function pointerX(e){
-    const rect=canvas.getBoundingClientRect();
-
-    return clamp(
-        (e.clientX-rect.left)*(W/rect.width),
-        bw/2,
-        W-bw/2
-    );
-}
-
-canvas.addEventListener('pointerdown',e=>{
-    if(!run||!e.isPrimary)return;
-
-    activePointerId=e.pointerId;
-    px=pointerX(e);
-
-    try{
-        canvas.setPointerCapture(e.pointerId);
-    }catch(err){}
-});
-
-canvas.addEventListener('pointermove',e=>{
-    if(!run)return;
-
-    // Chuột được phép di chuyển giỏ khi rê.
-    // Cảm ứng chỉ điều khiển trong phiên chạm hiện tại.
-    if(activePointerId===null&&e.pointerType==='mouse'){
-        px=pointerX(e);
+      // Chuột được điều khiển khi rê; cảm ứng chỉ trong phiên chạm hiện tại
+      if (activePointerId === null && e.pointerType === 'mouse') {
+        tx = pointerX(e);
         return;
-    }
+      }
+      if (e.pointerId === activePointerId) tx = pointerX(e);
+    });
 
-    if(e.pointerId===activePointerId){
-        px=pointerX(e);
-    }
-});
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => {
+      canvas.addEventListener(type, e => {
+        if (e.pointerId === activePointerId) activePointerId = null;
+      });
+    });
 
-canvas.addEventListener('pointerup',e=>{
-    if(e.pointerId===activePointerId){
-        activePointerId=null;
-    }
-});
-
-canvas.addEventListener('pointercancel',e=>{
-    if(e.pointerId===activePointerId){
-        activePointerId=null;
-    }
-});
-
-canvas.addEventListener('lostpointercapture',e=>{
-    if(e.pointerId===activePointerId){
-        activePointerId=null;
-    }
-});
-
-menu();
-
-requestAnimationFrame(loop);
-</script>
-
+    menu();
+    requestAnimationFrame(loop);
+  </script>
 </body>
 </html>
