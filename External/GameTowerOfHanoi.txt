@@ -1,28 +1,31 @@
 <!DOCTYPE html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Tháp Hà Nội</title><style>
 *{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#17201c;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
 canvas{display:block;width:100%;height:100%}
-#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;padding:0 8px}
 #m{position:fixed;inset:0;background:#17201cee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
-#g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(90vw,340px)}
+#g{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:min(94vw,440px)}
 button{background:#10b981;color:#03241a;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#2a3a33;color:#7f9a8e}
+#g button{padding:7px 0;font-size:13px}
 </style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
-const C=c.getContext('2d'),N=20,K='mg_hanoi',T='🗼 Tháp Hà Nội',hint=matchMedia('(pointer:coarse)').matches?'Chạm cột để nhấc đĩa trên cùng, chạm cột khác để đặt. Chuyển cả tháp sang cột có cờ 🏁, đĩa nhỏ luôn nằm trên đĩa lớn':'Click cột (hoặc phím 1-2-3) để nhấc đĩa trên cùng, rồi chọn cột đặt. Chuyển cả tháp sang cột có cờ 🏁, đĩa nhỏ luôn nằm trên đĩa lớn';
+const C=c.getContext('2d'),N=60,K='mg_hanoi',T='🗼 Tháp Hà Nội',hint=matchMedia('(pointer:coarse)').matches?'Chạm cột để nhấc đĩa trên cùng, chạm cột khác để đặt. Chuyển cả tháp sang cột có cờ 🏁, đĩa nhỏ luôn nằm trên đĩa lớn. Màn 1-20: 3 cột, 21-40: 4 cột, 41-60: 5 cột':'Click cột (hoặc phím số) để nhấc đĩa trên cùng, rồi chọn cột đặt. Chuyển cả tháp sang cột có cờ 🏁, đĩa nhỏ luôn nằm trên đĩa lớn. Màn 1-20: 3 cột, 21-40: 4 cột, 41-60: 5 cột';
 let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
 function rs(){W=c.width=innerWidth;H=c.height=innerHeight}onresize=rs;rs();
-function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
+function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw;font-size:14px">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
 function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
 function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
 function loop(t){lt=t;if(run)draw();requestAnimationFrame(loop)}
-let n,P,sel,mc,st,tg;
-function init(){n=Math.min(3+((lv-1)>>2),7);st=(lv-1)%3;tg=(st+1+(((lv-1)>>2)%2))%3;P=[[],[],[]];for(let d=n;d>0;d--)P[st].push(d);sel=-1;mc=0}
-function tap(i){if(!run||i<0||i>2)return;if(sel<0){if(P[i].length)sel=i}else{if(sel!=i){const a=P[sel],b=P[i],d=a[a.length-1];if(!b.length||b[b.length-1]>d){b.push(a.pop());mc++;if(P[tg].length==n)end(1)}}sel=-1}}
+let n,np,P,sel,mc,st,tg;const mo={},co=matchMedia('(pointer:coarse)');
+function fs(k,p){if(k<=1)return k;if(p==3)return 2**k-1;const q=k+','+p;if(mo[q])return mo[q];let b=1e9;for(let i=1;i<k;i++)b=Math.min(b,2*fs(i,p)+fs(k-i,p-1));return mo[q]=b}
+function init(){const b=(lv-1)/20|0;np=3+b;n=3+(((lv-1)%20)>>2)+b*2;st=(lv-1)%np;tg=(st+1+(((lv-1)/np|0)%(np-1)))%np;P=Array.from({length:np},()=>[]);for(let d=n;d>0;d--)P[st].push(d);sel=-1;mc=0}
+function tap(i){if(!run||i<0||i>=np)return;if(sel<0){if(P[i].length)sel=i}else{if(sel!=i){const a=P[sel],b=P[i],d=a[a.length-1];if(!b.length||b[b.length-1]>d){b.push(a.pop());mc++;if(P[tg].length==n)end(1)}}sel=-1}}
 function upd(){}
-function draw(){C.clearRect(0,0,W,H);const pw=Math.min(W/3.3,220),dh=Math.min(H*.5/(n+2),34),by=H*.75;
-for(let i=0;i<3;i++){const x=W*(i+.5)/3;C.fillStyle=i==tg?'#34d399':'#64748b';C.fillRect(x-4,by-(n+2)*dh,8,(n+2)*dh);C.fillRect(x-pw/2,by,pw,8);
-P[i].forEach((d,k)=>{const lf=sel==i&&k==P[i].length-1,w=pw*(.3+.7*d/n),y=lf?by-(n+3)*dh:by-(k+1)*dh;C.fillStyle=`hsl(${d*45},75%,${lf?72:55}%)`;C.fillRect(x-w/2,y,w,dh-3)})}
-C.font=dh+'px serif';C.textAlign='center';C.textBaseline='middle';C.fillText('🏁',W*(tg+.5)/3,by+dh*2);
-h.textContent=`Màn ${lv} · ${n} đĩa · Lượt ${mc} (tối thiểu ${2**n-1})`}
-c.onpointerdown=e=>tap(Math.floor(e.clientX/W*3));
-onkeydown=e=>{if(e.key>='1'&&e.key<='3')tap(+e.key-1)};
+function draw(){C.clearRect(0,0,W,H);const pw=Math.min(W/np-6,220),dh=Math.min((H-130)/(n+3),34),by=H-70;
+for(let i=0;i<np;i++){const x=W*(i+.5)/np;C.fillStyle=i==tg?'#34d399':'#64748b';C.fillRect(x-4,by-(n+2)*dh,8,(n+2)*dh);C.fillRect(x-pw/2,by,pw,8);
+P[i].forEach((d,k)=>{const lf=sel==i&&k==P[i].length-1,w=pw*(.38+.62*d/n),y=lf?by-(n+3)*dh:by-(k+1)*dh;C.fillStyle=`hsl(${d*33},75%,${lf?72:55}%)`;C.fillRect(x-w/2,y,w,Math.max(dh-3,4))})}
+C.font=Math.min(Math.max(dh*.7,14),20)+'px system-ui';C.textAlign='center';C.textBaseline='middle';C.fillStyle='#fff';
+for(let i=0;i<np;i++)C.fillText((i+1)+(i==tg?' 🏁':''),W*(i+.5)/np,by+34);
+const t=`Màn ${lv} · ${np} cột · ${n} đĩa · Lượt ${mc} (tham khảo ${fs(n,np)})`+(co.matches&&H>W&&np>=5?'<br><small style="font-weight:400;opacity:.8">💡 Xoay ngang điện thoại sẽ dễ nhìn hơn</small>':'');if(h._t!==t){h._t=t;h.innerHTML=t}}
+c.onpointerdown=e=>tap(Math.floor(e.clientX/W*np));
+onkeydown=e=>{if(e.key>='1'&&e.key<='5')tap(+e.key-1)};
 menu();requestAnimationFrame(loop);
 </script>
