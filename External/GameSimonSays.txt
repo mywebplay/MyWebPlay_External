@@ -90,4 +90,3 @@ onkeydown=e=>{if(e.key>='1'&&e.key<='8') press(+e.key-1)};
 menu();
 requestAnimationFrame(loop);
 </script></body></html>
-```[cite: 1]
