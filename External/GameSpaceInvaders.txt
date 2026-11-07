@@ -79,4 +79,3 @@ onpointerup=onpointercancel=()=>fr=0;
 menu();
 requestAnimationFrame(loop);
 </script></body></html>
-```[cite: 1]
