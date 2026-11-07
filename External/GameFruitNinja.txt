@@ -8,4 +8,74 @@ button{background:#f97316;color:#fff;border:0;border-radius:8px;padding:10px 14p
 </style></head><body><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
 const C=c.getContext('2d'),N=50,K='mg_fruit',T='🍉 Fruit Ninja',hint=matchMedia('(pointer:coarse)').matches?'Vuốt ngón tay để chém trái cây, tránh bom 💣':'Giữ chuột và rê để chém trái cây, tránh bom 💣';
 let W,H,U,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight;U=Math.min(W,H*.8)*.09}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;U=Math.min(W,H*.8)*.09}onresize=rs;rs();
+function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw;font-size:0.9em">${hint}</p>`;const grid=document.getElementById('g');for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);grid.append(b)}}
+function end(w){if(!run)return;run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:'💥 Thua rồi'}</h2><div style="display:flex;gap:10px;"><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button></div>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
+function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);draw()}requestAnimationFrame(loop)}
+const FR=['🍉','🍊','🍎','🍋','🍇','🍓'];let F,P,tr,lf,sc,goal,tm,dn=0,lp;
+function init(){
+  F=[];P=[];tr=[];lf=5;sc=0;
+  // Mục tiêu điểm tăng dần theo màn
+  goal=10+lv*2;
+  tm=0;
+}
+function spawn(){
+  const x=W*(.15+Math.random()*.7);
+  const hh=H*(.55+Math.random()*.3);
+  const speedMult = 1 + lv * 0.01;
+  const vy=-Math.sqrt(2*H*1.2*hh)*speedMult;
+  const t=-2*vy/(H*1.2);
+  // Tỷ lệ xuất hiện bom tăng dần từ màn 2 đến màn 50 (tối đa 35%)
+  const bombChance = lv > 1 ? Math.min(0.06 + lv * 0.006, 0.35) : 0;
+  F.push({x,y:H+U,vy,vx:(W/2-x)/t*Math.random()*1.2,b:Math.random()<bombChance,e:FR[Math.random()*6|0]});
+}
+function dst(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/l));return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy)}
+function cut(a,b){F.forEach(o=>{if(!o.s&&dst(o,a,b)<U*.7){o.s=1;if(o.b){lf--;P.push({x:o.x,y:o.y,vx:0,e:'💥',tl:.5})}else{sc++;P.push({x:o.x,y:o.y,vx:-U*3,e:o.e,tl:.4},{x:o.x,y:o.y,vx:U*3,e:o.e,tl:.4})}}})}
+function upd(d){
+  tm-=d;
+  if(tm<=0){
+    // Khoảng thời gian sinh quả ngắn dần khi màn càng cao
+    tm=Math.max(.8 - lv*.01, .25) * (.6 + Math.random()*.7);
+    spawn();
+    
+    // Tăng tỷ lệ tung nhiều quả cùng lúc ở màn cao
+    if(lv > 5 && Math.random() < Math.min(0.3 + lv * 0.01, 0.85)) spawn();
+    if(lv > 20 && Math.random() < 0.4) spawn();
+  }
+  
+  const gravityMult = 1 + lv * 0.005;
+  F.forEach(o=>{o.vy+=H*1.2*gravityMult*d;o.x+=o.vx*d;o.y+=o.vy*d;if(!o.s&&o.y>H+U&&o.vy>0){o.s=1;if(!o.b)lf--}});
+  F=F.filter(o=>!o.s);
+  P.forEach(p=>{p.x+=p.vx*d;p.y+=H*.5*d;p.tl-=d});
+  P=P.filter(p=>p.tl>0);
+  
+  if(lf<=0)end(0);
+  else if(sc>=goal)end(1);
+}
+function draw(){
+  C.clearRect(0,0,W,H);
+  C.font=U+'px serif';
+  C.textAlign='center';
+  C.textBaseline='middle';
+  F.forEach(o=>C.fillText(o.b?'💣':o.e,o.x,o.y));
+  P.forEach(p=>{C.globalAlpha=Math.min(1,p.tl*2.5);C.fillText(p.e,p.x,p.y)});
+  C.globalAlpha=1;
+  const n=performance.now();
+  tr=tr.filter(p=>n-p.t<180);
+  if(tr.length>1){
+    C.strokeStyle='#fff';
+    C.lineWidth=5;
+    C.lineCap='round';
+    C.beginPath();
+    tr.forEach((p,i)=>i?C.lineTo(p.x,p.y):C.moveTo(p.x,p.y));
+    C.stroke();
+  }
+  h.textContent=`Màn ${lv}/${N} · 🍉 ${sc}/${goal} · ❤️ ${lf}`;
+}
+c.onpointerdown=e=>{dn=1;lp={x:e.clientX,y:e.clientY}};
+c.onpointermove=e=>{if(!dn||!run)return;const q={x:e.clientX,y:e.clientY};tr.push({x:q.x,y:q.y,t:performance.now()});cut(lp,q);lp=q};
+onpointerup=onpointercancel=()=>dn=0;
+menu();
+requestAnimationFrame(loop);
+</script></body></html>
