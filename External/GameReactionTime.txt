@@ -1,67 +1,339 @@
-<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Reaction Time</title><style>
-*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow:hidden;background:#0b132b;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
-canvas{display:block;width:100%;height:100%}
-#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;z-index:2;text-shadow:0 2px 4px rgba(0,0,0,0.8)}
-#m{position:fixed;inset:0;background:#0b132bee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;z-index:3}
-#g{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;width:min(90vw,480px);max-height:50vh;overflow-y:auto;padding:6px;background:rgba(255,255,255,0.05);border-radius:10px}
-button{background:#22c55e;color:#032b12;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}button:disabled{background:#26345c;color:#7b88b0;cursor:not-allowed}
-</style></head><body><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
-const C=c.getContext('2d'),N=50,K='mg_reaction',T='⚡ Reaction Time',hint=matchMedia('(pointer:coarse)').matches?'Chạm ngay khi màn hình chuyển xanh. Chạm sớm hoặc chạm lúc màu đỏ sẽ mất tim ❤️':'Click (hoặc Space/Enter) ngay khi màn hình chuyển xanh. Bấm sớm hoặc bấm lúc màu đỏ sẽ mất tim ❤️';
-let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight}onresize=rs;rs();
-function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw;font-size:0.9em">${hint}</p>`;const grid=document.getElementById('g');for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);grid.append(b)}}
-function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><div style="display:flex;gap:10px;"><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button></div>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
-function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
-function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);if(run)draw()}requestAnimationFrame(loop)}
-let ph,tm,t0,ok,lf,need,thr,msg,dec,dp;
-function init(){
-  // Phân hóa độ khó theo 50 màn
-  need = Math.min(3 + Math.floor(lv / 10), 8); // Số lượt cần đạt từ 3 -> 8
-  thr = Math.max(150, Math.round(520 - (lv - 1) * 7.5)); // Thời gian phản xạ giới hạn giảm dần (520ms -> 150ms)
-  ok = 0; lf = 3;
-  dp = lv < 3 ? 0 : Math.min(0.08 + (lv - 3) * 0.009, 0.5); // Tỉ lệ bẫy màu đỏ (tối đa 50%)
-  nx();
-}
-function nx(){ph=0;tm=1+Math.random()*2.5;msg='Chờ màn hình xanh...';dec=Math.random()<dp}
-function res(t,bad){if(bad)lf--;msg=t;ph=3;tm=.9}
-function upd(d){
-  tm-=d;
-  if(tm>0)return;
-  if(ph==0){
-    if(dec){ph=2;tm=.8+Math.random()*.6;msg='ĐỎ! Đừng bấm'}
-    else{ph=1;t0=performance.now();tm=2;msg='BẤM!'}
-  }
-  else if(ph==2)nx();
-  else if(ph==1)res('Quá chậm!',1);
-  else if(ok>=need)end(1);
-  else if(lf<=0)end(0);
-  else nx();
-}
-function press(){
-  if(!run)return;
-  if(ph==0)res('Bấm sớm quá!',1);
-  else if(ph==2)res('Đó là màu đỏ!',1);
-  else if(ph==1){
-    const t=Math.round(performance.now()-t0);
-    if(t<=thr){ok++;res(t+' ms ✅')}
-    else res(t+' ms, chậm hơn '+thr+' ms',1)
-  }
-}
-function draw(){
-  C.fillStyle=['#1e3a8a','#16a34a','#dc2626','#334155'][ph];
-  C.fillRect(0,0,W,H);
-  C.fillStyle='#fff';
-  C.textAlign='center';
-  C.textBaseline='middle';
-  const f=Math.min(W/9,64);
-  C.font='bold '+f+'px system-ui';
-  C.fillText(msg,W/2,H/2,W-20);
-  C.font=Math.min(W/20,20)+'px system-ui';
-  C.fillText(`Đạt ${ok}/${need} · ❤️ ${lf} · Mục tiêu ≤ ${thr} ms`,W/2,H/2+f,W-20);
-  h.textContent=`Màn ${lv}/${N}`;
-}
-c.onpointerdown=press;
-onkeydown=e=>{if((e.key==' '||e.key=='Enter')&&!e.repeat){e.preventDefault();press()}};
-menu();
-requestAnimationFrame(loop);
-</script></body></html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Reaction Time</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: #0b132b;
+      color: #fff;
+      font: 16px system-ui, sans-serif;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #h {
+      position: fixed;
+      top: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 2;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Menu overlay: tự cuộn nếu màn hình quá thấp, không cắt mất phần đầu */
+    #m {
+      position: fixed;
+      inset: 0;
+      background: #0b132bee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      text-align: center;
+      z-index: 3;
+      overflow-y: auto;
+    }
+
+    #m > * {
+      flex: none; /* không cho phần tử con bị co lại */
+    }
+
+    #m > :first-child {
+      margin-top: auto;
+    }
+
+    #m > :last-child {
+      margin-bottom: auto;
+    }
+
+    /* Danh sách màn chơi: chỉ cuộn khi thật sự không đủ chỗ */
+    #g {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+      gap: 6px;
+      width: min(92vw, 560px);
+      max-height: calc(100vh - 200px);
+      max-height: calc(100dvh - 200px);
+      overflow-y: auto;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    #g button {
+      padding: 10px 0;
+    }
+
+    button {
+      background: #22c55e;
+      color: #032b12;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+
+    button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      background: #26345c;
+      color: #7b88b0;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="h"></div>
+  <div id="m"></div>
+
+  <script>
+    const C = c.getContext('2d');
+    const N = 50;
+    const K = 'mg_reaction';
+    const TITLE = '⚡ Reaction Time';
+    const HINT = matchMedia('(pointer:coarse)').matches
+      ? 'Chạm ngay khi màn hình chuyển xanh. Chạm sớm hoặc chạm lúc màu đỏ sẽ mất tim ❤️'
+      : 'Click (hoặc Space/Enter) ngay khi màn hình chuyển xanh. Bấm sớm hoặc bấm lúc màu đỏ sẽ mất tim ❤️';
+
+    // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
+    const MIN_HUMAN_MS = 90; // nhanh hơn mức này là đoán mò (phản xạ người không thể nhanh vậy)
+
+    const CFG = {
+      need:     lv => Math.min(3 + Math.floor(lv / 10), 8),                    // số lượt cần đạt
+      lives:    lv => 3,                                                       // số mạng
+      thr:      lv => Math.round(600 - (lv - 1) * (340 / 49)),                 // giới hạn phản xạ: 600ms -> 260ms
+      trap:     lv => (lv < 3 ? 0 : Math.min(0.08 + (lv - 3) * 0.009, 0.5)),   // tỉ lệ bẫy màu đỏ
+      waitMin:  lv => 1,                                                       // thời gian chờ tối thiểu (giây)
+      waitVar:  lv => 2.5 + lv * 0.03                                          // độ ngẫu nhiên thời gian chờ (giây)
+    };
+
+    // Các pha: 0 = chờ (xanh dương), 1 = xanh lá (BẤM), 2 = đỏ (đừng bấm), 3 = hiện kết quả
+    let W, H;
+    let lv = 1, run = 0, best = 1, lt = 0;
+    let ph = 0, tm = 0, t0 = 0, ok = 0, lf = 3, need = 3, thr = 600, msg = '', dec = false, dp = 0;
+
+    try {
+      const saved = parseInt(localStorage[K], 10);
+      best = Math.min(N, Math.max(1, saved || 1));
+    } catch (e) {}
+
+    function rs() {
+      W = c.width = innerWidth;
+      H = c.height = innerHeight;
+    }
+    onresize = rs;
+    rs();
+
+    // ====== MENU ======
+    function menu() {
+      run = 0;
+      h.textContent = '';
+      m.style.display = 'flex';
+      m.innerHTML = `
+        <h2>${TITLE}</h2>
+        <p>Chọn màn (${best}/${N})</p>
+        <div id="g"></div>
+        <p style="opacity:.7;max-width:90vw;font-size:.9em">${HINT}</p>`;
+
+      const grid = document.getElementById('g');
+      for (let i = 1; i <= N; i++) {
+        const b = document.createElement('button');
+        b.textContent = i;
+        b.disabled = i > best;
+        b.onclick = () => go(i);
+        grid.append(b);
+      }
+    }
+
+    function end(win) {
+      if (!run) return;
+      draw();
+      run = 0;
+
+      if (win && lv >= best && best < N) {
+        best = lv + 1;
+        try { localStorage[K] = best; } catch (e) {}
+      }
+
+      const next = win && lv < N;
+      m.style.display = 'flex';
+      m.innerHTML = `
+        <h2>${win ? '🎉 Qua màn ' + lv : '💥 Thua rồi'}</h2>
+        <div style="display:flex;gap:10px">
+          <button id="ba">${next ? 'Màn tiếp' : 'Chơi lại'}</button>
+          <button id="bm">Chọn màn</button>
+        </div>`;
+
+      document.getElementById('ba').onclick = () => go(next ? lv + 1 : lv);
+      document.getElementById('bm').onclick = menu;
+    }
+
+    function go(l) {
+      lv = Math.max(1, Math.min(l, best, N)); // không cho vào màn chưa mở khóa
+      m.style.display = 'none';
+      if (document.activeElement) document.activeElement.blur();
+      rs();
+      init();
+      run = 1;
+      lt = performance.now();
+    }
+
+    // ====== LOGIC ======
+    function init() {
+      need = CFG.need(lv);
+      thr = CFG.thr(lv);
+      dp = CFG.trap(lv);
+      ok = 0;
+      lf = CFG.lives(lv);
+      nx();
+    }
+
+    // Bắt đầu một lượt mới: chờ ngẫu nhiên, có thể là bẫy đỏ
+    function nx() {
+      ph = 0;
+      tm = CFG.waitMin(lv) + Math.random() * CFG.waitVar(lv);
+      msg = 'Chờ màn hình xanh...';
+      dec = Math.random() < dp;
+    }
+
+    function res(text, bad) {
+      if (bad) lf--;
+      msg = text;
+      ph = 3;
+      tm = 0.9;
+    }
+
+    function upd(d) {
+      tm -= d;
+      if (tm > 0) return;
+
+      if (ph === 0) {
+        if (dec) {
+          ph = 2;
+          tm = 0.8 + Math.random() * 0.6;
+          msg = 'ĐỎ! Đừng bấm';
+        } else {
+          ph = 1;
+          t0 = performance.now();
+          tm = 2;
+          msg = 'BẤM!';
+        }
+      } else if (ph === 2) {
+        nx();
+      } else if (ph === 1) {
+        res('Quá chậm!', 1);
+      } else if (lf <= 0) {
+        end(0);
+      } else if (ok >= need) {
+        end(1);
+      } else {
+        nx();
+      }
+    }
+
+    function press() {
+      if (!run) return;
+
+      if (ph === 0) {
+        res('Bấm sớm quá!', 1);
+      } else if (ph === 2) {
+        res('Đó là màu đỏ!', 1);
+      } else if (ph === 1) {
+        const t = Math.round(performance.now() - t0);
+        if (t < MIN_HUMAN_MS) {
+          res('Quá nhanh, đoán mò à? (' + t + ' ms)', 1); // đoán trúng không được thưởng
+        } else if (t <= thr) {
+          ok++;
+          res(t + ' ms ✅');
+        } else {
+          res(t + ' ms, chậm hơn ' + thr + ' ms', 1);
+        }
+      }
+    }
+
+    // ====== VẼ ======
+    function draw() {
+      C.fillStyle = ['#1e3a8a', '#16a34a', '#dc2626', '#334155'][ph];
+      C.fillRect(0, 0, W, H);
+
+      C.fillStyle = '#fff';
+      C.textAlign = 'center';
+      C.textBaseline = 'middle';
+
+      const f = Math.min(W / 9, 64);
+      C.font = 'bold ' + f + 'px system-ui';
+      C.fillText(msg, W / 2, H / 2, W - 20);
+
+      C.font = Math.min(W / 20, 20) + 'px system-ui';
+      C.fillText(`Đạt ${ok}/${need} · ❤️ ${lf} · Mục tiêu ≤ ${thr} ms`, W / 2, H / 2 + f, W - 20);
+
+      h.textContent = `Màn ${lv}/${N}`;
+    }
+
+    function loop(t) {
+      const d = Math.min((t - lt) / 1000, 0.05);
+      lt = t;
+
+      if (run) {
+        upd(d);
+        if (run) draw();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    // ====== ĐIỀU KHIỂN ======
+    c.onpointerdown = e => {
+      if (e.isPrimary && e.button === 0) press(); // bỏ qua chuột phải và ngón tay thứ 2
+    };
+
+    onkeydown = e => {
+      if (!run) return; // ngoài ván chơi để phím hoạt động bình thường (Enter/Space trên nút)
+      if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) {
+        e.preventDefault();
+        press();
+      }
+    };
+
+    // Rời tab giữa chừng thì làm lại lượt, tránh bị tính "chậm" oan
+    document.addEventListener('visibilitychange', () => {
+      if (run && document.hidden && ph !== 3) nx();
+    });
+
+    menu();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
