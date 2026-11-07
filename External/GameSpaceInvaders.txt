@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Space Invaders</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#0a0f24;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
+#m{position:fixed;inset:0;background:#0a0f24ee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
+#g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(90vw,340px)}
+button{background:#22c55e;color:#04210f;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#26304f;color:#7d8bb5}
+</style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=20,K='mg_invaders',T='👾 Space Invaders',hint=matchMedia('(pointer:coarse)').matches?'Kéo ngón tay để di chuyển, tàu tự bắn khi chạm':'← → hoặc di chuột để di chuyển, Space hoặc giữ chuột để bắn';
+let W,H,U,lv=1,run=0,best=1,lt=0,px=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;U=Math.min(W,H*.8)*.09}onresize=rs;rs();
+function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
+function end(w){if(!run)return;run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
+function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);draw()}requestAnimationFrame(loop)}
+let E,B,X,ed,sp,cd,lf,fr=0,ks={};
+function init(){const r=Math.min(2+Math.ceil(lv/4),6),cl=Math.min(4+(lv>>1),9);U=Math.min(W/(cl*1.8+1),H/(r*1.6+6),50);E=[];for(let i=0;i<r;i++)for(let j=0;j<cl;j++)E.push({x:W/2+(j-(cl-1)/2)*U*1.6,y:H*.1+U+i*U*1.4});ed=1;sp=U*(1.5+lv*.2);B=[];X=[];cd=0;lf=3;px=W/2}
+function hit(a){lf=a?0:lf-1;if(lf<=0)end(0)}
+function upd(d){if(ks.ArrowLeft)px-=W*.8*d;if(ks.ArrowRight)px+=W*.8*d;px=Math.max(U/2,Math.min(W-U/2,px));
+cd-=d;if((fr||ks[' '])&&cd<=0){B.push({x:px,y:H-U*2});cd=.35}
+let e=0;E.forEach(o=>{o.x+=ed*sp*d;if(o.x<U/2||o.x>W-U/2)e=1});if(e){ed*=-1;E.forEach(o=>{o.y+=U*.5;o.x+=ed*sp*d*2})}
+if(E.length&&Math.random()<d*(.6+lv*.12)){const o=E[Math.random()*E.length|0];X.push({x:o.x,y:o.y})}
+B.forEach(b=>b.y-=H*.9*d);X.forEach(b=>b.y+=H*(.35+lv*.015)*d);
+B.forEach(b=>E.forEach(o=>{if(!b.d&&!o.d&&Math.abs(b.x-o.x)<U*.6&&Math.abs(b.y-o.y)<U*.6)b.d=o.d=1}));
+E=E.filter(o=>!o.d);B=B.filter(b=>!b.d&&b.y>0);
+X.forEach(b=>{if(Math.abs(b.x-px)<U*.5&&Math.abs(b.y-(H-U*1.5))<U*.6){b.d=1;hit()}});X=X.filter(b=>!b.d&&b.y<H);
+if(E.some(o=>o.y>H-U*2.5))hit(1);if(!E.length)end(1)}
+function draw(){C.clearRect(0,0,W,H);C.font=U+'px serif';C.textAlign='center';C.textBaseline='middle';E.forEach(o=>C.fillText('👾',o.x,o.y));C.fillText('🚀',px,H-U*1.5);C.fillStyle='#fde047';B.forEach(b=>C.fillRect(b.x-2,b.y,4,U*.5));C.fillStyle='#f87171';X.forEach(b=>C.fillRect(b.x-2,b.y,4,U*.5));h.textContent=`Màn ${lv} · ❤️ ${lf} · 👾 ${E.length}`}
+onkeydown=e=>{ks[e.key]=1;if(e.key.startsWith('Arrow')||e.key==' ')e.preventDefault()};onkeyup=e=>ks[e.key]=0;
+c.onpointermove=e=>{if(run)px=e.clientX};c.onpointerdown=e=>{px=e.clientX;fr=1};onpointerup=onpointercancel=()=>fr=0;
+menu();requestAnimationFrame(loop);
+</script>
