@@ -260,44 +260,44 @@ document.querySelectorAll(".menu-itemX1").forEach((item)=>{
         switch(action){
             case "TronMau":showmodal2('/Home/TronMau','/tron-mau');break;
             case "TracNghiem":showmodal2('/Home/TracNghiemX_Multiple','/trac-nghiem-index');break;
-            case "Question":window.location.href="/Home/PlayQuestion_Multiple";break;
+            case "Question":window.open("/Home/PlayQuestion_Multiple","_blank");break;
             case "Karaoke":showmodal2('/Home/ToPlayKaraoke','/karaoke');break;
-            case "GameRanSanMoi":window.location.href="/game-ran-san-moi";break;
-            case "GameCoCaro":window.location.href="/game-co-caro";break;
-            case "GameDapChuot":window.location.href="/game-dap-chuot";break;
-            case "GameNeVatThe":window.location.href="/game-ne-tranh-vat-the";break;
-            case "GameWordle":window.location.href="/game-wordle";break;
-            case "GameBrickBreaker":window.location.href="/game-brick-breaker";break;
-            case "GameQuickMath":window.location.href="/game-quick-math";break;
-            case "GameSlidingPuzzle":window.location.href="/game-sliding-puzzle";break;
-            case "GamePingPongArena":window.location.href="/game-ping-pong-arena";break;
-            case "GameFlappyBird":window.location.href="/game-flappy-bird";break;
-            case "GameTyping":window.location.href="/game-typing";break;
-            case "GameMemory":window.location.href="/game-memory";break;
-            case "GameCarDodging":window.location.href="/game-car-dodging";break;
-            case "GameColorMatch":window.location.href="/game-color-match";break;
-            case "GameHangMan":window.location.href="/game-hangman";break;
-            case "GameMinesweeper":window.location.href="/game-minesweeper";break;
-            case "GameSpaceInvaders":window.location.href="/game-space-invaders";break;
-            case "GameDinoRunner":window.location.href="/game-dino-runner";break;
-            case "GameFruitNinja":window.location.href="/game-fruit-ninja";break;
-            case "GameCatchFallingObjects":window.location.href="/game-catch-falling-objects";break;
-            case "GameTetris":window.location.href="/game-tetris";break;
-            case "GameConnectFour":window.location.href="/game-connect-four";break;
-            case "GameLightsOut":window.location.href="/game-lights-out";break;
-            case "GameTowerOfHanoi":window.location.href="/game-tower-of-hanoi";break;
-            case "GameSimonSays":window.location.href="/game-simon-says";break;
-            case "GameMastermind":window.location.href="/game-mastermind";break;
-            case "GameMatch3":window.location.href="/game-match-3";break;
-            case "GameReactionTime":window.location.href="/game-reaction-time";break;
+            case "GameRanSanMoi":window.open("/game-ran-san-moi","_blank");break;
+            case "GameCoCaro":window.open("/game-co-caro","_blank");break;
+            case "GameDapChuot":window.open("/game-dap-chuot","_blank");break;
+            case "GameNeVatThe":window.open("/game-ne-tranh-vat-the","_blank");break;
+            case "GameWordle":window.open("/game-wordle","_blank");break;
+            case "GameBrickBreaker":window.open("/game-brick-breaker","_blank");break;
+            case "GameQuickMath":window.open("/game-quick-math","_blank");break;
+            case "GameSlidingPuzzle":window.open("/game-sliding-puzzle","_blank");break;
+            case "GamePingPongArena":window.open("/game-ping-pong-arena","_blank");break;
+            case "GameFlappyBird":window.open("/game-flappy-bird","_blank");break;
+            case "GameTyping":window.open("/game-typing","_blank");break;
+            case "GameMemory":window.open("/game-memory","_blank");break;
+            case "GameCarDodging":window.open("/game-car-dodging","_blank");break;
+            case "GameColorMatch":window.open("/game-color-match","_blank");break;
+            case "GameHangMan":window.open("/game-hangman","_blank");break;
+            case "GameMinesweeper":window.open("/game-minesweeper","_blank");break;
+            case "GameSpaceInvaders":window.open("/game-space-invaders","_blank");break;
+            case "GameDinoRunner":window.open("/game-dino-runner","_blank");break;
+            case "GameFruitNinja":window.open("/game-fruit-ninja","_blank");break;
+            case "GameCatchFallingObjects":window.open("/game-catch-falling-objects","_blank");break;
+            case "GameTetris":window.open("/game-tetris","_blank");break;
+            case "GameConnectFour":window.open("/game-connect-four","_blank");break;
+            case "GameLightsOut":window.open("/game-lights-out","_blank");break;
+            case "GameTowerOfHanoi":window.open("/game-tower-of-hanoi","_blank");break;
+            case "GameSimonSays":window.open("/game-simon-says","_blank");break;
+            case "GameMastermind":window.open("/game-mastermind","_blank");break;
+            case "GameMatch3":window.open("/game-match-3","_blank");break;
+            case "GameReactionTime":window.open("/game-reaction-time","_blank");break;
             case "Studocu":showmodal1();break;
-            /* case "Studocu":window.location.href="/lay-tai-lieu-tu-stoducu";break; */
+            /* case "Studocu":window.open("/lay-tai-lieu-tu-stoducu","_blank");break; */
         }
     });
 });
 
-function yes1(){window.location.href="/lay-tai-lieu-tu-stoducu";}
-function no1(){window.location.href="/xac-thuc-1";}
+function yes1(){window.open("/lay-tai-lieu-tu-stoducu","_blank");}
+function no1(){window.open("/xac-thuc-1","_blank");}
 function showmodal1(){document.getElementById("modal1").classList.add("show");}
 function showmodal2(o,n){urlChooseOld=o;urlChooseNew=n;document.getElementById("modal2").classList.add("show");}
 
@@ -311,8 +311,8 @@ function closemodal2() {
     document.getElementById("modal2").classList.remove("show");
 }
 
-function cu2(){window.location.href=urlChooseOld;}
-function moi2(){window.location.href=urlChooseNew;}
+function cu2(){window.open(urlChooseOld,"_blank");}
+function moi2(){window.open(urlChooseNew,"_blank");}
 
 let urlChooseOld="",urlChooseNew="";
 
