@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Simon Says</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#0d1117;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none}
+#m{position:fixed;inset:0;background:#0d1117ee;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px;text-align:center}
+#g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(90vw,340px)}
+button{background:#3b82f6;color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700}button:disabled{background:#232b3a;color:#707c93}
+</style><canvas id="c"></canvas><div id="h"></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=20,K='mg_simon',T='🎵 Simon Says',hint=matchMedia('(pointer:coarse)').matches?'Xem dãy màu sáng lên, rồi chạm lại đúng thứ tự. Mỗi vòng thêm một bước':'Xem dãy màu sáng lên, rồi click (hoặc bấm phím số trên pad) đúng thứ tự. Mỗi vòng thêm một bước';
+let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}onresize=rs;rs();
+function menu(){run=0;m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p style="opacity:.7;max-width:90vw">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;b.onclick=()=>go(i);g.append(b)}}
+function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';rs();init();run=1;lt=performance.now()}
+function loop(t){const d=Math.min((t-lt)/1000,.05);lt=t;if(run){upd(d);if(run)draw()}requestAnimationFrame(loop)}
+const PC=['#ef4444','#22c55e','#3b82f6','#eab308','#a855f7','#f97316','#06b6d4','#ec4899'];
+let sq,r,ph,si,tm,lit,np,pi,len,iv,s,cols,ox,oy;
+function init(){np=lv<8?4:lv<15?6:8;cols=np==4?2:np==6?3:4;len=3+Math.ceil(lv*.6);iv=Math.max(.7-lv*.025,.25);sq=Array.from({length:len},()=>Math.random()*np|0);r=1;ph=0;si=0;tm=.8;lit=-1;pi=0}
+function upd(d){tm-=d;if(tm>0)return;if(ph==0){if(lit>=0){lit=-1;tm=iv*.35;if(si>=r){ph=1;pi=0}}else if(si<r){lit=sq[si++];tm=iv}}else if(lit>=0)lit=-1}
+function press(i){if(!run||ph!=1||i<0||i>=np)return;lit=i;tm=.18;if(i!=sq[pi])return end(0);if(++pi==r){if(++r>len)return end(1);ph=0;si=0;tm=.4}}
+function lay(){const rows=np/cols;s=Math.min((W-24)/cols,(H-130)/rows,190);ox=(W-cols*s)/2;oy=(H-rows*s)/2}
+function draw(){lay();C.clearRect(0,0,W,H);C.textAlign='center';C.textBaseline='middle';C.font=s*.25+'px system-ui';
+for(let i=0;i<np;i++){const x=ox+(i%cols)*s,y=oy+(i/cols|0)*s,on=i==lit;C.globalAlpha=on?1:.35;C.shadowColor=PC[i];C.shadowBlur=on?30:0;C.fillStyle=PC[i];C.beginPath();C.roundRect(x+6,y+6,s-12,s-12,16);C.fill();C.shadowBlur=0;C.globalAlpha=.8;C.fillStyle='#fff';C.fillText(i+1,x+s/2,y+s/2)}
+C.globalAlpha=1;h.textContent=`Màn ${lv} · Vòng ${Math.min(r,len)}/${len} · ${ph?'👆 Đến lượt bạn':'👀 Nhìn kỹ'}`}
+c.onpointerdown=e=>{const q=Math.floor((e.clientX-ox)/s),w=Math.floor((e.clientY-oy)/s);if(q>=0&&q<cols&&w>=0&&w<np/cols)press(w*cols+q)};
+onkeydown=e=>{if(e.key>='1'&&e.key<='8')press(+e.key-1)};
+menu();requestAnimationFrame(loop);
+</script>
