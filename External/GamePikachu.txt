@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🐼 Pikachu</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
+header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}
+section{width:100%;flex:1;min-height:0}
+#menu{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+#sub{margin:0 0 8px;font-size:14px;color:#94a3b8}
+.hp{margin:10px 0 0;font-size:12px;color:#94a3b8;text-align:center;max-width:640px}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+#grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
+#grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
+#play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
+#info{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;font-size:14px;min-height:26px;flex:none}
+#board{flex:none}
+#msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
+#ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}
+.box{background:#1e293b;border-radius:16px;padding:22px;max-width:320px;width:86%;text-align:center}
+.box h2{margin:0 0 8px}.box p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+#board.pk{position:relative;display:grid;margin:6px auto;touch-action:manipulation}
+.pk>div{display:flex;align-items:center;justify-content:center}
+.pk .t{background:#f1f5f9;border-radius:22%;margin:1.5px;cursor:pointer;box-shadow:0 2px 0 #94a3b8}
+.pk .t.s{background:#a5b4fc;transform:scale(.92)}
+.pk .t.h{animation:hb .5s 4}
+.pk .t.nm{animation:sk .3s}
+@keyframes hb{50%{background:#fde047}}
+@keyframes sk{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.pk svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#tb{height:8px;background:#334155;border-radius:4px;flex:1;max-width:300px;overflow:hidden}#tb i{display:block;height:100%;background:#22c55e;width:100%}
+
+</style></head><body>
+<div id="app">
+<header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🐼 Pikachu</h1><span id="lv"></span></header>
+<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Nối 2 hình giống nhau bằng đường có tối đa 2 góc rẽ, không bị hình khác chặn. Xoá hết trước khi hết giờ.</p></section>
+<section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
+<div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+</div>
+<script>
+const GAME={key:'pikachu'};
+const MAX=100,KEY='gp_'+GAME.key;
+let prog=0,L=1,over=false;
+try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
+const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const stop=()=>{if(typeof onStop=='function')onStop()};
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function menu(){
+ stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
+ $('#bk').style.visibility='hidden';$('#lv').textContent='';
+ $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
+ $('#grid').innerHTML=h;fitMenu();
+}
+function play(l){
+ stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
+ $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
+ const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ $('#ctl').innerHTML='';say('');setInfo('');start(l);
+}
+function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
+ setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+  modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
+function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
+$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+$('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+
+const EM='🍎🍌🍇🍓🍒🍑🍍🥝🍉🍋🥕🌽🍄🌸🌻🐶🐱🐭🐰🦊🐻🐼🐸🐵🐔🐧🐢🐙🦋🐞'.match(/./gu),DX=[1,-1,0,0],DY=[0,0,1,-1];
+let C,RW,W,H,g,sel,lk,tot,t0,sh,ht,grav,tid,R,hl;
+const cn=()=>g.filter(x=>x).length;
+function findPath(a,b){const ax=a%W,ay=a/W|0;let res=null;
+ function go(x,y,d,t,pts){let nx=x+DX[d],ny=y+DY[d];
+  while(nx>=0&&ny>=0&&nx<W&&ny<H){const id=ny*W+nx;
+   if(id==b){res=pts.concat([[nx,ny]]);return true}
+   if(g[id])return false;
+   if(t<2)for(let e=0;e<4;e++){if(e==d||e==(d^1))continue;if(go(nx,ny,e,t+1,pts.concat([[nx,ny]])))return true}
+   nx+=DX[d];ny+=DY[d]}
+  return false}
+ for(let d=0;d<4;d++)if(go(ax,ay,d,0,[[ax,ay]]))return res;
+ return null}
+function pairs(){const m={};g.forEach((v,i)=>{if(v)(m[v]||(m[v]=[])).push(i)});
+ for(const k in m){const a=m[k];for(let x=0;x<a.length;x++)for(let y=x+1;y<a.length;y++)if(findPath(a[x],a[y]))return[a[x],a[y]]}return null}
+function shuffle(){const ix=[],vs=[];g.forEach((v,i)=>{if(v){ix.push(i);vs.push(v)}});vs.sort(()=>R()-.5);ix.forEach((i,k)=>g[i]=vs[k])}
+function ensure(){let t=0;while(!pairs()&&t++<80)shuffle();if(t>0)say('Hết nước đi nên các hình được xáo trộn tự động.')}
+function fall(){for(let x=1;x<=C;x++){const col=[];for(let y=RW;y>=1;y--)if(g[y*W+x])col.push(g[y*W+x]);for(let y=RW,k=0;y>=1;y--,k++)g[y*W+x]=col[k]||0}}
+function start(l){
+ R=rng(l*911+3);C=Math.min(10,6+Math.floor(l/22));RW=Math.min(8,4+Math.floor(l/20));if(C*RW%2)RW++;
+ W=C+2;H=RW+2;g=Array(W*H).fill(0);
+ const pr=C*RW/2,T=Math.min(pr,30,Math.max(6,Math.floor(6+l*.25))),t=[];
+ for(let i=0;i<pr;i++)t.push(i%T+1,i%T+1);t.sort(()=>R()-.5);
+ let k=0;for(let y=1;y<=RW;y++)for(let x=1;x<=C;x++)g[y*W+x]=t[k++];
+ grav=l>=30;sel=-1;lk=false;hl=[];sh=3;ht=3;tot=pr*(6.5-3*l/100);t0=Date.now();
+ setInfo('<span id="pr"></span><div id="tb"><i></i></div>');
+ $('#board').className='pk';$('#board').onclick=click;
+ draw();ctl();ensure();draw();
+ say(grav?'Từ màn 30: các hình sẽ rơi xuống sau khi xoá, hãy nhìn kỹ!':'Chạm 2 hình giống nhau (nối tối đa 2 góc rẽ).');
+ clearInterval(tid);tid=setInterval(tick,200);
+}
+function onStop(){clearInterval(tid)}
+function tick(){const r=tot-(Date.now()-t0)/1000,i=$('#tb i');if(i)i.style.width=Math.max(0,r/tot*100)+'%';if(r<=0)fail('Hết giờ! Còn '+cn()/2+' cặp chưa nối.')}
+function ctl(){$('#ctl').innerHTML='<button class="b" id="h">💡 Gợi ý ('+ht+')</button><button class="b" id="s">🔀 Xáo trộn ('+sh+')</button>';
+ $('#ctl').onclick=e=>{const t=e.target.closest('button');if(!t||over||lk)return;
+  if(t.id=='h'){if(ht<=0){say('Hết lượt gợi ý.');return}const p=pairs();if(p){ht--;hl=p;draw();ctl()}}
+  else if(sh>0){sh--;shuffle();ensure();sel=-1;hl=[];draw();ctl()}else say('Hết lượt xáo trộn.')}}
+function relayout(){if($('#board').classList.contains('pk'))draw()}
+function draw(){
+ const b=$('#board'),c=Math.floor(Math.max(24,Math.min((innerWidth-12)/W,(innerHeight-195)/H,64)));
+ b.style.gridTemplateColumns='repeat('+W+','+c+'px)';b.style.gridAutoRows=c+'px';b.style.fontSize=c*.62+'px';b.style.width=W*c+'px';
+ let h='';for(let i=0;i<W*H;i++)h+=g[i]?'<div class="t'+(i==sel?' s':'')+(hl.includes(i)?' h':'')+'" data-i="'+i+'">'+EM[g[i]-1]+'</div>':'<div></div>';
+ b.innerHTML=h;const p=$('#pr');if(p)p.textContent='Còn '+cn()/2+' cặp';
+}
+function click(e){
+ if(lk||over)return;const t=e.target.closest('.t');if(!t)return;const i=+t.dataset.i;hl=[];
+ if(sel==i){sel=-1;draw();return}
+ if(sel<0||g[sel]!=g[i]){sel=i;draw();return}
+ const p=findPath(sel,i);
+ if(!p){say('Không nối được: đường bị chặn hoặc cần quá 2 góc rẽ.');sel=i;draw();return}
+ say('');lk=true;const a=sel;
+ $('#board').insertAdjacentHTML('beforeend','<svg viewBox="0 0 '+W+' '+H+'"><polyline fill="none" stroke="#f43f5e" stroke-width=".14" stroke-linecap="round" stroke-linejoin="round" points="'+p.map(q=>(q[0]+.5)+','+(q[1]+.5)).join(' ')+'"/></svg>');
+ setTimeout(()=>{if(!$('#board').classList.contains('pk'))return;g[a]=0;g[i]=0;if(grav)fall();sel=-1;lk=false;draw();if(!cn())win('Đã xoá sạch bàn chơi!');else{ensure();draw()}},260);
+}
+
+menu();
+</script></body></html>
