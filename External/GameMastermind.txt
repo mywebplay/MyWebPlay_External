@@ -6,14 +6,9 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Mastermind</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html,
-    body {
+    html, body {
       height: 100%;
       overflow: hidden;
       background: #0f172a;
@@ -24,29 +19,52 @@
       -webkit-user-select: none;
     }
 
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+    canvas { display: block; width: 100%; height: 100%; }
 
     #h {
       position: fixed;
-      top: 8px;
-      left: 0;
-      right: 0;
+      top: 8px; left: 0; right: 0;
       text-align: center;
       font-weight: 700;
+      font-size: .95em;
       pointer-events: none;
       z-index: 2;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     }
 
+    /* Chú thích ký hiệu: luôn hiện trong lúc chơi */
+    #lg {
+      position: fixed;
+      top: 34px; left: 0; right: 0;
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 14px;
+      padding: 0 10px;
+      font-size: .78em;
+      line-height: 1.35;
+      color: #cbd5e1;
+      pointer-events: none;
+      z-index: 2;
+    }
+    #lg i {
+      font-style: normal;
+      display: inline-block;
+      min-width: 2.3em;
+      padding: 1px 6px;
+      margin-right: 5px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+    .ok { background: #16a34a; }
+    .mid { background: #d97706; }
+    .no { background: #475569; }
+
     #pal {
       position: fixed;
-      bottom: 10px;
-      left: 0;
-      right: 0;
+      bottom: 10px; left: 0; right: 0;
       display: none;
       flex-wrap: wrap;
       justify-content: center;
@@ -69,35 +87,47 @@
       z-index: 3;
       overflow-y: auto;
     }
+    #m > * { flex: none; }
+    #m > :first-child { margin-top: auto; }
+    #m > :last-child { margin-bottom: auto; }
 
-    #m > * {
-      flex: none; /* không cho phần tử con bị co lại */
-    }
-
-    #m > :first-child {
-      margin-top: auto;
-    }
-
-    #m > :last-child {
-      margin-bottom: auto;
-    }
-
-    /* Danh sách màn chơi: chỉ cuộn khi thật sự không đủ chỗ */
+    /* Bảng chọn màn: không scroll, tự co theo màn hình */
     #g {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+      grid-template-columns: repeat(7, 1fr);
       gap: 6px;
-      width: min(92vw, 560px);
-      max-height: calc(100vh - 200px);
-      max-height: calc(100dvh - 200px);
-      overflow-y: auto;
-      padding: 8px;
+      width: min(92vw, 520px);
+      padding: 10px;
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
+      border-radius: 12px;
+    }
+    #g button {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(13px, 3.6vw, 18px);
+      border-radius: 8px;
+    }
+    #g button.cur { outline: 2px solid #fff; outline-offset: 1px; }
+
+    @media (min-width: 560px) {
+      #g { grid-template-columns: repeat(10, 1fr); width: min(92vw, 600px); gap: 7px; }
+    }
+    @media (max-height: 520px) {
+      #g { grid-template-columns: repeat(10, 1fr); width: min(80vw, 560px); gap: 4px; padding: 6px; }
+      #g button { font-size: 13px; }
+      #m { gap: 6px; padding: 8px; }
     }
 
-    #g button {
-      padding: 10px 0;
+    .dots { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+    .dots span {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #000; font-weight: 700; font-size: 14px;
     }
 
     button {
@@ -110,26 +140,20 @@
       font-weight: 700;
       cursor: pointer;
     }
-
-    button:hover:not(:disabled) {
-      filter: brightness(1.1);
-    }
-
-    button:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 2px;
-    }
-
-    button:disabled {
-      background: #26334d;
-      color: #7a8aa8;
-      cursor: not-allowed;
-    }
+    button:hover:not(:disabled) { filter: brightness(1.1); }
+    button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    button:disabled { background: #26334d; color: #7a8aa8; cursor: not-allowed; }
   </style>
 </head>
 <body>
   <canvas id="c"></canvas>
   <div id="h"></div>
+  <div id="lg">
+    <span><i class="ok">✓ n</i>đúng màu, đúng chỗ</span>
+    <span><i class="mid">⇄ n</i>đúng màu, sai chỗ</span>
+    <span><i class="no">✕ n</i>màu không có trong mã (hoặc thừa)</span>
+    <span style="flex-basis:100%;text-align:center;opacity:.75">Mỗi con số tính cho cả dãy, không chỉ rõ ô nào</span>
+  </div>
   <div id="pal"></div>
   <div id="m"></div>
 
@@ -139,14 +163,14 @@
     const K = 'mg_mastermind';
     const TITLE = '🧠 Mastermind';
     const HINT = 'Đoán dãy màu ẩn: chọn màu (chạm/click hoặc phím số), ⌫ để xoá, ✔ (Enter) để gửi. '
-      + '⚫ = đúng màu đúng chỗ, ⚪ = đúng màu sai chỗ. Màu có thể lặp lại';
-    const CL = ['#ef4444', '#22c55e', '#3b82f6', '#eab308', '#a855f7', '#f97316', '#e5e7eb', '#a16207'];
-    const EM = ['🔴', '🟢', '🔵', '🟡', '🟣', '🟠', '⚪', '🟤'];
+      + 'Sau mỗi lượt có 3 con số: ✓ đúng màu đúng chỗ, ⇄ đúng màu sai chỗ, ✕ màu không có trong mã. '
+      + 'Màu có thể lặp lại';
+    const CL = ['#ef4444', '#22c55e', '#3b82f6', '#eab308', '#a855f7', '#f97316', '#e5e7eb', '#a16207', '#ec4899'];
 
     // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
     const CFG = {
-      len:    lv => (lv <= 15 ? 3 : lv <= 35 ? 4 : 5),         // độ dài mã
-      colors: lv => Math.min(4 + Math.floor(lv / 10), 8),      // số màu
+      len:    lv => (lv <= 8 ? 3 : lv <= 20 ? 4 : lv <= 35 ? 5 : 6),   // số ô trong mã (3 -> 6)
+      colors: lv => Math.min(4 + Math.floor(lv / 10), 9),              // số màu (4 -> 9)
       // Số lượt = ước lượng số lượt cần thiết (theo số tổ hợp) + dư địa, dư địa thu hẹp dần theo màn
       tries: (lv, len, colors) => {
         const need = Math.ceil(Math.log(Math.pow(colors, len)) / Math.log(5)) + 1;
@@ -155,6 +179,7 @@
       }
     };
 
+    // run: 0 = menu, 1 = đang chơi, 2 = đã kết thúc, chờ hiện bảng kết quả
     let W, H;
     let lv = 1, run = 0, best = 1;
     let cl, nc, tries, S, rows, gs;
@@ -175,6 +200,7 @@
     function menu() {
       run = 0;
       pal.style.display = 'none';
+      lg.style.display = 'none';
       h.textContent = '';
       m.style.display = 'flex';
       m.innerHTML = `
@@ -188,42 +214,54 @@
         const b = document.createElement('button');
         b.textContent = i;
         b.disabled = i > best;
+        if (i === best) b.className = 'cur';
         b.onclick = () => go(i);
         grid.append(b);
       }
     }
 
-    function end(win, text) {
-      if (!run) return;
-      draw();
-      run = 0;
-      pal.style.display = 'none';
+    // Kết thúc: lưu tiến độ ngay, nhưng chờ một chút để người chơi đọc kết quả lượt cuối
+    function end(win, text, reveal) {
+      if (run !== 1) return;
+      run = 2;
 
       if (win && lv >= best && best < N) {
         best = lv + 1;
         try { localStorage[K] = best; } catch (e) {}
       }
 
-      const next = win && lv < N;
-      m.style.display = 'flex';
-      m.innerHTML = `
-        <h2>${win ? '🎉 Qua màn ' + lv : text || '💥 Thua rồi'}</h2>
-        <div style="display:flex;gap:10px">
-          <button id="ba">${next ? 'Màn tiếp' : 'Chơi lại'}</button>
-          <button id="bm">Chọn màn</button>
-        </div>`;
+      setTimeout(() => {
+        run = 0;
+        pal.style.display = 'none';
+        lg.style.display = 'none';
 
-      document.getElementById('ba').onclick = () => go(next ? lv + 1 : lv);
-      document.getElementById('bm').onclick = menu;
+        const next = win && lv < N;
+        const code = reveal
+          ? `<p>Mã đúng là:</p><div class="dots">${S.map(i => `<span style="background:${CL[i]}">${i + 1}</span>`).join('')}</div>`
+          : '';
+
+        m.style.display = 'flex';
+        m.innerHTML = `
+          <h2>${win ? '🎉 Qua màn ' + lv : text || '💥 Thua rồi'}</h2>
+          ${code}
+          <div style="display:flex;gap:10px">
+            <button id="ba">${next ? 'Màn tiếp' : 'Chơi lại'}</button>
+            <button id="bm">Chọn màn</button>
+          </div>`;
+
+        document.getElementById('ba').onclick = () => go(next ? lv + 1 : lv);
+        document.getElementById('bm').onclick = menu;
+      }, 1200);
     }
 
     function go(l) {
-      lv = Math.max(1, Math.min(l, best, N)); // không cho vào màn chưa mở khóa
+      lv = Math.max(1, Math.min(l, best, N));
       m.style.display = 'none';
       if (document.activeElement) document.activeElement.blur();
       rs();
       init();
       pal.style.display = 'flex';
+      lg.style.display = 'flex';
       run = 1;
     }
 
@@ -253,24 +291,24 @@
       };
 
       for (let i = 0; i < nc; i++) {
-        addBtn(i + 1, `background:${CL[i]};color:#000;width:40px;height:40px;border-radius:50%;padding:0`, () => add(i));
+        addBtn(i + 1, `background:${CL[i]};color:#000;width:42px;height:42px;border-radius:50%;padding:0`, () => add(i));
       }
-      addBtn('⌫', 'width:52px;height:40px', del);
-      addBtn('✔', 'width:52px;height:40px', sub);
+      addBtn('⌫', 'width:54px;height:42px', del);
+      addBtn('✔', 'width:54px;height:42px', sub);
     }
 
     function add(i) {
-      if (run && gs.length < cl) gs.push(i);
+      if (run === 1 && gs.length < cl) gs.push(i);
     }
 
     function del() {
-      if (run) gs.pop();
+      if (run === 1) gs.pop();
     }
 
     function sub() {
-      if (!run || gs.length < cl) return;
+      if (run !== 1 || gs.length < cl) return;
 
-      // Chấm điểm: b = đúng màu đúng chỗ, w = đúng màu sai chỗ
+      // Chấm điểm: b = đúng màu đúng chỗ, w = đúng màu sai chỗ, còn lại = không có / thừa
       let b = 0, w = 0;
       const a = [], t = [];
       gs.forEach((v, i) => {
@@ -289,59 +327,88 @@
         }
       });
 
-      rows.push({ g: gs, b, w });
+      rows.push({ g: gs, b, w, n: cl - b - w });
       gs = [];
 
       if (b === cl) end(1); // đoán đúng ở lượt cuối vẫn thắng
-      else if (rows.length >= tries) end(0, '💥 Hết lượt! Mã là ' + S.map(i => EM[i]).join(' '));
+      else if (rows.length >= tries) end(0, '💥 Hết lượt!', true);
     }
 
     // ====== VẼ ======
+    function rr(x, y, w, hh, r) {
+      C.beginPath();
+      if (C.roundRect) C.roundRect(x, y, w, hh, r);
+      else C.rect(x, y, w, hh);
+    }
+
+    function chip(x, y, w, hh, color, icon, num) {
+      C.globalAlpha = num ? 1 : 0.35; // ô bằng 0 mờ đi để mắt dồn vào số có giá trị
+      C.fillStyle = color;
+      rr(x, y - hh / 2, w, hh, hh * 0.3);
+      C.fill();
+
+      C.fillStyle = '#fff';
+      C.font = 'bold ' + Math.max(11, hh * 0.58) + 'px system-ui';
+      C.fillText(icon + num, x + w / 2, y + 1);
+      C.globalAlpha = 1;
+    }
+
     function draw() {
       C.clearRect(0, 0, W, H);
+      C.textAlign = 'center';
+      C.textBaseline = 'middle';
 
-      const rh = Math.min((H - 180) / tries, 44);
-      const x0 = (W - (cl + 1.8) * rh) / 2;
-      const y0 = 36;
+      // Bố cục tự co theo cả chiều rộng lẫn chiều cao (điện thoại, máy tính, xoay ngang)
+      const y0 = lg.getBoundingClientRect().bottom + 8;
+      const availH = H - y0 - pal.offsetHeight - 18;
+      const rhW = (W - 20) / (cl + 0.3 + 3 * 1.1 + 0.16);
+      const rh = Math.max(18, Math.min(availH / tries, rhW, 58));
+
+      const cw = rh * 1.1;
+      const gp = rh * 0.08;
+      const tw = cl * rh + rh * 0.3 + 3 * cw + 2 * gp;
+      const x0 = (W - tw) / 2;
 
       for (let i = 0; i < tries; i++) {
         const y = y0 + i * rh + rh / 2;
-        const row = i < rows.length ? rows[i] : i === rows.length ? { g: gs } : null;
+        const cur = i === rows.length;
+        const row = i < rows.length ? rows[i] : cur ? { g: gs } : null;
+
+        if (cur && run === 1) {
+          C.fillStyle = 'rgba(255,255,255,.07)';
+          rr(x0 - rh * 0.15, y - rh / 2 + 1, tw + rh * 0.3, rh - 2, rh * 0.25);
+          C.fill();
+        }
 
         for (let j = 0; j < cl; j++) {
           const v = row && row.g[j] != null ? row.g[j] : -1;
+          const px = x0 + j * rh + rh / 2;
+
           C.beginPath();
-          C.arc(x0 + j * rh + rh / 2, y, rh * 0.36, 0, Math.PI * 2);
+          C.arc(px, y, rh * 0.36, 0, Math.PI * 2);
           if (v >= 0) {
             C.fillStyle = CL[v];
             C.fill();
+            C.fillStyle = 'rgba(0,0,0,.65)';
+            C.font = 'bold ' + rh * 0.32 + 'px system-ui';
+            C.fillText(v + 1, px, y + 1);
           } else {
-            C.strokeStyle = i === rows.length ? '#94a3b8' : '#334155';
+            C.strokeStyle = cur ? '#94a3b8' : '#334155';
             C.lineWidth = 2;
             C.stroke();
           }
         }
 
         if (row && row.b != null) {
-          for (let k = 0; k < cl; k++) {
-            const bx = x0 + cl * rh + rh * 0.3 + (k % 3) * rh * 0.4;
-            const by = y - rh * 0.2 + Math.floor(k / 3) * rh * 0.4;
-            C.beginPath();
-            C.arc(bx, by, rh * 0.12, 0, Math.PI * 2);
-            if (k < row.b + row.w) {
-              C.fillStyle = k < row.b ? '#000' : '#fff';
-              C.fill();
-              C.strokeStyle = '#fff';
-            } else {
-              C.strokeStyle = '#334155';
-            }
-            C.lineWidth = 1.5;
-            C.stroke();
-          }
+          const fx = x0 + cl * rh + rh * 0.3;
+          const ch = rh * 0.7;
+          chip(fx, y, cw, ch, '#16a34a', '✓', row.b);
+          chip(fx + cw + gp, y, cw, ch, '#d97706', '⇄', row.w);
+          chip(fx + 2 * (cw + gp), y, cw, ch, '#475569', '✕', row.n);
         }
       }
 
-      h.textContent = `Màn ${lv}/${N} · Lượt ${Math.min(rows.length + 1, tries)}/${tries} · ⚫ đúng chỗ, ⚪ sai chỗ`;
+      h.textContent = `Màn ${lv}/${N} · Lượt ${Math.min(rows.length + 1, tries)}/${tries} · Mã ${cl} ô, ${nc} màu`;
     }
 
     function loop() {
@@ -351,10 +418,10 @@
 
     // ====== ĐIỀU KHIỂN ======
     onkeydown = e => {
-      if (!run) return;
+      if (run !== 1) return;
 
       const k = e.key;
-      if (/^[1-8]$/.test(k) && +k <= nc) {
+      if (/^[1-9]$/.test(k) && +k <= nc) {
         add(+k - 1);
       } else if (k === 'Backspace') {
         e.preventDefault();
