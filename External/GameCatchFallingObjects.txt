@@ -6,14 +6,9 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Hứng vật rơi</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html,
-    body {
+    html, body {
       height: 100%;
       overflow: hidden;
       background: #12263a;
@@ -24,17 +19,11 @@
       -webkit-user-select: none;
     }
 
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+    canvas { display: block; width: 100%; height: 100%; }
 
     #h {
       position: fixed;
-      top: 8px;
-      left: 0;
-      right: 0;
+      top: 8px; left: 0; right: 0;
       text-align: center;
       font-weight: 700;
       pointer-events: none;
@@ -56,20 +45,10 @@
       z-index: 3;
       overflow-y: auto;
     }
+    #m > * { flex: none; }
+    #m > :first-child { margin-top: auto; }
+    #m > :last-child { margin-bottom: auto; }
 
-    #m > * {
-      flex: none; /* không cho phần tử con bị co lại */
-    }
-
-    #m > :first-child {
-      margin-top: auto;
-    }
-
-    #m > :last-child {
-      margin-bottom: auto;
-    }
-
-    /* Danh sách màn chơi: chỉ cuộn khi thật sự không đủ chỗ */
     #g {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
@@ -82,10 +61,7 @@
       background: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
     }
-
-    #g button {
-      padding: 10px 0;
-    }
+    #g button { padding: 10px 0; }
 
     button {
       background: #fbbf24;
@@ -97,21 +73,9 @@
       font-weight: 700;
       cursor: pointer;
     }
-
-    button:hover:not(:disabled) {
-      filter: brightness(1.08);
-    }
-
-    button:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 2px;
-    }
-
-    button:disabled {
-      background: #2b4560;
-      color: #7f9bb8;
-      cursor: not-allowed;
-    }
+    button:hover:not(:disabled) { filter: brightness(1.08); }
+    button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    button:disabled { background: #2b4560; color: #7f9bb8; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -133,24 +97,33 @@
       : '← → (hoặc A D) hoặc di chuột để di chuyển giỏ, hứng 🍎⭐ và tránh 💣';
 
     // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
-    const MAX_SPEED = 1.4; // tốc độ tối đa của giỏ (x chiều rộng / giây), áp dụng cho cả chuột, cảm ứng và phím
+    const MAX_SPEED = 1.4; // tốc độ tối đa của giỏ (x chiều rộng / giây)
 
     const CFG = {
-      goal:       lv => 8 + Math.ceil(lv * 1.2),                      // số vật cần hứng
-      lives:      lv => 5,                                            // số mạng
-      fall:       lv => 0.22 + lv * 0.012,                            // tốc độ rơi (x chiều cao / giây)
-      interval:   lv => Math.max(0.8 - lv * 0.01, 0.3),               // thời gian giữa 2 vật (giây)
-      bombChance: lv => (lv > 1 ? Math.min(0.08 + lv * 0.008, 0.4) : 0), // xác suất là bom
-      basket:     lv => Math.max(2.8 - lv * 0.025, 1.4)               // chiều rộng giỏ (x U)
+      goal:       lv => 8 + Math.ceil(lv * 1.2),
+      lives:      lv => 5,
+      fall:       lv => 0.22 + lv * 0.012,
+      interval:   lv => Math.max(0.8 - lv * 0.01, 0.3),
+      bombChance: lv => (lv > 1 ? Math.min(0.08 + lv * 0.008, 0.4) : 0),
+      basket:     lv => Math.max(2.8 - lv * 0.025, 1.4)
     };
 
+    // run: 0 = menu, 1 = đang chơi, 2 = đang chờ hiện bảng kết quả
     let W, H, U;
     let lv = 1, run = 0, best = 1, lt = 0;
-    let px = 0, tx = 0;           // vị trí giỏ hiện tại và vị trí mục tiêu
+    let px = 0, tx = 0;
     let O = [], lf = 5, sc = 0, goal = 0, tm = 0, bw = 0;
     let lastX = 0, lastGap = 0.8;
     let ks = {};
     let activePointerId = null;
+
+    // Hiệu ứng
+    let G = [];          // vật đã rơi vào giỏ
+    let P = [];          // hạt nổ khi trúng bom
+    let sq = 0;          // độ "nhún" của giỏ khi hứng được
+    let sh = 0;          // độ rung khi trúng bom
+    let fl = 0;          // độ chớp đỏ toàn màn hình
+    let fe = 0, fw = 0;  // đếm ngược hiện kết quả, thắng/thua
 
     try {
       best = Math.max(1, Math.min(N, Number(localStorage[K]) || 1));
@@ -167,17 +140,13 @@
       tx = clamp(tx, bw / 2, W - bw / 2);
     }
 
-    // Vị trí giỏ và đường hứng (mép trên của giỏ)
-    function basketSize() {
-      return bw * 0.8;
-    }
-
-    function basketY() {
-      return H - basketSize() * 0.55;
+    // Miệng giỏ chính là đường hứng; thân giỏ nằm bên dưới
+    function bodyH() {
+      return bw * 0.42;
     }
 
     function catchY() {
-      return basketY() - basketSize() * 0.4;
+      return H - bodyH() - Math.max(12, bw * 0.12);
     }
 
     function rs() {
@@ -246,17 +215,25 @@
       }
     }
 
+    // Kết thúc: lưu tiến độ ngay, nhưng chờ một chút để người chơi thấy khoảnh khắc cuối
     function end(win) {
-      if (!run) return;
-      run = 0;
+      if (run !== 1) return;
+      run = 2;
+      fw = win;
+      fe = 0.7;
       resetInput();
 
       if (win && lv >= best && best < N) {
         best = lv + 1;
         try { localStorage[K] = best; } catch (e) {}
       }
+    }
 
+    function showEnd() {
+      run = 0;
+      const win = fw;
       const next = win && lv < N;
+
       menuEl.style.display = 'flex';
       menuEl.innerHTML = `
         <h2>${win ? '🎉 Qua màn ' + lv : '💥 Thua rồi'}</h2>
@@ -271,7 +248,7 @@
 
     function go(l) {
       resetInput();
-      lv = clamp(l, 1, Math.min(best, N)); // không cho vào màn chưa mở khóa
+      lv = clamp(l, 1, Math.min(best, N));
       menuEl.style.display = 'none';
       if (document.activeElement) document.activeElement.blur();
       init();
@@ -280,7 +257,8 @@
     }
 
     function init() {
-      O = [];
+      O = []; G = []; P = [];
+      sq = sh = fl = 0;
       lf = CFG.lives(lv);
       sc = 0;
       goal = CFG.goal(lv);
@@ -294,8 +272,6 @@
 
     // ====== SINH VẬT ======
     function spawn() {
-      // Vị trí vật mới luôn nằm trong tầm với của giỏ so với vật trước đó,
-      // nên không có vật nào "không thể hứng" vì rơi quá xa
       const reach = W * MAX_SPEED * lastGap * 0.85;
       const x = clamp(lastX + (Math.random() * 2 - 1) * reach, U, W - U);
       lastX = x;
@@ -310,9 +286,23 @@
       });
     }
 
+    function boom(x, y) {
+      P.push({ x, y, vx: 0, vy: 0, l: 0.35, e: '💥' });
+      for (let i = 0; i < 12; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const v = 120 + Math.random() * 220;
+        P.push({
+          x, y,
+          vx: Math.cos(a) * v,
+          vy: Math.sin(a) * v - 120,
+          l: 0.4 + Math.random() * 0.3,
+          c: Math.random() < 0.5 ? '#fb923c' : '#fde047'
+        });
+      }
+    }
+
     // ====== CẬP NHẬT ======
     function upd(d) {
-      // Giỏ di chuyển với tốc độ giới hạn: chuột/cảm ứng đặt mục tiêu, giỏ đuổi theo
       const maxStep = W * MAX_SPEED * d;
       if (ks.ArrowLeft || ks.a || ks.A) tx -= maxStep;
       if (ks.ArrowRight || ks.d || ks.D) tx += maxStep;
@@ -335,16 +325,23 @@
         o.py = o.y;
         o.y += fallSpeed * d;
 
-        // Vật đi qua đường hứng (mép giỏ) trong khung hình này
+        // Vật đi qua miệng giỏ trong khung hình này
         if (!o.s && o.py <= cy && o.y >= cy) {
           if (Math.abs(o.x - px) <= bw / 2 + itemRadius) {
             o.s = 1;
-            if (o.b) lf--;
-            else sc++;
+            if (o.b) {
+              lf--;
+              sh = 1;
+              fl = 1;
+              boom(o.x, cy);
+            } else {
+              sc++;
+              sq = 1;
+              G.push({ e: o.e, dx: o.x - px, t: 0 });
+            }
           }
         }
 
-        // Vật rơi khỏi màn hình: bỏ lỡ đồ tốt thì mất mạng, bom thì không sao
         if (!o.s && o.y > H + U) {
           o.s = 1;
           if (!o.b) lf--;
@@ -352,7 +349,6 @@
       });
       O = O.filter(o => !o.s);
 
-      // Thua được kiểm tra trước thắng
       if (lf <= 0) {
         lf = 0;
         end(0);
@@ -361,7 +357,108 @@
       if (sc >= goal) end(1);
     }
 
+    // Hiệu ứng chạy cả lúc đang chờ hiện kết quả
+    function fx(d) {
+      sq = Math.max(0, sq - d * 5);
+      sh = Math.max(0, sh - d * 3);
+      fl = Math.max(0, fl - d * 3);
+
+      G.forEach(g => g.t += d);
+      G = G.filter(g => g.t < 0.3);
+
+      P.forEach(p => {
+        p.l -= d;
+        p.x += p.vx * d;
+        p.y += p.vy * d;
+        p.vy += 900 * d;
+      });
+      P = P.filter(p => p.l > 0);
+    }
+
     // ====== VẼ ======
+    function drawBasket() {
+      const bh = bodyH();
+      const rw = bw / 2;
+      const ry = bw * 0.09;
+      const x = px + Math.sin(performance.now() * 0.05) * sh * 8;
+      const cy = catchY();
+
+      C.save();
+      // Nhún: co chiều cao, nở chiều ngang, lấy đáy giỏ làm mốc
+      C.translate(x, cy + bh);
+      C.scale(1 + 0.06 * sq, 1 - 0.14 * sq);
+      C.translate(0, -bh);
+
+      // 1. Lòng giỏ (phía sau)
+      C.fillStyle = '#3b2410';
+      C.beginPath();
+      C.ellipse(0, 0, rw, ry, 0, 0, Math.PI * 2);
+      C.fill();
+
+      // 2. Mép sau của miệng giỏ
+      C.strokeStyle = '#a8712b';
+      C.lineWidth = Math.max(3, bw * 0.05);
+      C.beginPath();
+      C.ellipse(0, 0, rw, ry, 0, Math.PI, Math.PI * 2);
+      C.stroke();
+
+      // 3. Vật đang rơi vào trong giỏ: chìm dần xuống sau thành trước
+      G.forEach(g => {
+        const k = g.t / 0.3;
+        C.globalAlpha = 1 - k * k * 0.6;
+        C.font = (U * (1 - 0.3 * k)) + 'px serif';
+        C.fillText(g.e, g.dx * (1 - 0.6 * k), k * bh * 0.6 - U * 0.05);
+      });
+      C.globalAlpha = 1;
+
+      // 4. Thành trước của giỏ (che nửa dưới của vật)
+      const wall = new Path2D();
+      wall.moveTo(-rw, 0);
+      wall.ellipse(0, 0, rw, ry, 0, Math.PI, 0, true);
+      wall.lineTo(rw * 0.78, bh - 8);
+      wall.quadraticCurveTo(rw * 0.78, bh, rw * 0.68, bh);
+      wall.lineTo(-rw * 0.68, bh);
+      wall.quadraticCurveTo(-rw * 0.78, bh, -rw * 0.78, bh - 8);
+      wall.closePath();
+
+      const grad = C.createLinearGradient(0, 0, 0, bh);
+      grad.addColorStop(0, '#d9953c');
+      grad.addColorStop(1, '#a8661f');
+      C.fillStyle = grad;
+      C.fill(wall);
+
+      // Hoa văn đan
+      C.save();
+      C.clip(wall);
+      C.strokeStyle = 'rgba(60,30,5,0.28)';
+      C.lineWidth = 2;
+      for (let i = 1; i < 4; i++) {
+        const yy = ry + (bh - ry) * i / 4;
+        C.beginPath();
+        C.moveTo(-rw, yy);
+        C.lineTo(rw, yy);
+        C.stroke();
+      }
+      const step = bw / 7;
+      for (let vx = -rw; vx <= rw; vx += step) {
+        C.beginPath();
+        C.moveTo(vx, 0);
+        C.lineTo(vx * 0.85, bh);
+        C.stroke();
+      }
+      C.restore();
+
+      // 5. Mép trước của miệng giỏ
+      C.strokeStyle = '#e8b062';
+      C.lineWidth = Math.max(3, bw * 0.05);
+      C.lineCap = 'round';
+      C.beginPath();
+      C.ellipse(0, 0, rw, ry, 0, 0, Math.PI);
+      C.stroke();
+
+      C.restore();
+    }
+
     function draw() {
       C.clearRect(0, 0, W, H);
       C.textAlign = 'center';
@@ -370,11 +467,27 @@
       C.font = U + 'px serif';
       O.forEach(o => C.fillText(o.e, o.x, o.y));
 
-      C.font = basketSize() + 'px serif';
-      C.fillText('🧺', px, basketY());
+      drawBasket();
 
-      C.fillStyle = '#fbbf24';
-      C.fillRect(px - bw / 2, catchY(), bw, 6);
+      P.forEach(p => {
+        if (p.e) {
+          C.globalAlpha = clamp(p.l / 0.35, 0, 1);
+          C.font = (U * (1.6 - p.l * 1.5)) + 'px serif';
+          C.fillText(p.e, p.x, p.y);
+        } else {
+          C.globalAlpha = clamp(p.l * 2, 0, 1);
+          C.fillStyle = p.c;
+          C.beginPath();
+          C.arc(p.x, p.y, 4, 0, Math.PI * 2);
+          C.fill();
+        }
+      });
+      C.globalAlpha = 1;
+
+      if (fl > 0) {
+        C.fillStyle = `rgba(239,68,68,${0.3 * fl})`;
+        C.fillRect(0, 0, W, H);
+      }
 
       hud.textContent = `Màn ${lv}/${N} · ✅ ${sc}/${goal} · ❤️ ${lf}`;
     }
@@ -383,16 +496,22 @@
       const d = Math.min((t - lt) / 1000, 0.05);
       lt = t;
 
-      if (run) {
-        upd(d);
-        if (run) draw();
+      if (run === 1) upd(d);
+
+      if (run >= 1) {
+        fx(d);
+        if (run === 2) {
+          fe -= d;
+          if (fe <= 0) showEnd();
+        }
+        draw();
       }
       requestAnimationFrame(loop);
     }
 
     // ====== ĐIỀU KHIỂN ======
     window.addEventListener('keydown', e => {
-      if (!run) return;
+      if (run !== 1) return;
       if (['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D'].includes(e.key)) {
         ks[e.key] = 1;
         if (e.key.startsWith('Arrow')) e.preventDefault();
@@ -411,7 +530,7 @@
     }
 
     canvas.addEventListener('pointerdown', e => {
-      if (!run || !e.isPrimary) return;
+      if (run !== 1 || !e.isPrimary) return;
 
       activePointerId = e.pointerId;
       tx = pointerX(e);
@@ -420,9 +539,8 @@
     });
 
     canvas.addEventListener('pointermove', e => {
-      if (!run) return;
+      if (run !== 1) return;
 
-      // Chuột được điều khiển khi rê; cảm ứng chỉ trong phiên chạm hiện tại
       if (activePointerId === null && e.pointerType === 'mouse') {
         tx = pointerX(e);
         return;
