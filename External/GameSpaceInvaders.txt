@@ -6,112 +6,42 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Space Invaders</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; overflow: hidden; background: #0a0f24; color: #fff;
+      font: 16px system-ui, sans-serif; touch-action: none;
+      user-select: none; -webkit-user-select: none;
     }
-
-    html,
-    body {
-      height: 100%;
-      overflow: hidden;
-      background: #0a0f24;
-      color: #fff;
-      font: 16px system-ui, sans-serif;
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
+    canvas { display: block; width: 100%; height: 100%; }
     #h {
-      position: fixed;
-      top: 8px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-weight: 700;
-      pointer-events: none;
-      z-index: 2;
+      position: fixed; top: 8px; left: 0; right: 0; text-align: center;
+      font-weight: 700; pointer-events: none; z-index: 2;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     }
-
     /* Menu overlay: tự cuộn nếu màn hình quá thấp, không cắt mất phần đầu */
     #m {
-      position: fixed;
-      inset: 0;
-      background: #0a0f24ee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 16px;
-      text-align: center;
-      z-index: 3;
-      overflow-y: auto;
+      position: fixed; inset: 0; background: #0a0f24ee;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px; padding: 16px; text-align: center; z-index: 3; overflow-y: auto;
     }
-
-    #m > * {
-      flex: none; /* không cho phần tử con bị co lại */
-    }
-
-    #m > :first-child {
-      margin-top: auto;
-    }
-
-    #m > :last-child {
-      margin-bottom: auto;
-    }
-
+    #m > * { flex: none; }
+    #m > :first-child { margin-top: auto; }
+    #m > :last-child { margin-bottom: auto; }
     /* Danh sách màn chơi: chỉ cuộn khi thật sự không đủ chỗ */
     #g {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
-      gap: 8px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 8px;
       width: min(92vw, 640px);
-      max-height: calc(100vh - 200px);
-      max-height: calc(100dvh - 200px);
-      overflow-y: auto;
-      padding: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
+      max-height: calc(100vh - 200px); max-height: calc(100dvh - 200px);
+      overflow-y: auto; padding: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;
     }
-
-    #g button {
-      padding: 10px 0;
-    }
-
+    #g button { padding: 10px 0; }
     button {
-      background: #22c55e;
-      color: #04210f;
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
+      background: #22c55e; color: #04210f; border: 0; border-radius: 8px;
+      padding: 10px 14px; font: inherit; font-weight: 700; cursor: pointer;
     }
-
-    button:hover:not(:disabled) {
-      filter: brightness(1.1);
-    }
-
-    button:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 2px;
-    }
-
-    button:disabled {
-      background: #26304f;
-      color: #7d8bb5;
-      cursor: not-allowed;
-    }
+    button:hover:not(:disabled) { filter: brightness(1.1); }
+    button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    button:disabled { background: #26304f; color: #7d8bb5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -130,17 +60,18 @@
       : '← → (hoặc A D) hoặc di chuột để di chuyển, Space hoặc giữ chuột để bắn';
 
     // ====== CẤU HÌNH ĐỘ KHÓ (chỉnh ở đây) ======
+    // Số địch tăng thêm 1 con MỖI màn: 6 con ở màn 1 -> 48 con ở màn 43 (sau đó giữ 48, độ khó tăng bằng máu/tốc độ/đạn)
     const CFG = {
-      rows:        lv => Math.min(2 + Math.floor(lv / 8), 6),       // số hàng địch
-      cols:        lv => Math.min(4 + Math.floor(lv / 6), 10),      // số cột địch
-      hp:          lv => Math.min(3, 1 + Math.floor(lv / 20)),      // máu mỗi địch
-      speed:       lv => 0.05 + lv * 0.0015,                        // tốc độ ngang (x chiều rộng / giây)
-      drop:        lv => 0.02 + lv * 0.0003,                        // bước hạ xuống (x chiều cao)
-      fireRate:    lv => 0.8 + lv * 0.1,                            // số loạt đạn địch / giây
-      volley:      lv => Math.min(1 + Math.floor(lv / 15), 4),      // số viên mỗi loạt
-      aim:         lv => Math.min(0.6, lv * 0.01),                  // xác suất địch ngắm vào người chơi
-      bulletSpeed: lv => 0.35 + lv * 0.008,                         // tốc độ đạn địch (x chiều cao / giây)
-      cooldown:    lv => Math.max(0.2, 0.35 - lv * 0.0025)          // thời gian chờ giữa 2 phát bắn
+      count:       lv => Math.min(5 + lv, 48),                       // tổng số địch
+      cols:        lv => Math.min(4 + Math.floor(lv / 7), 10),       // số cột tối đa mỗi hàng
+      tough:       lv => Math.max(0, Math.floor((lv - 12) / 10)),    // số hàng trên cùng có 2 máu
+      speed:       lv => 0.05 + lv * 0.002,                          // tốc độ ngang (x chiều rộng / giây)
+      drop:        lv => 0.02 + lv * 0.0003,                         // bước hạ xuống (x chiều cao)
+      fireRate:    lv => 0.8 + lv * 0.12,                            // số loạt đạn địch / giây
+      volley:      lv => Math.min(1 + Math.floor(lv / 15), 4),       // số viên mỗi loạt
+      aim:         lv => Math.min(0.6, lv * 0.01),                   // xác suất địch ngắm vào người chơi
+      bulletSpeed: lv => 0.35 + lv * 0.009,                          // tốc độ đạn địch (x chiều cao / giây)
+      cooldown:    lv => Math.max(0.2, 0.35 - lv * 0.0025)           // thời gian chờ giữa 2 phát bắn
     };
 
     let W, H, U;
@@ -240,23 +171,25 @@
 
     // ====== KHỞI TẠO MÀN ======
     function init() {
-      gridR = CFG.rows(lv);
       gridC = CFG.cols(lv);
+      total = CFG.count(lv);
+      gridR = Math.ceil(total / gridC);
       U = calcU();
 
-      const hp = CFG.hp(lv);
+      const tough = CFG.tough(lv);
       E = [];
-      for (let i = 0; i < gridR; i++) {
-        for (let j = 0; j < gridC; j++) {
-          E.push({
-            x: W / 2 + (j - (gridC - 1) / 2) * U * 1.5,
-            y: H * 0.08 + U + i * U * 1.3,
-            hp
-          });
-        }
+      for (let k = 0; k < total; k++) {
+        const i = Math.floor(k / gridC);
+        const j = k % gridC;
+        // hàng cuối có thể thiếu con: căn giữa cho đẹp
+        const inRow = i < gridR - 1 ? gridC : total - (gridR - 1) * gridC;
+        E.push({
+          x: W / 2 + (j - (inRow - 1) / 2) * U * 1.5,
+          y: H * 0.08 + U + i * U * 1.3,
+          hp: i < tough ? 2 : 1
+        });
       }
 
-      total = E.length;
       ed = 1;
       B = [];
       X = [];
