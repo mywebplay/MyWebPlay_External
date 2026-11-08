@@ -136,8 +136,13 @@
     // ====== KÍCH THƯỚC ======
     function updateBasketSize() {
       bw = Math.min(U * CFG.basket(lv), W);
-      px = clamp(px, bw / 2, W - bw / 2);
-      tx = clamp(tx, bw / 2, W - bw / 2);
+      px = limitX(px);
+      tx = limitX(tx);
+    }
+
+    // Tâm giỏ được phép đi sát mép (giỏ có thể thò ra ngoài một chút) để chạm được hai góc
+    function limitX(x) {
+      return clamp(x, bw * 0.3, W - bw * 0.3);
     }
 
     // Miệng giỏ chính là đường hứng; thân giỏ nằm bên dưới
@@ -303,11 +308,12 @@
 
     // ====== CẬP NHẬT ======
     function upd(d) {
-      const maxStep = W * MAX_SPEED * d;
-      if (ks.ArrowLeft || ks.a || ks.A) tx -= maxStep;
-      if (ks.ArrowRight || ks.d || ks.D) tx += maxStep;
-      tx = clamp(tx, bw / 2, W - bw / 2);
-      px += clamp(tx - px, -maxStep, maxStep);
+      // Phím: tốc độ cố định. Chuột/cảm ứng: giỏ bám theo gần như tức thì (chỉ làm mượt nhẹ)
+      const step = W * MAX_SPEED * d;
+      if (ks.ArrowLeft || ks.a || ks.A) tx -= step;
+      if (ks.ArrowRight || ks.d || ks.D) tx += step;
+      tx = limitX(tx);
+      px += (tx - px) * (1 - Math.exp(-d * 35));
 
       tm -= d;
       if (tm <= 0) {
@@ -524,16 +530,19 @@
 
     window.addEventListener('blur', resetInput);
 
-    function pointerX(e) {
+    let grab = 0; // lệch giữa ngón tay và tâm giỏ lúc bắt đầu chạm (tránh giỏ bị "nhảy")
+
+    function pointerRaw(e) {
       const rect = canvas.getBoundingClientRect();
-      return clamp((e.clientX - rect.left) * (W / rect.width), bw / 2, W - bw / 2);
+      return (e.clientX - rect.left) * (W / rect.width);
     }
 
     canvas.addEventListener('pointerdown', e => {
       if (run !== 1 || !e.isPrimary) return;
 
       activePointerId = e.pointerId;
-      tx = pointerX(e);
+      grab = e.pointerType === 'mouse' ? 0 : px - pointerRaw(e);
+      tx = limitX(pointerRaw(e) + grab);
 
       try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
     });
@@ -542,10 +551,10 @@
       if (run !== 1) return;
 
       if (activePointerId === null && e.pointerType === 'mouse') {
-        tx = pointerX(e);
+        tx = limitX(pointerRaw(e));
         return;
       }
-      if (e.pointerId === activePointerId) tx = pointerX(e);
+      if (e.pointerId === activePointerId) tx = limitX(pointerRaw(e) + grab);
     });
 
     ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => {
