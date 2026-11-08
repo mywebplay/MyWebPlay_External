@@ -140,9 +140,9 @@
       tx = limitX(tx);
     }
 
-    // Tâm giỏ được phép đi sát mép (giỏ có thể thò ra ngoài một chút) để chạm được hai góc
+    // Giỏ luôn nằm trọn trong màn hình, chạm mép là dừng
     function limitX(x) {
-      return clamp(x, bw * 0.3, W - bw * 0.3);
+      return clamp(x, bw / 2, W - bw / 2);
     }
 
     // Miệng giỏ chính là đường hứng; thân giỏ nằm bên dưới
@@ -278,7 +278,8 @@
     // ====== SINH VẬT ======
     function spawn() {
       const reach = W * MAX_SPEED * lastGap * 0.85;
-      const x = clamp(lastX + (Math.random() * 2 - 1) * reach, U, W - U);
+      // Vật luôn rơi trong vùng mà miệng giỏ có thể đứng ngay bên dưới (kể cả sát mép)
+      const x = clamp(lastX + (Math.random() * 2 - 1) * reach, bw / 2, W - bw / 2);
       lastX = x;
 
       const b = Math.random() < CFG.bombChance(lv);
@@ -325,7 +326,7 @@
 
       const fallSpeed = H * CFG.fall(lv);
       const cy = catchY();
-      const itemRadius = U * 0.45;
+      const catchRange = bw / 2 + U * 0.1; // tâm vật phải lọt vào miệng giỏ
 
       O.forEach(o => {
         o.py = o.y;
@@ -333,7 +334,7 @@
 
         // Vật đi qua miệng giỏ trong khung hình này
         if (!o.s && o.py <= cy && o.y >= cy) {
-          if (Math.abs(o.x - px) <= bw / 2 + itemRadius) {
+          if (Math.abs(o.x - px) <= catchRange) {
             o.s = 1;
             if (o.b) {
               lf--;
@@ -343,7 +344,7 @@
             } else {
               sc++;
               sq = 1;
-              G.push({ e: o.e, dx: o.x - px, t: 0 });
+              G.push({ e: o.e, dx: clamp(o.x - px, -(bw / 2 - U * 0.3), bw / 2 - U * 0.3), t: 0 });
             }
           }
         }
@@ -370,7 +371,7 @@
       fl = Math.max(0, fl - d * 3);
 
       G.forEach(g => g.t += d);
-      G = G.filter(g => g.t < 0.3);
+      G = G.filter(g => g.t < 0.45);
 
       P.forEach(p => {
         p.l -= d;
@@ -410,7 +411,7 @@
 
       // 3. Vật đang rơi vào trong giỏ: chìm dần xuống sau thành trước
       G.forEach(g => {
-        const k = g.t / 0.3;
+        const k = g.t / 0.45;
         C.globalAlpha = 1 - k * k * 0.6;
         C.font = (U * (1 - 0.3 * k)) + 'px serif';
         C.fillText(g.e, g.dx * (1 - 0.6 * k), k * bh * 0.6 - U * 0.05);
