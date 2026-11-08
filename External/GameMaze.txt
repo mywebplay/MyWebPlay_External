@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="robots" content="noindex, nofollow"><title>🌀 Mê cung</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#0b1220;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;padding:0 8px}
+#bar{position:fixed;bottom:10px;left:0;right:0;display:none;justify-content:center;gap:8px}
+#m{position:fixed;inset:0;background:#0b1220f2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;text-align:center;overflow:hidden}
+#g{--b:min(calc((100vw - 28px)/10 - 4px),calc((var(--vh,100vh) - 190px)/10 - 4px),42px);display:grid;grid-template-columns:repeat(10,var(--b));gap:4px}
+#g button{width:var(--b);height:var(--b);padding:0;font-size:max(11px,calc(var(--b)*.4))}
+@media(max-height:520px) and (orientation:landscape){#g{--b:min(calc((100vw - 28px)/20 - 4px),calc((var(--vh,100vh) - 150px)/5 - 4px),40px);grid-template-columns:repeat(20,var(--b))}.hint{display:none}}
+button{background:#a78bfa;color:#1e1042;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}button:disabled{background:#2b3350;color:#7b86aa;cursor:default}button.cur{outline:2px solid #fff}
+</style></head><body><canvas id="c"></canvas><div id="h"></div><div id="bar"><button id="br">↺ Về đầu</button><button id="bn">☰ Chọn màn</button></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=100,K='mg_maze',T='🌀 Mê cung',hint=matchMedia('(pointer:coarse)').matches?'Vuốt (hoặc chạm vào hướng muốn đi so với nhân vật). Nhân vật tự chạy đến ngã rẽ. Tìm đường tới 🏁. Từ màn 30 có sương mù':'← ↑ ↓ → hoặc WASD (hoặc click vào hướng muốn đi) để di chuyển, nhân vật tự chạy đến ngã rẽ. Tìm đường tới 🏁. Từ màn 30 có sương mù. R để về đầu';
+let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;document.documentElement.style.setProperty('--vh',H+'px')}onresize=rs;rs();
+function menu(){run=0;bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p class="hint" style="opacity:.7;max-width:92vw;font-size:14px">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;if(i==best)b.className='cur';b.onclick=()=>go(i);g.append(b)}}
+function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';bar.style.display='flex';rs();init();run=1;lt=performance.now()}
+function loop(t){lt=t;if(run)draw();requestAnimationFrame(loop)}
+
+let cw,ch,M,px,py,gx,gy,vs,sc,fg,s,ox,oy,dx0,dy0;
+const D=[[0,-1,1],[1,0,2],[0,1,4],[-1,0,8]];
+function init(){const f=5+(lv-1)*.27,A=f*f,asp=(W-16)/(H-130);cw=Math.max(4,Math.round(Math.sqrt(A*asp)));ch=Math.max(4,Math.round(A/cw));M=Array(cw*ch).fill(0);const sn=new Uint8Array(cw*ch),st=[0];sn[0]=1;
+while(st.length){const i=st[st.length-1],x=i%cw,y=i/cw|0,nb=[];if(y>0&&!sn[i-cw])nb.push([i-cw,1,4]);if(x<cw-1&&!sn[i+1])nb.push([i+1,2,8]);if(y<ch-1&&!sn[i+cw])nb.push([i+cw,4,1]);if(x>0&&!sn[i-1])nb.push([i-1,8,2]);if(!nb.length){st.pop();continue}const[j,a,b]=nb[Math.random()*nb.length|0];M[i]|=a;M[j]|=b;sn[j]=1;st.push(j)}
+gx=cw-1;gy=ch-1;fg=lv>=30?Math.max(3,9-((lv-30)/10|0)):0;reset()}
+function reset(){px=py=0;vs=new Set([0]);sc=0}
+function mv(k){if(!run)return;for(;;){if(!(M[py*cw+px]&D[k][2]))break;px+=D[k][0];py+=D[k][1];sc++;vs.add(py*cw+px);if(px==gx&&py==gy)return end(1);const o=[0,1,2,3].filter(q=>q!=(k+2)%4&&M[py*cw+px]&D[q][2]);if(o.length!=1)break;k=o[0]}}
+function draw(){s=Math.min((W-16)/cw,(H-130)/ch);ox=(W-cw*s)/2;oy=(H-ch*s)/2-4;C.clearRect(0,0,W,H);C.lineWidth=Math.max(1.5,s*.12);C.lineCap='round';
+for(let y=0;y<ch;y++)for(let x=0;x<cw;x++){if(fg&&(x-px)**2+(y-py)**2>fg*fg)continue;const i=y*cw+x,X=ox+x*s,Y=oy+y*s;C.fillStyle=vs.has(i)?'#1e3a5f':'#152033';C.fillRect(X,Y,s,s);C.strokeStyle='#e2e8f0';C.beginPath();if(!(M[i]&1)){C.moveTo(X,Y);C.lineTo(X+s,Y)}if(!(M[i]&8)){C.moveTo(X,Y);C.lineTo(X,Y+s)}if(!(M[i]&4)){C.moveTo(X,Y+s);C.lineTo(X+s,Y+s)}if(!(M[i]&2)){C.moveTo(X+s,Y);C.lineTo(X+s,Y+s)}C.stroke()}
+C.font=s*.75+'px serif';C.textAlign='center';C.textBaseline='middle';if(!fg||(gx-px)**2+(gy-py)**2<=fg*fg)C.fillText('🏁',ox+gx*s+s/2,oy+gy*s+s/2);C.fillText('🙂',ox+px*s+s/2,oy+py*s+s/2+1);
+h.textContent=`Màn ${lv} · ${cw}×${ch}${fg?' · 🌫️ sương mù':''} · Bước ${sc}`}
+c.onpointerdown=e=>{dx0=e.clientX;dy0=e.clientY};
+c.onpointerup=e=>{let a=e.clientX-dx0,b=e.clientY-dy0;if(Math.abs(a)+Math.abs(b)<12){a=e.clientX-(ox+px*s+s/2);b=e.clientY-(oy+py*s+s/2)}mv(Math.abs(a)>Math.abs(b)?(a>0?1:3):(b>0?2:0))};
+onkeydown=e=>{const k={ArrowUp:0,w:0,W:0,ArrowRight:1,d:1,D:1,ArrowDown:2,s:2,S:2,ArrowLeft:3,a:3,A:3}[e.key];if(k!==undefined){e.preventDefault();mv(k)}else if(e.key=='r'||e.key=='R')reset()};
+br.onclick=reset;
+
+bn.onclick=menu;menu();requestAnimationFrame(loop);
+</script></body></html>
