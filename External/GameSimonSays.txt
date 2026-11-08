@@ -74,11 +74,13 @@ function end(w,t){
     try{localStorage[K]=best}catch(e){}
   }
 
-  m.style.display='flex';
-  m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><div style="display:flex;gap:10px;"><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button></div>`;
+  setTimeout(()=>{
+    m.style.display='flex';
+    m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><div style="display:flex;gap:10px;"><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button></div>`;
 
-  ba.onclick=()=>go(w&&lv<N?lv+1:lv);
-  bm.onclick=menu;
+    ba.onclick=()=>go(w&&lv<N?lv+1:lv);
+    bm.onclick=menu;
+  },700);
 }
 
 function go(l){
@@ -164,7 +166,7 @@ function press(i){
   if(!run||ph!=1||i<0||i>=np)return;
 
   lit=i;
-  ft=.18;
+  ft=.3;
 
   if(i!=sq[pi])return end(0);
 
@@ -172,7 +174,7 @@ function press(i){
     if(++r>len)return end(1);
 
     ph=3;
-    tm=.9; // giữ nguyên lit để ô cuối vẫn sáng
+    tm=1; // giữ nguyên lit để ô cuối vẫn sáng
   }
 }
 
@@ -222,7 +224,7 @@ function draw(){
   }
 
   // chữ lớn giữa bàn trong lúc chờ
-  if(ph==2||ph==3){
+  if(ph==2||(ph==3&&lit<0)){
     C.globalAlpha=.95;
     C.fillStyle='#fff';
     C.shadowColor='#000';
