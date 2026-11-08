@@ -192,3 +192,4 @@ setInterval(function () {
               document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
           }, 10);
 </script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
