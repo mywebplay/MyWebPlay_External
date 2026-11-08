@@ -77,11 +77,9 @@
 <!-- ============================= -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <!-- ============================= -->
 <!-- HTML PLAY - JAVASCRIPT -->
 <!-- ============================= -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 var loadix = false;
 var loading = false;
