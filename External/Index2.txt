@@ -183,6 +183,10 @@ footer{
 <div class="card games menu-itemX1" data-action="GameMastermind"><h3>GAME : mastermind</h3></div>
 <div class="card games menu-itemX1" data-action="GameMatch3"><h3>GAME : match 3</h3></div>
 <div class="card games menu-itemX1" data-action="GameReactionTime"><h3>GAME : reaction time</h3></div>
+<div class="card games menu-itemX1" data-action="GameWaterSort"><h3>GAME : xếp nước theo màu</h3></div>
+<div class="card games menu-itemX1" data-action="GameMaze"><h3>GAME : mê cung</h3></div>
+<div class="card games menu-itemX1" data-action="GamePipeConnect"><h3>GAME : nối ống nước</h3></div>
+<div class="card games menu-itemX1" data-action="GameSokoban"><h3>GAME : sokoban</h3></div>
 <@@hideshow_context:"User-Agent"\s*:\s*".*(iPhone|iPad|iPod|Android|Mobile|Tablet).*"----NO----REGEX
 #3275_5828_3#
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
@@ -290,6 +294,10 @@ document.querySelectorAll(".menu-itemX1").forEach((item)=>{
             case "GameMastermind":window.open("/game-mastermind","_blank");break;
             case "GameMatch3":window.open("/game-match-3","_blank");break;
             case "GameReactionTime":window.open("/game-reaction-time","_blank");break;
+            case "GameWaterSort":window.open("/game-water-sort","_blank");break;
+            case "GameMaze":window.open("/game-maze","_blank");break;
+            case "GamePipeConnect":window.open("/game-pipe-connect","_blank");break;
+            case "GameSokoban":window.open("/game-sokoban","_blank");break;
             case "Studocu":showmodal1();break;
             /* case "Studocu":window.open("/lay-tai-lieu-tu-stoducu","_blank");break; */
         }
