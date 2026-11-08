@@ -111,7 +111,7 @@ function start(l){
  els=cars.map((c,i)=>{const e=document.createElement('div');e.className='car '+(i?'bg':'hero');if(i)e.style.background=COL[(i*5)%COL.length];b.appendChild(e);bind(e,i);return e});
  qs('#ctl').innerHTML='<button class="b" id="u">↶ Hoàn tác</button><button class="b" id="h">💡 Gợi ý</button><button class="b" id="r">🔄 Làm lại</button>';
  qs('#ctl').onclick=e=>{const t=e.target.closest('button');if(!t||over||lk)return;if(t.id=='u'){if(hist.length){pos=hist.pop();mv--;els.forEach((_,i)=>put(i));info()}}else if(t.id=='h')hint();else play(L)};
- relayout();info();say('Xe ĐỎ ★ là xe của bạn: kéo nó ra cổng xanh ▶. Các xe xám chỉ là vật cản, hãy dời chúng đi.');
+ relayout();info();say('Xe ĐỎ ❤ là xe của bạn: kéo nó ra cổng xanh ▶. Các xe xám chỉ là vật cản, hãy dời chúng đi.');
 }
 function info(){setInfo('Số lượt: '+mv)}
 function relayout(){const b=qs('#board');if(!b.classList.contains('rh'))return;const s=Math.floor(Math.min(side(0),innerWidth-50)/6)*6;sz=s/6;b.style.width=b.style.height=s+'px';b.style.marginRight='';
