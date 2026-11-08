@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="robots" content="noindex, nofollow"><title>🔧 Nối ống nước</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#0c1a2b;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;padding:0 8px}
+#bar{position:fixed;bottom:10px;left:0;right:0;display:none;justify-content:center;gap:8px}
+#m{position:fixed;inset:0;background:#0c1a2bf2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;text-align:center;overflow:hidden}
+#g{--b:min(calc((100vw - 28px)/10 - 4px),calc((var(--vh,100vh) - 190px)/10 - 4px),42px);display:grid;grid-template-columns:repeat(10,var(--b));gap:4px}
+#g button{width:var(--b);height:var(--b);padding:0;font-size:max(11px,calc(var(--b)*.4))}
+@media(max-height:520px) and (orientation:landscape){#g{--b:min(calc((100vw - 28px)/20 - 4px),calc((var(--vh,100vh) - 150px)/5 - 4px),40px);grid-template-columns:repeat(20,var(--b))}.hint{display:none}}
+button{background:#22d3ee;color:#03242b;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}button:disabled{background:#2b3350;color:#7b86aa;cursor:default}button.cur{outline:2px solid #fff}
+</style></head><body><canvas id="c"></canvas><div id="h"></div><div id="bar"><button id="br">↺ Làm lại</button><button id="bn">☰ Chọn màn</button></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=100,K='mg_pipe',T='🔧 Nối ống nước',hint=matchMedia('(pointer:coarse)').matches?'Chạm ô để xoay ống 90°. Nối tất cả các ống với nguồn nước 💧 để ống sáng xanh hết. Càng lên cao, bàn càng lớn và ống rẽ nhánh càng nhiều':'Click ô (hoặc ← ↑ ↓ → rồi Space) để xoay ống 90°. Nối tất cả các ống với nguồn nước 💧 để ống sáng xanh hết. R để làm lại màn';
+let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;document.documentElement.style.setProperty('--vh',H+'px')}onresize=rs;rs();
+function menu(){run=0;bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p class="hint" style="opacity:.7;max-width:92vw;font-size:14px">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;if(i==best)b.className='cur';b.onclick=()=>go(i);g.append(b)}}
+function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';bar.style.display='flex';rs();init();run=1;lt=performance.now()}
+function loop(t){lt=t;if(run)draw();requestAnimationFrame(loop)}
+
+let n,Gm,G0,src,mc,cu=0,kb=0,s,ox,oy;
+function pw(){const p=Array(n*n).fill(0),q=[src];p[src]=1;while(q.length){const i=q.pop(),x=i%n,y=i/n|0;for(const[a,j,b,v]of[[1,i-n,4,y>0],[2,i+1,8,x<n-1],[4,i+n,1,y<n-1],[8,i-1,2,x>0]])if(v&&Gm[i]&a&&Gm[j]&b&&!p[j]){p[j]=1;q.push(j)}}return p}
+function init(){n=Math.min(3+((lv-1)/12|0),10);Gm=Array(n*n).fill(0);src=Math.random()*n*n|0;const sn=new Uint8Array(n*n),st=[src];sn[src]=1;
+while(st.length){const i=st[st.length-1],x=i%n,y=i/n|0,nb=[];if(y>0&&!sn[i-n])nb.push([i-n,1,4]);if(x<n-1&&!sn[i+1])nb.push([i+1,2,8]);if(y<n-1&&!sn[i+n])nb.push([i+n,4,1]);if(x>0&&!sn[i-1])nb.push([i-1,8,2]);if(!nb.length){st.pop();continue}const[j,a,b]=nb[Math.random()*nb.length|0];Gm[i]|=a;Gm[j]|=b;sn[j]=1;st.push(j)}
+const pl=Math.min((lv/10|0)*.03,.25);for(let i=0;i<n*n;i++){const x=i%n,y=i/n|0;if(x<n-1&&!(Gm[i]&2)&&Math.random()<pl){Gm[i]|=2;Gm[i+1]|=8}if(y<n-1&&!(Gm[i]&4)&&Math.random()<pl){Gm[i]|=4;Gm[i+n]|=1}}
+Gm=Gm.map(m0=>{let r=Math.random()*4|0;while(r--)m0=((m0<<1)|(m0>>3))&15;return m0});if(pw().every(v=>v))return init();G0=Gm.slice();mc=0;cu=0}
+function reset(){Gm=G0.slice();mc=0}
+function rot(i){if(!run)return;Gm[i]=((Gm[i]<<1)|(Gm[i]>>3))&15;mc++;if(pw().every(v=>v))end(1)}
+function draw(){s=Math.min((W-16)/n,(H-130)/n,84);ox=(W-n*s)/2;oy=(H-n*s)/2-4;C.clearRect(0,0,W,H);const p=pw();
+Gm.forEach((m0,i)=>{const X=ox+(i%n)*s,Y=oy+(i/n|0)*s,cx=X+s/2,cy=Y+s/2;C.fillStyle='#182436';C.beginPath();C.roundRect(X+2,Y+2,s-4,s-4,8);C.fill();C.strokeStyle=p[i]?'#38bdf8':'#64748b';C.lineWidth=s*.2;C.lineCap='round';C.beginPath();[[1,0,-1],[2,1,0],[4,0,1],[8,-1,0]].forEach(([a,dx,dy])=>{if(m0&a){C.moveTo(cx,cy);C.lineTo(cx+dx*s/2,cy+dy*s/2)}});C.stroke();
+if(i==src){C.font=s*.6+'px serif';C.textAlign='center';C.textBaseline='middle';C.fillText('💧',cx,cy)}if(kb&&i==cu){C.strokeStyle='#fff';C.lineWidth=2;C.strokeRect(X+2,Y+2,s-4,s-4)}});
+h.textContent=`Màn ${lv} · ${n}×${n} · Nối ${p.filter(v=>v).length}/${n*n} · Lượt ${mc}`}
+c.onpointerdown=e=>{const x=Math.floor((e.clientX-ox)/s),y=Math.floor((e.clientY-oy)/s);if(x>=0&&x<n&&y>=0&&y<n){kb=0;cu=y*n+x;rot(cu)}};
+onkeydown=e=>{const k=e.key;kb=1;if(k=='ArrowLeft'&&cu%n)cu--;else if(k=='ArrowRight'&&cu%n<n-1)cu++;else if(k=='ArrowUp'&&cu>=n)cu-=n;else if(k=='ArrowDown'&&cu<n*n-n)cu+=n;else if(k==' '||k=='Enter'){e.preventDefault();rot(cu)}else if(k=='r'||k=='R')reset()};
+br.onclick=reset;
+
+bn.onclick=menu;menu();requestAnimationFrame(loop);
+</script></body></html>
