@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🔢 Sudoku</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
+header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}
+section{width:100%;flex:1;min-height:0}
+#menu{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+#sub{margin:0 0 8px;font-size:14px;color:#94a3b8}
+.hp{margin:10px 0 0;font-size:12px;color:#94a3b8;text-align:center;max-width:640px}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+#grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
+#grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
+#play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
+#info{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;font-size:14px;min-height:26px;flex:none}
+#board{flex:none}
+#msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
+#ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}
+.box{background:#1e293b;border-radius:16px;padding:22px;max-width:320px;width:86%;text-align:center}
+.box h2{margin:0 0 8px}.box p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+#board.sd{display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(9,1fr);gap:1px;background:#64748b;border:2px solid #94a3b8;margin:4px auto}
+.sd>div{background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:600;cursor:pointer;overflow:hidden}
+.sd>div.r3{border-right:2px solid #94a3b8}.sd>div.b3{border-bottom:2px solid #94a3b8}
+.sd .g{color:#f1f5f9}.sd .u{color:#7dd3fc}
+.sd .h{background:#273449}.sd .m{background:#3b4a7a}.sd .s{background:#4f46e5}.sd .e{color:#fff;background:#b91c1c}
+.nt{display:grid;grid-template-columns:repeat(3,1fr);width:100%;height:100%;font-size:.42em;color:#94a3b8;text-align:center;line-height:1}
+.nt i{font-style:normal;display:flex;align-items:center;justify-content:center}
+#ctl .pad{display:flex;gap:4px;width:100%;justify-content:center}
+#ctl .pad .b{flex:1;max-width:52px;padding:9px 0}
+#ctl .pad.w .b{max-width:130px}
+
+</style></head><body>
+<div id="app">
+<header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🔢 Sudoku</h1><span id="lv"></span></header>
+<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Điền số 1-9 sao cho mỗi hàng, cột và ô 3×3 không trùng số. Màn càng cao càng ít số cho sẵn.</p></section>
+<section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
+<div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+</div>
+<script>
+const GAME={key:'sudoku'};
+const MAX=100,KEY='gp_'+GAME.key;
+let prog=0,L=1,over=false;
+try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
+const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const stop=()=>{if(typeof onStop=='function')onStop()};
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function menu(){
+ stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
+ $('#bk').style.visibility='hidden';$('#lv').textContent='';
+ $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
+ $('#grid').innerHTML=h;fitMenu();
+}
+function play(l){
+ stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
+ $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
+ const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ $('#ctl').innerHTML='';say('');setInfo('');start(l);
+}
+function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
+ setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+  modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
+function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
+$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+$('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+
+function pc(m){let k=0;while(m){m&=m-1;k++}return k}
+function cnt(g,lim,R){
+ const r=Array(9).fill(0),c=Array(9).fill(0),b=Array(9).fill(0);
+ for(let i=0;i<81;i++)if(g[i]){const m=1<<g[i],y=i/9|0,x=i%9;r[y]|=m;c[x]|=m;b[(y/3|0)*3+(x/3|0)]|=m}
+ let n=0,res=null;
+ (function go(){
+  if(n>=lim)return;
+  let bi=-1,bm=0,bc=10;
+  for(let i=0;i<81;i++)if(!g[i]){const y=i/9|0,x=i%9,m=~(r[y]|c[x]|b[(y/3|0)*3+(x/3|0)])&0x3FE,k=pc(m);if(k<bc){bc=k;bi=i;bm=m;if(k<2)break}}
+  if(bi<0){n++;if(!res)res=g.slice();return}
+  const y=bi/9|0,x=bi%9,q=(y/3|0)*3+(x/3|0),ds=[];
+  for(let d=1;d<=9;d++)if(bm>>d&1)ds.push(d);
+  if(R)ds.sort(()=>R()-.5);
+  for(const d of ds){const m=1<<d;g[bi]=d;r[y]|=m;c[x]|=m;b[q]|=m;go();g[bi]=0;r[y]&=~m;c[x]&=~m;b[q]&=~m;if(n>=lim)return}
+ })();
+ return{n,res}
+}
+const P=[];
+for(let i=0;i<81;i++){const y=i/9|0,x=i%9,s=new Set();for(let k=0;k<9;k++){s.add(y*9+k);s.add(k*9+x)}const by=y-y%3,bx=x-x%3;for(let a=0;a<3;a++)for(let c=0;c<3;c++)s.add((by+a)*9+bx+c);s.delete(i);P[i]=[...s]}
+let sol,gv,v,nt,sel,nmode;
+function start(l){
+ const R=rng(l*7919+13);sol=cnt(Array(81).fill(0),1,R).res;
+ const p=sol.slice(),ord=[...Array(81).keys()].sort(()=>R()-.5),tg=36+((l-1)*.18|0);let rm=0;
+ for(const i of ord){if(rm>=tg)break;const t=p[i];p[i]=0;if(cnt(p.slice(),2).n>1)p[i]=t;else rm++}
+ gv=p.map(x=>x>0);v=p.slice();nt=Array(81).fill(0);sel=-1;nmode=false;
+ const b=$('#board');b.className='sd';
+ b.innerHTML=Array.from({length:81},(_,i)=>'<div data-i="'+i+'"></div>').join('');
+ b.onpointerdown=e=>{const c=e.target.closest('[data-i]');if(c){sel=+c.dataset.i;draw()}};
+ $('#ctl').innerHTML='<div class="pad">'+[1,2,3,4,5,6,7,8,9].map(d=>'<button class="b" data-d="'+d+'">'+d+'</button>').join('')+'</div><div class="pad w"><button class="b" id="nb">✏️ Nháp: Tắt</button><button class="b" data-d="0">⌫ Xoá</button><button class="b" id="hb">💡 Gợi ý</button></div>';
+ $('#ctl').onclick=e=>{const t=e.target.closest('button');if(!t)return;if(t.id=='nb'){nmode=!nmode;t.textContent='✏️ Nháp: '+(nmode?'Bật':'Tắt');t.classList.toggle('on',nmode)}else if(t.id=='hb')hint();else inp(+t.dataset.d)};
+ relayout();draw();say('Chạm một ô rồi chọn số. Ô đỏ = trùng số trong hàng/cột/khối.');
+}
+function relayout(){const b=$('#board');if(!b.classList.contains('sd'))return;const s=side(75);b.style.width=b.style.height=s+'px';b.style.fontSize=s/9*.55+'px'}
+function inp(d){
+ if(sel<0||gv[sel]||over)return;
+ if(d==0){v[sel]=0;nt[sel]=0}
+ else if(nmode){if(v[sel]){say('Hãy xoá số trong ô trước khi ghi nháp.');return}nt[sel]^=1<<d}
+ else{v[sel]=d;nt[sel]=0;P[sel].forEach(j=>{if(!v[j])nt[j]&=~(1<<d)})}
+ draw();
+}
+function hint(){if(over)return;let i=sel;if(i<0||gv[i]||v[i]==sol[i])i=v.findIndex((x,k)=>x!=sol[k]);if(i<0)return;sel=i;v[i]=sol[i];nt[i]=0;draw()}
+function draw(){
+ const cs=$('#board').children,bad=new Set(),full=v.every(x=>x>0);
+ for(let i=0;i<81;i++)if(v[i]&&P[i].some(j=>v[j]==v[i]))bad.add(i);
+ if(full)for(let i=0;i<81;i++)if(v[i]!=sol[i])bad.add(i);
+ const sv=sel>=0?v[sel]:0;
+ for(let i=0;i<81;i++){
+  let k=gv[i]?'g':'u';
+  if(sel>=0){if(i==sel)k+=' s';else if(sv&&v[i]==sv)k+=' m';else if(P[sel].includes(i))k+=' h'}
+  if(bad.has(i)&&!gv[i])k+=' e';
+  if(i%9%3==2&&i%9<8)k+=' r3';if((i/9|0)%3==2&&i<72)k+=' b3';
+  cs[i].className=k;
+  cs[i].innerHTML=v[i]?v[i]:nt[i]?'<div class="nt">'+[1,2,3,4,5,6,7,8,9].map(d=>'<i>'+(nt[i]>>d&1?d:'')+'</i>').join('')+'</div>':'';
+ }
+ setInfo('Ô trống: '+v.filter(x=>!x).length);
+ if(full&&!bad.size)win('Bạn đã giải xong Sudoku!');
+ else if(full)say('Đã điền hết nhưng còn ô sai (màu đỏ). Hãy sửa lại.');
+}
+document.addEventListener('keydown',e=>{
+ if($('#play').hidden||over||!$('#board').classList.contains('sd'))return;
+ if(e.key>='1'&&e.key<='9')inp(+e.key);else if(e.key=='Backspace'||e.key=='Delete'||e.key=='0')inp(0);
+ else if(sel>=0){const m={ArrowLeft:-1,ArrowRight:1,ArrowUp:-9,ArrowDown:9}[e.key];if(m){sel=Math.max(0,Math.min(80,sel+m));draw();e.preventDefault()}}
+});
+
+menu();
+</script></body></html>
