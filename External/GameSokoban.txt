@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="robots" content="noindex, nofollow"><title>📦 Đẩy hộp</title><style>
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:#111827;color:#fff;font:16px system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+#h{position:fixed;top:8px;left:0;right:0;text-align:center;font-weight:700;pointer-events:none;padding:0 8px}
+#bar{position:fixed;bottom:10px;left:0;right:0;display:none;justify-content:center;gap:8px}
+#m{position:fixed;inset:0;background:#111827f2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;text-align:center;overflow:hidden}
+#g{--b:min(calc((100vw - 28px)/10 - 4px),calc((var(--vh,100vh) - 190px)/10 - 4px),42px);display:grid;grid-template-columns:repeat(10,var(--b));gap:4px}
+#g button{width:var(--b);height:var(--b);padding:0;font-size:max(11px,calc(var(--b)*.4))}
+@media(max-height:520px) and (orientation:landscape){#g{--b:min(calc((100vw - 28px)/20 - 4px),calc((var(--vh,100vh) - 150px)/5 - 4px),40px);grid-template-columns:repeat(20,var(--b))}.hint{display:none}}
+button{background:#f59e0b;color:#2a1700;border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}button:disabled{background:#2b3350;color:#7b86aa;cursor:default}button.cur{outline:2px solid #fff}
+</style></head><body><canvas id="c"></canvas><div id="h"></div><div id="bar"><button id="bu">↶ Hoàn tác</button><button id="br">↺ Làm lại</button><button id="bn">☰ Chọn màn</button></div><div id="m"></div><script>
+const C=c.getContext('2d'),N=100,K='mg_sokoban',T='📦 Đẩy hộp',hint=matchMedia('(pointer:coarse)').matches?'Vuốt (hoặc chạm vào hướng muốn đi so với nhân vật) để đi và đẩy hộp 📦 vào các chấm đỏ. Chỉ đẩy được, không kéo được. Kẹt thì bấm Hoàn tác':'← ↑ ↓ → hoặc WASD để đi và đẩy hộp 📦 vào các chấm đỏ. Chỉ đẩy được, không kéo được. Z hoàn tác, R làm lại màn';
+let W,H,lv=1,run=0,best=1,lt=0;try{best=+localStorage[K]||1}catch(e){}
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;document.documentElement.style.setProperty('--vh',H+'px')}onresize=rs;rs();
+function menu(){run=0;bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${T}</h2><p>Chọn màn (${best}/${N})</p><div id="g"></div><p class="hint" style="opacity:.7;max-width:92vw;font-size:14px">${hint}</p>`;for(let i=1;i<=N;i++){const b=document.createElement('button');b.textContent=i;b.disabled=i>best;if(i==best)b.className='cur';b.onclick=()=>go(i);g.append(b)}}
+function end(w,t){if(!run)return;draw();run=0;if(w&&lv>=best&&best<N){best=lv+1;try{localStorage[K]=best}catch(e){}}bar.style.display='none';m.style.display='flex';m.innerHTML=`<h2>${w?'🎉 Qua màn '+lv:t||'💥 Thua rồi'}</h2><button id="ba">${w&&lv<N?'Màn tiếp':'Chơi lại'}</button><button id="bm">Chọn màn</button>`;ba.onclick=()=>go(w&&lv<N?lv+1:lv);bm.onclick=menu}
+function go(l){lv=l;m.style.display='none';bar.style.display='flex';rs();init();run=1;lt=performance.now()}
+function loop(t){lt=t;if(run)draw();requestAnimationFrame(loop)}
+
+let w,Wl,Tg,Bx,P0,Bx0,pp,hs,mc,s,ox,oy,dx0,dy0;
+const OF=()=>[-w,1,w,-1];
+function init(){w=Math.min(6+((lv-1)/12|0),11);const nb=Math.min(1+(lv/10|0),10),steps=250+lv*12,o=OF();let bs=null;
+for(let t=0;t<300;t++){const wl=[];for(let i=0;i<w*w;i++){const x=i%w,y=i/w|0;wl.push(x==0||y==0||x==w-1||y==w-1||Math.random()<.06+lv*.0006?1:0)}
+const fl=[];wl.forEach((v,i)=>{if(!v)fl.push(i)});if(fl.length<nb*3+4)continue;
+const sn=new Set([fl[0]]),st=[fl[0]];while(st.length){const i=st.pop();for(const d of o){const j=i+d;if(!wl[j]&&!sn.has(j)){sn.add(j);st.push(j)}}}if(sn.size<fl.length)continue;
+for(let i=fl.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[fl[i],fl[j]]=[fl[j],fl[i]]}
+const tg=fl.slice(0,nb),bx=tg.slice();let p=fl[nb];
+for(let k=0;k<steps;k++){const d=o[Math.random()*4|0],q=p+d;if(wl[q]||bx.includes(q))continue;const bi=bx.indexOf(p-d);if(bi>=0&&Math.random()<.8)bx[bi]=p;p=q}
+bs={wl,tg,bx,p};if(bx.filter(b=>!tg.includes(b)).length>=Math.ceil(nb*.7))break}
+if(!bs)return init();Wl=bs.wl;Tg=bs.tg;P0=bs.p;Bx0=bs.bx;reset()}
+function reset(){Bx=Bx0.slice();pp=P0;hs=[];mc=0}
+function mv(k){if(!run)return;const d=OF()[k],q=pp+d;if(Wl[q])return;const bi=Bx.indexOf(q);if(bi>=0){const q2=q+d;if(Wl[q2]||Bx.includes(q2))return;hs.push([pp,Bx.slice()]);Bx[bi]=q2}else hs.push([pp,Bx.slice()]);pp=q;mc++;if(Bx.every(b=>Tg.includes(b)))end(1)}
+function undo(){if(run&&hs.length){[pp,Bx]=hs.pop();mc--}}
+function draw(){s=Math.min((W-16)/w,(H-130)/w,64);ox=(W-w*s)/2;oy=(H-w*s)/2-4;C.clearRect(0,0,W,H);C.font=s*.75+'px serif';C.textAlign='center';C.textBaseline='middle';
+for(let i=0;i<w*w;i++){const X=ox+(i%w)*s,Y=oy+(i/w|0)*s;C.fillStyle=Wl[i]?'#475569':'#1e293b';C.fillRect(X,Y,s-1,s-1);if(Tg.includes(i)){C.fillStyle='#f87171';C.beginPath();C.arc(X+s/2,Y+s/2,s*.15,0,7);C.fill()}if(Bx.includes(i)){C.fillStyle=Tg.includes(i)?'#16a34a':'#92400e';C.fillRect(X+3,Y+3,s-7,s-7);C.fillText('📦',X+s/2,Y+s/2+1)}if(i==pp)C.fillText('🙂',X+s/2,Y+s/2+1)}
+h.textContent=`Màn ${lv} · Hộp vào đích ${Bx.filter(b=>Tg.includes(b)).length}/${Bx.length} · Bước ${mc}`}
+c.onpointerdown=e=>{dx0=e.clientX;dy0=e.clientY};
+c.onpointerup=e=>{let a=e.clientX-dx0,b=e.clientY-dy0;if(Math.abs(a)+Math.abs(b)<12){a=e.clientX-(ox+(pp%w)*s+s/2);b=e.clientY-(oy+(pp/w|0)*s+s/2)}mv(Math.abs(a)>Math.abs(b)?(a>0?1:3):(b>0?2:0))};
+onkeydown=e=>{const k={ArrowUp:0,w:0,W:0,ArrowRight:1,d:1,D:1,ArrowDown:2,s:2,S:2,ArrowLeft:3,a:3,A:3}[e.key];if(k!==undefined){e.preventDefault();mv(k)}else if(e.key=='z'||e.key=='Z')undo();else if(e.key=='r'||e.key=='R')reset()};
+bu.onclick=undo;br.onclick=reset;
+
+bn.onclick=menu;menu();requestAnimationFrame(loop);
+</script></body></html>
