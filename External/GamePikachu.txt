@@ -53,35 +53,35 @@ const GAME={key:'pikachu'};
 const MAX=100,KEY='gp_'+GAME.key;
 let prog=0,L=1,over=false;
 try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
-const $=s=>document.querySelector(s);
+const qs=s=>document.querySelector(s);
 const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
 const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
-const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const setInfo=h=>{qs('#info').innerHTML=h},say=t=>{qs('#msg').textContent=t||''};
 const stop=()=>{if(typeof onStop=='function')onStop()};
-function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=qs('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
 function menu(){
- stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
- $('#bk').style.visibility='hidden';$('#lv').textContent='';
- $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ stop();qs('#play').hidden=true;qs('#menu').hidden=false;qs('#md').hidden=true;
+ qs('#bk').style.visibility='hidden';qs('#lv').textContent='';
+ qs('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
  let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
- $('#grid').innerHTML=h;fitMenu();
+ qs('#grid').innerHTML=h;fitMenu();
 }
 function play(l){
- stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
- $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
- const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
- $('#ctl').innerHTML='';say('');setInfo('');start(l);
+ stop();L=l;over=false;qs('#md').hidden=true;qs('#menu').hidden=true;qs('#play').hidden=false;
+ qs('#bk').style.visibility='visible';qs('#lv').textContent='Màn '+l;
+ const b=qs('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ qs('#ctl').innerHTML='';say('');setInfo('');start(l);
 }
-function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
- btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function modal(t,x,btns){qs('#mt').textContent=t;qs('#mx').textContent=x;const m=qs('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});qs('#md').hidden=false}
 function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
- setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+ setTimeout(()=>{if(!qs('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
   modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
 function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
-$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
-$('#bk').onclick=menu;
-addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+qs('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+qs('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
 
 const EM='🍎🍌🍇🍓🍒🍑🍍🥝🍉🍋🥕🌽🍄🌸🌻🐶🐱🐭🐰🦊🐻🐼🐸🐵🐔🐧🐢🐙🦋🐞'.match(/./gu),DX=[1,-1,0,0],DY=[0,0,1,-1];
 let C,RW,W,H,g,sel,lk,tot,t0,sh,ht,grav,tid,R,hl;
@@ -109,23 +109,23 @@ function start(l){
  let k=0;for(let y=1;y<=RW;y++)for(let x=1;x<=C;x++)g[y*W+x]=t[k++];
  grav=l>=30;sel=-1;lk=false;hl=[];sh=3;ht=3;tot=pr*(6.5-3*l/100);t0=Date.now();
  setInfo('<span id="pr"></span><div id="tb"><i></i></div>');
- $('#board').className='pk';$('#board').onclick=click;
+ qs('#board').className='pk';qs('#board').onclick=click;
  draw();ctl();ensure();draw();
  say(grav?'Từ màn 30: các hình sẽ rơi xuống sau khi xoá, hãy nhìn kỹ!':'Chạm 2 hình giống nhau (nối tối đa 2 góc rẽ).');
  clearInterval(tid);tid=setInterval(tick,200);
 }
 function onStop(){clearInterval(tid)}
-function tick(){const r=tot-(Date.now()-t0)/1000,i=$('#tb i');if(i)i.style.width=Math.max(0,r/tot*100)+'%';if(r<=0)fail('Hết giờ! Còn '+cn()/2+' cặp chưa nối.')}
-function ctl(){$('#ctl').innerHTML='<button class="b" id="h">💡 Gợi ý ('+ht+')</button><button class="b" id="s">🔀 Xáo trộn ('+sh+')</button>';
- $('#ctl').onclick=e=>{const t=e.target.closest('button');if(!t||over||lk)return;
+function tick(){const r=tot-(Date.now()-t0)/1000,i=qs('#tb i');if(i)i.style.width=Math.max(0,r/tot*100)+'%';if(r<=0)fail('Hết giờ! Còn '+cn()/2+' cặp chưa nối.')}
+function ctl(){qs('#ctl').innerHTML='<button class="b" id="h">💡 Gợi ý ('+ht+')</button><button class="b" id="s">🔀 Xáo trộn ('+sh+')</button>';
+ qs('#ctl').onclick=e=>{const t=e.target.closest('button');if(!t||over||lk)return;
   if(t.id=='h'){if(ht<=0){say('Hết lượt gợi ý.');return}const p=pairs();if(p){ht--;hl=p;draw();ctl()}}
   else if(sh>0){sh--;shuffle();ensure();sel=-1;hl=[];draw();ctl()}else say('Hết lượt xáo trộn.')}}
-function relayout(){if($('#board').classList.contains('pk'))draw()}
+function relayout(){if(qs('#board').classList.contains('pk'))draw()}
 function draw(){
- const b=$('#board'),c=Math.floor(Math.max(24,Math.min((innerWidth-12)/W,(innerHeight-195)/H,64)));
+ const b=qs('#board'),c=Math.floor(Math.max(24,Math.min((innerWidth-12)/W,(innerHeight-195)/H,64)));
  b.style.gridTemplateColumns='repeat('+W+','+c+'px)';b.style.gridAutoRows=c+'px';b.style.fontSize=c*.62+'px';b.style.width=W*c+'px';
  let h='';for(let i=0;i<W*H;i++)h+=g[i]?'<div class="t'+(i==sel?' s':'')+(hl.includes(i)?' h':'')+'" data-i="'+i+'">'+EM[g[i]-1]+'</div>':'<div></div>';
- b.innerHTML=h;const p=$('#pr');if(p)p.textContent='Còn '+cn()/2+' cặp';
+ b.innerHTML=h;const p=qs('#pr');if(p)p.textContent='Còn '+cn()/2+' cặp';
 }
 function click(e){
  if(lk||over)return;const t=e.target.closest('.t');if(!t)return;const i=+t.dataset.i;hl=[];
@@ -134,8 +134,8 @@ function click(e){
  const p=findPath(sel,i);
  if(!p){say('Không nối được: đường bị chặn hoặc cần quá 2 góc rẽ.');sel=i;draw();return}
  say('');lk=true;const a=sel;
- $('#board').insertAdjacentHTML('beforeend','<svg viewBox="0 0 '+W+' '+H+'"><polyline fill="none" stroke="#f43f5e" stroke-width=".14" stroke-linecap="round" stroke-linejoin="round" points="'+p.map(q=>(q[0]+.5)+','+(q[1]+.5)).join(' ')+'"/></svg>');
- setTimeout(()=>{if(!$('#board').classList.contains('pk'))return;g[a]=0;g[i]=0;if(grav)fall();sel=-1;lk=false;draw();if(!cn())win('Đã xoá sạch bàn chơi!');else{ensure();draw()}},260);
+ qs('#board').insertAdjacentHTML('beforeend','<svg viewBox="0 0 '+W+' '+H+'"><polyline fill="none" stroke="#f43f5e" stroke-width=".14" stroke-linecap="round" stroke-linejoin="round" points="'+p.map(q=>(q[0]+.5)+','+(q[1]+.5)).join(' ')+'"/></svg>');
+ setTimeout(()=>{if(!qs('#board').classList.contains('pk'))return;g[a]=0;g[i]=0;if(grav)fall();sel=-1;lk=false;draw();if(!cn())win('Đã xoá sạch bàn chơi!');else{ensure();draw()}},260);
 }
 
 menu();
