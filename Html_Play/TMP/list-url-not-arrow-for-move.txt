@@ -9,3 +9,4 @@
 /play-karaoke-1
 /play-karaoke-2
 /karaoke
+/Admin/EditFileAdminStatic
