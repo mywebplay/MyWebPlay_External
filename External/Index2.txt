@@ -195,6 +195,14 @@ footer{
 <div class="card games menu-itemX1" data-action="GamePegSolitaire"><h3>GAME : peg solitaire</h3></div>
 <div class="card games menu-itemX1" data-action="GameFlowFree"><h3>GAME : flow free</h3></div>
 <div class="card games menu-itemX1" data-action="GameNQueens"><h3>GAME : n-queens</h3></div>
+<div class="card games menu-itemX1" data-action="GameBlockBlast"><h3>GAME : block blast</h3></div>
+<div class="card games menu-itemX1" data-action="GameBubbleShooter"><h3>GAME : bubble shooter</h3></div>
+<div class="card games menu-itemX1" data-action="GameStackTower"><h3>GAME : stack tower</h3></div>
+<div class="card games menu-itemX1" data-action="GameChainReaction"><h3>GAME : chain reaction</h3></div>
+<div class="card games menu-itemX1" data-action="GameOAnQuan"><h3>GAME : ô ăn quan</h3></div>
+<div class="card games menu-itemX1" data-action="GameTakuzu"><h3>GAME : takuzu</h3></div>
+<div class="card games menu-itemX1" data-action="GameBattleship"><h3>GAME : hải chiến</h3></div>
+<div class="card games menu-itemX1" data-action="GameChimpTest"><h3>GAME : chimp test</h3></div>
 <@@hideshow_context:"User-Agent"\s*:\s*".*(iPhone|iPad|iPod|Android|Mobile|Tablet).*"----NO----REGEX
 #3275_5828_3#
 <div class="card games menu-itemX1" data-action="GameDapChuot"><h3>GAME : đập chuột</h3></div>
@@ -314,6 +322,14 @@ document.querySelectorAll(".menu-itemX1").forEach((item)=>{
             case "GamePegSolitaire":window.open("/game-peg-solitaire","_blank");break;
             case "GameFlowFree":window.open("/game-flow-free","_blank");break;
             case "GameNQueens":window.open("/game-n-queens","_blank");break;
+            case "GameBlockBlast":window.open("/game-block-blast","_blank");break;
+            case "GameBubbleShooter":window.open("/game-bubble-shooter","_blank");break;
+            case "GameStackTower":window.open("/game-stack-tower","_blank");break;
+            case "GameChainReaction":window.open("/game-chain-reaction","_blank");break;
+            case "GameOAnQuan":window.open("/game-o-an-quan","_blank");break;
+            case "GameTakuzu":window.open("/game-takuzu","_blank");break;
+            case "GameBattleship":window.open("/game-battleship","_blank");break;
+            case "GameChimpTest":window.open("/game-chimp-test","_blank");break;
             case "Studocu":showmodal1();break;
             /* case "Studocu":window.open("/lay-tai-lieu-tu-stoducu","_blank");break; */
         }
