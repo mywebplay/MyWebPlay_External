@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🐵 Chimp Test</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
+header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}
+section{width:100%;flex:1;min-height:0}
+#menu{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+#sub{margin:0 0 8px;font-size:14px;color:#94a3b8}
+.hp{margin:10px 0 0;font-size:12px;color:#94a3b8;text-align:center;max-width:640px}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+#grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
+#grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
+#play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
+#info{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;font-size:14px;min-height:26px;flex:none}
+#board{flex:none}
+#msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
+#ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}
+.box{background:#1e293b;border-radius:16px;padding:22px;max-width:320px;width:86%;text-align:center}
+.box h2{margin:0 0 8px}.box p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+#board.ch{display:grid;gap:6px;margin:8px auto;touch-action:manipulation}
+.ch>div{border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.ch .n{background:#fff;color:#111;cursor:pointer}
+.ch .n.hd{color:transparent}
+.ch .fd{visibility:hidden}
+.ch .wr{background:#ef4444;color:#fff}
+.ch .rv{background:#86efac;color:#111;box-shadow:0 0 0 4px #22c55e}
+#tb2{height:8px;background:#334155;border-radius:4px;flex:1;max-width:260px;overflow:hidden}#tb2 i{display:block;height:100%;background:#22c55e;width:100%}
+
+</style></head><body>
+<div id="app">
+<header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🐵 Chimp Test</h1><span id="lv"></span></header>
+<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Nhớ vị trí các số rồi bấm theo thứ tự 1, 2, 3… khi chúng bị che. Sai quá số lượt cho phép là thua.</p></section>
+<section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
+<div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+</div>
+<script>
+const GAME={key:'chimp'};
+const MAX=100,KEY='gp_'+GAME.key;
+let prog=0,L=1,over=false;
+try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
+const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const stop=()=>{if(typeof onStop=='function')onStop()};
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function menu(){
+ stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
+ $('#bk').style.visibility='hidden';$('#lv').textContent='';
+ $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
+ $('#grid').innerHTML=h;fitMenu();
+}
+function play(l){
+ stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
+ $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
+ const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ $('#ctl').innerHTML='';say('');setInfo('');start(l);
+}
+function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
+ setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+  modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
+function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
+$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+$('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+
+const CC=5,CR=6;
+let N,pos,next,hid,lives,tm,tid,rev,wr;
+function start(l){
+ N=Math.min(11,4+Math.floor((l-1)/12.5));const R=rng(l*8123+5);
+ const cells=[...Array(CC*CR).keys()].sort(()=>R()-.5).slice(0,N);pos={};cells.forEach((c,k)=>pos[c]=k+1);
+ next=1;hid=false;rev=-1;wr=-1;lives=l>=80?2:3;
+ tm=l<25?0:N*(.7-.4*Math.min(1,(l-25)/75));
+ const b=$('#board');b.className='ch';
+ b.innerHTML='<div></div>'.repeat(CC*CR);
+ b.onpointerdown=e=>{const el=e.target.closest('#board>div');if(!el||over)return;tap([...b.children].indexOf(el))};
+ relayout();clearTimeout(tid);
+ setInfo('<span id="hr"></span>'+(tm?'<div id="tb2"><i></i></div>':''));
+ if(tm){const t0=Date.now();clearInterval(tid);tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=$('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
+ draw();say(tm?'Ghi nhớ nhanh! Các số sẽ tự ẩn sau vài giây. Bấm theo thứ tự 1, 2, 3…':'Bấm số 1 trước, các số còn lại sẽ bị che. Hãy nhớ vị trí và bấm theo thứ tự.');
+}
+function onStop(){clearInterval(tid);clearTimeout(tid)}
+function relayout(){const b=$('#board');if(!b.classList.contains('ch'))return;const z=Math.floor(Math.min((innerWidth-24)/CC,(innerHeight-215)/CR,76));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
+function hide(){if(!hid&&!over){hid=true;draw()}}
+function draw(){
+ const cs=$('#board').children;
+ for(let i=0;i<CC*CR;i++){const v=pos[i],e=cs[i];
+  if(!v){e.className='';e.textContent='';continue}
+  e.className='n'+(v<next?' fd':'')+(hid&&i!=rev?' hd':'')+(i==wr?' wr':'')+(i==rev?' rv':'');e.textContent=v}
+ $('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+(next-1)+'/'+N;
+}
+function tap(i){
+ const v=pos[i];if(!v||v<next)return;
+ if(v==next){wr=-1;rev=-1;next++;say('');if(next==2)hide();draw();if(next>N)win('Bạn nhớ đúng cả '+N+' số!');return}
+ lives--;wr=i;
+ const ci=+Object.keys(pos).find(k=>pos[k]==next);rev=ci;draw();
+ if(lives<=0){fail('Hết lượt sai. Số cần bấm tiếp theo là '+next+' (ô xanh).');return}
+ say('Sai rồi! Ô xanh mới là số '+next+'. Còn '+lives+' lượt sai.');
+ setTimeout(()=>{if(over)return;wr=-1;rev=-1;draw()},1300);
+}
+
+menu();
+</script></body></html>
