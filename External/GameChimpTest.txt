@@ -51,35 +51,35 @@ const GAME={key:'chimp'};
 const MAX=100,KEY='gp_'+GAME.key;
 let prog=0,L=1,over=false;
 try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
-const $=s=>document.querySelector(s);
+const qs=s=>document.querySelector(s);
 const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
 const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
-const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const setInfo=h=>{qs('#info').innerHTML=h},say=t=>{qs('#msg').textContent=t||''};
 const stop=()=>{if(typeof onStop=='function')onStop()};
-function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=qs('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
 function menu(){
- stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
- $('#bk').style.visibility='hidden';$('#lv').textContent='';
- $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ stop();qs('#play').hidden=true;qs('#menu').hidden=false;qs('#md').hidden=true;
+ qs('#bk').style.visibility='hidden';qs('#lv').textContent='';
+ qs('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
  let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
- $('#grid').innerHTML=h;fitMenu();
+ qs('#grid').innerHTML=h;fitMenu();
 }
 function play(l){
- stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
- $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
- const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
- $('#ctl').innerHTML='';say('');setInfo('');start(l);
+ stop();L=l;over=false;qs('#md').hidden=true;qs('#menu').hidden=true;qs('#play').hidden=false;
+ qs('#bk').style.visibility='visible';qs('#lv').textContent='Màn '+l;
+ const b=qs('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ qs('#ctl').innerHTML='';say('');setInfo('');start(l);
 }
-function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
- btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function modal(t,x,btns){qs('#mt').textContent=t;qs('#mx').textContent=x;const m=qs('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});qs('#md').hidden=false}
 function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
- setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+ setTimeout(()=>{if(!qs('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
   modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
 function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
-$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
-$('#bk').onclick=menu;
-addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+qs('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+qs('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
 
 const CC=5,CR=6;
 let N,pos,next,hid,lives,tm,tid,rev,wr;
@@ -88,23 +88,23 @@ function start(l){
  const cells=[...Array(CC*CR).keys()].sort(()=>R()-.5).slice(0,N);pos={};cells.forEach((c,k)=>pos[c]=k+1);
  next=1;hid=false;rev=-1;wr=-1;lives=l>=80?2:3;
  tm=l<25?0:N*(.7-.4*Math.min(1,(l-25)/75));
- const b=$('#board');b.className='ch';
+ const b=qs('#board');b.className='ch';
  b.innerHTML='<div></div>'.repeat(CC*CR);
  b.onpointerdown=e=>{const el=e.target.closest('#board>div');if(!el||over)return;tap([...b.children].indexOf(el))};
  relayout();clearTimeout(tid);
  setInfo('<span id="hr"></span>'+(tm?'<div id="tb2"><i></i></div>':''));
- if(tm){const t0=Date.now();clearInterval(tid);tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=$('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
+ if(tm){const t0=Date.now();clearInterval(tid);tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=qs('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
  draw();say(tm?'Ghi nhớ nhanh! Các số sẽ tự ẩn sau vài giây. Bấm theo thứ tự 1, 2, 3…':'Bấm số 1 trước, các số còn lại sẽ bị che. Hãy nhớ vị trí và bấm theo thứ tự.');
 }
 function onStop(){clearInterval(tid);clearTimeout(tid)}
-function relayout(){const b=$('#board');if(!b.classList.contains('ch'))return;const z=Math.floor(Math.min((innerWidth-24)/CC,(innerHeight-215)/CR,76));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
+function relayout(){const b=qs('#board');if(!b.classList.contains('ch'))return;const z=Math.floor(Math.min((innerWidth-24)/CC,(innerHeight-215)/CR,76));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
 function hide(){if(!hid&&!over){hid=true;draw()}}
 function draw(){
- const cs=$('#board').children;
+ const cs=qs('#board').children;
  for(let i=0;i<CC*CR;i++){const v=pos[i],e=cs[i];
   if(!v){e.className='';e.textContent='';continue}
   e.className='n'+(v<next?' fd':'')+(hid&&i!=rev?' hd':'')+(i==wr?' wr':'')+(i==rev?' rv':'');e.textContent=v}
- $('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+(next-1)+'/'+N;
+ qs('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+(next-1)+'/'+N;
 }
 function tap(i){
  const v=pos[i];if(!v||v<next)return;
