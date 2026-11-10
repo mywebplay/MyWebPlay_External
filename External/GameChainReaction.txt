@@ -49,35 +49,35 @@ const GAME={key:'chain'};
 const MAX=100,KEY='gp_'+GAME.key;
 let prog=0,L=1,over=false;
 try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
-const $=s=>document.querySelector(s);
+const qs=s=>document.querySelector(s);
 const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
 const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
-const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const setInfo=h=>{qs('#info').innerHTML=h},say=t=>{qs('#msg').textContent=t||''};
 const stop=()=>{if(typeof onStop=='function')onStop()};
-function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=qs('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
 function menu(){
- stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
- $('#bk').style.visibility='hidden';$('#lv').textContent='';
- $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ stop();qs('#play').hidden=true;qs('#menu').hidden=false;qs('#md').hidden=true;
+ qs('#bk').style.visibility='hidden';qs('#lv').textContent='';
+ qs('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
  let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
- $('#grid').innerHTML=h;fitMenu();
+ qs('#grid').innerHTML=h;fitMenu();
 }
 function play(l){
- stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
- $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
- const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
- $('#ctl').innerHTML='';say('');setInfo('');start(l);
+ stop();L=l;over=false;qs('#md').hidden=true;qs('#menu').hidden=true;qs('#play').hidden=false;
+ qs('#bk').style.visibility='visible';qs('#lv').textContent='Màn '+l;
+ const b=qs('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ qs('#ctl').innerHTML='';say('');setInfo('');start(l);
 }
-function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
- btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function modal(t,x,btns){qs('#mt').textContent=t;qs('#mx').textContent=x;const m=qs('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});qs('#md').hidden=false}
 function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
- setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+ setTimeout(()=>{if(!qs('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
   modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
 function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
-$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
-$('#bk').onclick=menu;
-addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+qs('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+qs('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
 
 let cols,rows,o,c,cap,nb,turn,busy,moves,cfg,dead;
 function build(){nb=[];cap=[];for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const i=y*cols+x,a=[];if(x>0)a.push(i-1);if(x<cols-1)a.push(i+1);if(y>0)a.push(i-cols);if(y<rows-1)a.push(i+cols);nb.push(a);cap.push(a.length)}}
@@ -100,14 +100,14 @@ function start(l){
  dead=false;cols=5+(l>=40)+(l>=75);rows=6+(l>=20)+(l>=50)+(l>=80);build();
  o=Array(cols*rows).fill(0);c=Array(cols*rows).fill(0);turn=1;busy=false;moves=0;
  cfg={eps:l<10?.6:l<30?Math.max(.1,.4-(l-10)*.015):0,d:l<45?1:2};
- const b=$('#board');b.className='cr';b.innerHTML='<div></div>'.repeat(cols*rows);
+ const b=qs('#board');b.className='cr';b.innerHTML='<div></div>'.repeat(cols*rows);
  b.onclick=e=>{const el=e.target.closest('#board>div');if(!el)return;human([...b.children].indexOf(el))};
- $('#ctl').innerHTML='<button class="b" id="r">🔄 Chơi lại</button>';$('#ctl').onclick=()=>{if(!over)play(L)};
+ qs('#ctl').innerHTML='<button class="b" id="r">🔄 Chơi lại</button>';qs('#ctl').onclick=()=>{if(!over)play(L)};
  relayout();draw();say('Chạm ô trống hoặc ô của bạn để thêm 1 quân. Ô đầy sẽ nổ và chiếm ô kế bên!');
 }
-function relayout(){const b=$('#board');if(!b.classList.contains('cr'))return;const z=Math.floor(Math.min((innerWidth-30)/cols,(innerHeight-215)/rows,80));b.style.gridTemplateColumns='repeat('+cols+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.34+'px';b.style.width=cols*z+(cols+1)*3+6+'px'}
+function relayout(){const b=qs('#board');if(!b.classList.contains('cr'))return;const z=Math.floor(Math.min((innerWidth-30)/cols,(innerHeight-215)/rows,80));b.style.gridTemplateColumns='repeat('+cols+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.34+'px';b.style.width=cols*z+(cols+1)*3+6+'px'}
 function draw(ex){
- const cs=$('#board').children;
+ const cs=qs('#board').children;
  for(let i=0;i<o.length;i++){cs[i].className=(o[i]==1?'p1':o[i]==2?'p2':'')+(ex&&ex.includes(i)?' ex':'')+(o[i]&&c[i]==cap[i]-1?' cr1':'');cs[i].textContent='●'.repeat(Math.min(c[i],6))}
  setInfo('<b style="color:#38bdf8">Bạn: '+tally(o,c,1)+'</b><b style="color:#f87171">Máy: '+tally(o,c,2)+'</b>');
 }
