@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🧱 Block Blast</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
+header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}
+section{width:100%;flex:1;min-height:0}
+#menu{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+#sub{margin:0 0 8px;font-size:14px;color:#94a3b8}
+.hp{margin:10px 0 0;font-size:12px;color:#94a3b8;text-align:center;max-width:640px}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+#grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
+#grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
+#play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
+#info{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;font-size:14px;min-height:26px;flex:none}
+#board{flex:none}
+#msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
+#ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}
+.box{background:#1e293b;border-radius:16px;padding:22px;max-width:320px;width:86%;text-align:center}
+.box h2{margin:0 0 8px}.box p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+.f1{background:#ef4444}.f2{background:#3b82f6}.f3{background:#22c55e}.f4{background:#eab308}.f5{background:#a855f7}.f6{background:#f97316}.f7{background:#64748b}
+#board.bb{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);gap:2px;background:#334155;padding:2px;border-radius:8px;margin:6px auto;touch-action:none}
+.bb>div{background:#1e293b;border-radius:4px}
+.bb>div.f1,.bb>div.f2,.bb>div.f3,.bb>div.f4,.bb>div.f5,.bb>div.f6,.bb>div.f7{box-shadow:inset 0 -3px 0 #0004}
+.bb>div.ok{box-shadow:inset 0 0 0 40px #4ade8099}.bb>div.no{box-shadow:inset 0 0 0 40px #f8717199}
+#tray{display:flex;justify-content:space-around;align-items:center;width:100%;max-width:440px;min-height:96px}
+.pc{display:grid;touch-action:none;cursor:grab;padding:6px}
+.pc div{border-radius:3px;margin:1px}
+#gh{position:fixed;display:grid;pointer-events:none;z-index:5;opacity:.88}
+#gh div{border-radius:4px;margin:1px}
+
+</style></head><body>
+<div id="app">
+<header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🧱 Block Blast</h1><span id="lv"></span></header>
+<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Kéo các khối vào lưới 8×8. Lấp đầy cả hàng hoặc cột để xoá. Xoá đủ số dòng yêu cầu để qua màn, hết chỗ đặt khối là thua.</p></section>
+<section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
+<div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+</div>
+<script>
+const GAME={key:'blockblast'};
+const MAX=100,KEY='gp_'+GAME.key;
+let prog=0,L=1,over=false;
+try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
+const setInfo=h=>{$('#info').innerHTML=h},say=t=>{$('#msg').textContent=t||''};
+const stop=()=>{if(typeof onStop=='function')onStop()};
+function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=$('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function menu(){
+ stop();$('#play').hidden=true;$('#menu').hidden=false;$('#md').hidden=true;
+ $('#bk').style.visibility='hidden';$('#lv').textContent='';
+ $('#sub').textContent='Đã qua '+prog+'/'+MAX+' màn';
+ let h='';for(let i=1;i<=MAX;i++)h+='<button class="'+(i<=prog?'done':i==prog+1?'cur':'lock')+'" data-l="'+i+'"'+(i>prog+1?' disabled':'')+'>'+i+'</button>';
+ $('#grid').innerHTML=h;fitMenu();
+}
+function play(l){
+ stop();L=l;over=false;$('#md').hidden=true;$('#menu').hidden=true;$('#play').hidden=false;
+ $('#bk').style.visibility='visible';$('#lv').textContent='Màn '+l;
+ const b=$('#board');b.className='';b.removeAttribute('style');b.innerHTML='';b.onclick=b.onpointerdown=b.onpointermove=b.onpointerup=b.onpointercancel=null;
+ $('#ctl').innerHTML='';say('');setInfo('');start(l);
+}
+function modal(t,x,btns){$('#mt').textContent=t;$('#mx').textContent=x;const m=$('#mb');m.innerHTML='';
+ btns.forEach(a=>{const e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});$('#md').hidden=false}
+function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
+ setTimeout(()=>{if(!$('#menu').hidden)return;const fin=L>=MAX,bt=[];if(!fin)bt.push(['Màn tiếp ▶',()=>play(L+1),'on']);bt.push(['Chơi lại',()=>play(L)],['Chọn màn',menu]);
+  modal(fin?'🏆 Hoàn thành cả 100 màn!':'🎉 Qua màn '+L+'!',x||'',bt)},450)}
+function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
+$('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
+$('#bk').onclick=menu;
+addEventListener('resize',()=>{if(!$('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+
+const SHP={
+a:['X','XX','X|X','XXX','X|X|X','XX|XX','XX|X.','XX|.X','X.|XX','.X|XX'],
+b:['XXXX','X|X|X|X','X.|X.|XX','XX|X.|X.','XXX|X..','XXX|..X','..X|XXX','X..|XXX','XX|XX|XX','XXX|XXX'],
+c:['XXXXX','X|X|X|X|X','XXX|XXX|XXX','XXX|X..|X..','XXX|..X|..X','..X|..X|XXX','X..|X..|XXX','XX.|.XX','.XX|XX.','X.|XX|.X','.X|XX|X.','XXX|.X.']};
+function parse(s){const rows=s.split('|'),cells=[];rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch=='X')cells.push([y,x])}));return{cells,h:rows.length,w:rows[0].length}}
+const PS={};for(const k in SHP)PS[k]=SHP[k].map(parse);
+let lv,g,pcs,goal,lines,refr,drag,gh,bw;
+function fitAt(p,r,c){return p.cells.every(([y,x])=>!g[(r+y)*8+c+x])}
+function fits(p){for(let r=0;r<=8-p.h;r++)for(let c=0;c<=8-p.w;c++)if(fitAt(p,r,c))return true;return false}
+function pick(){const ta=Math.max(.15,.8-lv*.008),tc=Math.min(.45,lv*.0045),r=Math.random(),k=r<ta?'a':r<1-tc?'b':'c',a=PS[k];return Object.assign({col:Math.random()*6|0},a[Math.random()*a.length|0])}
+function newTray(){for(let t=0;t<80;t++){pcs=[pick(),pick(),pick()];if(pcs.some(fits))return}pcs=[Object.assign({col:0},PS.a[0]),Object.assign({col:1},PS.a[1]),Object.assign({col:2},PS.a[2])]}
+function start(l){
+ lv=l;goal=Math.round(4+l*.36);lines=0;refr=3;g=Array(64).fill(0);drag=null;
+ for(let k=0,n=Math.min(20,Math.floor(l*.2));k<n;k++)g[Math.random()*64|0]=7;
+ const b=$('#board');b.className='bb';b.innerHTML='<div></div>'.repeat(64);
+ $('#ctl').innerHTML='<div id="tray"></div><button class="b" id="rf"></button>';
+ const tr=$('#tray');
+ tr.onpointerdown=e=>{const pe=e.target.closest('.pc');if(!pe||over||drag)return;const i=+pe.dataset.i;if(!pcs[i])return;e.preventDefault();pe.setPointerCapture(e.pointerId);drag={i,r:-9,c:-9,ok:false};mk(pcs[i]);mvd(e)};
+ tr.onpointermove=e=>{if(drag)mvd(e)};
+ tr.onpointerup=tr.onpointercancel=e=>{if(!drag)return;mvd(e);const d=drag;endDrag();if(d.ok)place(d.i,d.r,d.c)};
+ $('#rf').onclick=()=>{if(over||refr<=0||drag)return;refr--;newTray();say('Đã đổi bộ khối mới.');render();chk()};
+ relayout();say('Kéo khối vào lưới. Lấp đầy cả hàng hoặc cột để xoá. Hết chỗ đặt là thua.');
+}
+function onStop(){endDrag()}
+function endDrag(){drag=null;if(gh){gh.remove();gh=null}document.querySelectorAll('#board>div').forEach(d=>d.classList.remove('ok','no'))}
+function relayout(){const b=$('#board');if(!b.classList.contains('bb'))return;bw=Math.floor(Math.min(side(135),420));b.style.width=b.style.height=bw+'px';newTrayIfNone();render()}
+function newTrayIfNone(){if(!pcs||!pcs.length)newTray()}
+function render(){
+ const cs=$('#board').children;for(let i=0;i<64;i++)cs[i].className=g[i]?'f'+g[i]:'';
+ const z=Math.floor(bw/8*.46);
+ $('#tray').innerHTML=pcs.map((p,i)=>p?'<div class="pc" data-i="'+i+'" style="grid-template-columns:repeat('+p.w+','+z+'px);grid-auto-rows:'+z+'px">'+Array.from({length:p.w*p.h},(_,k)=>p.cells.some(q=>q[0]==(k/p.w|0)&&q[1]==k%p.w)?'<div class="f'+(p.col+1)+'"></div>':'<div></div>').join('')+'</div>':'<div class="pc"></div>').join('');
+ $('#rf').textContent='🔀 Đổi khối ('+refr+')';
+ setInfo('Dòng đã xoá: <b>'+lines+'/'+goal+'</b>');
+}
+function mk(p){const pitch=($('#board').getBoundingClientRect().width-4)/8;gh=document.createElement('div');gh.id='gh';gh.style.gridTemplateColumns='repeat('+p.w+','+pitch+'px)';gh.style.gridAutoRows=pitch+'px';
+ gh.innerHTML=Array.from({length:p.w*p.h},(_,k)=>p.cells.some(q=>q[0]==(k/p.w|0)&&q[1]==k%p.w)?'<div class="f'+(p.col+1)+'"></div>':'<div></div>').join('');document.body.appendChild(gh)}
+function mvd(e){
+ const p=pcs[drag.i],rc=$('#board').getBoundingClientRect(),pitch=(rc.width-4)/8,lift=e.pointerType=='touch'?pitch*1.6:0;
+ const x0=e.clientX-p.w*pitch/2,y0=e.clientY-p.h*pitch/2-lift;gh.style.left=x0+'px';gh.style.top=y0+'px';
+ const c=Math.round((x0-rc.left-2)/pitch),r=Math.round((y0-rc.top-2)/pitch);
+ const inb=r>=0&&c>=0&&r<=8-p.h&&c<=8-p.w,ok=inb&&fitAt(p,r,c);drag.r=r;drag.c=c;drag.ok=ok;
+ const cs=$('#board').children;for(let i=0;i<64;i++)cs[i].classList.remove('ok','no');
+ p.cells.forEach(([y,x])=>{const rr=r+y,cc=c+x;if(rr>=0&&cc>=0&&rr<8&&cc<8)cs[rr*8+cc].classList.add(ok?'ok':'no')});
+}
+function place(i,r,c){
+ const p=pcs[i];p.cells.forEach(([y,x])=>g[(r+y)*8+c+x]=p.col+1);pcs[i]=null;
+ const rows=[],cols=[];for(let k=0;k<8;k++){let a=true,b=true;for(let j=0;j<8;j++){if(!g[k*8+j])a=false;if(!g[j*8+k])b=false}if(a)rows.push(k);if(b)cols.push(k)}
+ const clr=new Set();rows.forEach(k=>{for(let j=0;j<8;j++)clr.add(k*8+j)});cols.forEach(k=>{for(let j=0;j<8;j++)clr.add(j*8+k)});clr.forEach(q=>g[q]=0);
+ const n=rows.length+cols.length;lines+=n;
+ if(n)say(n>1?'Combo '+n+' dòng!':'Xoá 1 dòng!');else say('');
+ if(pcs.every(x=>!x))newTray();
+ render();chk();
+}
+function chk(){
+ if(lines>=goal){win('Bạn đã xoá '+lines+' dòng!');return}
+ if(!pcs.some(p=>p&&fits(p)))fail('Hết chỗ để đặt khối. Bạn đã xoá '+lines+'/'+goal+' dòng.');
+}
+
+menu();
+</script></body></html>
