@@ -213,7 +213,7 @@ footer{
 <div class="card games menu-itemX1" data-action="GameCoCaro"><h3>GAME : cờ caro</h3></div>
 @@>
     <div style="text-align:center;margin:24px 0;">
-      <a href="/mini-game" style="display:inline-block;padding:12px 32px;background:#d7263d;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;">Xem thêm</a>
+      <a href="/mini-game" target="_blank" style="display:inline-block;padding:12px 32px;background:#d7263d;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;">Xem thêm</a>
     </div>
 </div>
 </div>
