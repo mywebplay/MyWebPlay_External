@@ -1,0 +1,266 @@
+var MINIGAME_LIST = [
+	{
+		"Key": "/game-ran-san-moi",
+		"Name": "Game rắn săn mồi",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-quick-math",
+		"Name": "Game Quick Math",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-ne-tranh-vat-the",
+		"Name": "Game né tránh vật thể",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-flappy-bird",
+		"Name": "Game Flappy Bird",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-minesweeper",
+		"Name": "Game Minesweeper",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-hangman",
+		"Name": "Game Hangman",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-color-match",
+		"Name": "Game Color Match",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-car-dodging",
+		"Name": "Game Car Dodging",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-ping-pong-arena",
+		"Name": "Game Ping Pong Arena",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-brick-breaker",
+		"Name": "Game Brick Breaker",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-wordle",
+		"Name": "Game Wordle",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-sliding-puzzle",
+		"Name": "Game Sliding Puzzle",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-space-invaders",
+		"Name": "Game Space Invaders",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-dino-runner",
+		"Name": "Game Dino Runner",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-fruit-ninja",
+		"Name": "Game Fruit Ninja",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-catch-falling-objects",
+		"Name": "Game hứng vật rơi",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-tetris",
+		"Name": "Game Tetris",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-connect-four",
+		"Name": "Game Connect Four",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-lights-out",
+		"Name": "Game Lights Out",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-tower-of-hanoi",
+		"Name": "Game tháp Hà Nội",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-simon-says",
+		"Name": "Game Simon Says",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-mastermind",
+		"Name": "Game Mastermind",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-match-3",
+		"Name": "Game Match 3",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-reaction-time",
+		"Name": "Game Reaction Time",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-water-sort",
+		"Name": "Game xếp nước theo màu",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-maze",
+		"Name": "Game mê cung",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-pipe-connect",
+		"Name": "Game nối ống nước",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-sokoban",
+		"Name": "Game Sokoban",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-sudoku",
+		"Name": "Game Sudoku",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-nonogram",
+		"Name": "Game Nonogram",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-rush-hour",
+		"Name": "Game Rush Hour",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-pikachu",
+		"Name": "Game Pikachu",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-reversi",
+		"Name": "Game Reversi",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-peg-solitaire",
+		"Name": "Game Peg Solitaire",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-flow-free",
+		"Name": "Game Flow Free",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-n-queens",
+		"Name": "Game N-Queens",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-block-blast",
+		"Name": "Game Block Blast",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-bubble-shooter",
+		"Name": "Game Bubble Shooter",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-stack-tower",
+		"Name": "Game Stack Tower",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-chain-reaction",
+		"Name": "Game Chain Reaction",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-o-an-quan",
+		"Name": "Game ô ăn quan",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-takuzu",
+		"Name": "Game Takuzu",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-battleship",
+		"Name": "Game hải chiến",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	},
+	{
+		"Key": "/game-chimp-test",
+		"Name": "Game Chimp Test",
+		"Image": "https://picsum.photos/500/500",
+		"Enabled": true
+	}
+];
