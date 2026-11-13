@@ -155,7 +155,7 @@
     }
 
     function resetGame(){
-      openFullScreen();
+      // openFullScreen();
       if(moveTimer) clearInterval(moveTimer);
       const startX = Math.floor(cols/2);
       const startY = Math.floor(rows/2);
@@ -171,7 +171,7 @@
     }
 
     document.addEventListener('dblclick', function() {
-        closeFullScreen();
+        // closeFullScreen();
     });
 
     function spawnFood(){
