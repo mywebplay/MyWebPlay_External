@@ -20,7 +20,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-flappy-bird",
 		"Name": "Game Flappy Bird",
-		"Image": "https://media.vneconomy.vn/images/upload/2024/09/14/flappy-bird-new-png.jpegg",
+		"Image": "https://media.vneconomy.vn/images/upload/2024/09/14/flappy-bird-new-png.jpeg",
 		"Enabled": true
 	},
 	{
@@ -68,7 +68,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-sliding-puzzle",
 		"Name": "Game Sliding Puzzle",
-		"Image": "https://datawookie.dev/blog/2019-04-10-sliding-puzzle-solvable/sliding-puzzle.pngg",
+		"Image": "https://datawookie.dev/blog/2019-04-10-sliding-puzzle-solvable/sliding-puzzle.png",
 		"Enabled": true
 	},
 	{
