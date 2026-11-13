@@ -92,19 +92,19 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-catch-falling-objects",
 		"Name": "Game hứng vật rơi",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://st.quantrimang.com/photos/image/2022/04/27/game-hung-tao-2.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-tetris",
 		"Name": "Game Tetris",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://thumbs.dreamstime.com/b/colorful-geometric-puzzle-blocks-set-block-blast-game-style-d-tiles-tetris-shapes-collection-retro-pixel-flat-vector-elements-393243455.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-connect-four",
 		"Name": "Game Connect Four",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://as1.ftcdn.net/jpg/04/06/93/82/1000_F_406938253_AneDCdBsJJic1FpXtQFG929pNAV9m0wm.webp",
 		"Enabled": true
 	},
 	{
@@ -122,7 +122,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-simon-says",
 		"Name": "Game Simon Says",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://i0.wp.com/www.thegamegal.com/wp-content/uploads/2011/01/simon-says.jpg",
 		"Enabled": true
 	},
 	{
@@ -152,13 +152,13 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-maze",
 		"Name": "Game mê cung",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://m.media-amazon.com/images/I/11tjDcyK9DL.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-pipe-connect",
 		"Name": "Game nối ống nước",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://lwchkg.github.io/images/programs/pipes_intro1.png",
 		"Enabled": true
 	},
 	{
