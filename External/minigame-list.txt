@@ -262,5 +262,29 @@ var MINIGAME_LIST = [
 		"Name": "Game Chimp Test",
 		"Image": "https://mindedgames.com/covers/chimp-test.webp",
 		"Enabled": true
-	}
+	},
+	{
+		"Key": "/game-bai-cao",
+		"Name": "Game bài cào 3 lá",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Enabled": false
+	},
+	{
+		"Key": "/game-noi-tu",
+		"Name": "Game nối từ",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Enabled": false
+	},
+	{
+		"Key": "/game-tim-day-so-bi-mat",
+		"Name": "Game tìm dãy số bí mật",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Enabled": false
+	},
+	{
+		"Key": "/game-dao-vang",
+		"Name": "Game đào vàng",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Enabled": false
+	},
 ];
