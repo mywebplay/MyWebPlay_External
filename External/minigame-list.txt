@@ -2,292 +2,265 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-ran-san-moi",
 		"Name": "Game rắn săn mồi",
-		"Image": "https://picsum.photos/seed/game-ran-san-moi/500/500",
+		"Image": "https://s3-api.fpt.vn/fptvn-storage/2025-12-01/1764574515_tro-ran-san-moi-tren-google-11.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-quick-math",
 		"Name": "Game Quick Math",
-		"Image": "https://picsum.photos/seed/game-quick-math/500/500",
+		"Image": "https://i.pinimg.com/736x/cb/72/60/cb72602f63966d4c3792c571332d0f1b.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-ne-tranh-vat-the",
 		"Name": "Game né tránh vật thể",
-		"Image": "https://picsum.photos/seed/game-ne-tranh-vat-the/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-flappy-bird",
 		"Name": "Game Flappy Bird",
-		"Image": "https://picsum.photos/seed/game-flappy-bird/500/500",
+		"Image": "https://media.vneconomy.vn/images/upload/2024/09/14/flappy-bird-new-png.jpegg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-minesweeper",
 		"Name": "Game Minesweeper",
-		"Image": "https://picsum.photos/seed/game-minesweeper/500/500",
+		"Image": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Minesweeper%28game%29.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-hangman",
 		"Name": "Game Hangman",
-		"Image": "https://picsum.photos/seed/game-hangman/500/500",
+		"Image": "https://static-assets.prepcdn.com/content-management-system/hangman_1bcf8389a6.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-color-match",
 		"Name": "Game Color Match",
-		"Image": "https://picsum.photos/seed/game-color-match/500/500",
+		"Image": "https://www.memozor.com/templates/memoire/images/zoom/memory_game_kids_colors.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-car-dodging",
 		"Name": "Game Car Dodging",
-		"Image": "https://picsum.photos/seed/game-car-dodging/500/500",
+		"Image": "https://img.magnific.com/free-vector/game-competition-continue-player-used-high-speed-car-win-racing-game_1150-47238.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-ping-pong-arena",
 		"Name": "Game Ping Pong Arena",
-		"Image": "https://picsum.photos/seed/game-ping-pong-arena/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-brick-breaker",
 		"Name": "Game Brick Breaker",
-		"Image": "https://picsum.photos/seed/game-brick-breaker/500/500",
+		"Image": "https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_3ds_download_software_7/SI_3DSDS_BestOfArcadeGamesBrickBreaker_image1600w.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-wordle",
 		"Name": "Game Wordle",
-		"Image": "https://picsum.photos/seed/game-wordle/500/500",
+		"Image": "https://bloximages.chicago2.vip.townnews.com/sharonherald.com/content/tncms/assets/v3/editorial/3/d1/3d1c3a2e-830e-11ec-8115-8fe4b36da9e6/61f8a78bec9f0.image.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-sliding-puzzle",
 		"Name": "Game Sliding Puzzle",
-		"Image": "https://picsum.photos/seed/game-sliding-puzzle/500/500",
+		"Image": "https://datawookie.dev/blog/2019-04-10-sliding-puzzle-solvable/sliding-puzzle.pngg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-space-invaders",
 		"Name": "Game Space Invaders",
-		"Image": "https://picsum.photos/seed/game-space-invaders/500/500",
+		"Image": "https://img.magnific.com/free-vector/space-game-user-interface-template_1308-82026.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-dino-runner",
 		"Name": "Game Dino Runner",
-		"Image": "https://picsum.photos/seed/game-dino-runner/500/500",
+		"Image": "https://chrome-dino.co/wp-content/uploads/2022/11/Dinosaur-T-Rex-Runner.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-fruit-ninja",
 		"Name": "Game Fruit Ninja",
-		"Image": "https://picsum.photos/seed/game-fruit-ninja/500/500",
+		"Image": "https://cdn.prod.website-files.com/5fa23905123118739c5e21e2/5fa2390512311866d95e27a5_FruitNinjaThumb-op.jpeg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-catch-falling-objects",
 		"Name": "Game hứng vật rơi",
-		"Image": "https://picsum.photos/seed/game-catch-falling-objects/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-tetris",
 		"Name": "Game Tetris",
-		"Image": "https://picsum.photos/seed/game-tetris/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-connect-four",
 		"Name": "Game Connect Four",
-		"Image": "https://picsum.photos/seed/game-connect-four/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-lights-out",
 		"Name": "Game Lights Out",
-		"Image": "https://picsum.photos/seed/game-lights-out/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-tower-of-hanoi",
 		"Name": "Game tháp Hà Nội",
-		"Image": "https://picsum.photos/seed/game-tower-of-hanoi/500/500",
+		"Image": "https://kendotoy.com/wp-content/uploads/2022/10/Thap-ha-noi-10-vong-do-choi-go-2-600x600.jpeg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-simon-says",
 		"Name": "Game Simon Says",
-		"Image": "https://picsum.photos/seed/game-simon-says/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-mastermind",
 		"Name": "Game Mastermind",
-		"Image": "https://picsum.photos/seed/game-mastermind/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-match-3",
 		"Name": "Game Match 3",
-		"Image": "https://picsum.photos/seed/game-match-3/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-reaction-time",
 		"Name": "Game Reaction Time",
-		"Image": "https://picsum.photos/seed/game-reaction-time/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-water-sort",
 		"Name": "Game xếp nước theo màu",
-		"Image": "https://picsum.photos/seed/game-water-sort/500/500",
+		"Image": "https://www.tap-nation.io/assets/uploads/2023/08/LOGO_COLOR_WATER_SORT-jpg.webp",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-maze",
 		"Name": "Game mê cung",
-		"Image": "https://picsum.photos/seed/game-maze/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-pipe-connect",
 		"Name": "Game nối ống nước",
-		"Image": "https://picsum.photos/seed/game-pipe-connect/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-sokoban",
 		"Name": "Game Sokoban",
-		"Image": "https://picsum.photos/seed/game-sokoban/500/500",
+		"Image": "https://sokoboxes.com/static/sokoban_puzzle_xbfh-584a57ec504a34d8c866fbd2ac1f45d3.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-sudoku",
 		"Name": "Game Sudoku",
-		"Image": "https://picsum.photos/seed/game-sudoku/500/500",
+		"Image": "https://www.kristanix.com/sudokuepic/help_imgs/sudoku_unsolved.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-nonogram",
 		"Name": "Game Nonogram",
-		"Image": "https://picsum.photos/seed/game-nonogram/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-rush-hour",
 		"Name": "Game Rush Hour",
-		"Image": "https://picsum.photos/seed/game-rush-hour/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-pikachu",
 		"Name": "Game Pikachu",
-		"Image": "https://picsum.photos/seed/game-pikachu/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-reversi",
 		"Name": "Game Reversi",
-		"Image": "https://picsum.photos/seed/game-reversi/500/500",
+		"Image": "https://gamepeg.com/games/reversi/reversi_2.webp",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-peg-solitaire",
 		"Name": "Game Peg Solitaire",
-		"Image": "https://picsum.photos/seed/game-peg-solitaire/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-flow-free",
 		"Name": "Game Flow Free",
-		"Image": "https://picsum.photos/seed/game-flow-free/500/500",
+		"Image": "https://play-lh.googleusercontent.com/EfhYQZbslbUgQzI4rz0kNtqTPXhom-yYdkaO1Pv7OuUqJaNq4lvIIdAL7dubS_rJ03aG6ZCJqkSeLDf6bbah37A=w240-h480-rw",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-n-queens",
 		"Name": "Game N-Queens",
-		"Image": "https://picsum.photos/seed/game-n-queens/500/500",
+		"Image": "https://images.surferseo.art/b88a3b9b-21a4-4b74-aee9-6545f65695fb.jpeg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-block-blast",
 		"Name": "Game Block Blast",
-		"Image": "https://picsum.photos/seed/game-block-blast/500/500",
+		"Image": "https://store-images.s-microsoft.com/image/apps.5122.14074066038402336.0eb9ff5f-81e4-4e74-95df-64ec22329c26.2fb994ee-c2ab-4d95-8fde-318eaf4c8c03?w=150",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-bubble-shooter",
 		"Name": "Game Bubble Shooter",
-		"Image": "https://picsum.photos/seed/game-bubble-shooter/500/500",
+		"Image": "https://m.media-amazon.com/images/I/81c0y3+hxCL.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-stack-tower",
 		"Name": "Game Stack Tower",
-		"Image": "https://picsum.photos/seed/game-stack-tower/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-chain-reaction",
 		"Name": "Game Chain Reaction",
-		"Image": "https://picsum.photos/seed/game-chain-reaction/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-o-an-quan",
 		"Name": "Game ô ăn quan",
-		"Image": "https://picsum.photos/seed/game-o-an-quan/500/500",
+		"Image": "https://inviva.vn/wp-content/uploads/2026/05/o-an-quan-vector-thumbnail.jpg",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-takuzu",
 		"Name": "Game Takuzu",
-		"Image": "https://picsum.photos/seed/game-takuzu/500/500",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-battleship",
 		"Name": "Game hải chiến",
-		"Image": "https://picsum.photos/seed/game-battleship/500/500",
+		"Image": "https://img.tapimg.net/market/images/c256bbae3bae3b37fccce1d62d0b1eb0.png",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-chimp-test",
 		"Name": "Game Chimp Test",
-		"Image": "https://picsum.photos/seed/game-chimp-test/500/500",
-		"Enabled": true
-	},
-
-	// 4 game dưới đây có trong danh sách href nhưng không có trong danh sách tên.
-	// Tên là đoán theo key, cần kiểm tra lại.
-	{
-		"Key": "/game-co-caro",
-		"Name": "Game cờ caro",
-		"Image": "https://picsum.photos/seed/game-co-caro/500/500",
-		"Enabled": true
-	},
-	{
-		"Key": "/game-dap-chuot",
-		"Name": "Game đập chuột",
-		"Image": "https://picsum.photos/seed/game-dap-chuot/500/500",
-		"Enabled": true
-	},
-	{
-		"Key": "/game-typing",
-		"Name": "Game gõ chữ",
-		"Image": "https://picsum.photos/seed/game-typing/500/500",
-		"Enabled": true
-	},
-	{
-		"Key": "/game-memory",
-		"Name": "Game lật hình ghi nhớ",
-		"Image": "https://picsum.photos/seed/game-memory/500/500",
+		"Image": "https://mindedgames.com/covers/chimp-test.webp",
 		"Enabled": true
 	}
 ];
