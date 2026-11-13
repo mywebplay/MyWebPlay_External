@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Danh sách minigame tại MyWebPlay</title>
-
-<!-- File JS do bạn tự tạo, khai báo: var MINIGAME_LIST = [ {...}, {...} ]; -->
-<script src="minigame-list.js"></script>
-
 <style>
   :root {
     --red: #d7263d;
@@ -320,7 +316,7 @@
 <script>
 (function () {
   'use strict';
-
+  <@@path:https://mywebplay.github.io/MyWebPlay_External/External/minigame-list.txt@@>
   var CHECK_TIMEOUT = 15000;   // chờ kiểm tra trang (ms)
   var LOAD_TIMEOUT = 30000;    // chờ iframe load xong (ms)
 
