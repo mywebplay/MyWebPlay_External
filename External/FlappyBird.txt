@@ -124,13 +124,13 @@ function goFullScreen() {
 
 function startGame() {
   document.getElementById("startModal").style.display = "none";
-  goFullScreen();
+  // goFullScreen();
   running = true;
 }
 
 function restartGame() {
   document.getElementById("gameOverModal").style.display = "none";
-  goFullScreen();
+ // goFullScreen();
   init();
   running = true;
 }
