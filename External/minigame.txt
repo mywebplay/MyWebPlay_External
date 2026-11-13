@@ -6,6 +6,9 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Danh sách minigame tại MyWebPlay</title>
 
+<!-- File JS do bạn tự tạo, khai báo: var MINIGAME_LIST = [ {...}, {...} ]; -->
+<script src="minigame-list.js"></script>
+
 <style>
   :root {
     --red: #d7263d;
@@ -154,26 +157,63 @@
 
   /* ---------- Modal toàn màn hình ---------- */
   .modal {
+    --bar-h: calc(64px + env(safe-area-inset-top, 0px));
     position: fixed;
     inset: 0;
     z-index: 9999;
     display: none;
-    background: #fff;
-    overflow: hidden;
+    background: var(--paper);
+    overflow: hidden;           /* modal không có thanh scroll */
   }
   .modal.open { display: block; }
 
+  .modal-bar {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: var(--bar-h);
+    padding: env(safe-area-inset-top, 0px) 72px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(#ffe6d0, #fff7ee);
+    border-bottom: 3px solid var(--red);
+    z-index: 2;
+  }
+  .modal-title {
+    margin: 0;
+    max-width: 100%;
+    text-align: center;
+    color: var(--red);
+    font-size: clamp(1.05rem, 3.2vw, 1.6rem);
+    font-weight: 900;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .modal-body {
     position: absolute;
-    inset: 0;
-    overflow: hidden;           /* modal không có thanh scroll */
+    left: 0; right: 0; bottom: 0;
+    top: var(--bar-h);
+    overflow: hidden;
+    background: #fff;
   }
+  .modal-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+    background: #fff;
+    visibility: hidden;         /* chỉ hiện khi iframe load xong */
+  }
+  .modal.ready .modal-frame { visibility: visible; }
 
   .modal-close {
     position: fixed;
-    top: calc(12px + env(safe-area-inset-top, 0px));
+    top: calc(10px + env(safe-area-inset-top, 0px));
     right: calc(12px + env(safe-area-inset-right, 0px));
-    z-index: 2147483647;        /* luôn nổi trên nội dung inject */
+    z-index: 2147483647;
     width: 44px; height: 44px;
     border: 3px solid #fff;
     border-radius: 50%;
@@ -184,21 +224,25 @@
     display: none;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .45);
   }
   .modal-close:hover { background: var(--red-dark); }
   .modal-close:focus-visible { outline: 3px solid #ffb3bd; outline-offset: 2px; }
-  .modal.ready .modal-close { display: flex; }
+  .modal.ready .modal-close, .modal.failed .modal-close { display: flex; }
 
-  .spinner-box {
+  .modal-stage {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 247, 238, .98);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 12% 12%, #ffe3c7 0, transparent 40%),
+      radial-gradient(circle at 88% 88%, #ffd6dc 0, transparent 42%),
+      var(--paper);
   }
-  .modal.ready .spinner-box { display: none; }
+  .modal.ready .spinner-box, .modal.failed .spinner-box { display: none; }
   .spinner {
     width: 56px; height: 56px;
     border: 6px solid #f3c9cf;
@@ -207,6 +251,19 @@
     animation: spin .8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  .modal-error { display: none; padding: 20px; text-align: center; }
+  .modal.failed .modal-error { display: flex; }
+  .modal-error .msg { position: relative; z-index: 1; max-width: 520px; }
+  .modal-error svg { width: clamp(80px, 22vw, 130px); height: auto; margin-bottom: 8px; }
+  .modal-error p { margin: 6px 0; line-height: 1.6; }
+  .modal-error .lead { font-weight: 700; font-size: clamp(1rem, 3.4vw, 1.2rem); }
+  .deco { position: absolute; font-size: clamp(28px, 7vw, 56px); opacity: .85; user-select: none; pointer-events: none; }
+  .deco.d1 { left: 5%;  top: 8%;     transform: rotate(-15deg); }
+  .deco.d2 { right: 6%; top: 14%;    transform: rotate(20deg); }
+  .deco.d3 { left: 8%;  bottom: 10%; transform: rotate(12deg); }
+  .deco.d4 { right: 7%; bottom: 8%;  transform: rotate(-18deg); }
+  .deco.d5 { left: 44%; top: 4%;     font-size: clamp(20px, 5vw, 36px); }
 
   @media (prefers-reduced-motion: reduce) {
     .card, .thumb img { transition: none; }
@@ -233,27 +290,53 @@
   </div>
 </main>
 
-<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Trò chơi">
-  <div class="spinner-box"><div class="spinner" role="status" aria-label="Đang tải"></div></div>
-  <div id="modalBody" class="modal-body"></div>
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-bar"><h2 id="modalTitle" class="modal-title"></h2></div>
+  <div id="modalBody" class="modal-body">
+    <div class="modal-stage spinner-box"><div class="spinner" role="status" aria-label="Đang tải"></div></div>
+    <div class="modal-stage modal-error" role="alert">
+      <span class="deco d1" aria-hidden="true">&#127800;</span>
+      <span class="deco d2" aria-hidden="true">&#127811;</span>
+      <span class="deco d3" aria-hidden="true">&#127803;</span>
+      <span class="deco d4" aria-hidden="true">&#127802;</span>
+      <span class="deco d5" aria-hidden="true">&#10024;</span>
+      <div class="msg">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="14" y="36" width="92" height="58" rx="22" fill="#ffd6dc" stroke="#d7263d" stroke-width="4"/>
+          <rect x="36" y="56" width="22" height="6" rx="3" fill="#d7263d"/>
+          <rect x="44" y="48" width="6" height="22" rx="3" fill="#d7263d"/>
+          <circle cx="80" cy="54" r="5" fill="#d7263d"/>
+          <circle cx="91" cy="66" r="5" fill="#d7263d"/>
+          <path d="M30 28c6-10 14-10 20 0" fill="none" stroke="#d7263d" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <p class="lead">Đã xảy ra lỗi khi cố gắng khởi động trò chơi cho bạn.</p>
+        <p>Vui lòng quay lại sau hoặc thử lại với game khác.</p>
+      </div>
+    </div>
+  </div>
   <button id="modalClose" class="modal-close" type="button" aria-label="Đóng">&#10005;</button>
 </div>
 
 <script>
 (function () {
   'use strict';
-  <@@path:https://mywebplay.github.io/MyWebPlay_External/External/minigame-list.txt@@>
-  var API_URL = '/Cover/ReloadHtmlByExternalX';
-  var ERROR_MSG = 'Đã xảy ra lỗi khi cố gắng khởi động trò chơi cho bạn.\nVui lòng quay lại sau hoặc thử lại với game khác.';
+
+  var CHECK_TIMEOUT = 15000;   // chờ kiểm tra trang (ms)
+  var LOAD_TIMEOUT = 30000;    // chờ iframe load xong (ms)
 
   var grid = document.getElementById('grid');
   var emptyBox = document.getElementById('empty');
   var modal = document.getElementById('modal');
   var modalBody = document.getElementById('modalBody');
+  var modalTitle = document.getElementById('modalTitle');
   var modalClose = document.getElementById('modalClose');
 
+  var seq = 0;               // đổi mỗi lần mở/đóng để bỏ qua kết quả cũ
   var currentAbort = null;
+  var checkTimer = null, loadTimer = null;
+  var frame = null;
   var lastFocus = null;
+
 
   /* ================= Render danh sách ================= */
   var list = (typeof MINIGAME_LIST !== 'undefined' && Array.isArray(MINIGAME_LIST)) ? MINIGAME_LIST : [];
@@ -286,24 +369,28 @@
 
       card.appendChild(thumb);
       card.appendChild(name);
-      if (enabled) card.addEventListener('click', function () { openGame(String(g.Key), card); });
+      if (enabled) card.addEventListener('click', function () { openGame(String(g.Key), g.Name || '', card); });
       frag.appendChild(card);
     });
     grid.appendChild(frag);
   }
 
   /* ================= Modal ================= */
-  function openModal() {
-    modal.classList.remove('ready');
-    modal.classList.add('open');
-    document.body.classList.add('modal-open');
-    document.documentElement.style.overflow = 'hidden';
+  function setState(st) {
+    modal.classList.remove('ready', 'failed');
+    if (st) modal.classList.add(st);
+  }
+
+  function clearAll() {
+    seq++;
+    if (currentAbort) { currentAbort.abort(); currentAbort = null; }
+    clearTimeout(checkTimer); clearTimeout(loadTimer);
+    if (frame) { frame.remove(); frame = null; }   // gỡ hẳn iframe để game dừng chạy
   }
 
   function closeModal() {
-    if (currentAbort) { currentAbort.abort(); currentAbort = null; }
-    modal.classList.remove('open', 'ready');
-    modalBody.innerHTML = '';          // dọn sạch để game dừng chạy
+    clearAll();
+    modal.classList.remove('open', 'ready', 'failed');
     document.body.classList.remove('modal-open');
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -311,49 +398,58 @@
 
   modalClose.addEventListener('click', closeModal);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modal.classList.contains('open') && modal.classList.contains('ready')) closeModal();
+    if (e.key === 'Escape' && modal.classList.contains('open') &&
+        (modal.classList.contains('ready') || modal.classList.contains('failed'))) closeModal();
   });
 
-  /* innerHTML không chạy <script>, nên phải dựng lại từng thẻ script */
-  function injectHtml(container, html) {
-    container.innerHTML = html;
-    var scripts = Array.prototype.slice.call(container.querySelectorAll('script'));
-    scripts.forEach(function (old) {
-      var s = document.createElement('script');
-      for (var i = 0; i < old.attributes.length; i++) {
-        s.setAttribute(old.attributes[i].name, old.attributes[i].value);
-      }
-      s.text = old.text;
-      old.parentNode.replaceChild(s, old);
-    });
+  function fail(token) {
+    if (token !== seq) return;           // đã đóng hoặc mở game khác
+    if (currentAbort) { currentAbort.abort(); currentAbort = null; }
+    clearTimeout(checkTimer); clearTimeout(loadTimer);
+    if (frame) { frame.remove(); frame = null; }
+    setState('failed');
+    modalClose.focus();
   }
 
-  function openGame(key, trigger) {
+  function mountFrame(key, name, token) {
+    frame = document.createElement('iframe');
+    frame.className = 'modal-frame';
+    frame.title = name;
+    frame.setAttribute('allow', 'fullscreen; autoplay');
+    frame.addEventListener('load', function () {
+      if (token !== seq) return;
+      clearTimeout(loadTimer);
+      setState('ready');                 // load xong hoàn tất: hiện iframe, tắt spinner, hiện nút X
+      modalClose.focus();
+    });
+    frame.src = key;                     // gán src SAU khi đã gắn sự kiện load
+    modalBody.appendChild(frame);
+    loadTimer = setTimeout(function () { fail(token); }, LOAD_TIMEOUT);
+  }
+
+  function openGame(key, name, trigger) {
     if (modal.classList.contains('open')) return;   // chống bấm đúp
     lastFocus = trigger;
-    openModal();
+    modalTitle.textContent = name;
+    setState(null);
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    document.documentElement.style.overflow = 'hidden';
 
+    var token = ++seq;
     currentAbort = new AbortController();
-    var fd = new FormData();
-    fd.append('key', key);
+    checkTimer = setTimeout(function () { fail(token); }, CHECK_TIMEOUT);
 
-    fetch(API_URL, { method: 'POST', body: fd, signal: currentAbort.signal, credentials: 'same-origin' })
+    // Iframe không báo được mã HTTP, nên kiểm tra trước: chỉ nhận đúng 200 mới nạp iframe
+    fetch(key, { method: 'GET', credentials: 'same-origin', signal: currentAbort.signal })
       .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
+        if (token !== seq) return;
+        if (res.status !== 200) throw new Error('HTTP ' + res.status);
+        clearTimeout(checkTimer);
+        currentAbort = null;
+        mountFrame(key, name, token);
       })
-      .then(function (json) {
-        if (!json || json.result !== true || !json.data) throw new Error('result=false');
-        injectHtml(modalBody, json.data);
-        modal.classList.add('ready');   // ẩn spinner, hiện nút X
-        modalClose.focus();
-      })
-      .catch(function (err) {
-        if (err && err.name === 'AbortError') return;   // người dùng tự đóng
-        closeModal();
-        alert(ERROR_MSG);
-      })
-      .finally(function () { currentAbort = null; });
+      .catch(function () { fail(token); });
   }
 })();
 </script>
