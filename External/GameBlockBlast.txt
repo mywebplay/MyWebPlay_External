@@ -33,6 +33,8 @@ section{width:100%;flex:1;min-height:0}
 .f1{background:#ef4444}.f2{background:#3b82f6}.f3{background:#22c55e}.f4{background:#eab308}.f5{background:#a855f7}.f6{background:#f97316}.f7{background:#64748b}
 #board.bb{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);gap:2px;background:#334155;padding:2px;border-radius:8px;margin:6px auto;touch-action:none}
 .bb>div{background:#1e293b;border-radius:4px}
+/* FIX: các ô đã đặt phải ghi đè nền .bb>div (độ ưu tiên cao hơn .fN thường) */
+.bb>div.f1{background:#ef4444}.bb>div.f2{background:#3b82f6}.bb>div.f3{background:#22c55e}.bb>div.f4{background:#eab308}.bb>div.f5{background:#a855f7}.bb>div.f6{background:#f97316}.bb>div.f7{background:#64748b}
 .bb>div.f1,.bb>div.f2,.bb>div.f3,.bb>div.f4,.bb>div.f5,.bb>div.f6,.bb>div.f7{box-shadow:inset 0 -3px 0 #0004}
 .bb>div.ok{box-shadow:inset 0 0 0 40px #4ade8099}.bb>div.no{box-shadow:inset 0 0 0 40px #f8717199}
 #tray{display:flex;justify-content:space-around;align-items:center;width:100%;max-width:440px;min-height:96px}
@@ -96,6 +98,7 @@ function pick(){const ta=Math.max(.15,.8-lv*.008),tc=Math.min(.45,lv*.0045),r=Ma
 function newTray(){for(let t=0;t<80;t++){pcs=[pick(),pick(),pick()];if(pcs.some(fits))return}pcs=[Object.assign({col:0},PS.a[0]),Object.assign({col:1},PS.a[1]),Object.assign({col:2},PS.a[2])]}
 function start(l){
  lv=l;goal=Math.round(4+l*.36);lines=0;refr=3;g=Array(64).fill(0);drag=null;
+ pcs=[]; /* FIX: reset khay khối khi bắt đầu màn mới */
  for(let k=0,n=Math.min(20,Math.floor(l*.2));k<n;k++)g[Math.random()*64|0]=7;
  const b=qs('#board');b.className='bb';b.innerHTML='<div></div>'.repeat(64);
  qs('#ctl').innerHTML='<div id="tray"></div><button class="b" id="rf"></button>';
@@ -105,6 +108,7 @@ function start(l){
  tr.onpointerup=tr.onpointercancel=e=>{if(!drag)return;mvd(e);const d=drag;endDrag();if(d.ok)place(d.i,d.r,d.c)};
  qs('#rf').onclick=()=>{if(over||refr<=0||drag)return;refr--;newTray();say('Đã đổi bộ khối mới.');render();chk()};
  relayout();say('Kéo khối vào lưới. Lấp đầy cả hàng hoặc cột để xoá. Hết chỗ đặt là thua.');
+ chk();
 }
 function onStop(){endDrag()}
 function endDrag(){drag=null;if(gh){gh.remove();gh=null}document.querySelectorAll('#board>div').forEach(d=>d.classList.remove('ok','no'))}
