@@ -433,7 +433,10 @@ document.getElementById('startBtn').onclick=function(){
 function calculateBoardSize(){
  var width=boardWrap.clientWidth;
  var height=boardWrap.clientHeight;
- var targetCell=52;
+
+ // Giảm kích thước ô để tăng số hàng và cột.
+ // Kích thước thực tế sau padding và gap khoảng 37-39px.
+ var targetCell=40;
 
  return{
   cols:Math.max(1,Math.floor(width/targetCell)),
