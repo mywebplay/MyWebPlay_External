@@ -300,7 +300,7 @@ var MINIGAME_LIST = [
 		"Key": "/game-tim-tu-khoa-bi-mat",
 		"Name": "Game tìm từ khoá bí mật",
 		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
-		"Enabled": false
+		"Enabled": true
 	},
 	{
 		"Key": "/game-lo-to",
