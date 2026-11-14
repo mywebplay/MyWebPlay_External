@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🔐 Tìm từ khoá bí mật</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
+header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}
+main{flex:1;min-height:0;width:100%;max-width:720px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;overflow-x:hidden;padding-bottom:6px}
+#boxes{position:relative;width:100%;flex:none;margin-top:6px;--dur:.45s}
+.box{position:absolute;left:0;top:0;border-radius:12px;background:linear-gradient(#6366f1,#4f46e5);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #3730a3;transition:transform var(--dur) cubic-bezier(.25,.8,.25,1),background .3s;will-change:transform;pointer-events:none;line-height:1}
+.box.hop{z-index:2;background:linear-gradient(#818cf8,#6366f1)}
+.box.win{background:linear-gradient(#4ade80,#16a34a);box-shadow:0 4px 0 #166534}
+#boxes.nt .box{transition:none}
+#row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 26px;flex:none;width:100%;--bw:34px;padding:0 4px}
+.wd{display:inline-flex;gap:6px}
+.bl{width:var(--bw);height:calc(var(--bw)*1.3);border-bottom:3px solid #64748b;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--bw)*.78);color:#fff;cursor:pointer;line-height:1;border-radius:4px 4px 0 0}
+.bl.f{border-bottom-color:#a5b4fc}
+.bl.ok{color:#4ade80;border-bottom-color:#4ade80}
+.bl.bad{color:#f87171;border-bottom-color:#ef4444}
+#msg{min-height:24px;font-size:15px;font-weight:700;color:#fbbf24;text-align:center;flex:none;padding:0 6px}
+#msg.bad{color:#f87171}#msg.ok{color:#4ade80}#msg.hint{color:#94a3b8;font-weight:600;font-size:13px}
+#kb{margin-top:auto;width:100%;max-width:640px;align-self:center;display:flex;flex-direction:column;gap:5px;flex:none}
+.kr{display:grid;gap:3px}
+.kc{grid-template-columns:repeat(9,1fr)}.kv{grid-template-columns:repeat(12,1fr)}
+.k{background:#334155;color:#fff;border:0;border-radius:7px;height:clamp(40px,6vh,52px);padding:0;font-weight:700;font-size:clamp(16px,2.6vh,21px);min-width:0;line-height:1}
+.kv .k{height:clamp(34px,5vh,44px);font-size:clamp(14px,2.2vh,19px);border-radius:6px}
+.kv .k.fb{background:#42506a}
+.k:active{transform:scale(.92);background:#475569}
+.k.d{background:#7f1d1d;font-size:clamp(14px,2.2vh,17px)}.k.d:active{background:#b91c1c}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:60}
+.box2{background:#1e293b;border-radius:16px;padding:22px;max-width:340px;width:86%;text-align:center}
+.box2 h2{margin:0 0 8px}.box2 p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:40;opacity:0}
+#fx.r{background:#ef4444;animation:fr .9s linear 1}
+#fx.g{background:#22c55e;animation:fg .8s linear 1}
+@keyframes fr{0%{opacity:0}8%{opacity:.55}25%{opacity:0}38%{opacity:.55}55%{opacity:0}68%{opacity:.55}88%{opacity:0}100%{opacity:0}}
+@keyframes fg{0%{opacity:0}12%{opacity:.45}35%{opacity:0}55%{opacity:.45}85%{opacity:0}100%{opacity:0}}
+#cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:45}
+</style></head><body>
+<div id="app">
+<header><button class="b" id="rs" title="Chơi lại từ đầu">↺ Làm lại</button><h1>🔐 Tìm từ khoá bí mật</h1><span id="lv"></span></header>
+<main>
+<div id="boxes"></div>
+<div id="row"></div>
+<div id="msg"></div>
+<div id="kb"></div>
+</main>
+</div>
+<div id="fx"></div>
+<canvas id="cf"></canvas>
+<div id="md" hidden><div class="box2"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+
+<script>
+/* Danh sách 200 từ khoá, sắp xếp từ dễ đến khó. Có thể thêm/bớt/sửa tuỳ ý (chỉ dùng chữ cái và dấu cách). */
+var STRING_LIST = [
+  "em bé",
+  "con gà",
+  "con bò",
+  "con cá",
+  "con dê",
+  "cá heo",
+  "con heo",
+  "con voi",
+  "con nai",
+  "ông bà",
+  "con hổ",
+  "cái áo",
+  "bác sĩ",
+  "bạn bè",
+  "mùa hè",
+  "áo dài",
+  "nón lá",
+  "xe đạp",
+  "con chó",
+  "con mèo",
+  "con vịt",
+  "con thỏ",
+  "con rùa",
+  "con khỉ",
+  "quả cam",
+  "mùa thu",
+  "máy bay",
+  "phở bò",
+  "trà đá",
+  "con ếch",
+  "cái bàn",
+  "cái nón",
+  "cái bút",
+  "quả táo",
+  "bát cơm",
+  "hạt gạo",
+  "cô giáo",
+  "tàu hỏa",
+  "bánh mì",
+  "bún chả",
+  "ngôi sao",
+  "bông hoa",
+  "con trâu",
+  "trung thu",
+  "cái ghế",
+  "đôi dép",
+  "biển cả",
+  "cơm tấm",
+  "chiếc xe",
+  "quả xoài",
+  "con ngựa",
+  "ngôi nhà",
+  "gia đình",
+  "tình yêu",
+  "mùa xuân",
+  "làng quê",
+  "mùa đông",
+  "núi rừng",
+  "dòng sông",
+  "hạnh phúc",
+  "rau muống",
+  "mặt trời",
+  "bầu trời",
+  "đèn lồng",
+  "cầu vồng",
+  "mặt trăng",
+  "quả chuối",
+  "quê hương",
+  "thành phố",
+  "bánh chưng",
+  "nước mắm",
+  "con tôm hùm",
+  "cao như núi",
+  "con đường",
+  "cánh đồng",
+  "quyển sách",
+  "cà phê sữa",
+  "chim bồ câu",
+  "dai như đỉa",
+  "khỏe như voi",
+  "trường học",
+  "đen như mực",
+  "con cua đồng",
+  "nhát như thỏ",
+  "hiền như bụt",
+  "chậm như rùa",
+  "đẹp như tranh",
+  "chậm mà chắc",
+  "chim hót líu lo",
+  "có chí thì nên",
+  "nhanh như chớp",
+  "chị ngã em nâng",
+  "hoa hồng có gai",
+  "tay làm hàm nhai",
+  "hoa nở bốn mùa",
+  "ăn cháo đá bát",
+  "qua cầu rút ván",
+  "tre già măng mọc",
+  "trèo cao ngã đau",
+  "mùa xuân đã về",
+  "mèo mả gà đồng",
+  "lá rụng về cội",
+  "nhà dột từ nóc",
+  "con chuồn chuồn",
+  "nhập gia tùy tục",
+  "gieo gió gặt bão",
+  "đàn gảy tai trâu",
+  "ngọt như mía lùi",
+  "trắng như tuyết",
+  "hạnh phúc sum vầy",
+  "cò bay thẳng cánh",
+  "thùng rỗng kêu to",
+  "bình chân như vại",
+  "ở hiền gặp lành",
+  "tiền nào của nấy",
+  "mưa dầm thấm lâu",
+  "cưỡi ngựa xem hoa",
+  "tát nước theo mưa",
+  "tai vách mạch rừng",
+  "nước chảy đá mòn",
+  "nước đổ lá khoai",
+  "trăng thanh gió mát",
+  "cá lớn nuốt cá bé",
+  "máu chảy ruột mềm",
+  "đầu tắt mặt tối",
+  "chó ngáp phải ruồi",
+  "non xanh nước biếc",
+  "cái khó ló cái khôn",
+  "rút dây động rừng",
+  "đầu xuôi đuôi lọt",
+  "một nắng hai sương",
+  "chạy sấp chạy ngửa",
+  "rừng vàng biển bạc",
+  "gia đình yêu thương",
+  "trời xanh mây trắng",
+  "lá lành đùm lá rách",
+  "đồng tâm hiệp lực",
+  "mật ngọt chết ruồi",
+  "nắng sớm mưa chiều",
+  "người ta là hoa đất",
+  "cầu vồng sau cơn mưa",
+  "ếch ngồi đáy giếng",
+  "lên thác xuống ghềnh",
+  "nhất cử lưỡng tiện",
+  "anh em như thể tay chân",
+  "sai một li đi một dặm",
+  "cháy nhà ra mặt chuột",
+  "gừng càng già càng cay",
+  "đoàn kết là sức mạnh",
+  "uống nước nhớ nguồn",
+  "ăn cây nào rào cây nấy",
+  "hữu xạ tự nhiên hương",
+  "chuông có đánh mới kêu",
+  "con có cha như nhà có nóc",
+  "thật thà là cha quỷ quái",
+  "nói ngọt lọt đến xương",
+  "công cha như núi thái sơn",
+  "ăn quả nhớ kẻ trồng cây",
+  "cá không ăn muối cá ươn",
+  "tránh vỏ dưa gặp vỏ dừa",
+  "ngưu tầm ngưu mã tầm mã",
+  "con hơn cha là nhà có phúc",
+  "đói cho sạch rách cho thơm",
+  "nước đến chân mới nhảy",
+  "một cây làm chẳng nên non",
+  "nói có sách mách có chứng",
+  "thất bại là mẹ thành công",
+  "cầm đèn chạy trước ô tô",
+  "kiến tha lâu cũng đầy tổ",
+  "đi đến nơi về đến chốn",
+  "đứng núi này trông núi nọ",
+  "sông có khúc người có lúc",
+  "tốt gỗ hơn tốt nước sơn",
+  "trăm hay không bằng tay quen",
+  "không thầy đố mày làm nên",
+  "bầu ơi thương lấy bí cùng",
+  "vỏ quýt dày có móng tay nhọn",
+  "gió chiều nào che chiều ấy",
+  "cái nết đánh chết cái đẹp",
+  "không có lửa làm sao có khói",
+  "được mùa chớ phụ ngô khoai",
+  "lời nói chẳng mất tiền mua",
+  "nhai kỹ no lâu cày sâu tốt lúa",
+  "vắng chủ nhà gà mọc đuôi tôm",
+  "ba cây chụm lại nên hòn núi cao",
+  "học ăn học nói học gói học mở",
+  "thuyền theo lái gái theo chồng",
+  "lửa thử vàng gian nan thử sức",
+  "bán anh em xa mua láng giềng gần",
+  "có công mài sắt có ngày nên kim",
+  "một điều nhịn chín điều lành",
+  "ăn trông nồi ngồi trông hướng",
+  "chớ thấy sóng cả mà ngã tay chèo",
+  "gần mực thì đen gần đèn thì sáng",
+  "mưu sự tại nhân thành sự tại thiên",
+  "thương người như thể thương thân",
+  "đi một ngày đàng học một sàng khôn",
+  "một nghề cho chín còn hơn chín nghề",
+  "nghĩa mẹ như nước trong nguồn chảy ra",
+  "thuận vợ thuận chồng tát biển đông cũng cạn"
+];
+</script>
+<script>
+(function(){
+'use strict';
+function qs(s){return document.querySelector(s)}
+
+function nfc(s){return String(s).normalize('NFC')}
+
+var KEY='tkbm_idx';
+var CONS=['B','C','D','Đ','G','H','K','L','M','N','P','Q','R','S','T','V','X'].map(nfc);
+var FAM=['A','Ă','Â','E','Ê','I','O','Ô','Ơ','U','Ư','Y'];
+var TMARK=['','\u0300','\u0301','\u0309','\u0303','\u0323'];  /* thường, huyền, sắc, hỏi, ngã, nặng */
+
+var idx=0,cfg={mode:0},ans='',letters=[],groups=[],N=0,row=[],locked=false,shOn=false,wTok=0;
+var boxEls=[],blEls=[],slotOf=[],bs=40,gap=8,cols=1,boxW=300;
+var shT=0,nextT=0,failT=0;
+
+function rnd(a,b){return a+Math.random()*(b-a)}
+function rndInt(a,b){return Math.floor(rnd(a,b+1))}
+function isLetter(ch){return /\p{L}/u.test(ch)}
+function say(t,c){var m=qs('#msg');m.textContent=t||'';m.className=c||''}
+
+/* ---------- lưu / đọc tiến độ ---------- */
+function loadIdx(){var v=0;try{v=parseInt(localStorage.getItem(KEY),10)}catch(e){}return v>=0?v:0}
+function saveIdx(){try{localStorage.setItem(KEY,String(idx))}catch(e){}}
+
+/* ---------- độ khó theo vị trí trong danh sách ---------- */
+function cfgFor(i){
+ var q=i*200/Math.max(1,STRING_LIST.length);
+ if(q<20)return{mode:0};
+ if(q<60)return{mode:1,idle:[8000,14000],burst:[1,1],dur:600};
+ if(q<110)return{mode:2,idle:[4500,8500],burst:[2,3],step:[950,1200],dur:520};
+ if(q<160)return{mode:2,idle:[2800,5500],burst:[3,5],step:[700,900],dur:420};
+ var t=Math.min(1,(q-160)/40);
+ return{mode:2,idle:[1800-t*600,3600-t*1000],burst:[4,7+Math.round(t*3)],step:[520-t*70,700-t*120],dur:340};
+}
+
+/* ---------- modal ---------- */
+function modal(t,x,btns){
+ qs('#mt').textContent=t;qs('#mx').textContent=x;var m=qs('#mb');m.innerHTML='';
+ btns.forEach(function(a){var e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});
+ qs('#md').hidden=false;
+}
+function hideModal(){qs('#md').hidden=true}
+
+/* ---------- hiệu ứng ---------- */
+function flash(c){var f=qs('#fx');f.className='';void f.offsetWidth;f.className=c}
+var cv=qs('#cf'),cx=cv.getContext('2d'),parts=[],raf=0,lastT=0,until=0,dpr=1;
+var CCOL=['#ef4444','#f59e0b','#fde047','#22c55e','#38bdf8','#a78bfa','#f472b6','#ffffff'];
+function sizeCv(){dpr=window.devicePixelRatio||1;cv.width=Math.floor(innerWidth*dpr);cv.height=Math.floor(innerHeight*dpr)}
+function spawn(x,y,n,spd,ang,spr){
+ for(var i=0;i<n;i++){
+  var a=ang+(Math.random()-.5)*spr,v=spd*(.45+Math.random()*.75);
+  parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*6,h:3+Math.random()*5,rot:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:CCOL[Math.random()*CCOL.length|0],life:1,dec:.004+Math.random()*.007});
+ }
+}
+function tickC(t){
+ var dt=Math.min(40,t-(lastT||t))/16.7;lastT=t;
+ cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,innerWidth,innerHeight);
+ parts=parts.filter(function(p){return p.life>0&&p.y<innerHeight+30});
+ parts.forEach(function(p){
+  p.vy+=.28*dt;p.vx*=.992;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rot+=p.vr*dt;p.life-=p.dec*dt;
+  cx.save();cx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore();
+ });
+ if(parts.length||t<until)raf=requestAnimationFrame(tickC);else{raf=0;lastT=0;cx.clearRect(0,0,innerWidth,innerHeight)}
+}
+function fireworks(){
+ var W=innerWidth,H=innerHeight;
+ sizeCv();
+ spawn(0,H,70,17,-Math.PI/3,.9);spawn(W,H,70,17,-Math.PI*2/3,.9);
+ for(var k=0;k<7;k++)(function(k){setTimeout(function(){
+  spawn(W*(.12+Math.random()*.76),H*(.12+Math.random()*.38),60,9.5,0,6.28);
+  if(k%3===1){spawn(0,H,40,16,-Math.PI/3,.9);spawn(W,H,40,16,-Math.PI*2/3,.9)}
+ },300+k*260)})(k);
+ until=performance.now()+2600;
+ if(!raf){lastT=0;raf=requestAnimationFrame(tickC)}
+}
+
+/* ---------- hộp chữ cái ---------- */
+function randPerm(n){var a=[],i,j,t;for(i=0;i<n;i++)a.push(i);for(i=n-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t}return a}
+function shown(sl){var a=[];for(var k=0;k<N;k++)a[sl[k]]=letters[k];return a.join('')}
+function slotXY(s){
+ var r=Math.floor(s/cols),c=s%cols,last=Math.floor((N-1)/cols),inRow=r===last?N-r*cols:cols;
+ var x0=(boxW-(inRow*bs+(inRow-1)*gap))/2;
+ return[x0+c*(bs+gap),r*(bs+gap)];
+}
+function applyPos(){
+ for(var k=0;k<N;k++){var p=slotXY(slotOf[k]);boxEls[k].style.transform='translate('+Math.round(p[0])+'px,'+Math.round(p[1])+'px)'}
+}
+function hop(k){
+ var el=boxEls[k];el.classList.add('hop');
+ setTimeout(function(){el.classList.remove('hop')},(cfg.dur||500)+80);
+}
+function buildBoxes(){
+ var wrap=qs('#boxes');wrap.innerHTML='';boxEls=[];
+ for(var k=0;k<N;k++){var el=document.createElement('div');el.className='box';el.textContent=letters[k];wrap.appendChild(el);boxEls.push(el)}
+ var tries=0,target=letters.join('');
+ do{slotOf=randPerm(N);tries++}while(N>1&&tries<40&&shown(slotOf)===target);
+}
+function layoutRow(){
+ var w=qs('#row').clientWidth||(innerWidth-28),mw=1;
+ groups.forEach(function(g){if(g.length>mw)mw=g.length});
+ var bw=Math.floor((w-8-(mw-1)*6)/mw);bw=Math.max(18,Math.min(44,bw));
+ qs('#row').style.setProperty('--bw',bw+'px');
+}
+function layout(){
+ var wrap=qs('#boxes');
+ boxW=wrap.clientWidth||300;gap=8;
+ var maxH=Math.max(110,Math.min(240,innerHeight*.28)),s=58,rows;
+ for(;s>=26;s-=2){cols=Math.max(1,Math.floor((boxW+gap)/(s+gap)));rows=Math.ceil(N/cols);if(rows*(s+gap)-gap<=maxH)break}
+ bs=Math.max(s,26);cols=Math.max(1,Math.floor((boxW+gap)/(bs+gap)));rows=Math.ceil(N/cols);
+ wrap.style.height=(rows*(bs+gap)-gap)+'px';
+ boxEls.forEach(function(el){el.style.width=el.style.height=bs+'px';el.style.fontSize=Math.round(bs*.62)+'px'});
+ layoutRow();
+}
+function relayoutNow(){
+ if(!N)return;
+ var wrap=qs('#boxes');wrap.classList.add('nt');layout();applyPos();void wrap.offsetWidth;wrap.classList.remove('nt');
+}
+
+/* ---------- trộn hộp ---------- */
+function fullShuffle(){
+ if(N<2)return;
+ var old=slotOf.slice(),np,tries=0;
+ do{np=randPerm(N);tries++}while(tries<20&&shown(np)===shown(old));
+ slotOf=np;for(var k=0;k<N;k++)if(old[k]!==np[k])hop(k);
+ applyPos();
+}
+function swapSome(){
+ if(N<2)return;
+ var m=(N>=3&&Math.random()<.35)?3:2,ks,tries=0,ok;
+ do{
+  ks=randPerm(N).slice(0,m);
+  ok=false;for(var i=1;i<ks.length;i++)if(letters[ks[i]]!==letters[ks[0]])ok=true;
+  tries++;
+ }while(!ok&&tries<15);
+ var sl=ks.map(function(k){return slotOf[k]}),rot=sl.slice(1).concat(sl[0]);
+ ks.forEach(function(k,i){slotOf[k]=rot[i];hop(k)});
+ applyPos();
+}
+function schedule(){
+ clearTimeout(shT);
+ if(!shOn||cfg.mode===0||N<2)return;
+ var my=wTok;
+ shT=setTimeout(function(){if(my!==wTok||!shOn)return;burst(my)},rnd(cfg.idle[0],cfg.idle[1]));
+}
+function burst(my){
+ var n=rndInt(cfg.burst[0],cfg.burst[1]);
+ (function step(){
+  if(my!==wTok||!shOn)return;
+  if(n--<=0){schedule();return}
+  if(cfg.mode===1)fullShuffle();else swapSome();
+  shT=setTimeout(step,cfg.mode===1?0:rnd(cfg.step[0],cfg.step[1]));
+ })();
+}
+
+/* ---------- hàng đoán ---------- */
+function buildRow(){
+ var h='',k=0;
+ groups.forEach(function(g){h+='<span class="wd">';g.forEach(function(){h+='<span class="bl" data-i="'+(k++)+'"></span>'});h+='</span>'});
+ var r=qs('#row');r.innerHTML=h;blEls=Array.prototype.slice.call(r.querySelectorAll('.bl'));
+}
+function renderRow(){
+ blEls.forEach(function(el,i){el.textContent=row[i]||'';el.className='bl'+(row[i]?' f':'')});
+}
+function markRow(c){blEls.forEach(function(el){el.classList.add(c)})}
+
+/* ---------- nhập liệu ---------- */
+function addChar(ch){
+ if(locked||!N||row.length>=N)return;
+ row.push(nfc(ch).toUpperCase());say('');renderRow();evaluate();
+}
+function del(){
+ if(locked||!N)return;
+ row.pop();say('');renderRow();
+}
+function clearAll(){
+ if(locked||!N)return;
+ row=[];say('');renderRow();
+}
+function evaluate(){
+ if(row.length<N)return;
+ if(nfc(row.join(''))===nfc(letters.join('')))success();else fail();
+}
+function fail(){
+ locked=true;markRow('bad');
+ say('Từ khoá sai. Mời bạn đoán lại.','bad');flash('r');
+ var my=wTok;
+ failT=setTimeout(function(){if(my!==wTok)return;row=[];renderRow();locked=false},1000);
+}
+function success(){
+ locked=true;shOn=false;clearTimeout(shT);markRow('ok');
+ slotOf=boxEls.map(function(_,k){return k});
+ qs('#boxes').style.setProperty('--dur','700ms');
+ boxEls.forEach(function(el){el.classList.add('win')});applyPos();
+ say('Chính xác! 🎉 '+String(STRING_LIST[idx]),'ok');flash('g');fireworks();
+ var my=wTok;
+ nextT=setTimeout(function(){if(my!==wTok)return;nextWord()},3000);
+}
+function nextWord(){
+ idx++;saveIdx();
+ if(idx>=STRING_LIST.length)showEnd();else loadWord();
+}
+function showEnd(){
+ N=0;clearTimers();
+ modal('🏆 Hoàn thành!','Bạn đã giải xong cả '+STRING_LIST.length+' từ khoá bí mật.',[['Chơi lại từ đầu',function(){hideModal();idx=0;saveIdx();loadWord()},'on']]);
+}
+function clearTimers(){clearTimeout(shT);clearTimeout(nextT);clearTimeout(failT);shOn=false;wTok++}
+
+/* ---------- nạp từ khoá ---------- */
+function loadWord(){
+ clearTimers();
+ ans=nfc(String(STRING_LIST[idx])).toUpperCase().replace(/\s+/g,' ').trim();
+ groups=ans.split(' ').map(function(w){return Array.from(w).filter(isLetter)}).filter(function(g){return g.length});
+ letters=[].concat.apply([],groups);N=letters.length;
+ row=[];locked=false;cfg=cfgFor(idx);shOn=true;
+ qs('#lv').textContent='Câu '+(idx+1)+'/'+STRING_LIST.length;
+ qs('#boxes').style.setProperty('--dur',(cfg.dur||500)+'ms');
+ say('Sắp xếp các chữ cái trong hộp thành từ khoá bí mật.','hint');
+ buildBoxes();buildRow();renderRow();
+ var wrap=qs('#boxes');wrap.classList.add('nt');layout();applyPos();void wrap.offsetWidth;wrap.classList.remove('nt');
+ saveIdx();schedule();
+}
+
+/* ---------- bàn phím ảo (bàn phím máy tính không dùng được) ---------- */
+function keyBtn(ch,cls){return '<button class="k'+(cls?' '+cls:'')+'" tabindex="-1" data-l="'+ch+'">'+ch+'</button>'}
+function buildKb(){
+ var h='<div class="kr kc">'+CONS.slice(0,9).map(function(c){return keyBtn(c)}).join('')+'</div>';
+ h+='<div class="kr kc">'+CONS.slice(9).map(function(c){return keyBtn(c)}).join('')+'<button class="k d" tabindex="-1" data-a="del">⌫</button></div>';
+ var keys=[];
+ FAM.forEach(function(b,i){TMARK.forEach(function(m){keys.push(keyBtn(nfc(b+m),i%2?'fb':''))})});
+ for(var r=0;r<6;r++)h+='<div class="kr kv">'+keys.slice(r*12,r*12+12).join('')+'</div>';
+ h+='<div class="kr"><button class="k d" tabindex="-1" data-a="clr">🗑 Xoá hết</button></div>';
+ var kb=qs('#kb');kb.innerHTML=h;
+ kb.addEventListener('mousedown',function(e){e.preventDefault()});
+ kb.addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.l)addChar(b.dataset.l);
+  else if(b.dataset.a==='del')del();
+  else if(b.dataset.a==='clr')clearAll();
+ });
+}
+addEventListener('resize',function(){relayoutNow();sizeCv()});
+
+/* ---------- khởi động ---------- */
+buildKb();sizeCv();
+idx=loadIdx();
+if(idx>=STRING_LIST.length)showEnd();else loadWord();
+/*TESTHOOK*/
+})();
+</script>
+</body></html>
