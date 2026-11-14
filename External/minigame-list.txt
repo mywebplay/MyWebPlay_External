@@ -279,7 +279,7 @@ var MINIGAME_LIST = [
 		"Key": "/game-lo-to",
 		"Name": "Game cờ lô tô",
 		"Image": "https://foodcity.vn/upload/hinh-anh-tam-ve.jpg",
-		"Enabled": false
+		"Enabled": true
 	},
 	{
 		"Key": "/game-dao-vang",
