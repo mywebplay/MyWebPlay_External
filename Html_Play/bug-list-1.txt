@@ -5,6 +5,11 @@
     font-size:30px;
 }
 
+#dlCsv:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 #noteModal {
     position: fixed;
     bottom: 20px;
@@ -208,6 +213,17 @@ function showPart() {
 
 //---------------------------------------
 
-document.getElementById("dlCsv").disabled = true;
+var params = new URLSearchParams(window.location.search);
+
+var allowDownload =
+  params.get("textbox") === "false" &&
+  params.get("root") === "true" &&
+  params.get("encode") === "true";
+
+var dlCsv = document.getElementById("dlCsv");
+
+if (!allowDownload) {
+  dlCsv.disabled = true;
+}
 
 </script>
