@@ -27,7 +27,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .sg button.on{background:#b45309;color:#fff}
 .big{display:block;width:100%;margin-top:16px;background:#dc2626;color:#fff;border-color:#7f1d1d;font-size:17px;padding:12px}
 .note{font-size:12px;color:#7c2d12;margin:10px 0 0;text-align:center}
-#game{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
+#game{flex:1;min-height:0;overflow:hidden}
 #arena{width:100%}
 #arena.w{display:grid;grid-template-columns:auto minmax(230px,1fr) auto;grid-template-rows:auto auto;gap:8px 14px;align-items:start;justify-items:center;padding:4px}
 #arena.w #pm1{grid-area:1/1}#arena.w #pm2{grid-area:1/3}#arena.w #pu{grid-area:2/1}#arena.w #pm3{grid-area:2/3}#arena.w #mid{grid-area:1/2/3/3;align-self:center}
@@ -60,17 +60,12 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 #chips{display:flex;gap:5px;min-height:28px;justify-content:center}
 #chips i{width:26px;height:26px;border-radius:50%;background:#fef3c7;color:#7c2d12;font-style:normal;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px #0006}
 #chips i:first-child{outline:2px solid #fde047}
-#acts{display:flex;gap:8px;justify-content:center}
-.act{border:0;border-radius:12px;padding:11px 16px;font-weight:800;font-size:16px;color:#fff;background:#d97706;box-shadow:0 4px 0 #78350f}
-.act:active{transform:translateY(2px);box-shadow:0 2px 0 #78350f}
-.act:disabled{background:#78716c;box-shadow:0 4px 0 #44403c;opacity:.7}
 #kinh{border:3px solid #fde68a;border-radius:14px;background:linear-gradient(#ef4444,#b91c1c);color:#fff;font-weight:900;font-size:20px;letter-spacing:.08em;padding:10px 22px;box-shadow:0 4px 0 #450a0a;text-shadow:0 2px 0 #0006}
 #kinh:active{transform:translateY(2px)}
 #kinh:disabled{opacity:.5}
 #arena.w #kinh{margin-top:10px;font-size:24px;padding:14px 34px}
-#arena.m #mid{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"b t" "b c" "b w" "b a";align-items:center;column-gap:6px;max-width:420px}
-#arena.m #turn{grid-area:t;font-size:13px}#arena.m #chips{grid-area:c}#arena.m #mmsg{grid-area:w}#arena.m #acts{grid-area:a}#arena.m .bowlw{grid-area:b}
-#arena.m .act{padding:9px 12px;font-size:14px}
+#arena.m #mid{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"b t" "b c" "b w";align-items:center;column-gap:6px;max-width:420px}
+#arena.m #turn{grid-area:t;font-size:13px}#arena.m #chips{grid-area:c}#arena.m #mmsg{grid-area:w}#arena.m .bowlw{grid-area:b}
 #arena.m #kinh{font-size:15px;padding:6px 12px;border-width:2px}
 .bowlw{--u:1;position:relative;width:calc(190px*var(--u));height:calc(215px*var(--u));flex:none}
 #arena.m .bowlw{--u:.62}
@@ -78,7 +73,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .bowl.shaking{animation:shk .14s infinite alternate}
 @keyframes shk{from{transform:rotate(-7deg) translateX(-5px)}to{transform:rotate(7deg) translateX(5px)}}
 .bb{position:absolute;left:0;right:0;bottom:0;height:calc(74px*var(--u));border-radius:0 0 50% 50%/0 0 100% 100%;background:linear-gradient(90deg,#c48a3e,#f5d89a 40%,#b9772c);border:3px solid #7c4a1d;box-shadow:0 6px 10px #0006}
-.lidw{position:absolute;left:calc(-8px*var(--u));right:calc(-8px*var(--u));top:calc(10px*var(--u));height:calc(54px*var(--u));transform-origin:0 100%;transition:transform .35s;z-index:3}
+.lidw{position:absolute;left:calc(-6px*var(--u));right:calc(-6px*var(--u));top:calc(-2px*var(--u));height:calc(42px*var(--u));transform-origin:0 100%;transition:transform .35s;z-index:3}
 .lid{width:100%;height:100%;border-radius:50% 50% 6px 6px/100% 100% 6px 6px;background:linear-gradient(#f87171,#b91c1c);border:3px solid #7f1d1d;box-shadow:inset 0 6px 8px #fff3}
 .knob{position:absolute;left:50%;top:calc(-9px*var(--u));width:calc(18px*var(--u));height:calc(14px*var(--u));margin-left:calc(-9px*var(--u));border-radius:50%;background:#fde68a;border:2px solid #92400e}
 .lidw.open{transform:translate(calc(-14px*var(--u)),calc(-34px*var(--u))) rotate(-28deg)}
@@ -107,7 +102,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
  <h3>Số tờ bạn dò</h3><div class="sg" id="sg1"><button data-v="1">1 tờ</button><button data-v="2">2 tờ (cùng màu)</button></div>
  <h3>Số máy cùng chơi</h3><div class="sg" id="sg2"><button data-v="1">1 máy</button><button data-v="2">2 máy</button><button data-v="3">3 máy</button></div>
  <button class="big" id="go">BẮT ĐẦU</button>
- <p class="note">Các lượt xoay vòng, ai tới lượt thì lắc tô lấy số. Bạn tự dò và tự bấm KINH khi đủ 5 số trên một hàng. Kinh sai là thua!</p>
+ <p class="note">Mỗi ván chỉ có một người gọi số, ván sau sẽ đổi người khác. Khi tới ván bạn gọi số: bấm 1 lần vào cái tô để LẮC, bấm đúp (2 lần liên tiếp) vào tô để LẤY SỐ. Bạn tự dò và tự bấm KINH khi đủ 5 số trên một hàng. Kinh sai là thua!</p>
 </div></div>
 <div id="game" hidden><div id="arena"></div></div>
 </div>
@@ -122,7 +117,7 @@ var el=function(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=
 var rnd=function(a,b){return a+Math.random()*(b-a)};
 var shuf=function(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a};
 var COLORS=[{n:'Đỏ',c:'#e11d48',d:'#9f1239',l:'#fb7185'},{n:'Xanh dương',c:'#2563eb',d:'#1e3a8a',l:'#60a5fa'},{n:'Xanh lá',c:'#16a34a',d:'#14532d',l:'#4ade80'},{n:'Vàng',c:'#eab308',d:'#854d0e',l:'#fde047'},{n:'Hồng',c:'#ec4899',d:'#9d174d',l:'#f9a8d4'},{n:'Cam',c:'#f97316',d:'#9a3412',l:'#fdba74'},{n:'Tím',c:'#9333ea',d:'#581c87',l:'#d8b4fe'}];
-var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0;
+var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0,caller=null,ck=0;
 
 function later(ms,fn){var t={ms:ms,fn:fn};tms.push(t);return t}
 setInterval(function(){
@@ -180,7 +175,7 @@ function missing(p,set){
 function toast(m){var t=gq('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},2200)}
 function speak(n){
  if(!voiceOn||!('speechSynthesis' in window))return;
- try{var u=new SpeechSynthesisUtterance('Số '+n);u.lang='vi-VN';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+ try{var u=new SpeechSynthesisUtterance('Number '+n);u.lang='en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
 }
 
 /* ---------- màn chọn ---------- */
@@ -206,6 +201,9 @@ function startGame(){
  var rest=shuf([0,1,2,3,4,5,6].filter(function(i){return i!=opt.ci}));
  G={pl:[newPlayer(true,'Bạn',opt.ci,opt.sheets==2)],bag:shuf(Array.from({length:90},function(_,i){return i+1})),called:[],cs:new Set(),turn:0,phase:'turn',shook:false,shaking:false,tab:0,pend:0,age:0,curN:0,userHas:false};
  for(var i=0;i<opt.mach;i++)G.pl.push(newPlayer(false,'Máy '+(i+1),rest[i],Math.random()<.5));
+ /* người gọi số: chọn ngẫu nhiên ở ván đầu, mỗi ván mới đổi sang người kế tiếp, cả ván giữ nguyên */
+ caller=((caller==null?(Math.random()*G.pl.length|0):caller+1))%G.pl.length;
+ G.turn=caller;
  tms=[];paused=false;over=false;running=true;
  gq('#setup').hidden=true;gq('#game').hidden=false;gq('#end').hidden=true;gq('#bh').disabled=false;
  if(!mid)buildMid();
@@ -213,10 +211,9 @@ function startGame(){
 }
 function buildMid(){
  mid=el('div');mid.id='mid';
- mid.innerHTML='<div id="turn"></div><div class="bowlw"><div class="ball" id="ball"></div><div class="bowl" id="bowl"><div class="bb"></div><div class="lidw" id="lidw"><div class="lid"></div><i class="knob"></i></div></div></div><div id="chips"></div><div id="mmsg"></div><div id="acts"><button class="act" id="bshake">LẮC</button><button class="act" id="btake">LẤY SỐ</button></div>';
+ mid.innerHTML='<div id="turn"></div><div class="bowlw"><div class="ball" id="ball"></div><div class="bowl" id="bowl"><div class="bb"></div><div class="lidw" id="lidw"><div class="lid"></div><i class="knob"></i></div></div></div><div id="chips"></div><div id="mmsg"></div>';
  kinh=el('button','','KINH');kinh.id='kinh';
- mid.querySelector('#bshake').onclick=userShake;
- mid.querySelector('#btake').onclick=userTake;
+ mid.querySelector('.bowlw').onclick=bowlClick;
  kinh.onclick=userKinh;
 }
 
@@ -248,13 +245,23 @@ function panel(p,pid,c,own,id){
  p.tos.forEach(function(to,i){if(own&&!wide&&i!=G.tab)return;row.appendChild(tori(to,i,p,c,own,pid))});
  d.appendChild(row);return d;
 }
+/* thu nhỏ dần cho tới khi toàn bộ vừa khít màn hình, không cần cuộn */
 function render(){
+ var gm=gq('#game');
+ for(var K=1;K>0.2;K-=.05){
+  draw(K);
+  if(gm.scrollHeight<=gm.clientHeight+1&&gm.scrollWidth<=gm.clientWidth+1)break;
+ }
+}
+function draw(K){
  var arena=gq('#arena');arena.innerHTML='';refs={};G.pl.forEach(function(p){p.nds=[]});
  G.pl.forEach(function(_,i){refs[i]=[]});
  var W=innerWidth,H=innerHeight,cw=Math.min(44,Math.floor((H-120)/13.5),Math.floor((W-380)/27)),c,m;
- wide=W>=900&&cw>=26;
- if(wide){c=cw;m=Math.max(14,Math.floor(c*.5))}else{c=Math.max(26,Math.min(46,Math.floor((W-40)/9),Math.floor((H-330)/10.6)))}
+ wide=W>=900&&H>=400;cw=Math.max(cw,12);
+ if(wide){c=Math.max(7,Math.floor(cw*K));m=Math.max(6,Math.floor(Math.max(14,Math.floor(cw*.5))*K))}
+ else{c=Math.max(7,Math.floor(Math.min(46,Math.floor((W-40)/9))*K))}
  arena.className=wide?'w':'m';
+ mid.querySelector('.bowlw').style.setProperty('--u',String((wide?1:.62)*K));
  if(wide){
   arena.appendChild(panel(G.pl[0],0,c,true,'pu'));
   for(var i=1;i<G.pl.length;i++)arena.appendChild(panel(G.pl[i],i,m,false,'pm'+i));
@@ -285,19 +292,18 @@ function chips(){var c=gq('#chips');if(!c||!G)return;c.innerHTML=G.called.slice(
 function ui(){
  if(!G)return;
  var u=G.pl[G.turn].isU&&G.phase=='turn'&&!over;
- gq('#acts').style.visibility=u?'visible':'hidden';
- gq('#bshake').disabled=!u||G.shaking;gq('#btake').disabled=!u||!G.shook||G.shaking;
+ mid.querySelector('.bowlw').style.cursor=u?'pointer':'default';
  kinh.disabled=over||!running;
 }
 
-/* ---------- lượt chơi ---------- */
+/* ---------- lượt gọi số ---------- */
 function startTurn(){
  G.phase='turn';G.shook=false;G.shaking=false;
  var b=gq('#ball');b.className='ball';b.textContent='';gq('#lidw').classList.remove('open');gq('#bowl').classList.remove('shaking');
  gq('#mmsg').textContent='';
  var p=G.pl[G.turn];
- if(p.isU)setTurn('Đến lượt bạn: bấm LẮC rồi LẤY SỐ');
- else{setTurn(p.name+' đang lắc…');shake(rnd(1000,4000),take)}
+ if(p.isU)setTurn('Bạn gọi số: bấm 1 lần vào tô để LẮC, bấm đúp để LẤY SỐ');
+ else{setTurn(p.name+' đang gọi số…');shake(rnd(1000,4000),take)}
  ui();
 }
 function shake(ms,fn){
@@ -305,7 +311,16 @@ function shake(ms,fn){
  later(ms,function(){G.shaking=false;gq('#bowl').classList.remove('shaking');ui();if(fn)fn()});
 }
 function userShake(){if(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU||G.shaking)return;shake(1300,function(){G.shook=true;ui()})}
-function userTake(){if(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU||!G.shook||G.shaking)return;take()}
+function userTake(){
+ if(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU||G.shaking)return;
+ if(!G.shook){toast('Bấm 1 lần vào tô để lắc trước đã');return}
+ take();
+}
+/* 1 lần bấm = lắc, bấm đúp = lấy số */
+function bowlClick(){
+ if(ck){clearTimeout(ck);ck=0;userTake();return}
+ ck=setTimeout(function(){ck=0;userShake()},260);
+}
 function take(){
  if(over||G.phase!='turn')return;
  var n=G.bag.pop();G.called.push(n);G.cs.add(n);G.curN=n;G.phase='marking';G.age=0;G.pend=0;
@@ -331,7 +346,7 @@ function tick(dt){
 function nextTurn(){
  if(over)return;
  if(!G.bag.length){endGame('none');return}
- G.turn=(G.turn+1)%G.pl.length;startTurn();
+ startTurn(); /* người gọi số giữ nguyên trong cả ván */
 }
 
 /* ---------- kinh ---------- */
