@@ -50,7 +50,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-ping-pong-arena",
 		"Name": "Game Ping Pong Arena",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=628,height=628,fit=cover,f=auto/c02dcbba0cc309d178806541248df443/ping-pong-go-logo.png",
 		"Enabled": true
 	},
 	{
@@ -128,7 +128,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-mastermind",
 		"Name": "Game Mastermind",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://familygameshelf.com/wp-content/uploads/2021/09/Family_Game_Shelf_Mastermind_cover.jpg",
 		"Enabled": true
 	},
 	{
@@ -140,7 +140,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-reaction-time",
 		"Name": "Game Reaction Time",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/zdXazYhsDhbhLjPGexoAREdr4O_ahSjM9xatMKlLE-M3NiXwIk2VoGc1YKUM_eukXS2pul6N0Fwb7iP2hwP2fQ=w480-h960-rw",
 		"Enabled": true
 	},
 	{
@@ -182,13 +182,13 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-rush-hour",
 		"Name": "Game Rush Hour",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/yOMKInmiozIL9wHSMoyukO5ZbTcGpt-BR6w46P_Ai7A_SaT7XV66H3IxtRp9MSkrrPMk1V8v6LWSedi1pjP0=w480-h960-rw",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-pikachu",
 		"Name": "Game Pikachu",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/xC9pebe3VhX_v4M1sbTZo4WJ7a2g4yCp4i2bOosdZ-_8ecDum5bSvQrYJu7G5B98tfqR_5Y-yIrOAKxeTb5pbA=w480-h960-rw",
 		"Enabled": true
 	},
 	{
@@ -200,7 +200,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-peg-solitaire",
 		"Name": "Game Peg Solitaire",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/g8-4p1b7zXAM8Nr-m5F3zk-Fpm6qkDNnN_P_yDXLzmlsuSqz6xMDfYRKE-fhsNWu8hsqD2JKGqhUHBU4OfkozQ=w480-h960-rw",
 		"Enabled": true
 	},
 	{
@@ -230,13 +230,13 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-stack-tower",
 		"Name": "Game Stack Tower",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/p7SKUxiEGlzEMrucGOmnvnq5z3m2mE6RVf2_MSIKhNyzKA9fS5_ml2ZRvTDvMoEDqzYAmXZtHKwskGfL6-hG=w480-h960-rw",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-chain-reaction",
 		"Name": "Game Chain Reaction",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/xPJvFVQAhyyWWVD4jzlOaFLms_tsQYZO7yTABNIu7D77PYrKkk_CLEMwHb7T9YhqPROZ5tRIvqtvzjkONk2ywQ0=w480-h960-rw",
 		"Enabled": true
 	},
 	{
@@ -268,25 +268,25 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-dap-chuot",
 		"Name": "Game đập chuột",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://tinhocvui.vn/wp-content/uploads/2026/06/tro-choi-nhay-dup-chuot.webp",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-typing",
 		"Name": "Game đánh chữ nhanh",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/7Zm8rDhG1AhBONxnlV7yfHsthisM19J-2_60UUBO2DK3UnP1vfv2JzlqvHYLvA-9kixGM7uJ4xMlClGOg2oh4PM=w480-h960-rw",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-memory",
 		"Name": "Game thẻ hình trí nhớ",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/arlB9jAkFBF68bV-RZthvp1yuf3k_KoEapbXtTB7oJCx4WSLE5pn8-Rb32ZdbZtnZkHXwlYfky4MZVdzwOiAXQ=w480-h960-rw",
 		"Enabled": true
 	},
 	{
 		"Key": "/game-co-caro",
 		"Name": "Game cờ caro",
-		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Image": "https://play-lh.googleusercontent.com/HUOrBLrVnqs-pkTJfOfYpNv8NVKh9jC6kKO38yMGWMQL5ZC_8isD-h03hWw2BLnR7LSG85UMOIWwyVHD52-i=w480-h960-rw",
 		"Enabled": true
 	},
 @@>
