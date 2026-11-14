@@ -102,7 +102,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
  <div class="hr" id="kslot"></div>
 </header>
 <div id="setup"><div class="card">
- <h2>Cờ lô tô ngày Tết</h2>
+ <h2>Cờ lô tô vui nhộn</h2>
  <h3>Chọn màu cờ của bạn</h3><div class="sw" id="sw"></div>
  <h3>Số tờ bạn dò</h3><div class="sg" id="sg1"><button data-v="1">1 tờ</button><button data-v="2">2 tờ (cùng màu)</button></div>
  <h3>Số máy cùng chơi</h3><div class="sg" id="sg2"><button data-v="1">1 máy</button><button data-v="2">2 máy</button><button data-v="3">3 máy</button></div>
