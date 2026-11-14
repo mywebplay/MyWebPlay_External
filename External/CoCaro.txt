@@ -3,19 +3,11 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Cờ caro - MyWebPlay</title>
 
 <style>
-:root {
-    --header-h: 56px;
-    --footer-h: 42px;
-    --cols: 20;
-    --rows: 20;
-    --board-gap: 2px;
-}
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -31,13 +23,14 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #f1f5f9;
+    background: #e2e8f0;
     color: #111827;
     font-family: Inter, system-ui, Arial, sans-serif;
     overscroll-behavior: none;
 }
 
 body {
+    width: 100vw;
     height: 100vh;
     height: 100dvh;
 }
@@ -47,60 +40,29 @@ button {
 }
 
 .app {
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
+    position: fixed;
+    inset: 0;
     overflow: hidden;
-}
-
-/* HEADER */
-
-header {
-    flex: 0 0 var(--header-h);
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 8px;
-    font-weight: 800;
-    font-size: clamp(14px, 2.5vmin, 20px);
-    color: deeppink;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-shadow: 1px 1px 2px #0003;
-}
-
-/* MAIN */
-
-main {
-    flex: 1 1 0;
-    min-width: 0;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 4px;
 }
 
 /* BOARD */
 
 #board {
-    flex: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
     display: grid;
     grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
     grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
-    gap: var(--board-gap);
-    background: #cbd5e1;
-    padding: 3px;
-    border-radius: 8px;
+
+    gap: 2px;
+    padding: 2px;
+
+    background: #94a3b8;
     overflow: hidden;
-    touch-action: manipulation;
+
     user-select: none;
     -webkit-user-select: none;
 }
@@ -111,6 +73,7 @@ main {
     min-height: 0;
     margin: 0;
     padding: 0;
+
     border: 1px solid #94a3b8;
     border-radius: 3px;
     background: #f8fafc;
@@ -119,7 +82,7 @@ main {
     align-items: center;
     justify-content: center;
 
-    font-size: clamp(8px, 2.2vmin, 24px);
+    font-size: clamp(10px, 2.3vmin, 30px);
     font-weight: 800;
     line-height: 1;
 
@@ -132,8 +95,8 @@ main {
 
 @media (hover: hover) and (pointer: fine) {
     .cell:not(:disabled):hover {
-        background: #e2e8f0;
-        box-shadow: inset 0 0 4px #0002;
+        background: #dbeafe;
+        box-shadow: inset 0 0 5px #0003;
     }
 }
 
@@ -161,41 +124,74 @@ main {
     to { background: #fde047; }
 }
 
-/* FOOTER */
+/* FLOATING GAME INFO */
 
-footer {
-    flex: 0 0 var(--footer-h);
-    min-width: 0;
+.game-info {
+    position: fixed;
+    z-index: 10;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: clamp(6px, 2vw, 16px);
-    padding: 0 6px;
-    overflow: hidden;
-    font-size: clamp(10px, 2.2vmin, 14px);
+    gap: 14px;
+
+    padding: 8px 18px;
+    border-radius: 30px;
+
+    background: #ffffffdf;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow: 0 3px 14px #0002;
+
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.game-title {
+    color: deeppink;
+    font-size: 15px;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px #0002;
 }
 
 .player {
     opacity: .4;
     transition: opacity .18s, transform .18s;
-    white-space: nowrap;
+    font-size: 13px;
 }
 
 .player.active {
     opacity: 1;
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
 
 .player.p1 {
-    color: #0ea5e9;
+    color: #0284c7;
 }
 
 .player.p2 {
-    color: #ef4444;
+    color: #dc2626;
 }
 
-.hint {
-    color: #94a3b8;
+.game-hint {
+    position: fixed;
+    z-index: 10;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 5px 13px;
+    border-radius: 20px;
+
+    color: #64748b;
+    background: #ffffffd9;
+    font-size: 11px;
+
+    pointer-events: none;
+    white-space: nowrap;
 }
 
 /* MODAL */
@@ -209,15 +205,12 @@ footer {
     align-items: center;
     justify-content: center;
 
-    padding: max(12px, env(safe-area-inset-top))
-             max(12px, env(safe-area-inset-right))
-             max(12px, env(safe-area-inset-bottom))
-             max(12px, env(safe-area-inset-left));
+    padding: 16px;
 
     background: #0008;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .overlay.show {
@@ -226,34 +219,36 @@ footer {
 
 .modal {
     width: min(100%, 360px);
-    max-height: 100%;
+    max-height: 90%;
     overflow-y: auto;
-    padding: clamp(18px, 4vmin, 28px);
+
+    padding: 26px;
     border-radius: 14px;
+
     background: white;
     box-shadow: 0 10px 40px #0004;
+
     text-align: center;
     color: #111;
 }
 
 .modal h2 {
     margin: 0 0 8px;
-    font-size: clamp(18px, 4vmin, 22px);
+    font-size: 22px;
     color: #0ea5e9;
 }
 
 .modal p {
     margin: 8px 0;
-    font-size: clamp(13px, 2.5vmin, 16px);
+    font-size: 16px;
 }
 
 .btn {
     border: 0;
-    padding: 11px 18px;
+    padding: 11px 22px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 700;
-    touch-action: manipulation;
 }
 
 .btn.primary {
@@ -275,57 +270,6 @@ footer {
     pointer-events: none;
     z-index: 55;
 }
-
-/* COMPACT SCREEN */
-
-@media (max-height: 500px) {
-    :root {
-        --header-h: 36px;
-        --footer-h: 32px;
-    }
-
-    main {
-        padding: 2px;
-    }
-
-    #board {
-        padding: 2px;
-        gap: 1px;
-    }
-
-    .cell {
-        font-size: clamp(7px, 2vmin, 16px);
-    }
-}
-
-@media (max-width: 520px) {
-    :root {
-        --cols: 15;
-        --rows: 15;
-        --board-gap: 2px;
-    }
-
-    header {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 350px) {
-    :root {
-        --header-h: 42px;
-        --footer-h: 34px;
-    }
-
-    footer {
-        gap: 5px;
-        font-size: 10px;
-    }
-
-    #board {
-        padding: 2px;
-        gap: 1px;
-    }
-}
 </style>
 </head>
 
@@ -333,23 +277,25 @@ footer {
 
 <div class="app">
 
-    <header>Cờ caro - MyWebPlay</header>
+    <div id="board" role="grid" aria-label="Bàn cờ caro"></div>
 
-    <main id="mainArea">
-        <div id="board" role="grid" aria-label="Bàn cờ caro"></div>
-    </main>
+    <div class="game-info">
+        <div class="game-title">CỜ CARO</div>
 
-    <footer>
         <div id="p1label" class="player p1 active">
             <b>● Người chơi 1</b>
         </div>
 
-        <div class="hint">|</div>
+        <div style="color:#94a3b8">|</div>
 
         <div id="p2label" class="player p2">
             <b>● Người chơi 2</b>
         </div>
-    </footer>
+    </div>
+
+    <div class="game-hint">
+        Double-click bàn cờ hoặc nhấn R để chơi lại
+    </div>
 
 </div>
 
@@ -375,19 +321,28 @@ footer {
 // ========================================
 
 setInterval(function () {
+
     document.querySelectorAll(
         "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
-    ).forEach(el => el.remove());
+    ).forEach(function (el) {
+        el.remove();
+    });
 
     document.querySelectorAll(
         "div[onmouseover='S_ssac();']"
-    ).forEach(el => el.remove());
+    ).forEach(function (el) {
+        el.remove();
+    });
 
-    document.querySelectorAll("center").forEach(el => el.remove());
+    document.querySelectorAll("center").forEach(function (el) {
+        el.remove();
+    });
 
     document.querySelectorAll(
         "div[style='height: 65px;']"
-    ).forEach(el => el.remove());
+    ).forEach(function (el) {
+        el.remove();
+    });
 
 }, 10);
 
@@ -395,101 +350,131 @@ setInterval(function () {
 // CONFIG
 // ========================================
 
-const COLS = parseInt(
-    getComputedStyle(document.documentElement)
-        .getPropertyValue('--cols')
-) || 20;
+var winLen = 5;
 
-const ROWS = parseInt(
-    getComputedStyle(document.documentElement)
-        .getPropertyValue('--rows')
-) || 20;
+var COLS = 0;
+var ROWS = 0;
 
-const winLen = 5;
+var board = [];
 
-// ========================================
-// GAME STATE
-// ========================================
+var cur = 1;
+var finished = false;
 
-let board = Array.from(
-    { length: ROWS },
-    () => Array(COLS).fill(0)
-);
-
-let cur = 1;
-let finished = false;
+var winningCells = [];
 
 // ========================================
 // ELEMENTS
 // ========================================
 
-const boardEl = document.getElementById('board');
-const mainArea = document.getElementById('mainArea');
+var boardEl = document.getElementById('board');
 
-const p1label = document.getElementById('p1label');
-const p2label = document.getElementById('p2label');
+var p1label = document.getElementById('p1label');
+var p2label = document.getElementById('p2label');
 
-const overlay = document.getElementById('overlay');
-const modalTitle = document.getElementById('modalTitle');
-const modalMsg = document.getElementById('modalMsg');
+var overlay = document.getElementById('overlay');
+var modalTitle = document.getElementById('modalTitle');
+var modalMsg = document.getElementById('modalMsg');
 
-const restartBtn = document.getElementById('restartBtn');
-const fxCanvas = document.getElementById('fxCanvas');
+var restartBtn = document.getElementById('restartBtn');
+
+var fxCanvas = document.getElementById('fxCanvas');
 
 // ========================================
-// RESPONSIVE BOARD
+// CALCULATE BOARD SIZE
+// ========================================
+
+function calculateBoardSize() {
+
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    // Kích thước ô mục tiêu.
+    // Số hàng và cột được tính theo toàn bộ màn hình.
+
+    var targetCell = 52;
+
+    var cols = Math.max(1, Math.floor(width / targetCell));
+    var rows = Math.max(1, Math.floor(height / targetCell));
+
+    return {
+        cols: cols,
+        rows: rows
+    };
+}
+
+// ========================================
+// INIT BOARD SIZE
+// ========================================
+
+function initBoardSize() {
+
+    var size = calculateBoardSize();
+
+    COLS = size.cols;
+    ROWS = size.rows;
+
+    board = Array.from(
+        { length: ROWS },
+        function () {
+            return Array(COLS).fill(0);
+        }
+    );
+
+    updateBoardCSS();
+}
+
+// ========================================
+// UPDATE BOARD CSS
+// ========================================
+
+function updateBoardCSS() {
+
+    boardEl.style.setProperty('--cols', COLS);
+    boardEl.style.setProperty('--rows', ROWS);
+}
+
+// ========================================
+// RESIZE BOARD
 // ========================================
 
 function resizeBoard() {
 
-    const rect = mainArea.getBoundingClientRect();
+    var size = calculateBoardSize();
 
-    const availableW = Math.max(0, rect.width - 8);
-    const availableH = Math.max(0, rect.height - 8);
+    // Chỉ mở rộng bàn cờ.
+    // Không thu nhỏ số hàng/cột để tránh mất nước đã đánh.
 
-    // Bàn cờ luôn vuông và không vượt khỏi vùng chứa.
+    var newCols = Math.max(COLS, size.cols);
+    var newRows = Math.max(ROWS, size.rows);
 
-    const size = Math.floor(
-        Math.min(availableW, availableH)
+    if (newCols === COLS && newRows === ROWS) {
+        return;
+    }
+
+    var newBoard = Array.from(
+        { length: newRows },
+        function () {
+            return Array(newCols).fill(0);
+        }
     );
 
-    if (size <= 0) return;
+    for (var r = 0; r < ROWS; r++) {
 
-    boardEl.style.width = size + 'px';
-    boardEl.style.height = size + 'px';
+        for (var c = 0; c < COLS; c++) {
 
-    // Điều chỉnh khoảng cách theo kích thước thực tế.
+            newBoard[r][c] = board[r][c];
+        }
+    }
 
-    const gap = size < 300 ? 1 : size < 500 ? 2 : 3;
+    board = newBoard;
 
-    boardEl.style.gap = gap + 'px';
+    COLS = newCols;
+    ROWS = newRows;
+
+    updateBoardCSS();
+
+    createBoard();
 }
-
-// Theo dõi cả kích thước iframe/container,
-// không chỉ phụ thuộc vào window.resize.
-
-let resizeObserver = null;
-
-if (typeof ResizeObserver !== 'undefined') {
-
-    resizeObserver = new ResizeObserver(() => {
-        resizeBoard();
-    });
-
-    resizeObserver.observe(mainArea);
-}
-
-window.addEventListener('resize', () => {
-    resizeBoard();
-    setupCanvas();
-});
-
-window.addEventListener('orientationchange', () => {
-    setTimeout(() => {
-        resizeBoard();
-        setupCanvas();
-    }, 100);
-});
 
 // ========================================
 // CREATE BOARD
@@ -499,13 +484,13 @@ function createBoard() {
 
     boardEl.innerHTML = '';
 
-    const fragment = document.createDocumentFragment();
+    var fragment = document.createDocumentFragment();
 
-    for (let r = 0; r < ROWS; r++) {
+    for (var r = 0; r < ROWS; r++) {
 
-        for (let c = 0; c < COLS; c++) {
+        for (var c = 0; c < COLS; c++) {
 
-            const b = document.createElement('button');
+            var b = document.createElement('button');
 
             b.type = 'button';
             b.className = 'cell';
@@ -515,8 +500,26 @@ function createBoard() {
 
             b.setAttribute(
                 'aria-label',
-                `Ô ${r + 1}-${c + 1}`
+                'Ô ' + (r + 1) + '-' + (c + 1)
             );
+
+            if (board[r][c] !== 0) {
+
+                b.classList.add(
+                    board[r][c] === 1 ? 'p1' : 'p2'
+                );
+
+                b.textContent =
+                    board[r][c] === 1 ? '✕' : '◯';
+            }
+
+            var isWin = winningCells.some(function (cell) {
+                return cell[0] === r && cell[1] === c;
+            });
+
+            if (isWin) {
+                b.classList.add('win');
+            }
 
             b.addEventListener('click', onCellClick);
 
@@ -525,8 +528,6 @@ function createBoard() {
     }
 
     boardEl.appendChild(fragment);
-
-    resizeBoard();
 }
 
 // ========================================
@@ -555,8 +556,8 @@ function onCellClick() {
 
     if (finished) return;
 
-    const r = +this.dataset.r;
-    const c = +this.dataset.c;
+    var r = Number(this.dataset.r);
+    var c = Number(this.dataset.c);
 
     if (board[r][c] !== 0) return;
 
@@ -566,20 +567,27 @@ function onCellClick() {
 
     this.textContent = cur === 1 ? '✕' : '◯';
 
-    const winCells = checkWin(r, c, cur);
+    var winCells = checkWin(r, c, cur);
 
     if (winCells) {
 
-        for (const [rr, cc] of winCells) {
+        winningCells = winCells;
 
-            const idx = rr * COLS + cc;
+        for (var i = 0; i < winCells.length; i++) {
 
-            boardEl.children[idx].classList.add('win');
+            var rr = winCells[i][0];
+            var cc = winCells[i][1];
+
+            var idx = rr * COLS + cc;
+
+            if (boardEl.children[idx]) {
+                boardEl.children[idx].classList.add('win');
+            }
         }
 
         finished = true;
 
-        setTimeout(() => {
+        setTimeout(function () {
 
             showWin(cur);
             startFireworks();
@@ -600,21 +608,24 @@ function onCellClick() {
 
 function checkWin(r, c, p) {
 
-    const dirs = [
+    var dirs = [
         [1, 0],
         [0, 1],
         [1, 1],
         [1, -1]
     ];
 
-    for (const [dr, dc] of dirs) {
+    for (var i = 0; i < dirs.length; i++) {
 
-        let count = 1;
+        var dr = dirs[i][0];
+        var dc = dirs[i][1];
 
-        const cells = [[r, c]];
+        var count = 1;
 
-        let rr = r + dr;
-        let cc = c + dc;
+        var cells = [[r, c]];
+
+        var rr = r + dr;
+        var cc = c + dc;
 
         while (
             inBounds(rr, cc) &&
@@ -653,6 +664,10 @@ function checkWin(r, c, p) {
     return null;
 }
 
+// ========================================
+// CHECK BOARD BOUNDARY
+// ========================================
+
 function inBounds(r, c) {
 
     return (
@@ -672,7 +687,7 @@ function showWin(player) {
     modalTitle.textContent = 'Chúc mừng';
 
     modalMsg.textContent =
-        `Người chơi ${player} thắng!`;
+        'Người chơi ' + player + ' thắng!';
 
     overlay.classList.add('show');
 }
@@ -685,27 +700,29 @@ function resetGame() {
 
     board = Array.from(
         { length: ROWS },
-        () => Array(COLS).fill(0)
+        function () {
+            return Array(COLS).fill(0);
+        }
     );
 
     finished = false;
     cur = 1;
 
+    winningCells = [];
+
     updateLabels();
 
-    for (const cell of boardEl.children) {
-
-        cell.className = 'cell';
-        cell.textContent = '';
-    }
+    createBoard();
 
     modalTitle.textContent = 'Chúc mừng';
     modalMsg.textContent = 'Người chơi x thắng!';
-
-    resizeBoard();
 }
 
-restartBtn.addEventListener('click', () => {
+// ========================================
+// RESTART BUTTON
+// ========================================
+
+restartBtn.addEventListener('click', function () {
 
     resetGame();
 
@@ -718,16 +735,16 @@ restartBtn.addEventListener('click', () => {
 // FIREWORKS CANVAS
 // ========================================
 
-let ctx;
-let W = 0;
-let H = 0;
-let dpr = 1;
+var ctx;
+var W = 0;
+var H = 0;
+var dpr = 1;
 
-let particles = [];
-let animId = null;
+var particles = [];
+var animId = null;
 
 // ========================================
-// CANVAS RESPONSIVE
+// SETUP CANVAS
 // ========================================
 
 function setupCanvas() {
@@ -754,11 +771,13 @@ function setupCanvas() {
 
 function startFireworks() {
 
-    if (!ctx) setupCanvas();
+    if (!ctx) {
+        setupCanvas();
+    }
 
     particles = [];
 
-    for (let i = 0; i < 8; i++) {
+    for (var i = 0; i < 8; i++) {
 
         launch(
             Math.random() * W * 0.8 + W * 0.1,
@@ -800,18 +819,18 @@ function stopFireworks() {
 
 function launch(x, y) {
 
-    const hue = Math.random() * 360;
+    var hue = Math.random() * 360;
 
-    for (let i = 0; i < 80; i++) {
+    for (var i = 0; i < 80; i++) {
 
-        const angle = Math.random() * Math.PI * 2;
+        var angle = Math.random() * Math.PI * 2;
 
-        const speed = Math.random() * 4 + 1;
+        var speed = Math.random() * 4 + 1;
 
         particles.push({
 
-            x,
-            y,
+            x: x,
+            y: y,
 
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
@@ -819,7 +838,7 @@ function launch(x, y) {
             life: Math.random() * 60 + 30,
             age: 0,
 
-            hue
+            hue: hue
         });
     }
 }
@@ -832,9 +851,9 @@ function loop() {
 
     ctx.clearRect(0, 0, W, H);
 
-    for (let i = particles.length - 1; i >= 0; i--) {
+    for (var i = particles.length - 1; i >= 0; i--) {
 
-        const p = particles[i];
+        var p = particles[i];
 
         p.x += p.vx;
         p.y += p.vy;
@@ -843,7 +862,7 @@ function loop() {
 
         p.age++;
 
-        const alpha = Math.max(
+        var alpha = Math.max(
             0,
             1 - p.age / p.life
         );
@@ -861,7 +880,9 @@ function loop() {
         );
 
         ctx.fillStyle =
-            `hsl(${p.hue} ${Math.floor(50 + alpha * 50)}% 50%)`;
+            'hsl(' + p.hue + ' ' +
+            Math.floor(50 + alpha * 50) +
+            '% 50%)';
 
         ctx.fill();
 
@@ -883,10 +904,21 @@ function loop() {
 }
 
 // ========================================
+// RESIZE EVENTS
+// ========================================
+
+window.addEventListener('resize', function () {
+
+    resizeBoard();
+
+    setupCanvas();
+});
+
+// ========================================
 // RESTART SHORTCUT
 // ========================================
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', function (e) {
 
     if (
         e.key.toLowerCase() === 'r' &&
@@ -909,7 +941,7 @@ document.addEventListener('keydown', e => {
 // DOUBLE CLICK RESTART
 // ========================================
 
-boardEl.addEventListener('dblclick', () => {
+boardEl.addEventListener('dblclick', function () {
 
     if (confirm('Chơi lại?')) {
 
@@ -924,6 +956,8 @@ boardEl.addEventListener('dblclick', () => {
 // ========================================
 // INIT
 // ========================================
+
+initBoardSize();
 
 createBoard();
 
