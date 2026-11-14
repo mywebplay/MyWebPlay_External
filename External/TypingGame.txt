@@ -1,197 +1,640 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Typing Game ⌨</title>
+<title>⌨️ Typing Game</title>
+
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  font-family: Arial;
-  background: #111;
-  color: white;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-#game {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+[hidden] {
+    display: none !important;
 }
 
-.word {
-  position: absolute;
-  font-size: 20px;
-  color: #0f0;
-  white-space: nowrap;
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    overscroll-behavior: none;
+    touch-action: manipulation;
 }
 
-#inputBox {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px;
-  font-size: 18px;
-  width: 200px;
+button, input {
+    font: inherit;
+}
+
+#app {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+}
+
+/* HEADER */
+
+header {
+    width: 100%;
+    max-width: 900px;
+    height: 58px;
+    flex: none;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+#scoreBox {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 7px 16px;
+    text-align: center;
 }
 
 #score {
-  position: fixed;
-  top: 10px;
-  left: 10px;
+    font-size: 19px;
+    font-weight: 800;
+    color: #4ade80;
+}
+
+#scoreLabel {
+    font-size: 10px;
+    color: #94a3b8;
+    letter-spacing: 1px;
+}
+
+/* GAME AREA */
+
+#game {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    flex: 1;
+    min-height: 0;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #111c31;
+    border: 1px solid #263750;
+    border-radius: 16px;
+    contain: layout paint;
+}
+
+#game::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .12;
+    background-image:
+        linear-gradient(#64748b 1px, transparent 1px),
+        linear-gradient(90deg, #64748b 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.word {
+    position: absolute;
+    z-index: 1;
+    font-size: clamp(15px, 2.5vw, 20px);
+    font-weight: 700;
+    color: #4ade80;
+    white-space: nowrap;
+    text-shadow: 0 0 12px #22c55e66;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* INPUT AREA */
+
+#control {
+    width: 100%;
+    max-width: 900px;
+    flex: none;
+    margin: 10px auto 0;
+    padding-bottom: 8px;
+}
+
+#inputWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 14px;
+    padding: 5px 8px 5px 15px;
+    transition: border-color .2s;
+}
+
+#inputWrap:focus-within {
+    border-color: #6366f1;
+}
+
+#inputBox {
+    flex: 1;
+    min-width: 0;
+    height: 46px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+#inputBox::placeholder {
+    color: #64748b;
+    font-weight: 400;
+}
+
+#inputHint {
+    color: #94a3b8;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 7px;
 }
 
 /* MODAL */
+
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #020617dd;
+    backdrop-filter: blur(5px);
 }
 
 .box {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
+    width: 100%;
+    max-width: 340px;
+    padding: 28px 22px;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    background: #1e293b;
+    text-align: center;
+    box-shadow: 0 20px 60px #0008;
+    animation: showModal .25s ease;
+}
+
+@keyframes showModal {
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#modalIcon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.box h2 {
+    margin: 0 0 10px;
+    font-size: 25px;
+}
+
+.box p {
+    color: #94a3b8;
+    margin: 0 0 22px;
+}
+
+#finalScore {
+    color: #4ade80;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.b {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 13px;
+    background: #6366f1;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.b:active {
+    transform: scale(.97);
+}
+
+@media (max-width: 480px) {
+    #logo {
+        font-size: 16px;
+    }
+
+    #game {
+        border-radius: 12px;
+    }
+
+    #control {
+        margin-top: 8px;
+    }
+
+    #inputHint {
+        font-size: 10px;
+    }
 }
 </style>
 </head>
+
 <body>
 
-<div id="score">Score: 0</div>
-<div id="game"></div>
-<input id="inputBox" placeholder="Type here..." autofocus />
+<div id="app">
 
-<!-- MODAL -->
-<div id="gameOverModal" class="modal">
-  <div class="box">
-    <h2>Game Over</h2>
-    <p id="finalScore"></p>
-    <button onclick="location.reload()">Chơi lại</button>
-  </div>
+    <header>
+        <div id="logo">⌨️ Typing Game</div>
+
+        <div id="scoreBox">
+            <div id="score">0</div>
+            <div id="scoreLabel">SCORE</div>
+        </div>
+    </header>
+
+    <div id="game"></div>
+
+    <div id="control">
+        <div id="inputWrap">
+            <input
+                id="inputBox"
+                type="text"
+                placeholder="Gõ từ đang rơi..."
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                inputmode="text"
+            >
+        </div>
+
+        <div id="inputHint">
+            Gõ chính xác từ xuất hiện trên màn hình để ghi điểm
+        </div>
+    </div>
+
+</div>
+
+<!-- GAME OVER -->
+
+<div id="gameOverModal" class="modal" hidden>
+    <div class="box">
+        <div id="modalIcon">💥</div>
+        <h2>Game Over!</h2>
+        <p>Bạn đã bỏ lỡ một từ.</p>
+
+        <div id="finalScore">0</div>
+        <p>Điểm số của bạn</p>
+
+        <button class="b" id="restartBtn">
+            🔄 Chơi lại
+        </button>
+    </div>
 </div>
 
 <script>
-const wordsList = [/* giữ nguyên list của bạn */ 
-"html","css","javascript","game","code","win","play","fun","typing","fast",
-"slow","quick","speed","keyboard","mouse","screen","browser","window","input","output",
-"click","press","enter","space","shift","control","alt","escape","delete","insert",
-"function","variable","constant","object","array","string","number","boolean","null","undefined",
-"loop","condition","switch","case","break","continue","return","async","await","promise",
-"random","shuffle","select","filter","map","reduce","sort","search","find","replace",
-"create","update","delete","render","display","layout","design","style","color","theme",
-"button","modal","popup","overlay","animation","transition","transform","rotate","scale","translate",
-"responsive","adaptive","mobile","desktop","tablet","resolution","viewport","dimension","pixel","ratio",
-"performance","optimization","efficiency","memory","storage","database","server","client","network","protocol",
-"security","encryption","authentication","authorization","session","cookie","token","firewall","privacy","protection",
-"challenge","difficulty","strategy","solution","algorithm","complexity","recursive","iteration","calculation","evaluation",
-"understanding","knowledge","experience","improvement","development","programming","engineering","architecture","framework","library"
+
+// ========================================
+// CONFIG
+// ========================================
+
+const wordsList = [
+    "html","css","javascript","game","code","win","play","fun","typing","fast",
+    "slow","quick","speed","keyboard","mouse","screen","browser","window","input","output",
+    "click","press","enter","space","shift","control","alt","escape","delete","insert",
+    "function","variable","constant","object","array","string","number","boolean","null","undefined",
+    "loop","condition","switch","case","break","continue","return","async","await","promise",
+    "random","shuffle","select","filter","map","reduce","sort","search","find","replace",
+    "create","update","delete","render","display","layout","design","style","color","theme",
+    "button","modal","popup","overlay","animation","transition","transform","rotate","scale","translate",
+    "responsive","adaptive","mobile","desktop","tablet","resolution","viewport","dimension","pixel","ratio",
+    "performance","optimization","efficiency","memory","storage","database","server","client","network","protocol",
+    "security","encryption","authentication","authorization","session","cookie","token","firewall","privacy","protection",
+    "challenge","difficulty","strategy","solution","algorithm","complexity","recursive","iteration","calculation","evaluation",
+    "understanding","knowledge","experience","improvement","development","programming","engineering","architecture","framework","library"
 ];
+
+// ========================================
+// ELEMENTS
+// ========================================
 
 const game = document.getElementById("game");
 const input = document.getElementById("inputBox");
 const scoreText = document.getElementById("score");
+const modal = document.getElementById("gameOverModal");
+const finalScore = document.getElementById("finalScore");
+const restartBtn = document.getElementById("restartBtn");
+
+// ========================================
+// GAME STATE
+// ========================================
 
 let words = [];
 let score = 0;
 let gameOver = false;
 
-// 👉 giới hạn số chữ theo màn hình
+// ========================================
+// RESPONSIVE
+// ========================================
+
 function getMaxWords() {
-  let perRow = Math.floor(window.innerWidth / 120);
-  let rows = Math.floor(window.innerHeight / 40);
-  return perRow * rows * 0.6; // giảm bớt để tránh đè
+    const width = game.clientWidth;
+    const height = game.clientHeight;
+
+    const perRow = Math.max(1, Math.floor(width / 120));
+    const rows = Math.max(1, Math.floor(height / 40));
+
+    return Math.max(1, Math.floor(perRow * rows * 0.6));
 }
+
+// ========================================
+// SPAWN WORD
+// ========================================
 
 function spawnWord() {
-  if (gameOver) return;
 
-  // ❗ tránh spawn quá nhiều
-  if (words.length > getMaxWords()) return;
+    if (gameOver) return;
 
-  let text = wordsList[Math.floor(Math.random() * wordsList.length)];
-  let el = document.createElement("div");
-  el.className = "word";
-  el.innerText = text;
+    if (words.length >= getMaxWords()) return;
 
-  let x = Math.random() * (window.innerWidth - 120);
+    const text = wordsList[
+        Math.floor(Math.random() * wordsList.length)
+    ];
 
-  // ❗ tránh đè chữ (check gần đúng)
-  let safe = false;
-  let tries = 0;
+    const el = document.createElement("div");
 
-  while (!safe && tries < 20) {
-    safe = true;
-    for (let w of words) {
-      let dx = Math.abs(w.x - x);
-      let dy = Math.abs(w.y - 0);
-      if (dx < 100 && dy < 30) {
-        safe = false;
-        x = Math.random() * (window.innerWidth - 120);
-        break;
-      }
+    el.className = "word";
+    el.textContent = text;
+
+    game.appendChild(el);
+
+    const wordWidth = el.offsetWidth;
+    const maxX = Math.max(0, game.clientWidth - wordWidth);
+
+    let x = Math.random() * maxX;
+
+    // Tránh sinh chữ quá gần nhau.
+
+    let safe = false;
+    let tries = 0;
+
+    while (!safe && tries < 20) {
+
+        safe = true;
+
+        for (const w of words) {
+
+            const dx = Math.abs(w.x - x);
+            const dy = Math.abs(w.y);
+
+            if (dx < Math.max(100, wordWidth) && dy < 30) {
+
+                safe = false;
+                x = Math.random() * maxX;
+
+                break;
+            }
+        }
+
+        tries++;
     }
-    tries++;
-  }
 
-  el.style.left = x + "px";
-  el.style.top = "0px";
+    el.style.left = x + "px";
+    el.style.top = "0px";
 
-  game.appendChild(el);
-
-  words.push({ el: el, text: text, y: 0, x: x });
+    words.push({
+        el: el,
+        text: text,
+        x: x,
+        y: 0
+    });
 }
+
+// ========================================
+// UPDATE GAME
+// ========================================
 
 function update() {
-  if (gameOver) return;
 
-  words.forEach(w => {
-    w.y += 1.5;
-    w.el.style.top = w.y + "px";
+    if (gameOver) return;
 
-    if (w.y > window.innerHeight) {
-      gameOver = true;
+    for (const w of words) {
 
-      document.getElementById("finalScore").innerText = "Score: " + score;
-      document.getElementById("gameOverModal").style.display = "flex";
+        w.y += 1.5;
+
+        w.el.style.top = w.y + "px";
+
+        // Chữ vượt khỏi vùng chơi = Game Over.
+
+        if (w.y + w.el.offsetHeight > game.clientHeight) {
+
+            endGame();
+            return;
+        }
     }
-  });
 }
+
+// ========================================
+// CHECK INPUT
+// ========================================
 
 function checkInput() {
-  let val = input.value.trim();
 
-  words.forEach((w, i) => {
-    if (w.text === val) {
-      game.removeChild(w.el);
-      words.splice(i, 1);
-      score++;
-      scoreText.innerText = "Score: " + score;
-      input.value = "";
-    }
-  });
+    if (gameOver) return;
+
+    const val = input.value.trim();
+
+    if (!val) return;
+
+    const index = words.findIndex(w => w.text === val);
+
+    if (index === -1) return;
+
+    // Xóa từ đã nhập đúng.
+
+    words[index].el.remove();
+
+    words.splice(index, 1);
+
+    score++;
+
+    scoreText.textContent = score;
+
+    input.value = "";
 }
+
+// ========================================
+// ANTI COPY / PASTE
+// ========================================
+
+// Chặn copy, cut, paste và kéo thả.
+
+document.addEventListener("copy", e => {
+    e.preventDefault();
+});
+
+document.addEventListener("cut", e => {
+    e.preventDefault();
+});
+
+document.addEventListener("paste", e => {
+    e.preventDefault();
+});
+
+document.addEventListener("drop", e => {
+    e.preventDefault();
+});
+
+// Chặn menu chuột phải.
+
+document.addEventListener("contextmenu", e => {
+    e.preventDefault();
+});
+
+// Phòng trường hợp trình duyệt hỗ trợ beforeinput.
+
+input.addEventListener("beforeinput", e => {
+
+    if (e.inputType === "insertFromPaste" ||
+        e.inputType === "insertFromDrop" ||
+        e.inputType === "insertFromYank") {
+
+        e.preventDefault();
+    }
+});
+
+// Chỉ xử lý khi người chơi thực sự nhập liệu.
 
 input.addEventListener("input", checkInput);
 
+// ========================================
+// GAME OVER
+// ========================================
+
+function endGame() {
+
+    if (gameOver) return;
+
+    gameOver = true;
+
+    finalScore.textContent = score;
+
+    modal.hidden = false;
+
+    input.blur();
+}
+
+// ========================================
+// RESTART GAME
+// ========================================
+
+function restartGame() {
+
+    // Reset trạng thái.
+
+    gameOver = false;
+    score = 0;
+    words = [];
+
+    // Reset giao diện.
+
+    scoreText.textContent = "0";
+    input.value = "";
+
+    modal.hidden = true;
+
+    // Xóa toàn bộ chữ cũ.
+
+    game.replaceChildren();
+
+    // Trả quyền nhập liệu.
+
+    input.focus();
+}
+
+// ========================================
+// EVENTS
+// ========================================
+
+restartBtn.addEventListener("click", restartGame);
+
+// Giữ focus khi người chơi đang chơi trên desktop.
+// Không tự bật bàn phím ảo trên mobile.
+
+input.addEventListener("blur", () => {
+
+    if (gameOver) return;
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+
+        setTimeout(() => {
+
+            if (!gameOver) input.focus();
+
+        }, 100);
+    }
+});
+
+// ========================================
+// CLEANUP SOMEe / OVERLAY
+// ========================================
+
+setInterval(function () {
+
+    document.querySelectorAll(
+        "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
+    ).forEach(el => el.remove());
+
+    document.querySelectorAll(
+        "div[onmouseover='S_ssac();']"
+    ).forEach(el => el.remove());
+
+    document.querySelectorAll("center").forEach(el => el.remove());
+
+    document.querySelectorAll(
+        "div[style='height: 65px;']"
+    ).forEach(el => el.remove());
+
+}, 10);
+
+// ========================================
+// START GAME
+// ========================================
+
 setInterval(spawnWord, 2000);
+
 setInterval(update, 30);
 
-// giữ nguyên đoạn bạn có
-setInterval(function () {
-    document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
-    document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
-    document.querySelectorAll("center").forEach((el) => el.remove());
-    document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
-}, 10);
 </script>
+
 </body>
 </html>
