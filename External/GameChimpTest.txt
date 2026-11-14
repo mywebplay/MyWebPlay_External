@@ -22,7 +22,7 @@ section{width:100%;flex:1;min-height:0}
 #grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
 #grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
 #play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
-#info{display:flex;gap:14px;align-items:center;justify-content:center;width:100%;font-size:14px;min-height:26px;flex:none}
+#info{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%;font-size:14px;min-height:26px;flex:none}
 #board{flex:none}
 #msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
 #ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
@@ -37,16 +37,18 @@ section{width:100%;flex:1;min-height:0}
 .ch .fd{visibility:hidden}
 .ch .wr{background:#ef4444;color:#fff}
 .ch .rv{background:#86efac;color:#111;box-shadow:0 0 0 4px #22c55e}
-#tb2{height:8px;background:#334155;border-radius:4px;flex:1;max-width:260px;overflow:hidden}#tb2 i{display:block;height:100%;background:#22c55e;width:100%}
-
+#tb2{height:8px;background:#334155;border-radius:4px;flex:1;min-width:120px;max-width:260px;overflow:hidden}#tb2 i{display:block;height:100%;background:#22c55e;width:100%}
+.ord{color:#fbbf24;font-weight:700}
 </style></head><body>
 <div id="app">
 <header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🐵 Chimp Test</h1><span id="lv"></span></header>
-<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Nhớ vị trí các số rồi bấm theo thứ tự 1, 2, 3… khi chúng bị che. Sai quá số lượt cho phép là thua.</p></section>
+<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Nhớ vị trí các số rồi bấm theo thứ tự khi chúng bị che. Càng về sau càng nhiều số, thời gian ghi nhớ ngắn lại, ít lượt sai hơn, và có những màn phải bấm theo thứ tự ngược.</p></section>
 <section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
 <div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
 </div>
 <script>
+(function(){
+'use strict';
 const GAME={key:'chimp'};
 const MAX=100,KEY='gp_'+GAME.key;
 let prog=0,L=1,over=false;
@@ -54,9 +56,8 @@ try{prog=Math.min(MAX,+localStorage.getItem(KEY)||0)}catch(e){}
 const qs=s=>document.querySelector(s);
 const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
 const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
-const side=x=>Math.max(200,Math.min(innerWidth-20,innerHeight-215-(x||0),720));
 const setInfo=h=>{qs('#info').innerHTML=h},say=t=>{qs('#msg').textContent=t||''};
-const stop=()=>{if(typeof onStop=='function')onStop()};
+const stop=()=>{onStop()};
 function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=qs('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
 function menu(){
  stop();qs('#play').hidden=true;qs('#menu').hidden=false;qs('#md').hidden=true;
@@ -79,42 +80,58 @@ function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
 function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
 qs('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
 qs('#bk').onclick=menu;
-addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else if(typeof relayout=='function')relayout()});
+addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else relayout()});
 
-const CC=5,CR=6;
-let N,pos,next,hid,lives,tm,tid,rev,wr;
+/* ---------- game Chimp Test ---------- */
+let CC=5,CR=6,N,pos,seq,idx,found,desc,hid,lives,tm,tid,rev,wr;
+/* Độ khó tăng theo từng bước nhỏ:
+   - số lượng: 4 số lên 13 số, tăng 1 số sau mỗi 9 màn
+   - từ màn 6 có giới hạn thời gian ghi nhớ, rút ngắn dần từng màn (từ 1.1s/số xuống 0.4s/số)
+   - từ màn 60 chỉ còn 2 lượt sai (trước đó 3 lượt)
+   - từ màn 10 số lượng lớn hơn 9 thì bàn chơi rộng hơn (6x7) nên dễ nhầm vị trí hơn
+   - từ màn 50, các màn chia hết cho 5 phải bấm theo thứ tự GIẢM DẦN (N về 1) */
 function start(l){
- N=Math.min(11,4+Math.floor((l-1)/12.5));const R=rng(l*8123+5);
+ N=Math.min(13,4+Math.floor((l-1)/9));
+ CC=N>9?6:5;CR=N>9?7:6;
+ const R=rng(l*8123+5);
  const cells=[...Array(CC*CR).keys()].sort(()=>R()-.5).slice(0,N);pos={};cells.forEach((c,k)=>pos[c]=k+1);
- next=1;hid=false;rev=-1;wr=-1;lives=l>=80?2:3;
- tm=l<25?0:N*(.7-.4*Math.min(1,(l-25)/75));
+ desc=l>=50&&l%5==0;
+ seq=Array.from({length:N},(_,k)=>desc?N-k:k+1);
+ idx=0;found=new Set();hid=false;rev=-1;wr=-1;lives=l>=60?2:3;
+ tm=l<6?0:N*(1.1-.7*Math.min(1,(l-6)/94));
  const b=qs('#board');b.className='ch';
  b.innerHTML='<div></div>'.repeat(CC*CR);
  b.onpointerdown=e=>{const el=e.target.closest('#board>div');if(!el||over)return;tap([...b.children].indexOf(el))};
- relayout();clearTimeout(tid);
- setInfo('<span id="hr"></span>'+(tm?'<div id="tb2"><i></i></div>':''));
- if(tm){const t0=Date.now();clearInterval(tid);tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=qs('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
- draw();say(tm?'Ghi nhớ nhanh! Các số sẽ tự ẩn sau vài giây. Bấm theo thứ tự 1, 2, 3…':'Bấm số 1 trước, các số còn lại sẽ bị che. Hãy nhớ vị trí và bấm theo thứ tự.');
+ relayout();clearInterval(tid);
+ setInfo('<span id="hr"></span><span class="ord">'+(desc?'Thứ tự: '+N+' → 1 (NGƯỢC)':'Thứ tự: 1 → '+N)+'</span>'+(tm?'<div id="tb2"><i></i></div>':''));
+ if(tm){const t0=Date.now();tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=qs('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
+ draw();
+ const first=desc?N:1;
+ say(desc?'Màn đặc biệt: bấm theo thứ tự GIẢM DẦN, bắt đầu từ số '+N+' rồi '+(N-1)+', … về 1.'
+   :tm?'Ghi nhớ nhanh! Các số sẽ tự ẩn sau vài giây. Bấm theo thứ tự 1, 2, 3…'
+   :'Bấm số 1 trước, các số còn lại sẽ bị che. Hãy nhớ vị trí và bấm theo thứ tự.');
 }
-function onStop(){clearInterval(tid);clearTimeout(tid)}
-function relayout(){const b=qs('#board');if(!b.classList.contains('ch'))return;const z=Math.floor(Math.min((innerWidth-24)/CC,(innerHeight-215)/CR,76));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
+function onStop(){clearInterval(tid)}
+function relayout(){const b=qs('#board');if(!b.classList.contains('ch'))return;const aw=Math.min(innerWidth-20,720)-(CC-1)*6,ah=innerHeight-225-(CR-1)*6,z=Math.max(24,Math.floor(Math.min(aw/CC,ah/CR,76)));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
 function hide(){if(!hid&&!over){hid=true;draw()}}
 function draw(){
  const cs=qs('#board').children;
  for(let i=0;i<CC*CR;i++){const v=pos[i],e=cs[i];
   if(!v){e.className='';e.textContent='';continue}
-  e.className='n'+(v<next?' fd':'')+(hid&&i!=rev?' hd':'')+(i==wr?' wr':'')+(i==rev?' rv':'');e.textContent=v}
- qs('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+(next-1)+'/'+N;
+  e.className='n'+(found.has(v)?' fd':'')+(hid&&i!=rev?' hd':'')+(i==wr?' wr':'')+(i==rev?' rv':'');e.textContent=v}
+ qs('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+idx+'/'+N;
 }
 function tap(i){
- const v=pos[i];if(!v||v<next)return;
- if(v==next){wr=-1;rev=-1;next++;say('');if(next==2)hide();draw();if(next>N)win('Bạn nhớ đúng cả '+N+' số!');return}
+ const v=pos[i];if(!v||found.has(v))return;
+ const want=seq[idx];
+ if(v==want){wr=-1;rev=-1;found.add(v);idx++;say('');if(idx==1)hide();draw();if(idx>=N)win('Bạn nhớ đúng cả '+N+' số!');return}
  lives--;wr=i;
- const ci=+Object.keys(pos).find(k=>pos[k]==next);rev=ci;draw();
- if(lives<=0){fail('Hết lượt sai. Số cần bấm tiếp theo là '+next+' (ô xanh).');return}
- say('Sai rồi! Ô xanh mới là số '+next+'. Còn '+lives+' lượt sai.');
+ const ci=+Object.keys(pos).find(k=>pos[k]==want);rev=ci;draw();
+ if(lives<=0){fail('Hết lượt sai. Số cần bấm tiếp theo là '+want+' (ô xanh).');return}
+ say('Sai rồi! Ô xanh mới là số '+want+'. Còn '+lives+' lượt sai.');
  setTimeout(()=>{if(over)return;wr=-1;rev=-1;draw()},1300);
 }
 
 menu();
+})();
 </script></body></html>
