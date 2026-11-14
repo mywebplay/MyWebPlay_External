@@ -1,203 +1,937 @@
+
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow">
-  <title>Cờ caro - MyWebPlay</title>
-  <style>
-    :root{ --header-h:64px; --footer-h:44px; --cols:20; --rows:20; }
-    html,body{height:100%;margin:0;padding:0;background:#f1f5f9;color:#111;overflow:hidden;font-family:Inter, system-ui, Arial}
-    .app{height:100vh;display:flex;flex-direction:column}
-    header{height:var(--header-h);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#0ea5e9;text-shadow:1px 1px 2px rgba(0,0,0,0.2)}
-    main{flex:1;display:grid;align-items:stretch;justify-items:stretch;padding:8px}
-    footer{height:var(--footer-h);display:flex;align-items:center;justify-content:center;gap:12px;font-size:14px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Cờ caro - MyWebPlay</title>
 
-    #board{width:100%;height:100%;display:grid;grid-template-columns:repeat(var(--cols),1fr);grid-auto-rows:1fr;gap:4px;background:#cbd5e1;padding:4px;border-radius:8px}
-    .cell{appearance:none;border-radius:6px;border:1px solid #94a3b8;background:#f8fafc;font-size:clamp(10px,2.4vmin,28px);display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;padding:0;transition:background 0.2s, box-shadow 0.2s}
-    .cell:hover{background:#e2e8f0;box-shadow:0 0 4px rgba(0,0,0,0.15) inset}
-    .cell:focus{outline:2px solid #60a5fa}
+<style>
+:root {
+    --header-h: 56px;
+    --footer-h: 42px;
+    --cols: 20;
+    --rows: 20;
+    --board-gap: 2px;
+}
 
-    .p1{color:#0ea5e9}
-    .p2{color:#ef4444}
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    .player{opacity:.4;transition:opacity .18s,transform .18s}
-    .player.active{opacity:1;transform:scale(1.03)}
+[hidden] {
+    display: none !important;
+}
 
-    .cell.win{box-shadow:0 0 8px 3px gold inset; border-color:gold; animation:blink 0.6s infinite alternate}
-    @keyframes blink { from{background:#fef9c3} to{background:#fde047} }
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #f1f5f9;
+    color: #111827;
+    font-family: Inter, system-ui, Arial, sans-serif;
+    overscroll-behavior: none;
+}
 
-    .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);backdrop-filter: blur(4px);z-index:60}
-    .overlay.show{display:flex}
-    .modal{background:#fff;padding:28px;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;color:#111}
-    .modal h2{margin:0 0 8px;font-size:22px;color:#0ea5e9}
-    .modal p{margin:8px 0}
-    .btn{border:0;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600}
-    .btn.primary{background:linear-gradient(90deg,#06b6d4,#60a5fa);color:#fff}
+body {
+    height: 100vh;
+    height: 100dvh;
+}
 
-    .hint{font-size:12px}
+button {
+    font: inherit;
+}
 
-    #fxCanvas{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:55}
+.app {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
-    @media (max-width:520px){:root{--cols:15;--rows:15}}
-  </style>
+/* HEADER */
+
+header {
+    flex: 0 0 var(--header-h);
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    font-weight: 800;
+    font-size: clamp(14px, 2.5vmin, 20px);
+    color: deeppink;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 2px #0003;
+}
+
+/* MAIN */
+
+main {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4px;
+}
+
+/* BOARD */
+
+#board {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+    gap: var(--board-gap);
+    background: #cbd5e1;
+    padding: 3px;
+    border-radius: 8px;
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.cell {
+    appearance: none;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #94a3b8;
+    border-radius: 3px;
+    background: #f8fafc;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: clamp(8px, 2.2vmin, 24px);
+    font-weight: 800;
+    line-height: 1;
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+
+    transition: background .12s, box-shadow .12s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cell:not(:disabled):hover {
+        background: #e2e8f0;
+        box-shadow: inset 0 0 4px #0002;
+    }
+}
+
+.cell:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: -2px;
+}
+
+.p1 {
+    color: #0ea5e9;
+}
+
+.p2 {
+    color: #ef4444;
+}
+
+.cell.win {
+    box-shadow: inset 0 0 8px 3px gold;
+    border-color: gold;
+    animation: blink .6s infinite alternate;
+}
+
+@keyframes blink {
+    from { background: #fef9c3; }
+    to { background: #fde047; }
+}
+
+/* FOOTER */
+
+footer {
+    flex: 0 0 var(--footer-h);
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(6px, 2vw, 16px);
+    padding: 0 6px;
+    overflow: hidden;
+    font-size: clamp(10px, 2.2vmin, 14px);
+}
+
+.player {
+    opacity: .4;
+    transition: opacity .18s, transform .18s;
+    white-space: nowrap;
+}
+
+.player.active {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+.player.p1 {
+    color: #0ea5e9;
+}
+
+.player.p2 {
+    color: #ef4444;
+}
+
+.hint {
+    color: #94a3b8;
+}
+
+/* MODAL */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: max(12px, env(safe-area-inset-top))
+             max(12px, env(safe-area-inset-right))
+             max(12px, env(safe-area-inset-bottom))
+             max(12px, env(safe-area-inset-left));
+
+    background: #0008;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    overflow-y: auto;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: min(100%, 360px);
+    max-height: 100%;
+    overflow-y: auto;
+    padding: clamp(18px, 4vmin, 28px);
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 10px 40px #0004;
+    text-align: center;
+    color: #111;
+}
+
+.modal h2 {
+    margin: 0 0 8px;
+    font-size: clamp(18px, 4vmin, 22px);
+    color: #0ea5e9;
+}
+
+.modal p {
+    margin: 8px 0;
+    font-size: clamp(13px, 2.5vmin, 16px);
+}
+
+.btn {
+    border: 0;
+    padding: 11px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    touch-action: manipulation;
+}
+
+.btn.primary {
+    background: linear-gradient(90deg, #06b6d4, #60a5fa);
+    color: white;
+}
+
+.btn:active {
+    transform: scale(.97);
+}
+
+/* FIREWORKS */
+
+#fxCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 55;
+}
+
+/* COMPACT SCREEN */
+
+@media (max-height: 500px) {
+    :root {
+        --header-h: 36px;
+        --footer-h: 32px;
+    }
+
+    main {
+        padding: 2px;
+    }
+
+    #board {
+        padding: 2px;
+        gap: 1px;
+    }
+
+    .cell {
+        font-size: clamp(7px, 2vmin, 16px);
+    }
+}
+
+@media (max-width: 520px) {
+    :root {
+        --cols: 15;
+        --rows: 15;
+        --board-gap: 2px;
+    }
+
+    header {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 350px) {
+    :root {
+        --header-h: 42px;
+        --footer-h: 34px;
+    }
+
+    footer {
+        gap: 5px;
+        font-size: 10px;
+    }
+
+    #board {
+        padding: 2px;
+        gap: 1px;
+    }
+}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <header style="color:deeppink">Cờ caro - MyWebPlay</header>
-    <main>
-      <div id="board" role="grid" aria-label="Bàn cờ caro"></div>
+
+<div class="app">
+
+    <header>Cờ caro - MyWebPlay</header>
+
+    <main id="mainArea">
+        <div id="board" role="grid" aria-label="Bàn cờ caro"></div>
     </main>
+
     <footer>
-      <div id="p1label" class="player p1 active"><b>● Người chơi 1</b></div>
-      <div class="hint">|</div>
-      <div id="p2label" class="player p2"><b>● Người chơi 2</b></div>
+        <div id="p1label" class="player p1 active">
+            <b>● Người chơi 1</b>
+        </div>
+
+        <div class="hint">|</div>
+
+        <div id="p2label" class="player p2">
+            <b>● Người chơi 2</b>
+        </div>
     </footer>
-  </div>
 
-  <canvas id="fxCanvas"></canvas>
+</div>
 
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true">
+<canvas id="fxCanvas"></canvas>
+
+<div id="overlay" class="overlay" role="dialog" aria-modal="true">
     <div class="modal">
-      <h2 id="modalTitle">Chúc mừng</h2>
-      <p id="modalMsg">Người chơi x thắng!</p>
-      <div style="margin-top:14px">
-        <button id="restartBtn" class="btn primary">Chơi lại</button>
-      </div>
+        <h2 id="modalTitle">Chúc mừng</h2>
+        <p id="modalMsg">Người chơi x thắng!</p>
+
+        <div style="margin-top:14px">
+            <button id="restartBtn" class="btn primary">
+                Chơi lại
+            </button>
+        </div>
     </div>
-  </div>
+</div>
 
-  <script>
-// Delete div somee
-     setInterval(function () {
-              document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
-              document.querySelectorAll("div[onmouseover='S_ssac();']").forEach((el) => el.remove());
-              document.querySelectorAll("center").forEach((el) => el.remove());
-              document.querySelectorAll("div[style='height: 65px;']").forEach((el) => el.remove());
-          }, 10);
+<script>
 
-    const COLS = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cols')) || 20;
-    const ROWS = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--rows')) || 20;
-    const winLen = 5;
+// ========================================
+// REMOVE SOMEE ELEMENTS
+// ========================================
 
-    let board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-    let cur = 1;
-    let finished = false;
+setInterval(function () {
+    document.querySelectorAll(
+        "div[style*='opacity: 0.9'][style*='z-index: 2147483647']"
+    ).forEach(el => el.remove());
 
-    const boardEl = document.getElementById('board');
-    const p1label = document.getElementById('p1label');
-    const p2label = document.getElementById('p2label');
-    const overlay = document.getElementById('overlay');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMsg = document.getElementById('modalMsg');
-    const restartBtn = document.getElementById('restartBtn');
-    const fxCanvas = document.getElementById('fxCanvas');
+    document.querySelectorAll(
+        "div[onmouseover='S_ssac();']"
+    ).forEach(el => el.remove());
 
-    boardEl.style.setProperty('--cols', COLS);
-    boardEl.style.gridTemplateColumns = `repeat(${COLS},1fr)`;
+    document.querySelectorAll("center").forEach(el => el.remove());
 
-    function createBoard(){
-      boardEl.innerHTML='';
-      for(let r=0;r<ROWS;r++){
-        for(let c=0;c<COLS;c++){
-          const b = document.createElement('button');
-          b.className='cell';
-          b.setAttribute('data-r',r);
-          b.setAttribute('data-c',c);
-          b.setAttribute('aria-label',`Ô ${r+1}-${c+1}`);
-          b.addEventListener('click',onCellClick);
-          b.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); b.click(); } });
-          boardEl.appendChild(b);
+    document.querySelectorAll(
+        "div[style='height: 65px;']"
+    ).forEach(el => el.remove());
+
+}, 10);
+
+// ========================================
+// CONFIG
+// ========================================
+
+const COLS = parseInt(
+    getComputedStyle(document.documentElement)
+        .getPropertyValue('--cols')
+) || 20;
+
+const ROWS = parseInt(
+    getComputedStyle(document.documentElement)
+        .getPropertyValue('--rows')
+) || 20;
+
+const winLen = 5;
+
+// ========================================
+// GAME STATE
+// ========================================
+
+let board = Array.from(
+    { length: ROWS },
+    () => Array(COLS).fill(0)
+);
+
+let cur = 1;
+let finished = false;
+
+// ========================================
+// ELEMENTS
+// ========================================
+
+const boardEl = document.getElementById('board');
+const mainArea = document.getElementById('mainArea');
+
+const p1label = document.getElementById('p1label');
+const p2label = document.getElementById('p2label');
+
+const overlay = document.getElementById('overlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalMsg = document.getElementById('modalMsg');
+
+const restartBtn = document.getElementById('restartBtn');
+const fxCanvas = document.getElementById('fxCanvas');
+
+// ========================================
+// RESPONSIVE BOARD
+// ========================================
+
+function resizeBoard() {
+
+    const rect = mainArea.getBoundingClientRect();
+
+    const availableW = Math.max(0, rect.width - 8);
+    const availableH = Math.max(0, rect.height - 8);
+
+    // Bàn cờ luôn vuông và không vượt khỏi vùng chứa.
+
+    const size = Math.floor(
+        Math.min(availableW, availableH)
+    );
+
+    if (size <= 0) return;
+
+    boardEl.style.width = size + 'px';
+    boardEl.style.height = size + 'px';
+
+    // Điều chỉnh khoảng cách theo kích thước thực tế.
+
+    const gap = size < 300 ? 1 : size < 500 ? 2 : 3;
+
+    boardEl.style.gap = gap + 'px';
+}
+
+// Theo dõi cả kích thước iframe/container,
+// không chỉ phụ thuộc vào window.resize.
+
+let resizeObserver = null;
+
+if (typeof ResizeObserver !== 'undefined') {
+
+    resizeObserver = new ResizeObserver(() => {
+        resizeBoard();
+    });
+
+    resizeObserver.observe(mainArea);
+}
+
+window.addEventListener('resize', () => {
+    resizeBoard();
+    setupCanvas();
+});
+
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+        resizeBoard();
+        setupCanvas();
+    }, 100);
+});
+
+// ========================================
+// CREATE BOARD
+// ========================================
+
+function createBoard() {
+
+    boardEl.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
+
+    for (let r = 0; r < ROWS; r++) {
+
+        for (let c = 0; c < COLS; c++) {
+
+            const b = document.createElement('button');
+
+            b.type = 'button';
+            b.className = 'cell';
+
+            b.setAttribute('data-r', r);
+            b.setAttribute('data-c', c);
+
+            b.setAttribute(
+                'aria-label',
+                `Ô ${r + 1}-${c + 1}`
+            );
+
+            b.addEventListener('click', onCellClick);
+
+            fragment.appendChild(b);
         }
-      }
     }
 
-    function updateLabels(){
-      if(cur===1){ p1label.classList.add('active'); p2label.classList.remove('active'); }
-      else { p2label.classList.add('active'); p1label.classList.remove('active'); }
+    boardEl.appendChild(fragment);
+
+    resizeBoard();
+}
+
+// ========================================
+// PLAYER LABELS
+// ========================================
+
+function updateLabels() {
+
+    if (cur === 1) {
+
+        p1label.classList.add('active');
+        p2label.classList.remove('active');
+
+    } else {
+
+        p2label.classList.add('active');
+        p1label.classList.remove('active');
     }
+}
 
-    function onCellClick(e){
-      if(finished) return;
-      const r = +this.dataset.r; const c = +this.dataset.c;
-      if(board[r][c]!==0) return;
-      board[r][c]=cur;
-      this.classList.add(cur===1? 'p1':'p2');
-      this.textContent = cur===1? '✕' : '◯';
+// ========================================
+// CELL CLICK
+// ========================================
 
-      const winCells = checkWin(r,c,cur);
-      if(winCells){
-        for(const [rr,cc] of winCells){
-          const idx = rr*COLS+cc;
-          boardEl.children[idx].classList.add('win');
+function onCellClick() {
+
+    if (finished) return;
+
+    const r = +this.dataset.r;
+    const c = +this.dataset.c;
+
+    if (board[r][c] !== 0) return;
+
+    board[r][c] = cur;
+
+    this.classList.add(cur === 1 ? 'p1' : 'p2');
+
+    this.textContent = cur === 1 ? '✕' : '◯';
+
+    const winCells = checkWin(r, c, cur);
+
+    if (winCells) {
+
+        for (const [rr, cc] of winCells) {
+
+            const idx = rr * COLS + cc;
+
+            boardEl.children[idx].classList.add('win');
         }
+
         finished = true;
-        setTimeout(()=>{
-          showWin(cur);
-          startFireworks();
+
+        setTimeout(() => {
+
+            showWin(cur);
+            startFireworks();
+
         }, 800);
+
         return;
-      }
-
-      cur = cur===1?2:1;
-      updateLabels();
     }
 
-    function checkWin(r,c,p){
-      const dirs = [[1,0],[0,1],[1,1],[1,-1]];
-      for(const [dr,dc] of dirs){
-        let count=1;
-        const cells=[[r,c]];
-        let rr=r+dr, cc=c+dc;
-        while(inBounds(rr,cc) && board[rr][cc]===p){ cells.push([rr,cc]); count++; rr+=dr; cc+=dc }
-        rr=r-dr; cc=c-dc;
-        while(inBounds(rr,cc) && board[rr][cc]===p){ cells.unshift([rr,cc]); count++; rr-=dr; cc-=dc }
-        if(count>=winLen) return cells.slice(0);
-      }
-      return null;
+    cur = cur === 1 ? 2 : 1;
+
+    updateLabels();
+}
+
+// ========================================
+// CHECK WIN
+// ========================================
+
+function checkWin(r, c, p) {
+
+    const dirs = [
+        [1, 0],
+        [0, 1],
+        [1, 1],
+        [1, -1]
+    ];
+
+    for (const [dr, dc] of dirs) {
+
+        let count = 1;
+
+        const cells = [[r, c]];
+
+        let rr = r + dr;
+        let cc = c + dc;
+
+        while (
+            inBounds(rr, cc) &&
+            board[rr][cc] === p
+        ) {
+
+            cells.push([rr, cc]);
+
+            count++;
+
+            rr += dr;
+            cc += dc;
+        }
+
+        rr = r - dr;
+        cc = c - dc;
+
+        while (
+            inBounds(rr, cc) &&
+            board[rr][cc] === p
+        ) {
+
+            cells.unshift([rr, cc]);
+
+            count++;
+
+            rr -= dr;
+            cc -= dc;
+        }
+
+        if (count >= winLen) {
+            return cells;
+        }
     }
-    function inBounds(r,c){ return r>=0 && r<ROWS && c>=0 && c<COLS }
 
-    function showWin(player){
-      modalTitle.innerHTML = 'Chúc mừng';
-      modalMsg.innerHTML = `Người chơi ${player} thắng!`;
-      overlay.classList.add('show');
+    return null;
+}
+
+function inBounds(r, c) {
+
+    return (
+        r >= 0 &&
+        r < ROWS &&
+        c >= 0 &&
+        c < COLS
+    );
+}
+
+// ========================================
+// WIN MODAL
+// ========================================
+
+function showWin(player) {
+
+    modalTitle.textContent = 'Chúc mừng';
+
+    modalMsg.textContent =
+        `Người chơi ${player} thắng!`;
+
+    overlay.classList.add('show');
+}
+
+// ========================================
+// RESET GAME
+// ========================================
+
+function resetGame() {
+
+    board = Array.from(
+        { length: ROWS },
+        () => Array(COLS).fill(0)
+    );
+
+    finished = false;
+    cur = 1;
+
+    updateLabels();
+
+    for (const cell of boardEl.children) {
+
+        cell.className = 'cell';
+        cell.textContent = '';
     }
 
-    restartBtn.addEventListener('click',()=>{ resetGame(); stopFireworks(); overlay.classList.remove('show'); });
+    modalTitle.textContent = 'Chúc mừng';
+    modalMsg.textContent = 'Người chơi x thắng!';
 
-    function resetGame(){
-      board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-      finished=false; cur=1; updateLabels();
-      for(const cell of boardEl.children){ cell.className='cell'; cell.textContent=''; }
+    resizeBoard();
+}
+
+restartBtn.addEventListener('click', () => {
+
+    resetGame();
+
+    stopFireworks();
+
+    overlay.classList.remove('show');
+});
+
+// ========================================
+// FIREWORKS CANVAS
+// ========================================
+
+let ctx;
+let W = 0;
+let H = 0;
+let dpr = 1;
+
+let particles = [];
+let animId = null;
+
+// ========================================
+// CANVAS RESPONSIVE
+// ========================================
+
+function setupCanvas() {
+
+    dpr = Math.min(window.devicePixelRatio || 1, 3);
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    fxCanvas.style.width = W + 'px';
+    fxCanvas.style.height = H + 'px';
+
+    fxCanvas.width = Math.round(W * dpr);
+    fxCanvas.height = Math.round(H * dpr);
+
+    ctx = fxCanvas.getContext('2d');
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+// ========================================
+// START FIREWORKS
+// ========================================
+
+function startFireworks() {
+
+    if (!ctx) setupCanvas();
+
+    particles = [];
+
+    for (let i = 0; i < 8; i++) {
+
+        launch(
+            Math.random() * W * 0.8 + W * 0.1,
+            Math.random() * H * 0.4 + H * 0.2
+        );
     }
 
-    let ctx, W, H, particles=[], animId=null;
-    function setupCanvas(){
-      fxCanvas.width = innerWidth; fxCanvas.height = innerHeight;
-      W = fxCanvas.width; H = fxCanvas.height; ctx = fxCanvas.getContext('2d');
+    if (!animId) {
+        animId = requestAnimationFrame(loop);
     }
-    window.addEventListener('resize',()=>{ setupCanvas(); });
+}
 
-    function startFireworks(){ if(!ctx) setupCanvas(); particles = []; for(let i=0;i<8;i++) launch(Math.random()*W*0.8+W*0.1, Math.random()*H*0.4+H*0.2); if(!animId) animId = requestAnimationFrame(loop); }
-    function stopFireworks(){ if(animId){ cancelAnimationFrame(animId); animId=null; } ctx && ctx.clearRect(0,0,W,H); }
+// ========================================
+// STOP FIREWORKS
+// ========================================
 
-    function launch(x,y){
-      const hue = Math.random()*360;
-      for(let i=0;i<80;i++){
-        const angle = Math.random()*Math.PI*2;
-        const speed = Math.random()*4+1;
-        particles.push({x,y,vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed, life:Math.random()*60+30, age:0, hue});
-      }
-    }
+function stopFireworks() {
 
-    function loop(){ ctx.clearRect(0,0,W,H); for(let i=particles.length-1;i>=0;i--){ const p = particles[i]; p.x+=p.vx; p.y+=p.vy; p.vy += 0.04; p.age++; const alpha = Math.max(0,1 - p.age/p.life); ctx.globalAlpha = alpha; ctx.beginPath(); ctx.arc(p.x,p.y,Math.max(1, 2 - p.age/30),0,Math.PI*2); ctx.fillStyle = `hsl(${p.hue} ${Math.floor(50+alpha*50)}% ${Math.floor(50)}%)`; ctx.fill(); if(p.age>p.life) particles.splice(i,1); }
-      if(particles.length>0) animId = requestAnimationFrame(loop); else animId = null;
+    if (animId) {
+
+        cancelAnimationFrame(animId);
+
+        animId = null;
     }
 
-    createBoard(); updateLabels(); setupCanvas();
-    boardEl.addEventListener('dblclick',()=>{ if(confirm('Chơi lại?')){ resetGame(); stopFireworks(); overlay.classList.remove('show'); } });
-    document.addEventListener('keydown',(e)=>{ if(e.key==='r'){ resetGame(); stopFireworks(); overlay.classList.remove('show'); } });
-  </script>
+    particles = [];
+
+    if (ctx) {
+
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.globalAlpha = 1;
+    }
+}
+
+// ========================================
+// PARTICLE
+// ========================================
+
+function launch(x, y) {
+
+    const hue = Math.random() * 360;
+
+    for (let i = 0; i < 80; i++) {
+
+        const angle = Math.random() * Math.PI * 2;
+
+        const speed = Math.random() * 4 + 1;
+
+        particles.push({
+
+            x,
+            y,
+
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+
+            life: Math.random() * 60 + 30,
+            age: 0,
+
+            hue
+        });
+    }
+}
+
+// ========================================
+// ANIMATION LOOP
+// ========================================
+
+function loop() {
+
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+
+        const p = particles[i];
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.vy += 0.04;
+
+        p.age++;
+
+        const alpha = Math.max(
+            0,
+            1 - p.age / p.life
+        );
+
+        ctx.globalAlpha = alpha;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            Math.max(1, 2 - p.age / 30),
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `hsl(${p.hue} ${Math.floor(50 + alpha * 50)}% 50%)`;
+
+        ctx.fill();
+
+        if (p.age > p.life) {
+            particles.splice(i, 1);
+        }
+    }
+
+    ctx.globalAlpha = 1;
+
+    if (particles.length > 0) {
+
+        animId = requestAnimationFrame(loop);
+
+    } else {
+
+        animId = null;
+    }
+}
+
+// ========================================
+// RESTART SHORTCUT
+// ========================================
+
+document.addEventListener('keydown', e => {
+
+    if (
+        e.key.toLowerCase() === 'r' &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        !e.metaKey
+    ) {
+
+        if (e.target && e.target.isContentEditable) return;
+
+        resetGame();
+
+        stopFireworks();
+
+        overlay.classList.remove('show');
+    }
+});
+
+// ========================================
+// DOUBLE CLICK RESTART
+// ========================================
+
+boardEl.addEventListener('dblclick', () => {
+
+    if (confirm('Chơi lại?')) {
+
+        resetGame();
+
+        stopFireworks();
+
+        overlay.classList.remove('show');
+    }
+});
+
+// ========================================
+// INIT
+// ========================================
+
+createBoard();
+
+updateLabels();
+
+setupCanvas();
+
+</script>
+
 </body>
 </html>
