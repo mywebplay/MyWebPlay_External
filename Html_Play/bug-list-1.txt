@@ -215,10 +215,18 @@ function showPart() {
 
 var params = new URLSearchParams(window.location.search);
 
+// giá trị mặc định khi thiếu param
+var defaults = {
+  textbox: "false",
+  root: "false",   // đổi nếu mặc định của bạn là "true"
+  encode: "false", // đổi nếu mặc định của bạn là "true"
+};
+
+var getParam = (name) => params.get(name) || defaults[name];
 var allowDownload =
-  params.get("textbox") === "false" &&
-  params.get("root") === "true" &&
-  params.get("encode") === "true";
+  getParam("textbox") === "false" &&
+  getParam("root") === "true" &&
+  getParam("encode") === "true";
 
 var dlCsv = document.getElementById("dlCsv");
 
