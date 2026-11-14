@@ -185,6 +185,7 @@ function buildBoxes(){
  for(var k=0;k<N;k++){var el=document.createElement('div');el.className='box';el.textContent=letters[k];wrap.appendChild(el);boxEls.push(el)}
  var tries=0,target=letters.join('');
  do{slotOf=randPerm(N);tries++}while(N>1&&tries<40&&shown(slotOf)===target);
+ if(N>1)slotOf=fixTarget(slotOf);
 }
 /* hàng ô đoán: một dải liền, không tách từ (để người chơi không đoán được số chữ của từng từ) */
 function layoutRow(){
@@ -209,22 +210,32 @@ function relayoutNow(){
 }
 
 /* ---------- trộn hộp ---------- */
+/* nếu cách xếp đang trùng đáp án thì đổi chỗ 2 ô khác chữ nhau, để các hộp không bao giờ "vô tình đúng" */
+function fixTarget(sl){
+ if(shown(sl)!==letters.join(''))return sl;
+ for(var a=0;a<N;a++)for(var b=a+1;b<N;b++)if(letters[a]!==letters[b]){var t=sl[a];sl[a]=sl[b];sl[b]=t;return sl}
+ return sl;
+}
 function fullShuffle(){
  if(N<2)return;
  var old=slotOf.slice(),np,tries=0;
  do{np=randPerm(N);tries++}while(tries<20&&shown(np)===shown(old));
+ np=fixTarget(np);
  slotOf=np;for(var k=0;k<N;k++)if(old[k]!==np[k])hop(k);
  applyPos();
 }
 function swapSome(){
  if(N<2)return;
- var m=(N>=3&&Math.random()<.35)?3:2,ks,tries=0,ok;
+ var m=(N>=3&&Math.random()<.35)?3:2,ks,tries=0,ok,sl,rot,nsl,tg=letters.join('');
  do{
   ks=randPerm(N).slice(0,m);
   ok=false;for(var i=1;i<ks.length;i++)if(letters[ks[i]]!==letters[ks[0]])ok=true;
+  sl=ks.map(function(k){return slotOf[k]});rot=sl.slice(1).concat(sl[0]);
+  nsl=slotOf.slice();ks.forEach(function(k,i){nsl[k]=rot[i]});
+  if(shown(nsl)===tg)ok=false;
   tries++;
  }while(!ok&&tries<15);
- var sl=ks.map(function(k){return slotOf[k]}),rot=sl.slice(1).concat(sl[0]);
+ if(shown(nsl)===tg)return;
  ks.forEach(function(k,i){slotOf[k]=rot[i];hop(k)});
  applyPos();
 }
