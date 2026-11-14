@@ -297,8 +297,8 @@ var MINIGAME_LIST = [
 		"Enabled": false
 	},
 	{
-		"Key": "/game-noi-tu",
-		"Name": "Game nối từ",
+		"Key": "/game-tim-tu-khoa-bi-mat",
+		"Name": "Game tìm từ khoá bí mật",
 		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
 		"Enabled": false
 	},
