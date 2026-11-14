@@ -334,7 +334,7 @@ function buildKb(){
  var h='<div class="kr kc">'+CONS.slice(0,9).map(function(c){return keyBtn(c)}).join('')+'</div>';
  h+='<div class="kr k8">'+CONS.slice(9).map(function(c){return keyBtn(c)}).join('')+'</div>';
  h+='<div class="kr k6">'+Object.keys(VOW).map(function(v){return '<button class="k" tabindex="-1" data-l="'+v+'" data-v="'+v+'">'+v+'</button>'}).join('')+'</div>';
- h+='<div class="kr k2"><button class="k d" tabindex="-1" data-a="del">⌫ Xoá</button><button class="k d" tabindex="-1" data-a="clr">🗑 Xoá hết</button></div>';
+ h+='<div class="kr k2"><button class="k d" tabindex="-1" data-a="clr">🗑 Xoá hết</button><button class="k d" tabindex="-1" data-a="del">⌫ Xoá</button></div>';
  var kb=qs('#kb');kb.innerHTML=h;
  kb.addEventListener('mousedown',function(e){e.preventDefault()});
  kb.addEventListener('contextmenu',function(e){e.preventDefault()});
