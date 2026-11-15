@@ -323,7 +323,7 @@ var MINIGAME_LIST = [
 	{
 		"Key": "/game-oan-tu-xi",
 		"Name": "Game oẳn tù xì"
-		"Image": "https://vtitech.vn/wp-content/uploads/2021/08/102_one_two_three_game.webp,
+		"Image": "https://vtitech.vn/wp-content/uploads/2021/08/102_one_two_three_game.webp",
 		"Enabled": false
 	},
 	{
