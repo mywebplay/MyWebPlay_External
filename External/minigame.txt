@@ -111,7 +111,7 @@
   .card.disabled .thumb img { filter: grayscale(1) brightness(.85); }
   .card.disabled .name { color: #8a8a8a; }
   .card.disabled .thumb::after {
-    content: "Chưa triển khai";
+    content: "Chưa phát hành";
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%) rotate(-12deg);
