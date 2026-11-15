@@ -9,7 +9,7 @@
 html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
 /* #app: cao đúng bằng vùng nhìn thấy (JS đặt --appH khi chạy trong iframe bị cắt) */
 #app{height:var(--appH,100%);display:flex;flex-direction:column;overflow:hidden;padding:env(safe-area-inset-top) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
-header{position:relative;flex:none;height:clamp(28px,5.5vh,40px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px}
+header{position:relative;flex:none;height:clamp(28px,5.5vh,40px);display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px}
 header h1{font-size:clamp(13px,2.7vh,18px);margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #lv{font-weight:700;color:#fbbf24;font-size:clamp(12px,2.3vh,14px);white-space:nowrap}
 button{font:inherit;cursor:pointer}
@@ -30,9 +30,11 @@ button{font:inherit;cursor:pointer}
 .box2 h2{margin:0 0 8px}.box2 p{margin:0 0 16px;color:#cbd5e1}
 #mb{display:flex;flex-direction:column;gap:8px}.box2 .b{font-size:15px;padding:10px 12px}
 #cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:65}
+.c.hl{animation:bl .6s ease-in-out infinite;border-radius:5px}
+@keyframes bl{0%,100%{background:#fbbf24;color:#0f172a}50%{background:transparent;color:#f1f5f9}}
 </style></head><body>
 <div id="app">
-<header><button class="b" id="rs" title="Chơi lại từ đầu">↺</button><h1>🔎 Tìm từ khoá bí mật 2</h1><span id="lv"></span><div id="note" hidden>📱 Xoay ngang điện thoại để chơi thoải mái hơn (không bắt buộc)</div></header>
+<header><button class="b" id="rs" title="Chơi lại từ đầu">↺</button><h1>🔎 Tìm từ khoá bí mật 2</h1><span id="lv"></span><button class="b" id="hint" title="Gợi ý">🔍</button><div id="note" hidden>📱 Xoay ngang điện thoại để chơi thoải mái hơn (không bắt buộc)</div></header>
 <div id="words"></div>
 <div id="stage"><div id="board"></div></div>
 </div>
@@ -470,7 +472,7 @@ function buildPuzzle(){
  if(puz)renderBoard();
 }
 function loadStage(){
- clearTimeout(nextT);hideModal();
+ clearTimeout(nextT);clearHint();hideModal();
  words=cleanWords(STRING_SPLIT[idx]);
  found=[];locked=false;sel=null;puz=null;
  renderWords();updateHud();
@@ -527,9 +529,28 @@ function finishSel(){
  }
 }
 
+/* ---------- gợi ý (kính lúp) ---------- */
+var hintT=0;
+function clearHint(){
+ clearTimeout(hintT);
+ var h=board.querySelectorAll('.c.hl');
+ for(var i=0;i<h.length;i++)h[i].classList.remove('hl');
+}
+function showHint(){
+ if(locked||!puz)return;
+ clearHint();
+ var w=null;
+ for(var i=0;i<words.length;i++)if(!isFound(words[i])){w=words[i];break}
+ if(!w)return;
+ var cells=board.querySelectorAll('.c');
+ puz.placed[w].forEach(function(ci){if(cells[ci])cells[ci].classList.add('hl')});
+ hintT=setTimeout(clearHint,3500);
+}
+qs('#hint').addEventListener('click',showHint);
+
 /* ---------- thắng màn ---------- */
 function win(){
- locked=true;idx++;saveIdx();fireworks();
+ locked=true;clearHint();idx++;saveIdx();fireworks();
  if(idx>=STRING_SPLIT.length){
   modal('🏆 Xin chúc mừng!','Bạn đã hoàn thành tất cả '+STRING_SPLIT.length+' màn.',[['Chơi lại từ đầu',function(){idx=0;saveIdx();loadStage()},'on']]);
  }else{
