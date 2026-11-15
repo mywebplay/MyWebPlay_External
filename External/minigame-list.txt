@@ -303,6 +303,12 @@ var MINIGAME_LIST = [
 		"Enabled": true
 	},
 	{
+		"Key": "/game-tim-tu-khoa-bi-mat-2",
+		"Name": "Game tìm từ khoá bí mật 2",
+		"Image": "http://normalwebbasic.somee.com/Images/imagex.png",
+		"Enabled": true
+	},
+	{
 		"Key": "/game-lo-to",
 		"Name": "Game cờ lô tô",
 		"Image": "https://foodcity.vn/upload/hinh-anh-tam-ve.jpg",
