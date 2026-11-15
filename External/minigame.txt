@@ -331,6 +331,7 @@
   var currentAbort = null;
   var checkTimer = null, loadTimer = null;
   var frame = null;
+  var frameKey = null;       // key của game đang được giữ iframe
   var lastFocus = null;
 
 
@@ -382,10 +383,11 @@
     if (currentAbort) { currentAbort.abort(); currentAbort = null; }
     clearTimeout(checkTimer); clearTimeout(loadTimer);
     if (frame) { frame.remove(); frame = null; }   // gỡ hẳn iframe để game dừng chạy
+    frameKey = null;
   }
 
   function closeModal() {
-    clearAll();
+    if (!(frame && modal.classList.contains('ready'))) clearAll();   // đang load/lỗi thì dọn như cũ; đã ready thì giữ iframe
     modal.classList.remove('open', 'ready', 'failed');
     document.body.classList.remove('modal-open');
     document.documentElement.style.overflow = '';
@@ -409,6 +411,7 @@
 
   function mountFrame(key, name, token) {
     frame = document.createElement('iframe');
+    frameKey = key;
     frame.className = 'modal-frame';
     frame.title = name;
     frame.setAttribute('allow', 'fullscreen; autoplay');
@@ -426,6 +429,21 @@
   function openGame(key, name, trigger) {
     if (modal.classList.contains('open')) return;   // chống bấm đúp
     lastFocus = trigger;
+
+    // Mở lại đúng game vừa đóng: dùng lại iframe cũ, không fetch/load lại
+    if (frame && frameKey === key) {
+      modalTitle.textContent = name;
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      document.documentElement.style.overflow = 'hidden';
+      setState('ready');
+      modalClose.focus();
+      return;
+    }
+
+    // Chọn game khác: gỡ iframe cũ rồi load như bình thường
+    if (frame) clearAll();
+
     modalTitle.textContent = name;
     setState(null);
     modal.classList.add('open');
