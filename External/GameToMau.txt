@@ -16,6 +16,8 @@ button{font:inherit;cursor:pointer}
 .b{background:#334155;color:#fff;border:0;border-radius:10px;padding:5px 10px;font-weight:600;font-size:clamp(12px,2.3vh,14px)}
 .b:active{transform:scale(.95)}.b.on{background:#6366f1}.b:disabled{opacity:.35}
 #note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:20;max-width:96%;background:#92400e;border:1px solid #f59e0b;color:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 14px #0008}
+#tip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:21;max-width:96%;background:#1e293b;border:1px solid #64748b;color:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 14px #0008}
+#tip.bad{background:#7f1d1d;border-color:#f87171}#tip.ok{background:#14532d;border-color:#4ade80}
 /* thanh màu nằm TRÊN để không bị che đáy khi nhúng iframe */
 #bar{flex:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:5px;padding:3px 2px 5px}
 .sw{width:clamp(26px,5.6vh,38px);height:clamp(26px,5.6vh,38px);border-radius:50%;border:3px solid #0f172a;box-shadow:0 0 0 2px #475569;padding:0}
@@ -33,7 +35,7 @@ canvas.g{flex:none;border-radius:6px;box-shadow:0 0 0 2px #334155;touch-action:n
 #mb{display:flex;flex-direction:column;gap:8px}.box2 .b{font-size:15px;padding:10px 12px}
 </style></head><body>
 <div id="app">
-<header><button class="b" id="rs" title="Xoá bảng tô của màn này">↺</button><h1>🎨 Tô màu theo mẫu</h1><div id="nv"><button class="b" id="pv">◀</button><span id="lv"></span><button class="b" id="nx">▶</button></div><div id="note" hidden>📱 Xoay ngang điện thoại để tô thoải mái hơn (không bắt buộc)</div></header>
+<header><button class="b" id="rs" title="Xoá bảng tô của màn này">↺</button><h1>🎨 Tô màu theo mẫu</h1><div id="nv"><button class="b" id="pv">◀</button><span id="lv"></span><button class="b" id="nx">▶</button></div><div id="note" hidden>📱 Xoay ngang điện thoại để tô thoải mái hơn (không bắt buộc)</div><div id="tip" hidden></div></header>
 <div id="bar"></div>
 <div id="stage"><div class="pane" id="pt"><span class="lb">MẪU</span><canvas class="g" id="ct"></canvas></div><div class="pane" id="pb"><span class="lb">CỦA BẠN</span><canvas class="g" id="cb"></canvas></div></div>
 </div>
@@ -81,7 +83,7 @@ function level(L){
  return{n:n,g:g};
 }
 var KEY='pxc_idx',KM='pxc_max';
-var idx=0,maxU=0,n=8,T=[],B=[],cur=-1,cs=10,ct=10,down=false,last=null,locked=false,noteT=0,rzT=0,noteDismissed=false,wasPortrait=false,chkT=0;
+var idx=0,maxU=0,n=8,T=[],B=[],cur=-1,cs=10,ct=10,down=false,last=null,locked=false,noteT=0,rzT=0,noteDismissed=false,wasPortrait=false,chkT=0,tipT=0;
 function ld(k){var v=0;try{v=parseInt(localStorage.getItem(k),10)}catch(e){}return v>=0?v:0}
 function sv(k,v){try{localStorage.setItem(k,String(v))}catch(e){}}
 var cT=$('#ct'),cB=$('#cb');
@@ -114,6 +116,12 @@ function setCur(c){
  var svg="<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><path d='M16 7l3-3 5 5-3 3z' fill='#999'/><path d='M4 24l3-8 9-9 5 5-9 9z' fill='"+COL[c]+"' stroke='#000' stroke-width='1.5'/></svg>";
  cB.style.cursor='url("data:image/svg+xml,'+encodeURIComponent(svg)+'") 4 24, crosshair';
 }
+/* thông báo ngắn (hiện trên thanh tiêu đề) sau khi bấm Kiểm tra */
+function tip(text,kind){
+ var t=$('#tip');
+ t.textContent=text;t.className=kind||'';t.hidden=false;
+ clearTimeout(tipT);tipT=setTimeout(function(){t.hidden=true},3200);
+}
 function buildBar(){
  var u=[];T.forEach(function(v){if(u.indexOf(v)<0)u.push(v)});
  u.sort(function(a,b){return ORD.indexOf(a.toString(36))-ORD.indexOf(b.toString(36))});
@@ -122,8 +130,11 @@ function buildBar(){
  $('#bar').innerHTML=h;
  $('#ck').onclick=function(){
   if(locked)return;
-  var bad=[];B.forEach(function(v,i){if(v>=0&&v!==T[i])bad.push(i)});
-  dr(cB,B,cs,bad);clearTimeout(chkT);chkT=setTimeout(function(){dr(cB,B,cs,null)},1600);
+  var bad=[],painted=0;B.forEach(function(v,i){if(v>=0){painted++;if(v!==T[i])bad.push(i)}});
+  dr(cB,B,cs,bad);clearTimeout(chkT);chkT=setTimeout(function(){dr(cB,B,cs,null)},3200);
+  if(!painted)tip('Bạn chưa tô ô nào.');
+  else if(bad.length)tip('Có '+bad.length+' ô sai, xem viền đỏ trên bảng.','bad');
+  else tip('Chưa có ô nào sai, tô tiếp nhé!','ok');
  };
  setCur(u[0]);
 }
@@ -134,7 +145,7 @@ function modal(t,x,btns){
 }
 function hide(){$('#md').hidden=true}
 function load(){
- hide();clearTimeout(chkT);
+ hide();clearTimeout(chkT);clearTimeout(tipT);$('#tip').hidden=true;
  var L=level(idx+1);n=L.n;T=L.g;B=T.map(function(){return -1});locked=false;down=false;last=null;
  buildBar();hud();fit();sv(KEY,idx);
 }
