@@ -7,31 +7,35 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
-#app{height:100dvh;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
-header{width:100%;max-width:720px;height:52px;flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
-header h1{font-size:18px;margin:0;text-align:center;white-space:nowrap}
-#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:14px}
+#app{height:100%;height:var(--appH,100dvh);display:flex;flex-direction:column;align-items:center;overflow:hidden;padding:env(safe-area-inset-top) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+header{width:100%;max-width:720px;height:clamp(30px,6.5vh,48px);flex:none;display:grid;grid-template-columns:96px 1fr 96px;align-items:center}
+header h1{font-size:clamp(14px,2.8vh,18px);margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lv{text-align:right;font-weight:700;color:#fbbf24;font-size:clamp(12px,2.3vh,14px)}
 button{font:inherit;cursor:pointer}
-.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:clamp(5px,1.2vh,9px) 12px;font-weight:600;font-size:clamp(12px,2.3vh,14px)}
 .b:active{transform:scale(.95)}.b.on{background:#6366f1}
-section{width:100%;flex:1;min-height:0}
-#menu{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
-#sub{margin:0 0 8px;font-size:14px;color:#94a3b8}
-.hp{margin:10px 0 0;font-size:12px;color:#94a3b8;text-align:center;max-width:640px}
-#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+section{width:100%;flex:1;min-height:0;overflow:hidden}
+/* menu chọn màn: không cuộn, lưới tự co theo vùng còn trống */
+#menu{display:flex;flex-direction:column;align-items:center}
+#sub{flex:none;margin:0 0 6px;font-size:clamp(12px,2.4vh,14px);color:#94a3b8}
+#gw{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hp{flex:none;margin:6px 0 0;font-size:clamp(10px,2vh,12px);color:#94a3b8;text-align:center;max-width:640px}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;flex:none}
 #grid button{border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;padding:0;min-width:0}
 #grid .done{background:#16a34a}#grid .cur{background:#f59e0b;color:#111}#grid .lock{background:#1e293b;color:#475569;cursor:default}
-#play{display:flex;flex-direction:column;align-items:center;max-width:720px;overflow-y:auto;overflow-x:hidden}
-#info{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%;font-size:14px;min-height:26px;flex:none}
+/* màn chơi: lưới 3 vùng (thông tin / bàn chơi / thông báo), bàn chơi tự đo vùng thật để không bị khuất */
+#play{display:grid;max-width:720px;margin:0 auto;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"info" "bw" "msg"}
+#info{grid-area:info;display:flex;gap:6px 14px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%;font-size:clamp(12px,2.4vh,14px);min-height:24px}
+#bw{grid-area:bw;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #board{flex:none}
-#msg{min-height:20px;font-size:13px;color:#fbbf24;text-align:center;flex:none;padding:2px 0}
-#ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%;flex:none;margin-bottom:6px}
+#msg{grid-area:msg;height:2.7em;overflow:hidden;font-size:clamp(11px,2.2vh,13px);line-height:1.3;color:#fbbf24;text-align:center;padding:2px 0}
+#ctl{display:none}
 #md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}
 .box{background:#1e293b;border-radius:16px;padding:22px;max-width:320px;width:86%;text-align:center}
 .box h2{margin:0 0 8px}.box p{margin:0 0 16px;color:#cbd5e1}
 #mb{display:flex;flex-direction:column;gap:8px}
-#board.ch{display:grid;gap:6px;margin:8px auto;touch-action:manipulation}
-.ch>div{border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
+#board.ch{display:grid;gap:6px;margin:0;touch-action:manipulation}
+.ch>div{border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;line-height:1}
 .ch .n{background:#fff;color:#111;cursor:pointer}
 .ch .n.hd{color:transparent}
 .ch .fd{visibility:hidden}
@@ -39,11 +43,18 @@ section{width:100%;flex:1;min-height:0}
 .ch .rv{background:#86efac;color:#111;box-shadow:0 0 0 4px #22c55e}
 #tb2{height:8px;background:#334155;border-radius:4px;flex:1;min-width:120px;max-width:260px;overflow:hidden}#tb2 i{display:block;height:100%;background:#22c55e;width:100%}
 .ord{color:#fbbf24;font-weight:700}
+/* điện thoại xoay ngang / màn hình thấp: thông tin nằm cột trái, bàn chơi chiếm trọn chiều cao bên phải */
+@media (orientation:landscape) and (max-height:560px){
+ #play{max-width:none;grid-template-columns:minmax(150px,32%) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"info bw" "msg bw"}
+ #info{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;padding-right:8px}
+ #msg{height:auto;align-self:start;text-align:left;padding-right:8px}
+ #tb2{width:100%;max-width:none;min-width:0;flex:none}
+}
 </style></head><body>
 <div id="app">
 <header><button class="b" id="bk" style="visibility:hidden">☰ Màn</button><h1>🐵 Chimp Test</h1><span id="lv"></span></header>
-<section id="menu"><p id="sub"></p><div id="grid"></div><p class="hp">Nhớ vị trí các số rồi bấm theo thứ tự khi chúng bị che. Càng về sau càng nhiều số, thời gian ghi nhớ ngắn lại, ít lượt sai hơn, và có những màn phải bấm theo thứ tự ngược.</p></section>
-<section id="play" hidden><div id="info"></div><div id="board"></div><div id="msg"></div><div id="ctl"></div></section>
+<section id="menu"><p id="sub"></p><div id="gw"><div id="grid"></div></div><p class="hp">Nhớ vị trí các số rồi bấm theo thứ tự khi chúng bị che. Càng về sau càng nhiều số, thời gian ghi nhớ ngắn lại, ít lượt sai hơn, và có những màn phải bấm theo thứ tự ngược.</p></section>
+<section id="play" hidden><div id="info"></div><div id="bw"><div id="board"></div></div><div id="msg"></div><div id="ctl"></div></section>
 <div id="md" hidden><div class="box"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
 </div>
 <script>
@@ -58,7 +69,11 @@ const save=()=>{try{localStorage.setItem(KEY,prog)}catch(e){}};
 const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const setInfo=h=>{qs('#info').innerHTML=h},say=t=>{qs('#msg').textContent=t||''};
 const stop=()=>{onStop()};
-function fitMenu(){const s=Math.max(240,Math.min(innerWidth-20,innerHeight-175,640)),g=qs('#grid');g.style.width=g.style.height=s+'px';g.style.fontSize=Math.max(11,s/10*.36)+'px'}
+function fitMenu(){
+ const w=qs('#gw'),s=Math.max(120,Math.min(w.clientWidth,w.clientHeight,640)),g=qs('#grid');
+ g.style.width=g.style.height=s+'px';g.style.gap=(s<300?3:5)+'px';g.style.fontSize=Math.max(9,s/10*.36)+'px';
+}
+function refit(){if(!qs('#menu').hidden)fitMenu();else relayout()}
 function menu(){
  stop();qs('#play').hidden=true;qs('#menu').hidden=false;qs('#md').hidden=true;
  qs('#bk').style.visibility='hidden';qs('#lv').textContent='';
@@ -80,7 +95,8 @@ function win(x){if(over)return;over=true;if(L>prog){prog=L;save()}stop();
 function fail(x){if(over)return;over=true;stop();modal('Chưa được',x||'',[['Thử lại',()=>play(L),'on'],['Chọn màn',menu]])}
 qs('#grid').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)play(+b.dataset.l)};
 qs('#bk').onclick=menu;
-addEventListener('resize',()=>{if(!qs('#menu').hidden)fitMenu();else relayout()});
+let rzT=0;
+addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(refit,120)});
 
 /* ---------- game Chimp Test ---------- */
 let CC=5,CR=6,N,pos,seq,idx,found,desc,hid,lives,tm,tid,rev,wr;
@@ -106,13 +122,21 @@ function start(l){
  setInfo('<span id="hr"></span><span class="ord">'+(desc?'Thứ tự: '+N+' → 1 (NGƯỢC)':'Thứ tự: 1 → '+N)+'</span>'+(tm?'<div id="tb2"><i></i></div>':''));
  if(tm){const t0=Date.now();tid=setInterval(()=>{const r=tm-(Date.now()-t0)/1000,i=qs('#tb2 i');if(i)i.style.width=Math.max(0,r/tm*100)+'%';if(r<=0){clearInterval(tid);hide()}},100)}
  draw();
- const first=desc?N:1;
  say(desc?'Màn đặc biệt: bấm theo thứ tự GIẢM DẦN, bắt đầu từ số '+N+' rồi '+(N-1)+', … về 1.'
    :tm?'Ghi nhớ nhanh! Các số sẽ tự ẩn sau vài giây. Bấm theo thứ tự 1, 2, 3…'
    :'Bấm số 1 trước, các số còn lại sẽ bị che. Hãy nhớ vị trí và bấm theo thứ tự.');
 }
 function onStop(){clearInterval(tid)}
-function relayout(){const b=qs('#board');if(!b.classList.contains('ch'))return;const aw=Math.min(innerWidth-20,720)-(CC-1)*6,ah=innerHeight-225-(CR-1)*6,z=Math.max(24,Math.floor(Math.min(aw/CC,ah/CR,76)));b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';b.style.fontSize=z*.5+'px';b.style.width=CC*z+(CC-1)*6+'px'}
+/* đo đúng vùng #bw đang còn trống rồi mới chia ô, nên bàn chơi luôn nằm gọn trong màn hình */
+function relayout(){
+ const b=qs('#board');if(!b.classList.contains('ch'))return;
+ const w=qs('#bw'),W=w.clientWidth,H=w.clientHeight;if(W<20||H<20)return;
+ const g=Math.max(2,Math.min(6,Math.floor(Math.min(W,H)/70)));
+ const z=Math.max(10,Math.floor(Math.min((W-(CC-1)*g-4)/CC,(H-(CR-1)*g-4)/CR,76)));
+ b.style.gap=g+'px';
+ b.style.gridTemplateColumns='repeat('+CC+','+z+'px)';b.style.gridAutoRows=z+'px';
+ b.style.fontSize=Math.max(9,z*.5)+'px';b.style.width=CC*z+(CC-1)*g+'px';
+}
 function hide(){if(!hid&&!over){hid=true;draw()}}
 function draw(){
  const cs=qs('#board').children;
@@ -120,6 +144,7 @@ function draw(){
   if(!v){e.className='';e.textContent='';continue}
   e.className='n'+(found.has(v)?' fd':'')+(hid&&i!=rev?' hd':'')+(i==wr?' wr':'')+(i==rev?' rv':'');e.textContent=v}
  qs('#hr').textContent='Lượt sai còn lại: '+'❤️'.repeat(lives)+' · Đã bấm: '+idx+'/'+N;
+ relayout();
 }
 function tap(i){
  const v=pos[i];if(!v||found.has(v))return;
@@ -131,6 +156,23 @@ function tap(i){
  say('Sai rồi! Ô xanh mới là số '+want+'. Còn '+lives+' lượt sai.');
  setTimeout(()=>{if(over)return;wr=-1;rev=-1;draw()},1300);
 }
+
+/* khi nhúng iframe mà phần đáy bị trang cha cắt mất: đo vùng nhìn thấy thật rồi co #app lại cho vừa */
+(function(){
+ let lastH=0;
+ function apply(h){
+  h=Math.floor(h);if(h<200||h===lastH)return;lastH=h;
+  const a=qs('#app');
+  if(h>=innerHeight-1)a.style.removeProperty('--appH');else a.style.setProperty('--appH',h+'px');
+  clearTimeout(rzT);rzT=setTimeout(refit,150);
+ }
+ if(!('IntersectionObserver' in window))return;
+ const st=[];for(let i=0;i<=100;i++)st.push(i/100);
+ new IntersectionObserver(es=>{
+  const e=es[es.length-1],ir=e.intersectionRect,bc=e.boundingClientRect;
+  if(ir&&ir.height)apply(ir.bottom-bc.top);
+ },{threshold:st}).observe(document.documentElement);
+})();
 
 menu();
 })();
