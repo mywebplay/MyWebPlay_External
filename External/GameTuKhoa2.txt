@@ -1,48 +1,279 @@
+
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8">
+<html lang="vi">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>🔎 Tìm từ khoá bí mật 2</title>
+
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
-html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
-/* #app: cao đúng bằng vùng nhìn thấy (JS đặt --appH khi chạy trong iframe bị cắt) */
-#app{height:var(--appH,100%);display:flex;flex-direction:column;overflow:hidden;padding:env(safe-area-inset-top) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
-header{position:relative;flex:none;height:clamp(28px,5.5vh,40px);display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px}
-header h1{font-size:clamp(13px,2.7vh,18px);margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#lv{font-weight:700;color:#fbbf24;font-size:clamp(12px,2.3vh,14px);white-space:nowrap}
+
+html,body{
+ margin:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ background:#0f172a;
+ color:#e2e8f0;
+ font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ touch-action:manipulation;
+ -webkit-user-select:none;
+ user-select:none;
+ -webkit-touch-callout:none;
+ overscroll-behavior:none;
+}
+
+#app{
+ width:100%;
+ height:var(--appH,100%);
+ min-width:0;
+ min-height:0;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ padding:env(safe-area-inset-top) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));
+}
+
+header{
+ position:relative;
+ flex:none;
+ min-width:0;
+ height:clamp(30px,5.5vh,42px);
+ display:grid;
+ grid-template-columns:auto minmax(0,1fr) auto auto;
+ align-items:center;
+ gap:8px;
+}
+
+header h1{
+ min-width:0;
+ font-size:clamp(13px,2.7vh,18px);
+ margin:0;
+ text-align:center;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+#lv{
+ font-weight:700;
+ color:#fbbf24;
+ font-size:clamp(11px,2.3vh,14px);
+ white-space:nowrap;
+}
+
 button{font:inherit;cursor:pointer}
-.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:6px 10px;font-weight:600;font-size:clamp(12px,2.3vh,14px)}
-.b:active{transform:scale(.95)}.b.on{background:#6366f1}
-#note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:20;max-width:96%;background:#92400e;border:1px solid #f59e0b;color:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 14px #0008}
-/* Danh sách từ nằm TRÊN lưới để không bao giờ bị che phần đáy */
-#words{flex:none;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 6px;padding:2px 2px 4px}
-#stage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:2px;position:relative}
-#board{position:relative;display:grid;flex:none;background:#0b1220;border-radius:8px;touch-action:none;box-shadow:0 0 0 2px #334155;cursor:crosshair}
-#board svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
-.c{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;font-weight:800;color:#f1f5f9;line-height:1;pointer-events:none;text-shadow:0 1px 2px #000c}
-.w{font-weight:700;font-size:clamp(11px,2.1vh,15px);padding:1px 9px;border-radius:999px;background:#1e293b;color:#e2e8f0;letter-spacing:.04em;border:2px solid transparent;line-height:1.35}
-.w.f{color:#94a3b8;text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--wc);border-color:var(--wc);animation:pu .45s}
+
+.b{
+ background:#334155;
+ color:#fff;
+ border:0;
+ border-radius:10px;
+ padding:6px 10px;
+ font-weight:600;
+ font-size:clamp(12px,2.3vh,14px);
+ flex:none;
+}
+
+.b:active{transform:scale(.95)}
+.b.on{background:#6366f1}
+
+#note{
+ position:absolute;
+ left:50%;
+ top:50%;
+ transform:translate(-50%,-50%);
+ z-index:20;
+ max-width:96%;
+ background:#92400e;
+ border:1px solid #f59e0b;
+ color:#fff;
+ border-radius:999px;
+ padding:5px 12px;
+ font-size:12.5px;
+ font-weight:600;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ box-shadow:0 4px 14px #0008;
+ pointer-events:auto;
+}
+
+#words{
+ flex:none;
+ min-width:0;
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ align-content:center;
+ gap:4px 6px;
+ padding:3px 2px 5px;
+}
+
+#stage{
+ flex:1;
+ min-width:0;
+ min-height:0;
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:2px;
+ position:relative;
+}
+
+#board{
+ position:relative;
+ display:grid;
+ flex:none;
+ max-width:100%;
+ max-height:100%;
+ background:#0b1220;
+ border-radius:8px;
+ touch-action:none;
+ -webkit-user-select:none;
+ user-select:none;
+ box-shadow:0 0 0 2px #334155;
+ cursor:crosshair;
+}
+
+#board svg{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ z-index:3;
+ pointer-events:none;
+ overflow:visible;
+}
+
+.c{
+ position:relative;
+ z-index:2;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ min-width:0;
+ min-height:0;
+ font-weight:800;
+ color:#f1f5f9;
+ line-height:1;
+ pointer-events:none;
+ text-shadow:0 1px 2px #000c;
+}
+
+.w{
+ font-weight:700;
+ font-size:clamp(10px,2.1vh,15px);
+ padding:1px 9px;
+ border-radius:999px;
+ background:#1e293b;
+ color:#e2e8f0;
+ letter-spacing:.04em;
+ border:2px solid transparent;
+ line-height:1.35;
+ white-space:nowrap;
+}
+
+.w.f{
+ color:#94a3b8;
+ text-decoration:line-through;
+ text-decoration-thickness:2px;
+ text-decoration-color:var(--wc);
+ border-color:var(--wc);
+ animation:pu .45s;
+}
+
 @keyframes pu{40%{transform:scale(1.18)}}
-#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:60}
-.box2{background:#1e293b;border-radius:16px;padding:22px;max-width:340px;width:86%;text-align:center}
-.box2 h2{margin:0 0 8px}.box2 p{margin:0 0 16px;color:#cbd5e1}
-#mb{display:flex;flex-direction:column;gap:8px}.box2 .b{font-size:15px;padding:10px 12px}
-#cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:65}
-.c.hl{animation:bl .6s ease-in-out infinite;border-radius:5px}
-@keyframes bl{0%,100%{background:#fbbf24;color:#0f172a}50%{background:transparent;color:#f1f5f9}}
-</style></head><body>
+
+#md{
+ position:fixed;
+ inset:0;
+ background:#000a;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:60;
+}
+
+.box2{
+ background:#1e293b;
+ border-radius:16px;
+ padding:22px;
+ max-width:340px;
+ width:86%;
+ text-align:center;
+}
+
+.box2 h2{margin:0 0 8px}
+.box2 p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}
+.box2 .b{font-size:15px;padding:10px 12px}
+
+#cf{
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
+ pointer-events:none;
+ z-index:65;
+}
+
+.c.hl{
+ animation:bl .6s ease-in-out infinite;
+ border-radius:5px;
+}
+
+@keyframes bl{
+ 0%,100%{background:#fbbf24;color:#0f172a}
+ 50%{background:transparent;color:#f1f5f9}
+}
+
+@media(max-width:600px){
+ header{gap:5px}
+ header h1{font-size:clamp(12px,3.1vw,16px)}
+ #lv{font-size:11px}
+ .b{padding:5px 8px}
+ #words{gap:3px 4px;padding:2px 1px 4px}
+ .w{font-size:clamp(9px,2.8vw,13px);padding:1px 7px}
+}
+
+@media(max-height:450px){
+ header{height:28px}
+ #words{gap:2px 4px;padding:1px 2px 3px}
+ .w{font-size:11px;padding:0 7px}
+}
+</style>
+</head>
+
+<body>
 <div id="app">
-<header><button class="b" id="rs" title="Chơi lại từ đầu">↺</button><h1>🔎 Tìm từ khoá bí mật 2</h1><span id="lv"></span><button class="b" id="hint" title="Gợi ý">🔍</button><div id="note" hidden>📱 Xoay ngang điện thoại để chơi thoải mái hơn (không bắt buộc)</div></header>
+<header>
+ <button class="b" id="rs" title="Chơi lại từ đầu">↺</button>
+ <h1>🔎 Tìm từ khoá bí mật 2</h1>
+ <span id="lv"></span>
+ <button class="b" id="hint" title="Gợi ý">🔍</button>
+ <div id="note" hidden>📱 Xoay ngang điện thoại để chơi thoải mái hơn (không bắt buộc)</div>
+</header>
 <div id="words"></div>
 <div id="stage"><div id="board"></div></div>
 </div>
+
 <canvas id="cf"></canvas>
-<div id="md" hidden><div class="box2"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+
+<div id="md" hidden>
+ <div class="box2">
+  <h2 id="mt"></h2>
+  <p id="mx"></p>
+  <div id="mb"></div>
+ </div>
+</div>
 
 <script>
-/* 200 màn, sắp từ dễ đến khó. Mỗi màn là một mảng các từ cần tìm (chỉ dùng chữ cái a-z). Có thể sửa/thêm/bớt tuỳ ý. */
+/* 200 màn, sắp từ dễ đến khó */
 var STRING_SPLIT =
 [
   ["bone", "dad", "girl", "leg", "son"],
@@ -247,12 +478,17 @@ var STRING_SPLIT =
   ["asparagus", "broccoli", "cauliflower", "designer", "generation", "gratitude", "lavender", "pineapple", "raspberry", "strawberry", "watermelon"]
 ];
 </script>
+
 <script>
 (function(){
 'use strict';
+
 function qs(s){return document.querySelector(s)}
+
 var KEY='tkbm2_idx';
+
 var PAL=['#e11d48','#16a34a','#2563eb','#ea580c','#7c3aed','#0d9488','#ca8a04','#c026d3','#65a30d','#0891b2','#b45309','#4f46e5','#db2777','#0284c7'];
+
 function rnd(a,b){return a+Math.random()*(b-a)}
 function rndInt(a,b){return Math.floor(rnd(a,b+1))}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
@@ -260,20 +496,36 @@ function rev(s){return s.split('').reverse().join('')}
 function numAsc(a,b){return a-b}
 
 /*PUZZLE*/
-var DECOYS=('able acid aged also area army away baby back ball band bank base bath bean bear beat bell belt bend best bill bird blow blue boat body bold bone book boom born boss both bowl bulk burn bush busy call calm camp card care cart case cash cast cell chat chef chip city clay club coal coat code coin cold come cook cool cope copy cord core corn cost crew crop dark data date dawn days dead deal dear debt deep desk dial diet dish disk door dose down draw drew drop drug drum dust duty each earn ease east edge else even ever exit face fact fade fail fair fall farm fast fate fear feed feel feet fell felt file fill film find fine fire firm flag flat flow folk food foot form fort four free from fuel full fund gain game gate gave gear gift girl give glad goal gold golf gone good gray grew grow gulf hair half hall hand hang hard harm hate have head hear heat held hell help here hero hide high hill hint hold hole holy home hope horn host hour huge hung hunt hurt idea inch into iron item jack jazz join jump jury just keen keep kept kick kind king knee knew know lack lady laid lake land lane last late lazy lead leaf lean left lend less life lift like line link list live load loan lock logo long look lord lose loss lost love luck made mail main make male many mark mass mate meal mean meat meet menu mere mild mile milk mill mind mine miss mode mood moon more most move much must name navy near neck need news next nice nine none nose note noun oath okay once only onto open oral over pace pack page paid pain pair palm park part pass past path peak pick pile pine pink pipe plan play plot plug plus poem poet pole poll pond pool poor port post pour pray pull pure push quit race rail rain rank rare rate read real rear rely rent rest rice rich ride ring rise risk road rock role roll roof room root rope rose rule rush safe said sail sale salt same sand save seat seed seek seem seen self sell send sent shop shot show shut sick side sign silk sing sink site size skin slip slow snow soft soil sold sole some song soon sort soul soup spot star stay step stop such suit sure swim tail take tale talk tall tank tape task team tear tell tend tent term test text than that them then they thin this thus tide tidy tile till time tiny tire told tone took tool tour town tree trim trip true tube tune turn twin type unit upon urge used user vary vast very view vote wage wait wake walk wall want warm wash wave weak wear week well went were west what when whom wide wife wild will wind wine wing wire wise wish with wood wool word wore work worn wrap yard yarn year yell yoga zero zone zoom ' +
-'apple bread chair dance eagle flame grape heart ghost jungle kite lemon mango night ocean piano queen river sugar tiger vivid wheat young zebra bridge candle dragon engine forest garden hammer island jacket kitchen ladder market napkin orange pencil quiet rocket silver ticket unique vessel window yellow anchor basket cactus desert farmer gentle harbor insect jewel knight lantern magnet nature office pirate quartz rabbit saddle thunder valley winter wizard canyon violin velvet puzzle marble legend comet cherry butter button carpet circus dinner fabric hunter ladder mirror needle planet pocket powder ribbon shadow spirit spring summer temple tunnel turtle wallet whistle blanket captain diamond edition feather freedom giraffe holiday journey library mystery pattern penguin reptile scholar station trouble weather').split(/\s+/).filter(Boolean);
+
+var DECOYS=('able acid aged also area army away baby back ball band bank base bath bean bear beat bell belt bend best bill bird blow blue boat body bold bone book boom born boss both bowl bulk burn bush busy call calm camp card care cart case cash cast cell chat chef chip city clay club coal coat code coin cold come cook cool cope copy cord core corn cost crew crop dark data date dawn days dead deal dear debt deep desk dial diet dish disk door dose down draw drew drop drug drum dust duty each earn ease east edge else even ever exit face fact fade fail fair fall farm fast fate fear feed feel feet fell felt file fill film find fine fire firm flag flat flow folk food foot form fort four free from fuel full fund gain game gate gave gear gift girl give glad goal gold golf gone good gray grew grow gulf hair half hall hand hang hard harm hate have head hear heat held hell help here hero hide high hill hint hold hole holy home hope horn host hour huge hung hunt hurt idea inch into iron item jack jazz join jump jury just keen keep kept kick kind king knee knew know lack lady laid lake land lane last late lazy lead leaf lean left lend less life lift like line link list live load loan lock logo long look lord lose loss lost love luck made mail main make male many mark mass mate meal mean meat meet menu mere mild mile milk mill mind mine miss mode mood moon more most move much must name navy near neck need news next nice nine none nose note noun oath okay once only onto open oral over pace pack page paid pain pair palm park part pass past path peak pick pile pine pink pipe plan play plot plug plus poem poet pole poll pond pool poor port post pour pray pull pure push quit race rail rain rank rare rate read real rear rely rent rest rice rich ride ring rise risk road rock role roll roof room root rope rose rule rush safe said sail sale salt same sand save seat seed seek seem seen self sell send sent shop shot show shut sick side sign silk sing sink site size skin slip slow snow soft soil sold sole some song soon sort soul soup spot star stay step stop such suit sure swim tail take tale talk tall tank tape task team tear tell tend tent term test text than that them then they thin this thus tide tidy tile till time tiny tire told tone took tool tour town tree trim trip true tube tune turn twin type unit upon urge used user vary vast very view vote wage wait wake walk wall want warm wash wave weak wear week well went were west what when whom wide wife wild will wind wine wing wire wise wish with wood wool word wore work worn wrap yard yarn year yell yoga zero zone zoom apple bread chair dance eagle flame grape heart ghost jungle kite lemon mango night ocean piano queen river sugar tiger vivid wheat young zebra bridge candle dragon engine forest garden hammer island jacket kitchen ladder market napkin orange pencil quiet rocket silver ticket unique vessel window yellow anchor basket cactus desert farmer gentle harbor insect jewel knight lantern magnet nature office pirate quartz rabbit saddle thunder valley winter wizard canyon violin velvet puzzle marble legend comet cherry butter button carpet circus dinner fabric hunter ladder mirror needle planet pocket powder ribbon shadow spirit spring summer temple tunnel turtle wallet whistle blanket captain diamond edition feather freedom giraffe holiday journey library mystery pattern penguin reptile scholar station trouble weather').split(/\s+/).filter(Boolean);
+
 var AX=[[1,0],[0,1],[1,1],[1,-1]];
 var D8=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
 var FREQ='eeeeeeeeeeeettttttttttaaaaaaaaooooooooiiiiiiinnnnnnnsssssshhhhhhrrrrrrddddllllcccuuummmwwffggyyppbbvkjxqz';
-function dirRand(pRev){var a=AX[rndInt(0,3)],s=Math.random()<pRev?-1:1;return[a[0]*s,a[1]*s]}
+
+function dirRand(pRev){
+ var a=AX[rndInt(0,3)],s=Math.random()<pRev?-1:1;
+ return[a[0]*s,a[1]*s];
+}
+
 function tryPlace(g,w,cols,rows,x,y,dx,dy){
  var L=w.length,ex=x+dx*(L-1),ey=y+dy*(L-1);
  if(x<0||y<0||x>=cols||y>=rows||ex<0||ex>=cols||ey<0||ey>=rows)return null;
  var cells=[],nw=0;
- for(var k=0;k<L;k++){var i=(y+dy*k)*cols+x+dx*k,c=g[i];if(c&&c!==w.charAt(k))return null;if(!c)nw++;cells.push(i)}
+ for(var k=0;k<L;k++){
+  var i=(y+dy*k)*cols+x+dx*k,c=g[i];
+  if(c&&c!==w.charAt(k))return null;
+  if(!c)nw++;
+  cells.push(i);
+ }
  return{cells:cells,nw:nw};
 }
-function commit(g,w,r){for(var k=0;k<w.length;k++)g[r.cells[k]]=w.charAt(k);return r}
+
+function commit(g,w,r){
+ for(var k=0;k<w.length;k++)g[r.cells[k]]=w.charAt(k);
+ return r;
+}
+
 function placeWord(g,w,cols,rows,pRev,minNew){
  var t,r;
  for(t=0;t<90;t++){
@@ -282,14 +534,22 @@ function placeWord(g,w,cols,rows,pRev,minNew){
   if(r&&r.nw>=minNew)return commit(g,w,r);
  }
  var cand=[],di,x,y;
- for(di=0;di<8;di++)for(y=0;y<rows;y++)for(x=0;x<cols;x++){r=tryPlace(g,w,cols,rows,x,y,D8[di][0],D8[di][1]);if(r&&r.nw>=minNew)cand.push(r)}
+ for(di=0;di<8;di++)for(y=0;y<rows;y++)for(x=0;x<cols;x++){
+  r=tryPlace(g,w,cols,rows,x,y,D8[di][0],D8[di][1]);
+  if(r&&r.nw>=minNew)cand.push(r);
+ }
  if(!cand.length)return null;
  return commit(g,w,cand[rndInt(0,cand.length-1)]);
 }
+
 function conflictsTarget(w,targets){
- for(var i=0;i<targets.length;i++){var t=targets[i],r=rev(t);if(w===t||w===r||w.indexOf(t)>=0||w.indexOf(r)>=0)return true}
+ for(var i=0;i<targets.length;i++){
+  var t=targets[i],r=rev(t);
+  if(w===t||w===r||w.indexOf(t)>=0||w.indexOf(r)>=0)return true;
+ }
  return false;
 }
+
 function nearMiss(t,targets){
  for(var tr=0;tr<12;tr++){
   var p=rndInt(1,t.length-1),c=String.fromCharCode(97+rndInt(0,25));
@@ -299,23 +559,34 @@ function nearMiss(t,targets){
  }
  return null;
 }
+
 function addDecoys(g,targets,cols,rows){
- var free=0,i;for(i=0;i<g.length;i++)if(!g[i])free++;
+ var free=0,i;
+ for(i=0;i<g.length;i++)if(!g[i])free++;
  var budget=Math.floor(free*.5),used=0,maxL=Math.max(3,Math.min(8,Math.max(cols,rows)));
  var cand=shuffle(DECOYS.filter(function(w){return w.length>=3&&w.length<=maxL&&!conflictsTarget(w,targets)})).slice(0,200);
  var near=[];
  targets.forEach(function(t){
   if(t.length<4)return;
-  var n=nearMiss(t,targets);if(n)near.push(n);
-  if(Math.random()<.5){n=nearMiss(t,targets);if(n)near.push(n)}
+  var n=nearMiss(t,targets);
+  if(n)near.push(n);
+  if(Math.random()<.5){
+   n=nearMiss(t,targets);
+   if(n)near.push(n);
+  }
  });
  cand=shuffle(near.concat(cand));
- for(var k=0;k<cand.length&&used<budget;k++){var r=placeWord(g,cand[k],cols,rows,.4,Math.min(2,cand[k].length));if(r)used+=r.nw}
+ for(var k=0;k<cand.length&&used<budget;k++){
+  var r=placeWord(g,cand[k],cols,rows,.4,Math.min(2,cand[k].length));
+  if(r)used+=r.nw;
+ }
 }
+
 function fillRest(g,targets){
  var tl=targets.join('').split(''),i;
  for(i=0;i<g.length;i++)if(!g[i])g[i]=Math.random()<.5?tl[rndInt(0,tl.length-1)]:FREQ.charAt(rndInt(0,FREQ.length-1));
 }
+
 function occurrences(g,cols,rows,w){
  var res={},L=w.length,x,y,d;
  for(y=0;y<rows;y++)for(x=0;x<cols;x++){
@@ -324,12 +595,17 @@ function occurrences(g,cols,rows,w){
    var dx=D8[d][0],dy=D8[d][1],ex=x+dx*(L-1),ey=y+dy*(L-1);
    if(ex<0||ex>=cols||ey<0||ey>=rows)continue;
    var cells=[],k;
-   for(k=0;k<L;k++){var i=(y+dy*k)*cols+x+dx*k;if(g[i]!==w.charAt(k))break;cells.push(i)}
+   for(k=0;k<L;k++){
+    var i=(y+dy*k)*cols+x+dx*k;
+    if(g[i]!==w.charAt(k))break;
+    cells.push(i);
+   }
    if(k===L)res[cells.slice().sort(numAsc).join(',')]=cells;
   }
  }
  return res;
 }
+
 function cleanUp(g,cols,rows,words,placed,locked){
  for(var round=0;round<150;round++){
   var dirty=false;
@@ -349,6 +625,7 @@ function cleanUp(g,cols,rows,words,placed,locked){
  }
  return false;
 }
+
 function genPuzzle(words,cols,rows,pRev){
  for(var att=0;att<30;att++){
   var n=cols*rows,g=new Array(n),locked=new Array(n),placed={},ok=true,i;
@@ -356,7 +633,11 @@ function genPuzzle(words,cols,rows,pRev){
   var order=words.slice().sort(function(a,b){return b.length-a.length||Math.random()-.5});
   for(i=0;i<order.length&&ok;i++){
    var r=placeWord(g,order[i],cols,rows,pRev,1);
-   if(!r)ok=false;else{placed[order[i]]=r.cells;r.cells.forEach(function(c){locked[c]=true})}
+   if(!r)ok=false;
+   else{
+    placed[order[i]]=r.cells;
+    r.cells.forEach(function(c){locked[c]=true});
+   }
   }
   if(!ok)continue;
   addDecoys(g,words,cols,rows);
@@ -365,246 +646,609 @@ function genPuzzle(words,cols,rows,pRev){
  }
  return null;
 }
-/* Ô càng nhỏ càng tốt: bắt đầu từ cỡ ô nhỏ (PC ~22px, điện thoại ~24px), lưới trải kín vùng trống */
+
+/* Tính kích thước lưới theo vùng thực tế */
 function chooseDims(W,H,words,d){
- var maxL=0;words.forEach(function(w){if(w.length>maxL)maxL=w.length});
+ var maxL=0;
+ words.forEach(function(w){if(w.length>maxL)maxL=w.length});
+
  var coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
- var s=coarse?24:22,cols=3,rows=3;
- for(;s<=96;s+=2){
-  cols=Math.floor(W/s);rows=Math.floor(H/s);
-  if(cols>=3&&rows>=3&&Math.max(cols,rows)>=maxL)break;
+ var s=coarse?24:22;
+ var cols=3,rows=3;
+
+ for(;s>=8;s-=2){
+  cols=Math.max(3,Math.floor(W/s));
+  rows=Math.max(3,Math.floor(H/s));
+
+  if(Math.max(cols,rows)>=maxL)break;
  }
- return{s:s,cols:Math.max(3,cols),rows:Math.max(3,rows)};
+
+ return{
+  s:s,
+  cols:Math.max(maxL,cols),
+  rows:Math.max(3,rows)
+ };
 }
+
 function snapSel(sx,sy,fx,fy,cols,rows){
  if(Math.sqrt(fx*fx+fy*fy)<.55)return{dx:0,dy:0,n:0};
- var k=Math.round(Math.atan2(fy,fx)/(Math.PI/4)),dx=Math.round(Math.cos(k*Math.PI/4)),dy=Math.round(Math.sin(k*Math.PI/4));
+
+ var k=Math.round(Math.atan2(fy,fx)/(Math.PI/4));
+ var dx=Math.round(Math.cos(k*Math.PI/4));
+ var dy=Math.round(Math.sin(k*Math.PI/4));
  var n=Math.round((fx*dx+fy*dy)/(dx*dx+dy*dy));
- var mx=dx>0?cols-1-sx:(dx<0?sx:1e9),my=dy>0?rows-1-sy:(dy<0?sy:1e9);
- return{dx:dx,dy:dy,n:Math.max(0,Math.min(n,mx,my))};
+
+ var mx=dx>0?cols-1-sx:(dx<0?sx:1e9);
+ var my=dy>0?rows-1-sy:(dy<0?sy:1e9);
+
+ return{
+  dx:dx,
+  dy:dy,
+  n:Math.max(0,Math.min(n,mx,my))
+ };
 }
+
 /*ENDPUZZLE*/
 
 /* ---------- trạng thái ---------- */
+
 var idx=0,words=[],puz=null,found=[],locked=false,sel=null,cs=30,W0=0,H0=0,nextT=0,rzT=0,noteT=0;
 var board=qs('#board'),svg=null,flayer=null,sline=null,noteDismissed=false,wasPortrait=false;
-function loadIdx(){var v=0;try{v=parseInt(localStorage.getItem(KEY),10)}catch(e){}return v>=0?v:0}
-function saveIdx(){try{localStorage.setItem(KEY,String(idx))}catch(e){}}
+
+function loadIdx(){
+ var v=0;
+ try{v=parseInt(localStorage.getItem(KEY),10)}catch(e){}
+ return v>=0?v:0;
+}
+
+function saveIdx(){
+ try{localStorage.setItem(KEY,String(idx))}catch(e){}
+}
+
 function cleanWords(list){
  var out=[];
- (list||[]).forEach(function(w){w=String(w).toLowerCase().replace(/[^a-z]/g,'');if(w.length>=2&&out.indexOf(w)<0)out.push(w)});
+ (list||[]).forEach(function(w){
+  w=String(w).toLowerCase().replace(/[^a-z]/g,'');
+  if(w.length>=2&&out.indexOf(w)<0)out.push(w);
+ });
  return out;
 }
 
 /* ---------- modal ---------- */
+
 function modal(t,x,btns){
- qs('#mt').textContent=t;qs('#mx').textContent=x;var m=qs('#mb');m.innerHTML='';
- btns.forEach(function(a){var e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});
+ qs('#mt').textContent=t;
+ qs('#mx').textContent=x;
+ var m=qs('#mb');
+ m.innerHTML='';
+ btns.forEach(function(a){
+  var e=document.createElement('button');
+  e.className='b '+(a[2]||'');
+  e.textContent=a[0];
+  e.onclick=a[1];
+  m.appendChild(e);
+ });
  qs('#md').hidden=false;
 }
+
 function hideModal(){qs('#md').hidden=true}
 
 /* ---------- pháo hoa ---------- */
+
 var cv=qs('#cf'),cx=cv.getContext('2d'),parts=[],raf=0,lastT=0,until=0,dpr=1;
 var CCOL=['#ef4444','#f59e0b','#fde047','#22c55e','#38bdf8','#a78bfa','#f472b6','#ffffff'];
-function sizeCv(){dpr=window.devicePixelRatio||1;cv.width=Math.floor(innerWidth*dpr);cv.height=Math.floor(innerHeight*dpr)}
+
+function sizeCv(){
+ dpr=window.devicePixelRatio||1;
+ cv.width=Math.floor(innerWidth*dpr);
+ cv.height=Math.floor(innerHeight*dpr);
+}
+
 function spawn(x,y,n,spd,ang,spr){
  for(var i=0;i<n;i++){
   var a=ang+(Math.random()-.5)*spr,v=spd*(.45+Math.random()*.75);
-  parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*6,h:3+Math.random()*5,rot:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:CCOL[Math.random()*CCOL.length|0],life:1,dec:.004+Math.random()*.007});
+  parts.push({
+   x:x,y:y,
+   vx:Math.cos(a)*v,
+   vy:Math.sin(a)*v,
+   w:5+Math.random()*6,
+   h:3+Math.random()*5,
+   rot:Math.random()*6.28,
+   vr:(Math.random()-.5)*.4,
+   c:CCOL[Math.random()*CCOL.length|0],
+   life:1,
+   dec:.004+Math.random()*.007
+  });
  }
 }
+
 function tickC(t){
- var dt=Math.min(40,t-(lastT||t))/16.7;lastT=t;
- cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,innerWidth,innerHeight);
+ var dt=Math.min(40,t-(lastT||t))/16.7;
+ lastT=t;
+ cx.setTransform(dpr,0,0,dpr,0,0);
+ cx.clearRect(0,0,innerWidth,innerHeight);
+
  parts=parts.filter(function(p){return p.life>0&&p.y<innerHeight+30});
+
  parts.forEach(function(p){
-  p.vy+=.28*dt;p.vx*=.992;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rot+=p.vr*dt;p.life-=p.dec*dt;
-  cx.save();cx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore();
+  p.vy+=.28*dt;
+  p.vx*=.992;
+  p.x+=p.vx*dt;
+  p.y+=p.vy*dt;
+  p.rot+=p.vr*dt;
+  p.life-=p.dec*dt;
+
+  cx.save();
+  cx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));
+  cx.translate(p.x,p.y);
+  cx.rotate(p.rot);
+  cx.fillStyle=p.c;
+  cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+  cx.restore();
  });
- if(parts.length||t<until)raf=requestAnimationFrame(tickC);else{raf=0;lastT=0;cx.clearRect(0,0,innerWidth,innerHeight)}
+
+ if(parts.length||t<until)raf=requestAnimationFrame(tickC);
+ else{
+  raf=0;
+  lastT=0;
+  cx.clearRect(0,0,innerWidth,innerHeight);
+ }
 }
+
 function fireworks(){
  var W=innerWidth,H=innerHeight;
  sizeCv();
- spawn(0,H,70,17,-Math.PI/3,.9);spawn(W,H,70,17,-Math.PI*2/3,.9);
- for(var k=0;k<8;k++)(function(k){setTimeout(function(){
-  spawn(W*(.12+Math.random()*.76),H*(.12+Math.random()*.38),60,9.5,0,6.28);
-  if(k%3===1){spawn(0,H,40,16,-Math.PI/3,.9);spawn(W,H,40,16,-Math.PI*2/3,.9)}
- },250+k*280)})(k);
+
+ spawn(0,H,70,17,-Math.PI/3,.9);
+ spawn(W,H,70,17,-Math.PI*2/3,.9);
+
+ for(var k=0;k<8;k++)(function(k){
+  setTimeout(function(){
+   spawn(W*(.12+Math.random()*.76),H*(.12+Math.random()*.38),60,9.5,0,6.28);
+   if(k%3===1){
+    spawn(0,H,40,16,-Math.PI/3,.9);
+    spawn(W,H,40,16,-Math.PI*2/3,.9);
+   }
+  },250+k*280);
+ })(k);
+
  until=performance.now()+2800;
- if(!raf){lastT=0;raf=requestAnimationFrame(tickC)}
+
+ if(!raf){
+  lastT=0;
+  raf=requestAnimationFrame(tickC);
+ }
 }
 
 /* ---------- dựng màn chơi ---------- */
+
 function renderWords(){
- qs('#words').innerHTML=words.map(function(w){return '<span class="w" data-w="'+w+'">'+w.toUpperCase()+'</span>'}).join('');
+ qs('#words').innerHTML=words.map(function(w){
+  return '<span class="w" data-w="'+w+'">'+w.toUpperCase()+'</span>';
+ }).join('');
 }
+
 function updateHud(){
  qs('#lv').textContent='Màn '+(idx+1)+'/'+STRING_SPLIT.length+' · '+found.length+'/'+words.length;
 }
+
 function renderBoard(){
  var h='';
- for(var i=0;i<puz.g.length;i++)h+='<div class="c">'+puz.g[i].toUpperCase()+'</div>';
- board.innerHTML=h+'<svg viewBox="0 0 '+puz.cols+' '+puz.rows+'" preserveAspectRatio="none"><g id="fl"></g><line id="sl" x1="0" y1="0" x2="0" y2="0" stroke-linecap="round" stroke-width=".8" visibility="hidden"></line></svg>';
- svg=board.querySelector('svg');flayer=board.querySelector('#fl');sline=board.querySelector('#sl');
+ for(var i=0;i<puz.g.length;i++){
+  h+='<div class="c">'+puz.g[i].toUpperCase()+'</div>';
+ }
+
+ board.innerHTML=h+
+ '<svg viewBox="0 0 '+puz.cols+' '+puz.rows+'" preserveAspectRatio="none">'+
+ '<g id="fl"></g>'+
+ '<line id="sl" x1="0" y1="0" x2="0" y2="0" stroke-linecap="round" stroke-width=".8" visibility="hidden"></line>'+
+ '</svg>';
+
+ svg=board.querySelector('svg');
+ flayer=board.querySelector('#fl');
+ sline=board.querySelector('#sl');
+
  fit();
 }
+
+/* Tính kích thước ô dựa trên kích thước thực tế của stage */
 function fit(){
  if(!puz)return;
- var st=qs('#stage'),W=st.clientWidth-8,H=st.clientHeight-8;
- cs=Math.max(10,Math.floor(Math.min(W/puz.cols,H/puz.rows)));
+
+ var st=qs('#stage');
+ var W=Math.max(1,st.clientWidth-4);
+ var H=Math.max(1,st.clientHeight-4);
+
+ cs=Math.max(1,Math.floor(Math.min(
+  W/puz.cols,
+  H/puz.rows
+ )));
+
+ var bw=puz.cols*cs;
+ var bh=puz.rows*cs;
+
  board.style.gridTemplateColumns='repeat('+puz.cols+','+cs+'px)';
  board.style.gridAutoRows=cs+'px';
- board.style.width=(puz.cols*cs)+'px';board.style.height=(puz.rows*cs)+'px';
- board.style.fontSize=Math.round(cs*.58)+'px';
+ board.style.width=bw+'px';
+ board.style.height=bh+'px';
+ board.style.fontSize=Math.max(8,Math.round(cs*.58))+'px';
 }
+
 function buildPuzzle(){
- var st=qs('#stage'),W=Math.max(120,st.clientWidth-8),H=Math.max(120,st.clientHeight-8);
- var d=idx/Math.max(1,STRING_SPLIT.length-1),pRev=.08+.42*d;
- var dm=chooseDims(W,H,words,d),p=null,s=dm.s,tries=0;
+ var st=qs('#stage');
+ var W=Math.max(1,st.clientWidth-4);
+ var H=Math.max(1,st.clientHeight-4);
+
+ var d=idx/Math.max(1,STRING_SPLIT.length-1);
+ var pRev=.08+.42*d;
+ var dm=chooseDims(W,H,words,d);
+ var p=null,s=dm.s,tries=0;
+
  while(!p&&tries<12){
   p=genPuzzle(words,dm.cols,dm.rows,pRev);
-  if(!p){tries++;s=Math.max(12,s+3);dm={s:s,cols:Math.max(3,Math.floor(W/s)),rows:Math.max(3,Math.floor(H/s))}}
+
+  if(!p){
+   tries++;
+   s=Math.max(8,s-2);
+   dm={
+    s:s,
+    cols:Math.max(3,Math.floor(W/s),Math.max.apply(null,words.map(function(w){return w.length}))),
+    rows:Math.max(3,Math.floor(H/s))
+   };
+  }
  }
- if(!p)p=genPuzzle(words,dm.cols+6,dm.rows+6,pRev);
- puz=p;W0=W;H0=H;
+
+ if(!p){
+  p=genPuzzle(dm.cols+6,dm.rows+6,words,pRev);
+ }
+
+ puz=p;
+ W0=W;
+ H0=H;
+
  if(puz)renderBoard();
 }
+
 function loadStage(){
- clearTimeout(nextT);clearHint();hideModal();
+ clearTimeout(nextT);
+ clearHint();
+ hideModal();
+
  words=cleanWords(STRING_SPLIT[idx]);
- found=[];locked=false;sel=null;puz=null;
- renderWords();updateHud();
+ found=[];
+ locked=false;
+ sel=null;
+ puz=null;
+
+ renderWords();
+ updateHud();
  buildPuzzle();
  saveIdx();
 }
 
 /* ---------- chọn từ trên lưới ---------- */
-function cellPos(e){var r=board.getBoundingClientRect();return{x:(e.clientX-r.left)/cs,y:(e.clientY-r.top)/cs}}
+
+/* Quy đổi tọa độ theo kích thước thực tế của board */
+function cellPos(e){
+ var r=board.getBoundingClientRect();
+
+ return{
+  x:(e.clientX-r.left)*puz.cols/r.width,
+  y:(e.clientY-r.top)*puz.rows/r.height
+ };
+}
+
 function drawSel(color){
  if(!sline)return;
- if(!sel){sline.setAttribute('visibility','hidden');return}
- sline.setAttribute('x1',sel.sx+.5);sline.setAttribute('y1',sel.sy+.5);
- sline.setAttribute('x2',sel.sx+sel.dx*sel.n+.5+(sel.n?0:.001));sline.setAttribute('y2',sel.sy+sel.dy*sel.n+.5);
- sline.setAttribute('stroke',color||'#ffffff');sline.setAttribute('stroke-opacity',color?'.75':'.38');
+
+ if(!sel){
+  sline.setAttribute('visibility','hidden');
+  return;
+ }
+
+ sline.setAttribute('x1',sel.sx+.5);
+ sline.setAttribute('y1',sel.sy+.5);
+ sline.setAttribute('x2',sel.sx+sel.dx*sel.n+.5+(sel.n?0:.001));
+ sline.setAttribute('y2',sel.sy+sel.dy*sel.n+.5);
+ sline.setAttribute('stroke',color||'#ffffff');
+ sline.setAttribute('stroke-opacity',color?'.75':'.38');
  sline.setAttribute('visibility','visible');
 }
+
 board.addEventListener('pointerdown',function(e){
  if(locked||!puz)return;
- var p=cellPos(e),x=Math.floor(p.x),y=Math.floor(p.y);
+
+ var p=cellPos(e);
+ var x=Math.floor(p.x),y=Math.floor(p.y);
+
  if(x<0||y<0||x>=puz.cols||y>=puz.rows)return;
+
  e.preventDefault();
+
  try{board.setPointerCapture(e.pointerId)}catch(err){}
- sel={sx:x,sy:y,dx:0,dy:0,n:0};drawSel();
+
+ sel={sx:x,sy:y,dx:0,dy:0,n:0};
+ drawSel();
 });
+
 board.addEventListener('pointermove',function(e){
  if(!sel||!puz)return;
- var p=cellPos(e),r=snapSel(sel.sx,sel.sy,p.x-(sel.sx+.5),p.y-(sel.sy+.5),puz.cols,puz.rows);
- sel.dx=r.dx;sel.dy=r.dy;sel.n=r.n;drawSel();
+
+ var p=cellPos(e);
+
+ var r=snapSel(
+  sel.sx,
+  sel.sy,
+  p.x-(sel.sx+.5),
+  p.y-(sel.sy+.5),
+  puz.cols,
+  puz.rows
+ );
+
+ sel.dx=r.dx;
+ sel.dy=r.dy;
+ sel.n=r.n;
+
+ drawSel();
 });
+
 board.addEventListener('pointerup',function(){finishSel()});
 board.addEventListener('pointercancel',function(){sel=null;drawSel()});
 board.addEventListener('contextmenu',function(e){e.preventDefault()});
-function isFound(w){return found.some(function(f){return f.w===w})}
+
+function isFound(w){
+ return found.some(function(f){return f.w===w});
+}
+
 function finishSel(){
  if(!sel||!puz)return;
+
  var s=sel,cells=[],str='',j;
- for(j=0;j<=s.n;j++){var x=s.sx+s.dx*j,y=s.sy+s.dy*j;cells.push([x,y]);str+=puz.g[y*puz.cols+x]}
+
+ for(j=0;j<=s.n;j++){
+  var x=s.sx+s.dx*j,y=s.sy+s.dy*j;
+  cells.push([x,y]);
+  str+=puz.g[y*puz.cols+x];
+ }
+
  var low=str.toLowerCase(),hit=null;
- if(s.n>=1)words.forEach(function(w){if(!isFound(w)&&(w===low||w===rev(low)))hit=w});
+
+ if(s.n>=1){
+  words.forEach(function(w){
+   if(!isFound(w)&&(w===low||w===rev(low)))hit=w;
+  });
+ }
+
  if(hit){
-  sel=null;drawSel();
+  sel=null;
+  drawSel();
+
   var color=PAL[found.length%PAL.length];
+
   found.push({w:hit,color:color});
-  var a=cells[0],b=cells[cells.length-1],ln=document.createElementNS('http://www.w3.org/2000/svg','line');
-  ln.setAttribute('x1',a[0]+.5);ln.setAttribute('y1',a[1]+.5);ln.setAttribute('x2',b[0]+.5);ln.setAttribute('y2',b[1]+.5);
-  ln.setAttribute('stroke',color);ln.setAttribute('stroke-width','.8');ln.setAttribute('stroke-linecap','round');ln.setAttribute('stroke-opacity','.88');
+
+  var a=cells[0],b=cells[cells.length-1];
+  var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+
+  ln.setAttribute('x1',a[0]+.5);
+  ln.setAttribute('y1',a[1]+.5);
+  ln.setAttribute('x2',b[0]+.5);
+  ln.setAttribute('y2',b[1]+.5);
+  ln.setAttribute('stroke',color);
+  ln.setAttribute('stroke-width','.8');
+  ln.setAttribute('stroke-linecap','round');
+  ln.setAttribute('stroke-opacity','.88');
+
   flayer.appendChild(ln);
-  var chip=qs('.w[data-w="'+hit+'"]');if(chip){chip.style.setProperty('--wc',color);chip.classList.add('f')}
+
+  var chip=qs('.w[data-w="'+hit+'"]');
+
+  if(chip){
+   chip.style.setProperty('--wc',color);
+   chip.classList.add('f');
+  }
+
   updateHud();
+
   if(found.length===words.length)win();
+
  }else{
-  if(s.n>=1){drawSel('#ef4444');sel=null;setTimeout(function(){if(!sel)drawSel()},220)}else{sel=null;drawSel()}
+  if(s.n>=1){
+   drawSel('#ef4444');
+   sel=null;
+   setTimeout(function(){
+    if(!sel)drawSel();
+   },220);
+  }else{
+   sel=null;
+   drawSel();
+  }
  }
 }
 
-/* ---------- gợi ý (kính lúp) ---------- */
+/* ---------- gợi ý ---------- */
+
 var hintT=0;
+
 function clearHint(){
  clearTimeout(hintT);
+
  var h=board.querySelectorAll('.c.hl');
+
  for(var i=0;i<h.length;i++)h[i].classList.remove('hl');
 }
+
 function showHint(){
  if(locked||!puz)return;
+
  clearHint();
+
  var w=null;
- for(var i=0;i<words.length;i++)if(!isFound(words[i])){w=words[i];break}
+
+ for(var i=0;i<words.length;i++){
+  if(!isFound(words[i])){
+   w=words[i];
+   break;
+  }
+ }
+
  if(!w)return;
+
  var cells=board.querySelectorAll('.c');
- puz.placed[w].forEach(function(ci){if(cells[ci])cells[ci].classList.add('hl')});
- hintT=setTimeout(clearHint,3500);
+
+ puz.placed[w].forEach(function(ci){
+  if(cells[ci])cells[ci].classList.add('hl');
+ });
+
+ hintT=setTimeout(clearHint, 1500);
 }
+
 qs('#hint').addEventListener('click',showHint);
 
 /* ---------- thắng màn ---------- */
+
 function win(){
- locked=true;clearHint();idx++;saveIdx();fireworks();
+ locked=true;
+ clearHint();
+ idx++;
+ saveIdx();
+ fireworks();
+
  if(idx>=STRING_SPLIT.length){
-  modal('🏆 Xin chúc mừng!','Bạn đã hoàn thành tất cả '+STRING_SPLIT.length+' màn.',[['Chơi lại từ đầu',function(){idx=0;saveIdx();loadStage()},'on']]);
+  modal(
+   '🏆 Xin chúc mừng!',
+   'Bạn đã hoàn thành tất cả '+STRING_SPLIT.length+' màn.',
+   [['Chơi lại từ đầu',function(){
+    idx=0;
+    saveIdx();
+    loadStage();
+   },'on']]
+  );
  }else{
-  modal('🎉 Xin chúc mừng!','Bạn đã tìm đủ các từ khoá. Qua màn kế tiếp nhé!',[['Màn tiếp ▶',function(){loadStage()},'on']]);
+  modal(
+   '🎉 Xin chúc mừng!',
+   'Bạn đã tìm đủ các từ khoá. Qua màn kế tiếp nhé!',
+   [['Màn tiếp ▶',function(){loadStage()},'on']]
+  );
+
   nextT=setTimeout(loadStage,4200);
  }
 }
 
 /* ---------- điều khiển khác ---------- */
+
 qs('#rs').addEventListener('click',function(){
- modal('Chơi lại từ đầu?','Tiến độ hiện tại (màn '+(idx+1)+') sẽ bị xoá và bạn quay về màn 1.',[
-  ['Đồng ý',function(){idx=0;saveIdx();loadStage()},'on'],['Hủy',hideModal]]);
+ modal(
+  'Chơi lại từ đầu?',
+  'Tiến độ hiện tại (màn '+(idx+1)+') sẽ bị xoá và bạn quay về màn 1.',
+  [
+   ['Đồng ý',function(){
+    idx=0;
+    saveIdx();
+    loadStage();
+   },'on'],
+   ['Hủy',hideModal]
+  ]
+ );
 });
-qs('#note').addEventListener('click',function(){qs('#note').hidden=true;noteDismissed=true});
+
+qs('#note').addEventListener('click',function(){
+ qs('#note').hidden=true;
+ noteDismissed=true;
+});
+
 function updateNote(first){
- var portrait=innerHeight>innerWidth&&innerWidth<820,coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
+ var portrait=innerHeight>innerWidth&&innerWidth<820;
+ var coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
  var n=qs('#note');
- if(coarse&&portrait&&!noteDismissed&&(first||!wasPortrait)){n.hidden=false;clearTimeout(noteT);noteT=setTimeout(function(){n.hidden=true},7000)}
+
+ if(coarse&&portrait&&!noteDismissed&&(first||!wasPortrait)){
+  n.hidden=false;
+  clearTimeout(noteT);
+  noteT=setTimeout(function(){n.hidden=true},7000);
+ }
+
  if(!portrait)n.hidden=true;
+
  wasPortrait=portrait;
 }
+
 function onResize(){
  if(!puz)return;
- var st=qs('#stage'),W=st.clientWidth-8,H=st.clientHeight-8;
- if(!found.length&&!locked&&(Math.abs(W-W0)/W0>.08||Math.abs(H-H0)/H0>.08)){buildPuzzle()}else fit();
-}
-addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(onResize,250);sizeCv();updateNote(false)});
 
-/* ---------- đo vùng nhìn thấy thật khi nhúng trong iframe (iframe cao hơn phần hiển thị) ---------- */
+ var st=qs('#stage');
+ var W=st.clientWidth-4;
+ var H=st.clientHeight-4;
+
+ if(!found.length&&!locked&&(Math.abs(W-W0)/Math.max(1,W0)>.08||Math.abs(H-H0)/Math.max(1,H0)>.08)){
+  buildPuzzle();
+ }else{
+  fit();
+ }
+}
+
+addEventListener('resize',function(){
+ clearTimeout(rzT);
+ rzT=setTimeout(onResize,250);
+ sizeCv();
+ updateNote(false);
+});
+
+/* ---------- đo vùng nhìn thấy khi nhúng iframe ---------- */
+
 (function(){
  var last=0;
+
  function apply(h){
   h=Math.floor(h);
+
   if(h<200||h===last)return;
+
   last=h;
+
   var app=qs('#app');
-  if(h>=innerHeight-1)app.style.removeProperty('--appH');else app.style.setProperty('--appH',h+'px');
-  clearTimeout(rzT);rzT=setTimeout(onResize,150);
+
+  if(h>=innerHeight-1){
+   app.style.removeProperty('--appH');
+  }else{
+   app.style.setProperty('--appH',h+'px');
+  }
+
+  clearTimeout(rzT);
+  rzT=setTimeout(onResize,150);
  }
+
  if(!('IntersectionObserver' in window))return;
- var steps=[];for(var i=0;i<=100;i++)steps.push(i/100);
+
+ var steps=[];
+
+ for(var i=0;i<=100;i++)steps.push(i/100);
+
  new IntersectionObserver(function(es){
-  var e=es[es.length-1],ir=e.intersectionRect,bc=e.boundingClientRect;
+  var e=es[es.length-1];
+  var ir=e.intersectionRect;
+  var bc=e.boundingClientRect;
+
   if(ir&&ir.height)apply(ir.bottom-bc.top);
+
  },{threshold:steps}).observe(document.documentElement);
+
 })();
 
 /* ---------- khởi động ---------- */
+
 sizeCv();
+
 idx=loadIdx();
+
 if(idx>=STRING_SPLIT.length)idx=0;
+
 loadStage();
 updateNote(true);
+
 /*TESTHOOK*/
+
 })();
 </script>
-</body></html>
+</body>
+</html>
