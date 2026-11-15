@@ -53,7 +53,8 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .cl.u{cursor:pointer}
 .cl.e{background:repeating-linear-gradient(45deg,var(--pc) 0 3px,var(--pl) 3px 6px)}
 .cl.mk::after{content:'';position:absolute;inset:11%;border-radius:50%;border:calc(var(--c)*.09) solid #b91c1c;background:radial-gradient(circle,#ef444422 45%,#b91c1c33);box-shadow:0 1px 2px #0006;pointer-events:none}
-.cl.wr{background:#bbf7d0;outline:3px solid #16a34a;z-index:2}
+.cl.wr{background:#fde047;color:#111;outline:3px solid #111;z-index:2;animation:wrp .8s 4}
+@keyframes wrp{50%{background:#fff;outline-color:#dc2626}}
 .cl.ms{outline:3px dashed #dc2626;z-index:2}
 #mid{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;width:100%;max-width:260px}
 #turn{font-weight:700;font-size:15px;color:#fde68a;height:2.7em;line-height:1.25;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -82,7 +83,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .ball.pop{animation:pop .9s forwards}
 @keyframes pop{0%{opacity:1;transform:translateY(calc(30px*var(--u))) scale(.4)}55%{opacity:1;transform:translateY(calc(-86px*var(--u))) scale(1.25)}100%{opacity:1;transform:translateY(calc(-76px*var(--u))) scale(1)}}
 .ps *{animation-play-state:paused!important}
-.ov{position:fixed;inset:0;background:#000b;z-index:20;display:flex;align-items:center;justify-content:center}
+.ov{position:fixed;inset:0;background:#000b;z-index:40;display:flex;align-items:center;justify-content:center}
 .ovb{background:#fff8e6;color:#3b1d00;border-radius:14px;padding:16px;max-width:520px;width:92%;max-height:90vh;overflow:auto;text-align:center}
 .ovb h2{margin:0 0 4px;color:#991b1b;font-size:19px}.ovb p{margin:6px 0;font-size:14px}
 .hg{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin:10px 0}
@@ -90,6 +91,26 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .hg i.on{background:#dc2626;color:#fff}.hg i.lastn{outline:3px solid #eab308}
 .seq{font-size:13px;color:#7c2d12;word-break:break-word;text-align:left;max-height:90px;overflow:auto;background:#fff;border-radius:8px;padding:6px}
 #toast{position:fixed;left:50%;top:60px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 16px;border-radius:20px;font-size:14px;z-index:30}
+#arena.m2{display:flex;flex-direction:column;align-items:center;gap:8px;padding:2px}
+.top2{display:flex;gap:8px;align-items:center;justify-content:center;width:100%}
+#arena.m2 #mid{width:auto;flex:1;min-width:0;max-width:none;gap:4px}
+#arena.m2 #turn{font-size:12px;height:3.2em}
+#arena.m2 #kinh,#arena.m3 #kinh{font-size:15px;padding:6px 12px;border-width:2px}
+#arena.m3{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:2px}
+#arena.m3 #mid{width:auto;flex:0 1 170px;min-width:0;max-width:none;gap:4px}
+#arena.m3 #turn{font-size:12px;height:3.2em}
+#res{background:#fff8e6;color:#3b1d00;border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px #000a;text-align:center}
+#res.st{width:100%;margin-top:6px}
+#res.fx{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(94vw,520px);z-index:25}
+#rt{font-weight:800;color:#991b1b;font-size:15px;cursor:pointer}
+#rx{font-size:13px;margin:4px 0 8px}
+#res.min #rx{display:none}
+.rbt{display:flex;gap:8px}
+.rbt button{flex:1;border:2px solid #b45309;background:#fffdf3;color:#7c2d12;border-radius:10px;padding:8px 6px;font-weight:700;font-size:14px}
+.rbt button.pr{background:#dc2626;color:#fff;border-color:#7f1d1d}
+.seq b{color:#991b1b;font-weight:800}
+.hg i.wn{outline:3px solid #16a34a;background:#bbf7d0;color:#14532d}
+#hnote{font-size:12px;color:#166534}
 </style></head><body>
 <div id="lt">
 <header>
@@ -100,15 +121,16 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 <div id="setup"><div class="card">
  <h2>Cờ lô tô vui nhộn</h2>
  <h3>Chọn màu cờ của bạn</h3><div class="sw" id="sw"></div>
- <h3>Số tờ bạn dò</h3><div class="sg" id="sg1"><button data-v="1">1 tờ</button><button data-v="2">2 tờ (cùng màu)</button></div>
- <h3>Số máy cùng chơi</h3><div class="sg" id="sg2"><button data-v="1">1 máy</button><button data-v="2">2 máy</button><button data-v="3">3 máy</button></div>
+ <h3 id="h3s">Số tờ bạn dò</h3><div class="sg" id="sg1"><button data-v="1">1 tờ</button><button data-v="2">2 tờ (cùng màu)</button></div>
+ <h3 id="h3m">Số máy cùng chơi</h3><div class="sg" id="sg2"><button data-v="1">1 máy</button><button data-v="2">2 máy</button><button data-v="3">3 máy</button></div>
+ <p class="note" id="smn" hidden>Trên điện thoại: bạn dò 1 tờ và chơi với 1 máy. Bạn vẫn xem được cờ của máy để theo dõi.</p>
  <button class="big" id="go">BẮT ĐẦU</button>
  <p class="note">Mỗi ván chỉ có một người gọi số, ván sau sẽ đổi người khác. Khi tới ván bạn gọi số: bấm 1 lần vào cái tô để LẮC, bấm đúp (2 lần liên tiếp) vào tô để LẤY SỐ. Bạn tự dò và tự bấm KINH khi đủ 5 số trên một hàng. Kinh sai là thua!</p>
 </div></div>
 <div id="game" hidden><div id="arena"></div></div>
 </div>
-<div class="ov" id="hov" hidden><div class="ovb"><h2>Các số đã gọi</h2><p id="hcnt"></p><div class="hg" id="hg"></div><div class="seq" id="hseq"></div><button class="big" id="hclose" style="background:#b45309">Đóng và chơi tiếp</button></div></div>
-<div class="ov" id="end" hidden><div class="ovb"><h2 id="et"></h2><p id="ex"></p><button class="big" id="e1">Chơi lại</button><button class="big" id="e2" style="background:#b45309;margin-top:8px">Đổi lựa chọn</button></div></div>
+<div class="ov" id="hov" hidden><div class="ovb"><h2>Các số đã gọi</h2><p id="hcnt"></p><div class="hg" id="hg"></div><p id="hnote"></p><div class="seq" id="hseq"></div><button class="big" id="hclose" style="background:#b45309">Đóng và chơi tiếp</button></div></div>
+<div id="res" class="fx" hidden><div id="rt"></div><div id="rx"></div><div class="rbt"><button class="pr" id="e1">Ván mới</button><button id="e2">Chọn lại</button></div></div>
 <div id="toast" hidden></div>
 <script>
 (function(){
@@ -118,7 +140,8 @@ var el=function(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=
 var rnd=function(a,b){return a+Math.random()*(b-a)};
 var shuf=function(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a};
 var COLORS=[{n:'Đỏ',c:'#e11d48',d:'#9f1239',l:'#fb7185'},{n:'Xanh dương',c:'#2563eb',d:'#1e3a8a',l:'#60a5fa'},{n:'Xanh lá',c:'#16a34a',d:'#14532d',l:'#4ade80'},{n:'Vàng',c:'#eab308',d:'#854d0e',l:'#fde047'},{n:'Hồng',c:'#ec4899',d:'#9d174d',l:'#f9a8d4'},{n:'Cam',c:'#f97316',d:'#9a3412',l:'#fdba74'},{n:'Tím',c:'#9333ea',d:'#581c87',l:'#d8b4fe'}];
-var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0,caller=null,ck=0;
+var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0,caller=null,ck=0,resEl=null,m2=false,resMin=false,lastFit={w:0,h:0};
+function isSmall(){return innerWidth<900||innerHeight<400}
 
 function later(ms,fn){var t={ms:ms,fn:fn};tms.push(t);return t}
 setInterval(function(){
@@ -182,6 +205,7 @@ function speak(n){
 /* ---------- màn chọn ---------- */
 function buildSetup(){
  var sw=gq('#sw');sw.innerHTML='';
+ var sm=isSmall();['#h3s','#sg1','#h3m','#sg2'].forEach(function(q){gq(q).hidden=sm});gq('#smn').hidden=!sm;
  COLORS.forEach(function(c,i){var b=el('button',i==opt.ci?'on':'','<i></i>');b.style.background=c.c;b.title=c.n;b.setAttribute('aria-label',c.n);b.onclick=function(){opt.ci=i;buildSetup()};sw.appendChild(b)});
  [['#sg1','sheets'],['#sg2','mach']].forEach(function(a){
   Array.prototype.forEach.call(gq(a[0]).children,function(b){b.className=(+b.dataset.v==opt[a[1]])?'on':'';b.onclick=function(){opt[a[1]]=+b.dataset.v;buildSetup()}});
@@ -189,7 +213,7 @@ function buildSetup(){
 }
 function showSetup(){
  running=false;over=true;tms=[];paused=false;G=null;
- gq('#setup').hidden=false;gq('#game').hidden=true;gq('#end').hidden=true;gq('#hov').hidden=true;gq('#bh').disabled=true;
+ gq('#setup').hidden=false;gq('#game').hidden=true;gq('#res').hidden=true;gq('#hov').hidden=true;gq('#bh').disabled=true;if(kinh)kinh.style.display='';
  gq('#kslot').innerHTML='';gq('#lt').classList.remove('ps');buildSetup();
 }
 
@@ -200,15 +224,17 @@ function newPlayer(isU,name,ci,two){
 }
 function startGame(){
  var rest=shuf([0,1,2,3,4,5,6].filter(function(i){return i!=opt.ci}));
- G={pl:[newPlayer(true,'Bạn',opt.ci,opt.sheets==2)],bag:shuf(Array.from({length:90},function(_,i){return i+1})),called:[],cs:new Set(),turn:0,phase:'turn',shook:false,shaking:false,tab:0,pend:0,age:0,curN:0,userHas:false};
- for(var i=0;i<opt.mach;i++)G.pl.push(newPlayer(false,'Máy '+(i+1),rest[i],Math.random()<.5));
+ var sm=isSmall(),nSheets=sm?1:opt.sheets,nMach=sm?1:opt.mach;
+ G={pl:[newPlayer(true,'Bạn',opt.ci,nSheets==2)],bag:shuf(Array.from({length:90},function(_,i){return i+1})),called:[],cs:new Set(),turn:0,phase:'turn',shook:false,shaking:false,tab:0,pend:0,age:0,curN:0,userHas:false};
+ for(var i=0;i<nMach;i++)G.pl.push(newPlayer(false,'Máy '+(i+1),rest[i],!sm&&Math.random()<.5));
  /* người gọi số: chọn ngẫu nhiên ở ván đầu, mỗi ván mới đổi sang người kế tiếp, cả ván giữ nguyên */
  caller=((caller==null?(Math.random()*G.pl.length|0):caller+1))%G.pl.length;
  G.turn=caller;
  tms=[];paused=false;over=false;running=true;
- gq('#setup').hidden=true;gq('#game').hidden=false;gq('#end').hidden=true;gq('#bh').disabled=false;
+ gq('#setup').hidden=true;gq('#game').hidden=false;gq('#res').hidden=true;gq('#bh').disabled=false;if(kinh)kinh.style.display='';
  if(!mid)buildMid();
  render();startTurn();
+ setTimeout(refit,250);setTimeout(refit,1000);
 }
 function buildMid(){
  mid=el('div');mid.id='mid';
@@ -246,27 +272,41 @@ function panel(p,pid,c,own,id){
  p.tos.forEach(function(to,i){if(own&&!wide&&i!=G.tab)return;row.appendChild(tori(to,i,p,c,own,pid))});
  d.appendChild(row);return d;
 }
-/* bắt đầu từ cỡ lớn nhất rồi thu nhỏ dần đến khi toàn bộ (kể cả hàng cuối của tờ) vừa khít màn hình */
+/* bắt đầu từ cỡ lớn nhất rồi thu nhỏ dần đến khi toàn bộ (kể cả hàng cuối của tờ) vừa khít màn hình, chừa lề dưới 20px */
+function fitOK(){var gm=gq('#game'),ar=gq('#arena');return ar.offsetHeight<=gm.clientHeight-20&&ar.scrollWidth<=gm.clientWidth}
 function render(){
  var gm=gq('#game'),K;
- for(K=1;K>0.2;K-=.02){
-  draw(K);
-  var ar=gq('#arena');if(ar.offsetHeight<=gm.clientHeight&&ar.scrollWidth<=gm.clientWidth)break;
- }
+ for(K=1;K>0.2;K-=.02){draw(K);if(fitOK())break}
+ lastFit={w:gm.clientWidth,h:gm.clientHeight};
+}
+/* khung chứa đổi kích thước sau khi load (ví dụ trang cha chỉnh lại chiều cao) thì tự xếp lại */
+function refit(){
+ if(!G||gq('#game').hidden)return;
+ var gm=gq('#game');
+ if(gm.clientHeight!=lastFit.h||gm.clientWidth!=lastFit.w||!fitOK())render();
 }
 function draw(K){
  var arena=gq('#arena');arena.innerHTML='';refs={};G.pl.forEach(function(p){p.nds=[]});
  G.pl.forEach(function(_,i){refs[i]=[]});
  var W=innerWidth,H=innerHeight,c,m;
  wide=W>=900&&H>=400;
+ m2=!wide&&G.pl.length==2&&G.pl[0].tos.length==1&&G.pl[1].tos.length==1;
+ var land=m2&&W>H;
  if(wide){c=Math.max(7,Math.floor(64*K));m=Math.max(6,Math.floor(c*.56))}
- else{c=Math.max(7,Math.floor(Math.min(52,Math.floor((W-16)/9.5))*K))}
- arena.className=wide?'w':'m';
- mid.querySelector('.bowlw').style.setProperty('--u',String(wide?Math.min(1,.5+.5*K):Math.max(.5,.62*K)));
+ else if(land){c=Math.max(7,Math.floor(64*K));m=Math.max(8,Math.floor(c*.5))}
+ else{c=Math.max(7,Math.floor(Math.min(52,Math.floor((W-16)/9.5))*K));m=Math.max(8,Math.floor(c*.5))}
+ arena.className=wide?'w':(land?'m3':(m2?'m2':'m'));
+ mid.querySelector('.bowlw').style.setProperty('--u',String(wide?Math.min(1,.5+.5*K):(m2?Math.max(.42,.58*K):Math.max(.5,.62*K))));
  if(wide){
   arena.appendChild(panel(G.pl[0],0,c,true,'pu'));
   for(var i=1;i<G.pl.length;i++)arena.appendChild(panel(G.pl[i],i,m,false,'pm'+i));
   arena.appendChild(mid);mid.appendChild(kinh);
+ }else if(m2){
+  /* điện thoại: 1 người 1 máy. Cờ của máy (nhỏ) ở trên bên trái, tô ở bên phải, cờ của bạn ở dưới */
+  if(land){arena.appendChild(panel(G.pl[1],1,m,false,'pm1'));arena.appendChild(mid);arena.appendChild(panel(G.pl[0],0,c,true,'pu'))}
+  else{var top=el('div','top2');top.appendChild(panel(G.pl[1],1,m,false,'pm1'));top.appendChild(mid);
+  arena.appendChild(top);arena.appendChild(panel(G.pl[0],0,c,true,'pu'))}
+  gq('#kslot').appendChild(kinh);
  }else{
   var strip=el('div','strip'+(G.pl.length==2?' one':''));
   for(var k=1;k<G.pl.length;k++){var p=G.pl[k],ch=el('div','chip','<i style="background:'+p.col.c+'"></i><b>'+p.name+'</b><small></small>');p.nds.push(ch.querySelector('small'));strip.appendChild(ch)}
@@ -275,7 +315,7 @@ function draw(K){
   gq('#kslot').appendChild(kinh);
  }
  if(wide)gq('#kslot').innerHTML='';
- paint();setTurnUI();
+ paint();setTurnUI();placeRes();
 }
 function paint(){
  if(!G)return;
@@ -283,8 +323,9 @@ function paint(){
  G.pl.forEach(function(p,i){
   if(i==0)return;
   var b=missing(p,p.marks),t=b?(b.ms.length?'còn thiếu '+b.ms.length+' số':'đủ hàng!'):'';
-  p.nds.forEach(function(s){s.textContent=wide?'· '+t:t});
+  p.nds.forEach(function(s){s.textContent=(wide||m2)?'· '+t:t});
  });
+ if(G.hl)lightRow(G.hl.pid,G.hl.t,G.hl.r,G.hl.cls,G.hl.only);
 }
 var turnText='';
 function setTurn(t){turnText=t;var e=gq('#turn');if(e)e.textContent=t}
@@ -369,40 +410,56 @@ function lightRow(pid,t,r,cls,only){
 function endGame(kind,p,info){
  if(over)return;
  over=true;running=false;tms=[];paused=false;gq('#lt').classList.remove('ps');
- gq('#bowl').classList.remove('shaking');
+ gq('#bowl').classList.remove('shaking');gq('#mmsg').textContent='';
  var pid=p?G.pl.indexOf(p):0;
  if(kind=='win'||kind=='wrong'){if(!wide&&info&&G.tab!=info.t){G.tab=info.t;render()}}
- if(kind=='win')lightRow(pid,info.t,info.r,'wr');
- else if(kind=='mach')lightRow(pid,info.t,info.r,'wr');
- else if(kind=='wrong')lightRow(0,info.t,info.r,'ms',info.ms);
- ui();
+ G.wn=null;
+ if(kind=='win'||kind=='mach'){G.hl={pid:pid,t:info.t,r:info.r,cls:'wr'};G.wn=info.nums}
+ else if(kind=='wrong')G.hl={pid:0,t:info.t,r:info.r,cls:'ms',only:info.ms};
+ paint();ui();
  var t,x;
  if(kind=='win'){t='🎉 KINH! Bạn thắng!';x='Tờ '+(info.t+1)+', hàng '+(info.r+1)+' đã đủ 5 số: '+info.nums.join(', ')+'.'}
- else if(kind=='mach'){t='😵 '+p.name+' kinh trước!';x=p.name+' đủ 5 số ở tờ '+(info.t+1)+', hàng '+(info.r+1)+': '+info.nums.join(', ')+'.'}
+ else if(kind=='mach'){t='😵 '+p.name+' kinh trước!';x=p.name+' đủ 5 số ở tờ '+(info.t+1)+', hàng '+(info.r+1)+' (đang tô xanh trên cờ của máy): '+info.nums.join(', ')+'. Bạn cứ xem kỹ cờ của máy, hoặc bấm nút đồng hồ để kiểm tra lại các số đã gọi.'}
  else if(kind=='wrong'){t='Kinh sai, bạn thua!';x='Hàng gần đủ nhất (tờ '+(info.t+1)+', hàng '+(info.r+1)+') còn thiếu số: '+info.ms.join(', ')+' (chưa được gọi).'}
  else{t='Hết số';x='Đã gọi hết 90 số mà chưa ai kinh.'}
- setTimeout(function(){gq('#et').textContent=t;gq('#ex').textContent=x;gq('#end').hidden=false},700);
+ showRes(t,x);
+}
+/* kết quả hiện thành một thẻ nhỏ (không che kín màn hình) để người chơi còn xem cờ và lịch sử; ván chỉ qua khi bấm Ván mới */
+function showRes(t,x){
+ resMin=false;resEl.classList.remove('min');
+ gq('#rt').textContent=t+' ▾';gq('#rx').textContent=x;resEl.hidden=false;placeRes();
+}
+function placeRes(){
+ if(!resEl||resEl.hidden||!over)return;
+ if(wide){resEl.className=resMin?'st min':'st';mid.appendChild(resEl);kinh.style.display='none'}
+ else{resEl.className=resMin?'fx min':'fx';document.body.appendChild(resEl);kinh.style.display=''}
 }
 
 /* ---------- lịch sử ---------- */
 function openHist(){
- if(!G||!running)return;
- paused=true;gq('#lt').classList.add('ps');
- var last=G.called[G.called.length-1],h='';
- for(var n=1;n<=90;n++)h+='<i class="'+(G.cs.has(n)?'on':'')+(n==last?' lastn':'')+'">'+n+'</i>';
- gq('#hg').innerHTML=h;gq('#hcnt').textContent='Đã gọi '+G.called.length+' số (trò chơi đang tạm dừng)';
- gq('#hseq').textContent=G.called.length?'Thứ tự gọi: '+G.called.join(', '):'Chưa gọi số nào.';
+ if(!G)return;
+ if(running){paused=true;gq('#lt').classList.add('ps')}
+ var last=G.called[G.called.length-1],wn=G.wn||[],h='';
+ for(var n=1;n<=90;n++)h+='<i class="'+(G.cs.has(n)?'on':'')+(wn.indexOf(n)>=0?' wn':'')+(n==last?' lastn':'')+'">'+n+'</i>';
+ gq('#hg').innerHTML=h;
+ gq('#hcnt').textContent='Đã gọi '+G.called.length+' số '+(running?'(trò chơi đang tạm dừng)':'(ván đã kết thúc)');
+ gq('#hnote').textContent=wn.length?'Viền xanh: 5 số của hàng vừa kinh. Nếu cả 5 đều có nền đỏ (đã được gọi) thì kinh hợp lệ.':'';
+ gq('#hseq').innerHTML=G.called.length?'Thứ tự gọi: '+G.called.map(function(n){return'<b>'+n+'</b>'}).join(', '):'Chưa gọi số nào.';
  gq('#hov').hidden=false;
 }
-function closeHist(){gq('#hov').hidden=true;paused=false;gq('#lt').classList.remove('ps')}
+function closeHist(){gq('#hov').hidden=true;if(running){paused=false;gq('#lt').classList.remove('ps')}}
 
 /* ---------- gắn sự kiện ---------- */
 gq('#go').onclick=startGame;
 gq('#bh').onclick=openHist;gq('#hclose').onclick=closeHist;
 gq('#bv').onclick=function(){voiceOn=!voiceOn;this.textContent=voiceOn?'🔊':'🔇';if(!voiceOn&&'speechSynthesis' in window){try{speechSynthesis.cancel()}catch(e){}}};
+resEl=gq('#res');
 gq('#e1').onclick=startGame;gq('#e2').onclick=showSetup;
+gq('#rt').onclick=function(){resMin=!resMin;resEl.classList.toggle('min',resMin);var r=gq('#rt');r.textContent=r.textContent.replace(/[▾▴]$/,resMin?'▴':'▾')};
 var rz=0;
 addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){if(G&&gq('#game').hidden===false){render()}},150)});
+if(typeof ResizeObserver!=='undefined'){new ResizeObserver(function(){clearTimeout(rz);rz=setTimeout(refit,80)}).observe(gq('#game'))}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(refit);
 showSetup();
 })();
 </script></body></html>
