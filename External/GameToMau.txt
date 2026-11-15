@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>🎨 Tô màu theo mẫu</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
+#app{height:var(--appH,100%);display:flex;flex-direction:column;overflow:hidden;padding:env(safe-area-inset-top) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+header{position:relative;flex:none;height:clamp(28px,5.5vh,40px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px}
+header h1{font-size:clamp(13px,2.7vh,18px);margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nv{display:flex;align-items:center;gap:6px}
+#lv{font-weight:700;color:#fbbf24;font-size:clamp(11px,2.2vh,14px);white-space:nowrap}
+button{font:inherit;cursor:pointer}
+.b{background:#334155;color:#fff;border:0;border-radius:10px;padding:5px 10px;font-weight:600;font-size:clamp(12px,2.3vh,14px)}
+.b:active{transform:scale(.95)}.b.on{background:#6366f1}.b:disabled{opacity:.35}
+#note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:20;max-width:96%;background:#92400e;border:1px solid #f59e0b;color:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 14px #0008}
+/* thanh màu nằm TRÊN để không bị che đáy khi nhúng iframe */
+#bar{flex:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:5px;padding:3px 2px 5px}
+.sw{width:clamp(26px,5.6vh,38px);height:clamp(26px,5.6vh,38px);border-radius:50%;border:3px solid #0f172a;box-shadow:0 0 0 2px #475569;padding:0}
+.sw.s{box-shadow:0 0 0 3px #fff;transform:scale(1.12)}
+.sw.er{background:#1e293b;color:#fff;font-size:15px}
+#stage{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.pane{position:relative;display:flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0;min-height:0;overflow:hidden}
+#pt{flex:.7 1 0}#pb{flex:1.3 1 0}
+@media (orientation:landscape){#stage{flex-direction:row}#pt,#pb{flex:1 1 0}}
+.lb{position:absolute;left:4px;top:2px;font-size:11px;font-weight:700;color:#94a3b8;z-index:3;text-shadow:0 1px 2px #000}
+canvas.g{flex:none;border-radius:6px;box-shadow:0 0 0 2px #334155;touch-action:none}
+#md{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:60}
+.box2{background:#1e293b;border-radius:16px;padding:22px;max-width:340px;width:86%;text-align:center}
+.box2 h2{margin:0 0 8px}.box2 p{margin:0 0 16px;color:#cbd5e1}
+#mb{display:flex;flex-direction:column;gap:8px}.box2 .b{font-size:15px;padding:10px 12px}
+</style></head><body>
+<div id="app">
+<header><button class="b" id="rs" title="Xoá bảng tô của màn này">↺</button><h1>🎨 Tô màu theo mẫu</h1><div id="nv"><button class="b" id="pv">◀</button><span id="lv"></span><button class="b" id="nx">▶</button></div><div id="note" hidden>📱 Xoay ngang điện thoại để tô thoải mái hơn (không bắt buộc)</div></header>
+<div id="bar"></div>
+<div id="stage"><div class="pane" id="pt"><span class="lb">MẪU</span><canvas class="g" id="ct"></canvas></div><div class="pane" id="pb"><span class="lb">CỦA BẠN</span><canvas class="g" id="cb"></canvas></div></div>
+</div>
+<div id="md" hidden><div class="box2"><h2 id="mt"></h2><p id="mx"></p><div id="mb"></div></div></div>
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+/* 0 đỏ,1 xanh dương,2 vàng,3 xanh lá,4 cam,5 tím,6 hồng,7 nâu,8 trắng,9 đen xám, a vàng chanh(gần vàng), b xanh lục(gần xanh lá), c đỏ san hô(gần đỏ), d xanh da trời(gần xanh dương), e vàng kim(gần vàng/cam) */
+var COL=['#e53935','#1e88e5','#fdd835','#43a047','#fb8c00','#8e24aa','#ec407a','#6d4c41','#f5f5f5','#263238','#fff176','#00897b','#ef5350','#42a5f5','#f9a825'];
+var ORD='0123a45cb6ed789'.split('');
+var SP=[
+ ['dddddddd','d00dd00d','d000000d','d000000d','dd0000dd','ddd00ddd','dddddddd','dddddddd'],
+ ['99922999','99222299','22222222','92222229','99222299','92299229','92999929','99999999'],
+ ['11111111','11144111','14444441','44444941','14444441','11144111','11111111','11111111'],
+ ['ddd33ddd','dd3333dd','d333333d','dd3333dd','d333333d','ddd77ddd','ddd77ddd','33377333'],
+ ['dd2222dd','d222222d','22922922','22222222','20222202','d200002d','dd2222dd','dddddddd'],
+ ['ddd66ddd','dd6666dd','d662266d','d662266d','dd6666dd','ddd33ddd','dd3333dd','33333333'],
+ ['dd0000dd','d088008d','00000000','00088000','dd8888dd','dd8888dd','dd8888dd','33333333'],
+ ['dddddddd','ddd00ddd','dd0000dd','d000000d','d222222d','d292772d','d222772d','33333333']
+];
+function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+var TOTAL=100;
+function level(L){
+ var g=[],x,y,i;
+ if(L<=8){SP[L-1].forEach(function(r){r.split('').forEach(function(c){g.push(parseInt(c,36))})});return{n:8,g:g}}
+ var t=(L-9)/91,n=8+Math.round(t*14),k=4+Math.floor(t*8.99),r=rng(L*7919+13),m=(L-9)%6,c=(n-1)/2;
+ var pal=ORD.slice(0,k).map(function(q){return parseInt(q,36)});
+ function P(j){return pal[Math.max(0,Math.min(k-1,j))]}
+ var w=1+Math.floor(r()*2),b=2+Math.floor(r()*2),nb=Math.ceil(n/2),tb=[];
+ for(i=0;i<nb*nb;i++)tb.push(P(Math.floor(r()*k)));
+ for(y=0;y<n;y++)for(x=0;x<n;x++){
+  var v;
+  if(m===0)v=P(Math.floor((x+y)/w)%k);
+  else if(m===1)v=P(Math.floor(Math.max(Math.abs(x-c),Math.abs(y-c)))%k);
+  else if(m===2)v=P((Math.floor(x/b)+Math.floor(y/b)*3)%k);
+  else if(m===3){
+   if(x>=n/2)v=g[y*n+n-1-x];
+   else v=(r()<.62&&x>0)?g[y*n+x-1]:((r()<.5&&y>0)?g[(y-1)*n+x]:P(Math.floor(r()*k)));
+  }
+  else if(m===4){var bx=Math.floor(x/2),by=Math.floor(y/2),mx=Math.min(bx,Math.ceil(n/2)-1-bx),my=Math.min(by,Math.ceil(n/2)-1-by);v=tb[Math.max(0,my)*nb+Math.max(0,mx)]}
+  else v=P(Math.floor(((x+y)/(2*(n-1))+Math.sin(x*.7)*.08)*k));
+  g[y*n+x]=v;
+ }
+ return{n:n,g:g};
+}
+var KEY='pxc_idx',KM='pxc_max';
+var idx=0,maxU=0,n=8,T=[],B=[],cur=-1,cs=10,ct=10,down=false,last=null,locked=false,noteT=0,rzT=0,noteDismissed=false,wasPortrait=false,chkT=0;
+function ld(k){var v=0;try{v=parseInt(localStorage.getItem(k),10)}catch(e){}return v>=0?v:0}
+function sv(k,v){try{localStorage.setItem(k,String(v))}catch(e){}}
+var cT=$('#ct'),cB=$('#cb');
+function dr(cv,arr,size,bad){
+ var cx=cv.getContext('2d'),i,x,y,v;
+ for(i=0;i<arr.length;i++){
+  x=i%n;y=Math.floor(i/n);v=arr[i];
+  cx.fillStyle=v>=0?COL[v]:'#16213a';cx.fillRect(x*size,y*size,size,size);
+ }
+ if(size>=9){cx.strokeStyle='rgba(0,0,0,.28)';cx.lineWidth=1;for(i=0;i<=n;i++){cx.beginPath();cx.moveTo(i*size+.5,0);cx.lineTo(i*size+.5,n*size);cx.moveTo(0,i*size+.5);cx.lineTo(n*size,i*size+.5);cx.stroke()}}
+ if(bad){cx.strokeStyle='#ff1744';cx.lineWidth=2;bad.forEach(function(j){var X=(j%n)*size,Y=Math.floor(j/n)*size;cx.strokeRect(X+1.5,Y+1.5,size-3,size-3);cx.beginPath();cx.moveTo(X+3,Y+3);cx.lineTo(X+size-3,Y+size-3);cx.moveTo(X+size-3,Y+3);cx.lineTo(X+3,Y+size-3);cx.stroke()})}
+}
+function sz(p){return Math.max(6,Math.floor(Math.min(p.clientWidth-6,p.clientHeight-6)/n))}
+function fit(){
+ if(!T.length)return;
+ ct=sz($('#pt'));cs=sz($('#pb'));
+ cT.width=cT.height=n*ct;cT.style.width=cT.style.height=(n*ct)+'px';
+ cB.width=cB.height=n*cs;cB.style.width=cB.style.height=(n*cs)+'px';
+ dr(cT,T,ct);dr(cB,B,cs);
+}
+function hud(){
+ var p=0;B.forEach(function(v){if(v>=0)p++});
+ $('#lv').textContent='Màn '+(idx+1)+'/'+TOTAL+' · '+p+'/'+B.length;
+ $('#pv').disabled=idx<=0;$('#nx').disabled=idx>=maxU||idx>=TOTAL-1;
+}
+function setCur(c){
+ cur=c;
+ Array.prototype.forEach.call(document.querySelectorAll('#bar [data-c]'),function(e){e.classList.toggle('s',+e.getAttribute('data-c')===c)});
+ if(c<0){cB.style.cursor='cell';return}
+ var svg="<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><path d='M16 7l3-3 5 5-3 3z' fill='#999'/><path d='M4 24l3-8 9-9 5 5-9 9z' fill='"+COL[c]+"' stroke='#000' stroke-width='1.5'/></svg>";
+ cB.style.cursor='url("data:image/svg+xml,'+encodeURIComponent(svg)+'") 4 24, crosshair';
+}
+function buildBar(){
+ var u=[];T.forEach(function(v){if(u.indexOf(v)<0)u.push(v)});
+ u.sort(function(a,b){return ORD.indexOf(a.toString(36))-ORD.indexOf(b.toString(36))});
+ var h='';u.forEach(function(v){h+='<button class="sw" data-c="'+v+'" style="background:'+COL[v]+'"></button>'});
+ h+='<button class="sw er" data-c="-1" title="Tẩy">⌫</button><button class="b" id="ck">✔ Kiểm tra</button>';
+ $('#bar').innerHTML=h;
+ $('#ck').onclick=function(){
+  if(locked)return;
+  var bad=[];B.forEach(function(v,i){if(v>=0&&v!==T[i])bad.push(i)});
+  dr(cB,B,cs,bad);clearTimeout(chkT);chkT=setTimeout(function(){dr(cB,B,cs,null)},1600);
+ };
+ setCur(u[0]);
+}
+function modal(t,x,btns){
+ $('#mt').textContent=t;$('#mx').textContent=x;var m=$('#mb');m.innerHTML='';
+ btns.forEach(function(a){var e=document.createElement('button');e.className='b '+(a[2]||'');e.textContent=a[0];e.onclick=a[1];m.appendChild(e)});
+ $('#md').hidden=false;
+}
+function hide(){$('#md').hidden=true}
+function load(){
+ hide();clearTimeout(chkT);
+ var L=level(idx+1);n=L.n;T=L.g;B=T.map(function(){return -1});locked=false;down=false;last=null;
+ buildBar();hud();fit();sv(KEY,idx);
+}
+function cellAt(e){
+ var r=cB.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/cs),y=Math.floor((e.clientY-r.top)/cs);
+ return(x<0||y<0||x>=n||y>=n)?null:[x,y];
+}
+function paintTo(p){
+ if(!p)return;
+ var a=last||p,dx=p[0]-a[0],dy=p[1]-a[1],s=Math.max(Math.abs(dx),Math.abs(dy)),i;
+ if(!s)s=1;
+ for(i=0;i<=s;i++)B[Math.round(a[1]+dy*i/s)*n+Math.round(a[0]+dx*i/s)]=cur;
+ last=p;dr(cB,B,cs);hud();
+}
+cB.addEventListener('pointerdown',function(e){
+ if(locked)return;e.preventDefault();
+ try{cB.setPointerCapture(e.pointerId)}catch(err){}
+ down=true;last=null;paintTo(cellAt(e));
+});
+cB.addEventListener('pointermove',function(e){if(down)paintTo(cellAt(e))});
+function up(){
+ if(!down)return;down=false;last=null;
+ for(var i=0;i<T.length;i++)if(B[i]!==T[i])return;
+ win();
+}
+cB.addEventListener('pointerup',up);
+cB.addEventListener('pointercancel',function(){down=false;last=null});
+cB.addEventListener('contextmenu',function(e){e.preventDefault()});
+$('#bar').addEventListener('click',function(e){
+ var t=e.target.closest?e.target.closest('[data-c]'):null;
+ if(t)setCur(+t.getAttribute('data-c'));
+});
+function win(){
+ locked=true;
+ if(idx+1>maxU){maxU=idx+1;sv(KM,maxU)}
+ if(idx>=TOTAL-1){
+  modal('🏆 Xin chúc mừng!','Bạn đã hoàn thành tất cả '+TOTAL+' màn.',[['Chơi lại từ đầu',function(){idx=0;sv(KEY,0);load()},'on']]);
+ }else{
+  modal('🎉 Đúng hết rồi!','Mọi ô đều khớp màu với hình mẫu.',[['Màn tiếp ▶',function(){idx++;load()},'on']]);
+ }
+}
+$('#rs').addEventListener('click',function(){if(locked)return;B=T.map(function(){return -1});hud();dr(cB,B,cs)});
+$('#pv').addEventListener('click',function(){if(idx>0){idx--;load()}});
+$('#nx').addEventListener('click',function(){if(idx<maxU&&idx<TOTAL-1){idx++;load()}});
+$('#note').addEventListener('click',function(){$('#note').hidden=true;noteDismissed=true});
+function updateNote(first){
+ var portrait=innerHeight>innerWidth&&innerWidth<820,coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches,nt=$('#note');
+ if(coarse&&portrait&&!noteDismissed&&(first||!wasPortrait)){nt.hidden=false;clearTimeout(noteT);noteT=setTimeout(function(){nt.hidden=true},7000)}
+ if(!portrait)nt.hidden=true;
+ wasPortrait=portrait;
+}
+addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(fit,200);updateNote(false)});
+/* đo vùng nhìn thấy thật khi nhúng iframe bị cắt phần đáy */
+(function(){
+ var lastH=0;
+ function apply(h){
+  h=Math.floor(h);if(h<200||h===lastH)return;lastH=h;
+  var a=$('#app');
+  if(h>=innerHeight-1)a.style.removeProperty('--appH');else a.style.setProperty('--appH',h+'px');
+  clearTimeout(rzT);rzT=setTimeout(fit,150);
+ }
+ if(!('IntersectionObserver' in window))return;
+ var st=[];for(var i=0;i<=100;i++)st.push(i/100);
+ new IntersectionObserver(function(es){
+  var e=es[es.length-1],ir=e.intersectionRect,bc=e.boundingClientRect;
+  if(ir&&ir.height)apply(ir.bottom-bc.top);
+ },{threshold:st}).observe(document.documentElement);
+})();
+maxU=Math.min(ld(KM),TOTAL-1);idx=Math.min(ld(KEY),maxU);
+load();updateNote(true);
+})();
+</script>
+</body></html>
