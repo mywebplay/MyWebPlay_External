@@ -322,13 +322,13 @@ var MINIGAME_LIST = [
 	},
 	{
 		"Key": "/game-oan-tu-xi",
-		"Name": "Game oẳn tù xì"
+		"Name": "Game oẳn tù xì",
 		"Image": "https://vtitech.vn/wp-content/uploads/2021/08/102_one_two_three_game.webp",
 		"Enabled": false
 	},
 	{
 		"Key": "/game-to-mau",
-		"Name": "Game tô màu bức tranh"
+		"Name": "Game tô màu bức tranh",
 		"Image": "https://cdn.eva.vn/upload/2-2025/images/thintb/tranh-to-mau-theo-mau-2-1744871958-497-width563height475.jpg",
 		"Enabled": false
 	},
