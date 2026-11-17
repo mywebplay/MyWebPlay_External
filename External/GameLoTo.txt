@@ -27,6 +27,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 .sg button.on{background:#b45309;color:#fff}
 .big{display:block;width:100%;margin-top:16px;background:#dc2626;color:#fff;border-color:#7f1d1d;font-size:17px;padding:12px}
 .note{font-size:12px;color:#7c2d12;margin:10px 0 0;text-align:center}
+.warn{font-size:13px;color:#991b1b;font-weight:700;margin:10px 0 0;text-align:center;background:#fee2e2;border-radius:8px;padding:8px}
 #game{flex:1;min-height:0;overflow:hidden}
 #arena{width:100%}
 #arena.w{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;grid-template-rows:auto auto;gap:8px 10px;align-items:start;justify-items:center;padding:4px}
@@ -69,7 +70,7 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
 #arena.m #mid{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"b t" "b c" "b w";align-items:center;column-gap:6px;max-width:420px}
 #arena.m #turn{grid-area:t;font-size:12px;height:3.8em;justify-content:flex-start;text-align:left}#arena.m #chips{grid-area:c}#arena.m #mmsg{grid-area:w}#arena.m .bowlw{grid-area:b}
 #arena.m #kinh{font-size:15px;padding:6px 12px;border-width:2px}
-.bowlw{--u:1;position:relative;width:calc(190px*var(--u));height:calc(215px*var(--u));flex:none;cursor:default}
+.bowlw{--u:1;position:relative;width:calc(190px*var(--u));height:calc(215px*var(--u));flex:none;cursor:default;touch-action:none}
 #arena.m .bowlw{--u:.62}
 .bowl{position:absolute;left:50%;bottom:0;width:calc(150px*var(--u));height:calc(110px*var(--u));margin-left:calc(-75px*var(--u));transform-origin:50% 100%}
 .bowl.shaking{animation:shk .14s infinite alternate}
@@ -125,7 +126,8 @@ header h1{margin:0;font-size:19px;text-align:center;color:#fde68a;text-shadow:0 
  <h3 id="h3m">Số máy cùng chơi</h3><div class="sg" id="sg2"><button data-v="1">1 máy</button><button data-v="2">2 máy</button><button data-v="3">3 máy</button></div>
  <p class="note" id="smn" hidden>Trên điện thoại: bạn dò 1 tờ và chơi với 1 máy. Bạn vẫn xem được cờ của máy để theo dõi.</p>
  <button class="big" id="go">BẮT ĐẦU</button>
- <p class="note">Mỗi ván chỉ có một người gọi số, ván sau sẽ đổi người khác. Khi tới ván bạn gọi số: bấm 1 lần vào cái tô để LẮC, bấm đúp (2 lần liên tiếp) vào tô để LẤY SỐ. Bạn tự dò và tự bấm KINH khi đủ 5 số trên một hàng. Kinh sai là thua!</p>
+ <p class="warn">⚠️ Lưu ý: máy tự kinh khi đủ hàng. Bạn phải tự bấm KINH trước khi số kế tiếp được gọi, nếu không máy sẽ thắng. Kinh sai là thua!</p>
+ <p class="note">Mỗi ván chỉ có một người gọi số, ván sau sẽ đổi người khác. Khi tới ván bạn gọi số: nhấn liên tục vào cái tô để LẮC, thả tay ra một lát thì tô sẽ tự LẤY SỐ. Bạn tự dò số và tự bấm KINH khi đủ 5 số trên một hàng.</p>
 </div></div>
 <div id="game" hidden><div id="arena"></div></div>
 </div>
@@ -139,8 +141,9 @@ var gq=function(s){return document.querySelector(s)};
 var el=function(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
 var rnd=function(a,b){return a+Math.random()*(b-a)};
 var shuf=function(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a};
+var noop=function(){};
 var COLORS=[{n:'Đỏ',c:'#e11d48',d:'#9f1239',l:'#fb7185'},{n:'Xanh dương',c:'#2563eb',d:'#1e3a8a',l:'#60a5fa'},{n:'Xanh lá',c:'#16a34a',d:'#14532d',l:'#4ade80'},{n:'Vàng',c:'#eab308',d:'#854d0e',l:'#fde047'},{n:'Hồng',c:'#ec4899',d:'#9d174d',l:'#f9a8d4'},{n:'Cam',c:'#f97316',d:'#9a3412',l:'#fdba74'},{n:'Tím',c:'#9333ea',d:'#581c87',l:'#d8b4fe'}];
-var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0,caller=null,ck=0,resEl=null,m2=false,resMin=false,lastFit={w:0,h:0};
+var opt={ci:0,sheets:1,mach:innerWidth>=900?3:1},G=null,tms=[],paused=false,running=false,over=false,voiceOn=true,lastT=performance.now(),refs={},wide=false,mid=null,kinh=null,toastT=0,caller=null,resEl=null,m2=false,resMin=false,lastFit={w:0,h:0};
 function isSmall(){return innerWidth<900||innerHeight<400}
 
 function later(ms,fn){var t={ms:ms,fn:fn};tms.push(t);return t}
@@ -220,12 +223,12 @@ function showSetup(){
 /* ---------- vào game ---------- */
 function newPlayer(isU,name,ci,two){
  var pr=genPair();
- return{isU:isU,name:name,col:COLORS[ci],tos:two?pr:[pr[Math.random()*2|0]],marks:new Set(),nds:[],ks:false};
+ return{isU:isU,name:name,col:COLORS[ci],tos:two?pr:[pr[Math.random()*2|0]],marks:new Set(),nds:[],ks:false,kd:false};
 }
 function startGame(){
  var rest=shuf([0,1,2,3,4,5,6].filter(function(i){return i!=opt.ci}));
  var sm=isSmall(),nSheets=sm?1:opt.sheets,nMach=sm?1:opt.mach;
- G={pl:[newPlayer(true,'Bạn',opt.ci,nSheets==2)],bag:shuf(Array.from({length:90},function(_,i){return i+1})),called:[],cs:new Set(),turn:0,phase:'turn',shook:false,shaking:false,tab:0,pend:0,age:0,curN:0,userHas:false};
+ G={pl:[newPlayer(true,'Bạn',opt.ci,nSheets==2)],bag:shuf(Array.from({length:90},function(_,i){return i+1})),called:[],cs:new Set(),turn:0,phase:'turn',shaking:false,hold:false,rel:null,ss:0,sa:0,uk:false,tab:0,pend:0,age:0,curN:0,userHas:false,hl:null,wn:null};
  for(var i=0;i<nMach;i++)G.pl.push(newPlayer(false,'Máy '+(i+1),rest[i],!sm&&Math.random()<.5));
  /* người gọi số: chọn ngẫu nhiên ở ván đầu, mỗi ván mới đổi sang người kế tiếp, cả ván giữ nguyên */
  caller=((caller==null?(Math.random()*G.pl.length|0):caller+1))%G.pl.length;
@@ -240,7 +243,8 @@ function buildMid(){
  mid=el('div');mid.id='mid';
  mid.innerHTML='<div id="turn"></div><div class="bowlw"><div class="ball" id="ball"></div><div class="bowl" id="bowl"><div class="bb"></div><div class="lidw" id="lidw"><div class="lid"></div><i class="knob"></i></div></div></div><div id="chips"></div><div id="mmsg"></div>';
  kinh=el('button','','KINH');kinh.id='kinh';
- mid.querySelector('.bowlw').onclick=bowlClick;
+ var bw=mid.querySelector('.bowlw');
+ bw.onpointerdown=bowlDown;bw.onpointerup=bowlUp;bw.onpointercancel=bowlUp;
  kinh.onclick=userKinh;
 }
 
@@ -325,7 +329,7 @@ function paint(){
   var b=missing(p,p.marks),t=b?(b.ms.length?'còn thiếu '+b.ms.length+' số':'đủ hàng!'):'';
   p.nds.forEach(function(s){s.textContent=(wide||m2)?'· '+t:t});
  });
- if(G.hl)lightRow(G.hl.pid,G.hl.t,G.hl.r,G.hl.cls,G.hl.only);
+ if(G.hl)G.hl.forEach(function(h){lightRow(h.pid,h.t,h.r,h.cls,h.only)});
 }
 var turnText='';
 function setTurn(t){turnText=t;var e=gq('#turn');if(e)e.textContent=t}
@@ -335,33 +339,41 @@ function ui(){
  if(!G)return;
  var u=G.pl[G.turn].isU&&G.phase=='turn'&&!over;
  mid.querySelector('.bowlw').style.cursor=u?'pointer':'default';
- kinh.disabled=over||!running;
+ /* nút KINH chỉ bấm được từ lúc số được đọc tới điểm kiểm tra, và chỉ bấm 1 lần */
+ kinh.disabled=over||!running||G.phase=='turn'||G.uk;
 }
 
 /* ---------- lượt gọi số ---------- */
 function startTurn(){
- G.phase='turn';G.shook=false;G.shaking=false;
+ G.phase='turn';G.shaking=false;G.hold=false;G.rel=null;
  var b=gq('#ball');b.className='ball';b.textContent='';gq('#lidw').classList.remove('open');gq('#bowl').classList.remove('shaking');
  gq('#mmsg').textContent='';
  var p=G.pl[G.turn];
- if(p.isU)setTurn('Bấm 1 lần: LẮC · Bấm đúp: LẤY SỐ');
+ if(p.isU)setTurn('Nhấn liên tục vào tô để LẮC · Thả tay để LẤY SỐ');
  else{setTurn(p.name+' đang gọi số…');shake(rnd(1000,4000),take)}
  ui();
 }
+/* trong lúc lắc, túi số được xáo liên tục (xem tick) nên số ra là số của khoảnh khắc dừng lắc */
 function shake(ms,fn){
- G.shaking=true;gq('#bowl').classList.add('shaking');shuf(G.bag);ui();
- later(ms,function(){G.shaking=false;gq('#bowl').classList.remove('shaking');ui();if(fn)fn()});
+ G.shaking=true;G.sa=0;gq('#bowl').classList.add('shaking');ui();
+ later(ms,function(){G.shaking=false;gq('#bowl').classList.remove('shaking');shuf(G.bag);ui();if(fn)fn()});
 }
-function userShake(){if(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU||G.shaking)return;shake(1300,function(){G.shook=true;ui()})}
-function userTake(){
- if(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU||G.shaking)return;
- if(!G.shook){toast('Bấm 1 lần vào tô để lắc trước đã');return}
- take();
+function canBowl(){return !(over||paused||!G||G.phase!='turn'||!G.pl[G.turn].isU)}
+function bowlDown(e){
+ if(!canBowl())return;
+ if(G.rel){G.rel.fn=noop;G.rel=null}
+ if(!G.shaking){G.shaking=true;G.sa=0;G.ss=performance.now();gq('#bowl').classList.add('shaking')}
+ G.hold=true;ui();
+ try{e.currentTarget.setPointerCapture(e.pointerId)}catch(x){}
 }
-/* 1 lần bấm = lắc, bấm đúp = lấy số */
-function bowlClick(){
- if(ck){clearTimeout(ck);ck=0;userTake();return}
- ck=setTimeout(function(){ck=0;userShake()},260);
+/* thả tay: chờ 0,6 giây (và tổng thời gian lắc tối thiểu 0,5 giây), không có tương tác nào thì lấy số */
+function bowlUp(){
+ if(!G||!G.hold||!canBowl())return;
+ G.hold=false;
+ var wait=Math.max(0,G.ss+500-performance.now())+600;
+ G.rel=later(wait,function(){
+  G.rel=null;G.shaking=false;gq('#bowl').classList.remove('shaking');shuf(G.bag);take();
+ });
 }
 function take(){
  if(over||G.phase!='turn')return;
@@ -379,49 +391,69 @@ function machMark(p,n){
  if(!p.ks&&findRow(p,function(x){return p.marks.has(x)})){p.ks=true;later(rnd(700,2200),function(){machKinh(p)})}
 }
 function tick(dt){
- if(!G||over||G.phase!='marking')return;
+ if(!G||over)return;
+ if(G.shaking){G.sa+=dt;if(G.sa>=80){G.sa=0;shuf(G.bag)}}
+ if(G.phase!='marking')return;
  G.age+=dt;
  var ok=G.age>=2400&&G.pend<=0&&(!G.userHas||G.pl[0].marks.has(G.curN));
- if(ok){G.phase='rest';gq('#mmsg').textContent='';later(3000,nextTurn)}
- else gq('#mmsg').textContent='Đang chờ mọi người dò số…';
+ if(ok){G.phase='rest';gq('#mmsg').textContent=G.uk?'Đã kinh, chờ kết quả…':'';later(3000,nextTurn)}
+ else gq('#mmsg').textContent=G.uk?'Đã kinh, chờ kết quả…':'Đang chờ mọi người dò số…';
 }
+/* điểm kiểm tra: hết khoảng nghỉ, ngay trước khi gọi số kế tiếp, mới xét ai kinh */
 function nextTurn(){
  if(over)return;
- if(!G.bag.length){endGame('none');return}
+ var wins=[],wrong=null;
+ G.pl.forEach(function(p){
+  if(p.isU){
+   if(G.uk){var r=findRow(p,function(n){return G.cs.has(n)});if(r)wins.push({p:p,info:r});else wrong=missing(p,G.cs)}
+  }else if(p.kd){
+   var r2=findRow(p,function(n){return p.marks.has(n)});if(r2)wins.push({p:p,info:r2});
+  }
+ });
+ if(wins.length||wrong){endGame(wins,wrong,false);return}
+ if(!G.bag.length){endGame([],null,true);return}
  startTurn(); /* người gọi số giữ nguyên trong cả ván */
 }
 
 /* ---------- kinh ---------- */
 function userKinh(){
- if(over||paused||!running)return;
+ if(over||paused||!running||G.uk||G.phase=='turn')return;
  if(G.called.length<5){toast('Mới gọi '+G.called.length+' số, chưa thể đủ 5 số để kinh.');return}
- var r=findRow(G.pl[0],function(n){return G.cs.has(n)});
- if(r)endGame('win',G.pl[0],r);
- else endGame('wrong',G.pl[0],missing(G.pl[0],G.cs));
+ G.uk=true;
+ toast('Đã kinh, chờ kết quả…');gq('#mmsg').textContent='Đã kinh, chờ kết quả…';ui();
 }
+/* máy chỉ ghi nhận đã kinh, kết quả xét ở điểm kiểm tra */
 function machKinh(p){
  if(over)return;
- var r=findRow(p,function(n){return p.marks.has(n)});
- if(r)endGame('mach',p,r);
+ if(findRow(p,function(n){return p.marks.has(n)}))p.kd=true;
 }
 function lightRow(pid,t,r,cls,only){
  (refs[pid]||[]).forEach(function(x){if(x.t==t&&x.r==r&&(!only||only.indexOf(x.n)>=0))x.e.classList.add(cls)});
 }
-function endGame(kind,p,info){
+function joinNames(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' và '+a[a.length-1]}
+function endGame(wins,wrong,none){
  if(over)return;
  over=true;running=false;tms=[];paused=false;gq('#lt').classList.remove('ps');
  gq('#bowl').classList.remove('shaking');gq('#mmsg').textContent='';
- var pid=p?G.pl.indexOf(p):0;
- if(kind=='win'||kind=='wrong'){if(!wide&&info&&G.tab!=info.t){G.tab=info.t;render()}}
- G.wn=null;
- if(kind=='win'||kind=='mach'){G.hl={pid:pid,t:info.t,r:info.r,cls:'wr'};G.wn=info.nums}
- else if(kind=='wrong')G.hl={pid:0,t:info.t,r:info.r,cls:'ms',only:info.ms};
+ wins.sort(function(a,b){return (b.p.isU?1:0)-(a.p.isU?1:0)});
+ G.hl=[];G.wn=[];
+ wins.forEach(function(w){G.hl.push({pid:G.pl.indexOf(w.p),t:w.info.t,r:w.info.r,cls:'wr'});G.wn=G.wn.concat(w.info.nums)});
+ if(wrong)G.hl.push({pid:0,t:wrong.t,r:wrong.r,cls:'ms',only:wrong.ms});
+ var uw=wins.filter(function(w){return w.p.isU})[0],tt=uw?uw.info.t:(wrong?wrong.t:null);
+ if(!wide&&tt!=null&&G.tab!=tt){G.tab=tt;render()}
  paint();ui();
- var t,x;
- if(kind=='win'){t='🎉 KINH! Bạn thắng!';x='Tờ '+(info.t+1)+', hàng '+(info.r+1)+' đã đủ 5 số: '+info.nums.join(', ')+'.'}
- else if(kind=='mach'){t='😵 '+p.name+' kinh trước!';x=p.name+' đủ 5 số ở tờ '+(info.t+1)+', hàng '+(info.r+1)+' (đang tô xanh trên cờ của máy): '+info.nums.join(', ')+'. Bạn cứ xem kỹ cờ của máy, hoặc bấm nút đồng hồ để kiểm tra lại các số đã gọi.'}
- else if(kind=='wrong'){t='Kinh sai, bạn thua!';x='Hàng gần đủ nhất (tờ '+(info.t+1)+', hàng '+(info.r+1)+') còn thiếu số: '+info.ms.join(', ')+' (chưa được gọi).'}
- else{t='Hết số';x='Đã gọi hết 90 số mà chưa ai kinh.'}
+ var t,x,names=joinNames(wins.map(function(w){return w.p.name})),hint=' Bấm nút đồng hồ để xem lại các số đã gọi.';
+ if(none){t='Hết số';x='Đã gọi hết 90 số mà chưa ai kinh.'}
+ else if(!wins.length){t='Kinh sai, bạn thua!';x='Hàng gần đủ nhất của bạn đang được viền đứt.'+hint}
+ else if(wrong){t='😵 '+names+' kinh! Bạn kinh sai';x='Hàng kinh của máy đang nhấp nháy sáng, hàng gần đủ nhất của bạn được viền đứt.'+hint}
+ else if(uw){
+  t=wins.length>1?'🎉 '+names+' cùng kinh!':'🎉 KINH! Bạn thắng!';
+  x='Hàng kinh của mỗi người đang nhấp nháy sáng.';
+ }else{
+  t='😵 '+names+(wins.length>1?' cùng kinh!':' kinh!');
+  var uh=findRow(G.pl[0],function(n){return G.cs.has(n)});
+  x='Hàng kinh đang nhấp nháy sáng trên cờ của máy.'+(uh?' Bạn cũng đủ hàng nhưng chưa bấm KINH nên không được tính.':'')+hint;
+ }
  showRes(t,x);
 }
 /* kết quả hiện thành một thẻ nhỏ (không che kín màn hình) để người chơi còn xem cờ và lịch sử; ván chỉ qua khi bấm Ván mới */
