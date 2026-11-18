@@ -205,8 +205,8 @@ var seeTitleData = [
     },
     {
         Index: 43,
-        Status: "PART",
-        NguyenNhan: null,
+        Status: "FIXED",
+        NguyenNhan: "[Hỗ trợ bởi Claude AI] Tại đoạn script dùng để check user/robot được nạp bởi HTML PLAY thì đang có khai báo một biến là hằng số (const) nhưng lại gán giá trị cho nó khi path là / => gây lỗi cú pháp JS.",
         GiaiPhap: null
     },
     {
