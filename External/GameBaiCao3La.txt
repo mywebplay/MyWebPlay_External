@@ -274,7 +274,7 @@ function render(){
  iv.forEach(function(p){ch+='<div class="chip'+(p===cur?' on':'')+'" data-a="inv" data-pid="'+p.id+'"><span>'+p.name+(p.offer.to===0?' hỏi bạn':' → ai cũng được')+'</span><button data-a="rej" data-pid="'+p.id+'">Từ chối</button></div>'});
  ghosts.forEach(function(g){ch+='<div class="chip gh">'+g.t+'</div>'});
  var l=log.slice(-2),m=(l.length>1?'<span class="o">'+l[0]+'</span>':'')+(l.length?l[l.length-1]:'');
- var b=over?'<button class="bt gr" data-a="new">Ván mới</button><button class="bt" data-a="reset">Xóa điểm</button>'
+ var b=over?'<button class="bt gr" data-a="new">Ván mới</button>'
   :'<button class="bt red" data-a="done"'+(u.done?' disabled':'')+'>'+(now-confirmAt<2500?'Chắc chốt? Bấm lại':(u.done?'Đã chốt':'Chốt'))+'</button><button class="bt" data-a="table"'+(u.done?' disabled':'')+'>Đưa ra bàn</button><button class="bt" data-a="pull"'+(u.offer?'':' disabled')+'>Rút lại</button>';
  $('#bar').innerHTML='<div id="inv">'+ch+'</div><div id="msg">'+m+'</div><div id="btns">'+b+'</div>';
 }
