@@ -170,6 +170,35 @@ function fireworks(){
 /* ---------- hộp chữ cái ---------- */
 function randPerm(n){var a=[],i,j,t;for(i=0;i<n;i++)a.push(i);for(i=n-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t}return a}
 function shown(sl){var a=[];for(var k=0;k<N;k++)a[sl[k]]=letters[k];return a.join('')}
+
+/* ---------- chống lộ từ khoá ---------- */
+/* lvl: mức nghiêm ngặt của từ hiện tại (0 nghiêm nhất, 2 chỉ cần khác đáp án). Mỗi lần trộn đều phải giữ đúng mức này. */
+var lvl=0;
+function shownA(sl){var a=[];for(var k=0;k<N;k++)a[sl[k]]=letters[k];return a}
+/* độ dài đoạn liền mạch chung dài nhất giữa hai dãy */
+function longestRun(a,b){
+ var m=a.length,n=b.length,best=0,prev=new Array(n+1).fill(0),cur,i,j;
+ for(i=1;i<=m;i++){
+  cur=new Array(n+1).fill(0);
+  for(j=1;j<=n;j++)if(a[i-1]===b[j-1]){cur[j]=prev[j-1]+1;if(cur[j]>best)best=cur[j]}
+  prev=cur;
+ }
+ return best;
+}
+/* cách xếp sl có làm lộ từ khoá không? lv càng cao càng dễ tính */
+function okAt(sl,lv){
+ var s=shownA(sl);
+ if(s.join('')===letters.join(''))return false;
+ if(lv>=2||N<2)return true;
+ var run=Math.max(longestRun(s,letters),longestRun(s,letters.slice().reverse()));
+ var fx=0;for(var i=0;i<N;i++)if(s[i]===letters[i])fx++;
+ return lv===0?(run<2&&fx<=Math.floor(N/6)):(run<3&&fx<=Math.ceil(N/4));
+}
+function pickPerm(){
+ for(var lv=0;lv<3;lv++)for(var t=0;t<150;t++){var p=randPerm(N);if(okAt(p,lv)){lvl=lv;return p}}
+ lvl=2;return fixTarget(randPerm(N));
+}
+
 function slotXY(s){
  var r=Math.floor(s/cols),c=s%cols,last=Math.floor((N-1)/cols),inRow=r===last?N-r*cols:cols;
  var x0=(boxW-(inRow*bs+(inRow-1)*gap))/2;
@@ -185,9 +214,7 @@ function hop(k){
 function buildBoxes(){
  var wrap=qs('#boxes');wrap.innerHTML='';boxEls=[];
  for(var k=0;k<N;k++){var el=document.createElement('div');el.className='box';el.textContent=letters[k];wrap.appendChild(el);boxEls.push(el)}
- var tries=0,target=letters.join('');
- do{slotOf=randPerm(N);tries++}while(N>1&&tries<40&&shown(slotOf)===target);
- if(N>1)slotOf=fixTarget(slotOf);
+ slotOf=pickPerm();
 }
 /* hàng ô đoán: một dải liền, không tách từ (để người chơi không đoán được số chữ của từng từ) */
 function layoutRow(){
@@ -228,9 +255,9 @@ function fixTarget(sl){
 }
 function fullShuffle(){
  if(N<2)return;
- var old=slotOf.slice(),np,tries=0;
- do{np=randPerm(N);tries++}while(tries<20&&shown(np)===shown(old));
- np=fixTarget(np);
+ var old=slotOf.slice(),np=null,t,p;
+ for(t=0;t<150;t++){p=randPerm(N);if(okAt(p,lvl)&&shown(p)!==shown(old)){np=p;break}}
+ if(!np)return;
  slotOf=np;for(var k=0;k<N;k++)if(old[k]!==np[k])hop(k);
  applyPos();
 }
@@ -242,10 +269,10 @@ function swapSome(){
   ok=false;for(var i=1;i<ks.length;i++)if(letters[ks[i]]!==letters[ks[0]])ok=true;
   sl=ks.map(function(k){return slotOf[k]});rot=sl.slice(1).concat(sl[0]);
   nsl=slotOf.slice();ks.forEach(function(k,i){nsl[k]=rot[i]});
-  if(shown(nsl)===tg)ok=false;
+  if(!okAt(nsl,lvl))ok=false;
   tries++;
- }while(!ok&&tries<15);
- if(shown(nsl)===tg)return;
+ }while(!ok&&tries<40);
+ if(!ok)return;
  ks.forEach(function(k,i){slotOf[k]=rot[i];hop(k)});
  applyPos();
 }
