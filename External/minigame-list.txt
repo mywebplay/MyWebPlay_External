@@ -294,7 +294,7 @@ var MINIGAME_LIST = [
 		"Key": "/game-bai-cao",
 		"Name": "Game bài cào 3 lá",
 		"Image": "https://i.pinimg.com/736x/a9/36/6e/a9366eb9791a2571475866c28f30f974.jpg",
-		"Enabled": false
+		"Enabled": true
 	},
 	{
 		"Key": "/game-tim-tu-khoa-bi-mat",
