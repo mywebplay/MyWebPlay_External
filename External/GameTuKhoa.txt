@@ -30,7 +30,7 @@ main{flex:1;min-height:0;width:100%;max-width:720px;display:flex;flex-direction:
 .bl.bad{color:#f87171;border-bottom-color:#ef4444}
 #msg{min-height:24px;font-size:15px;font-weight:700;color:#fbbf24;text-align:center;flex:none;padding:0 6px}
 #msg.bad{color:#f87171}#msg.ok{color:#4ade80}#msg.hint{color:#94a3b8;font-weight:600;font-size:13px}
-#kb{margin-top:100px;margin-bottom:clamp(8px,2.5vh,28px);width:100%;max-width:640px;align-self:center;display:flex;flex-direction:column;gap:clamp(6px,1.4vh,14px);flex:none}
+#kb{margin-top:100px;margin-bottom:clamp(8px,2.5vh,28px);width:100%;max-width:640px;align-self:center;display:flex;flex-direction:column;gap:clamp(6px,3.5vh,14px);flex:none}
 .kr{display:grid;gap:clamp(4px,1vw,7px)}
 .kc{grid-template-columns:repeat(9,1fr)}.k8{grid-template-columns:repeat(8,1fr)}.k6{grid-template-columns:repeat(6,1fr)}.k2{grid-template-columns:repeat(2,1fr)}
 .k{background:#334155;color:#fff;border:0;border-radius:7px;height:clamp(34px,5.6vh,52px);padding:0;font-weight:700;font-size:clamp(15px,2.6vh,21px);min-width:0;line-height:1}
