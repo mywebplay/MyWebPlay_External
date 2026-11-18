@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -125,12 +124,11 @@ button{font:inherit;cursor:pointer}
  position:relative;
 }
 
+/* Lưới là <canvas>: chữ được vẽ thành ảnh, không có văn bản trong DOM nên không Ctrl+F hay copy được.
+   Kích thước CSS do JS đặt chính xác (không dùng max-width/max-height) để toạ độ chuột luôn khớp ô. */
 #board{
- position:relative;
- display:grid;
+ display:block;
  flex:none;
- max-width:100%;
- max-height:100%;
  background:#0b1220;
  border-radius:8px;
  touch-action:none;
@@ -138,31 +136,6 @@ button{font:inherit;cursor:pointer}
  user-select:none;
  box-shadow:0 0 0 2px #334155;
  cursor:crosshair;
-}
-
-#board svg{
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- z-index:3;
- pointer-events:none;
- overflow:visible;
-}
-
-.c{
- position:relative;
- z-index:2;
- display:flex;
- align-items:center;
- justify-content:center;
- min-width:0;
- min-height:0;
- font-weight:800;
- color:#f1f5f9;
- line-height:1;
- pointer-events:none;
- text-shadow:0 1px 2px #000c;
 }
 
 .w{
@@ -222,16 +195,6 @@ button{font:inherit;cursor:pointer}
  z-index:65;
 }
 
-.c.hl{
- animation:bl .6s ease-in-out infinite;
- border-radius:5px;
-}
-
-@keyframes bl{
- 0%,100%{background:#fbbf24;color:#0f172a}
- 50%{background:transparent;color:#f1f5f9}
-}
-
 @media(max-width:600px){
  header{gap:5px}
  header h1{font-size:clamp(12px,3.1vw,16px)}
@@ -259,7 +222,7 @@ button{font:inherit;cursor:pointer}
  <div id="note" hidden>📱 Xoay ngang điện thoại để chơi thoải mái hơn (không bắt buộc)</div>
 </header>
 <div id="words"></div>
-<div id="stage"><div id="board"></div></div>
+<div id="stage"><canvas id="board"></canvas></div>
 </div>
 
 <canvas id="cf"></canvas>
@@ -693,7 +656,8 @@ function snapSel(sx,sy,fx,fy,cols,rows){
 /* ---------- trạng thái ---------- */
 
 var idx=0,words=[],puz=null,found=[],locked=false,sel=null,cs=30,W0=0,H0=0,nextT=0,rzT=0,noteT=0;
-var board=qs('#board'),svg=null,flayer=null,sline=null,noteDismissed=false,wasPortrait=false;
+var board=qs('#board'),bctx=board.getContext('2d'),flines=[],badSel=null,hintCells={},hintOn=true,hintBlinkT=0;
+var noteDismissed=false,wasPortrait=false;
 
 function loadIdx(){
  var v=0;
@@ -832,26 +796,63 @@ function updateHud(){
  qs('#lv').textContent='Màn '+(idx+1)+'/'+STRING_SPLIT.length+' · '+found.length+'/'+words.length;
 }
 
-function renderBoard(){
- var h='';
- for(var i=0;i<puz.g.length;i++){
-  h+='<div class="c">'+puz.g[i].toUpperCase()+'</div>';
- }
+/* ---------- vẽ lưới lên canvas ---------- */
 
- board.innerHTML=h+
- '<svg viewBox="0 0 '+puz.cols+' '+puz.rows+'" preserveAspectRatio="none">'+
- '<g id="fl"></g>'+
- '<line id="sl" x1="0" y1="0" x2="0" y2="0" stroke-linecap="round" stroke-width=".8" visibility="hidden"></line>'+
- '</svg>';
-
- svg=board.querySelector('svg');
- flayer=board.querySelector('#fl');
- sline=board.querySelector('#sl');
-
- fit();
+function strokeSeg(x1,y1,x2,y2,color,alpha){
+ bctx.globalAlpha=alpha;
+ bctx.strokeStyle=color;
+ bctx.lineWidth=.8*cs;
+ bctx.lineCap='round';
+ bctx.beginPath();
+ bctx.moveTo((x1+.5)*cs,(y1+.5)*cs);
+ bctx.lineTo((x2+.5)*cs+.001,(y2+.5)*cs);
+ bctx.stroke();
+ bctx.globalAlpha=1;
 }
 
-/* Tính kích thước ô dựa trên kích thước thực tế của stage */
+function draw(){
+ if(!puz)return;
+
+ var cols=puz.cols,rows=puz.rows,bw=cols*cs,bh=rows*cs;
+ var k=board.width/bw;
+
+ bctx.setTransform(k,0,0,k,0,0);
+ bctx.clearRect(0,0,bw,bh);
+ bctx.fillStyle='#0b1220';
+ bctx.fillRect(0,0,bw,bh);
+
+ var i,x,y;
+
+ /* nền ô gợi ý (nhấp nháy) */
+ if(hintOn){
+  bctx.fillStyle='#fbbf24';
+  for(var h in hintCells){
+   i=+h;
+   bctx.fillRect((i%cols)*cs,Math.floor(i/cols)*cs,cs,cs);
+  }
+ }
+
+ /* chữ cái (vẽ thành ảnh, không có văn bản trong DOM) */
+ bctx.font='800 '+Math.max(8,Math.round(cs*.58))+'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+ bctx.textAlign='center';
+ bctx.textBaseline='middle';
+ for(i=0;i<puz.g.length;i++){
+  x=(i%cols)*cs+cs/2;
+  y=Math.floor(i/cols)*cs+cs/2+cs*.03;
+  bctx.fillStyle=(hintOn&&hintCells[i])?'#0f172a':'#f1f5f9';
+  bctx.fillText(puz.g[i].toUpperCase(),x,y);
+ }
+
+ /* các từ đã tìm thấy */
+ flines.forEach(function(l){strokeSeg(l.a[0],l.a[1],l.b[0],l.b[1],l.c,.88)});
+
+ /* đường đang chọn */
+ if(badSel)strokeSeg(badSel.sx,badSel.sy,badSel.sx+badSel.dx*badSel.n,badSel.sy+badSel.dy*badSel.n,'#ef4444',.75);
+ else if(sel)strokeSeg(sel.sx,sel.sy,sel.sx+sel.dx*sel.n,sel.sy+sel.dy*sel.n,'#ffffff',.38);
+}
+
+/* Đặt kích thước canvas đúng bằng số ô x cỡ ô (px CSS), rồi vẽ lại.
+   Kích thước CSS và toạ độ chuột cùng dựa trên cs nên luôn khớp nhau. */
 function fit(){
  if(!puz)return;
 
@@ -859,20 +860,21 @@ function fit(){
  var W=Math.max(1,st.clientWidth-4);
  var H=Math.max(1,st.clientHeight-4);
 
- cs=Math.max(1,Math.floor(Math.min(
-  W/puz.cols,
-  H/puz.rows
- )));
+ cs=Math.max(1,Math.floor(Math.min(W/puz.cols,H/puz.rows)));
 
  var bw=puz.cols*cs;
  var bh=puz.rows*cs;
+ var d=window.devicePixelRatio||1;
 
- board.style.gridTemplateColumns='repeat('+puz.cols+','+cs+'px)';
- board.style.gridAutoRows=cs+'px';
  board.style.width=bw+'px';
  board.style.height=bh+'px';
- board.style.fontSize=Math.max(8,Math.round(cs*.58))+'px';
+ board.width=Math.max(1,Math.round(bw*d));
+ board.height=Math.max(1,Math.round(bh*d));
+
+ draw();
 }
+
+function renderBoard(){fit()}
 
 function buildPuzzle(){
  var st=qs('#stage');
@@ -899,7 +901,7 @@ function buildPuzzle(){
  }
 
  if(!p){
-  p=genPuzzle(dm.cols+6,dm.rows+6,words,pRev);
+  p=genPuzzle(words,dm.cols+6,dm.rows+6,pRev);
  }
 
  puz=p;
@@ -916,6 +918,8 @@ function loadStage(){
 
  words=cleanWords(STRING_SPLIT[idx]);
  found=[];
+ flines=[];
+ badSel=null;
  locked=false;
  sel=null;
  puz=null;
@@ -928,7 +932,7 @@ function loadStage(){
 
 /* ---------- chọn từ trên lưới ---------- */
 
-/* Quy đổi tọa độ theo kích thước thực tế của board */
+/* Quy đổi toạ độ chuột sang toạ độ ô theo đúng kích thước canvas đang hiển thị */
 function cellPos(e){
  var r=board.getBoundingClientRect();
 
@@ -936,23 +940,6 @@ function cellPos(e){
   x:(e.clientX-r.left)*puz.cols/r.width,
   y:(e.clientY-r.top)*puz.rows/r.height
  };
-}
-
-function drawSel(color){
- if(!sline)return;
-
- if(!sel){
-  sline.setAttribute('visibility','hidden');
-  return;
- }
-
- sline.setAttribute('x1',sel.sx+.5);
- sline.setAttribute('y1',sel.sy+.5);
- sline.setAttribute('x2',sel.sx+sel.dx*sel.n+.5+(sel.n?0:.001));
- sline.setAttribute('y2',sel.sy+sel.dy*sel.n+.5);
- sline.setAttribute('stroke',color||'#ffffff');
- sline.setAttribute('stroke-opacity',color?'.75':'.38');
- sline.setAttribute('visibility','visible');
 }
 
 board.addEventListener('pointerdown',function(e){
@@ -967,8 +954,9 @@ board.addEventListener('pointerdown',function(e){
 
  try{board.setPointerCapture(e.pointerId)}catch(err){}
 
+ badSel=null;
  sel={sx:x,sy:y,dx:0,dy:0,n:0};
- drawSel();
+ draw();
 });
 
 board.addEventListener('pointermove',function(e){
@@ -989,12 +977,13 @@ board.addEventListener('pointermove',function(e){
  sel.dy=r.dy;
  sel.n=r.n;
 
- drawSel();
+ draw();
 });
 
 board.addEventListener('pointerup',function(){finishSel()});
-board.addEventListener('pointercancel',function(){sel=null;drawSel()});
+board.addEventListener('pointercancel',function(){sel=null;draw()});
 board.addEventListener('contextmenu',function(e){e.preventDefault()});
+board.addEventListener('dragstart',function(e){e.preventDefault()});
 
 function isFound(w){
  return found.some(function(f){return f.w===w});
@@ -1003,11 +992,10 @@ function isFound(w){
 function finishSel(){
  if(!sel||!puz)return;
 
- var s=sel,cells=[],str='',j;
+ var s=sel,str='',j;
 
  for(j=0;j<=s.n;j++){
   var x=s.sx+s.dx*j,y=s.sy+s.dy*j;
-  cells.push([x,y]);
   str+=puz.g[y*puz.cols+x];
  }
 
@@ -1021,25 +1009,16 @@ function finishSel(){
 
  if(hit){
   sel=null;
-  drawSel();
 
   var color=PAL[found.length%PAL.length];
 
   found.push({w:hit,color:color});
-
-  var a=cells[0],b=cells[cells.length-1];
-  var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
-
-  ln.setAttribute('x1',a[0]+.5);
-  ln.setAttribute('y1',a[1]+.5);
-  ln.setAttribute('x2',b[0]+.5);
-  ln.setAttribute('y2',b[1]+.5);
-  ln.setAttribute('stroke',color);
-  ln.setAttribute('stroke-width','.8');
-  ln.setAttribute('stroke-linecap','round');
-  ln.setAttribute('stroke-opacity','.88');
-
-  flayer.appendChild(ln);
+  flines.push({
+   a:[s.sx,s.sy],
+   b:[s.sx+s.dx*s.n,s.sy+s.dy*s.n],
+   c:color
+  });
+  draw();
 
   var chip=qs('.w[data-w="'+hit+'"]');
 
@@ -1053,15 +1032,17 @@ function finishSel(){
   if(found.length===words.length)win();
 
  }else{
+  sel=null;
+
   if(s.n>=1){
-   drawSel('#ef4444');
-   sel=null;
+   badSel=s;
+   draw();
    setTimeout(function(){
-    if(!sel)drawSel();
+    badSel=null;
+    draw();
    },220);
   }else{
-   sel=null;
-   drawSel();
+   draw();
   }
  }
 }
@@ -1072,10 +1053,10 @@ var hintT=0;
 
 function clearHint(){
  clearTimeout(hintT);
-
- var h=board.querySelectorAll('.c.hl');
-
- for(var i=0;i<h.length;i++)h[i].classList.remove('hl');
+ clearInterval(hintBlinkT);
+ hintCells={};
+ hintOn=true;
+ draw();
 }
 
 function showHint(){
@@ -1094,13 +1075,16 @@ function showHint(){
 
  if(!w)return;
 
- var cells=board.querySelectorAll('.c');
+ puz.placed[w].forEach(function(ci){hintCells[ci]=1});
+ hintOn=true;
+ draw();
 
- puz.placed[w].forEach(function(ci){
-  if(cells[ci])cells[ci].classList.add('hl');
- });
+ hintBlinkT=setInterval(function(){
+  hintOn=!hintOn;
+  draw();
+ },300);
 
- hintT=setTimeout(clearHint, 1500);
+ hintT=setTimeout(clearHint,1500);
 }
 
 qs('#hint').addEventListener('click',showHint);
@@ -1193,6 +1177,16 @@ addEventListener('resize',function(){
  sizeCv();
  updateNote(false);
 });
+
+/* Khung #stage đổi kích thước sau khi load (font tải xong, hàng từ cần tìm xuống dòng, thanh công cụ...)
+   mà không có sự kiện resize của cửa sổ: tự tính lại để canvas luôn khớp khung chứa. */
+if(typeof ResizeObserver!=='undefined'){
+ new ResizeObserver(function(){
+  clearTimeout(rzT);
+  rzT=setTimeout(onResize,60);
+ }).observe(qs('#stage'));
+}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){onResize()});
 
 /* ---------- đo vùng nhìn thấy khi nhúng iframe ---------- */
 
