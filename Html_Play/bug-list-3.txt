@@ -605,4 +605,16 @@ var seeTitleData = [
         NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] <b>Nguyên nhân bug thực sự và cần được fix</b>: lý do thực sự bị 403 là do rule setting tại HTTP METHOD PLAY và do IP giả 123.456.789 không phải là IPv4 hợp lệ. Tuy nhiên, file log request vẫn ghi status là [temp request] thay vì reason do rule HTTP METHOD PLAY.<br /><br /> <b>Về nguyên nhân bug bug ghi status tại log bị sai</b>: do chỉ sửa đổi/thiết lập IP giả tại hàm dùng chung GetUserIp() => không phải admin (1), tuy nhiên tại logic kiểm tra IP admin để quyết định việc ghi log thì lại đang không dùng hàm GetUserIp() mà đang lấy lại IP thật => là admin (2). Do (1) và (2) bị trở nên mâu thuẫn, do đó file log bị đánh dấu status là [temp request]; bởi vì nơi ghi status chính xác đã bị đánh giá là admin nên quyết định không ghi log.",
         GiaiPhap: null
     },
+    {
+        Index: 143,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
+        Index: 144,
+        Status: "FIXED",
+        NguyenNhan: "- Để fix được bug #158, khi setting dùng IP run test (IP giả) thì đã bổ sung logic để tự gán giá trị mặc định cho thông tin IP/nhà cung cấp (thay vì gán bởi api bên thứ ba).<br />- Do thông tin tự gán mặc định này đã đối ứng sai format, gây code exception => thông tin json của HttpContext request bị gán thành <b>[ERROR FOR GET JSON USER REQUEST - CONTEXT]</b> => Do đó, rule 1 của Http Method Play sẽ luôn đúng với mọi trường hợp (kể cả khi đang truy cập path <b>/</b>)",
+        GiaiPhap: null
+    },
 ];
