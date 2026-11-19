@@ -328,7 +328,7 @@ var MINIGAME_LIST = [
 	},
 	{
 		"Key": "/game-to-mau",
-		"Name": "Game tô màu bức tranh",
+		"Name": "Game tô màu theo mẫu",
 		"Image": "https://cdn.eva.vn/upload/2-2025/images/thintb/tranh-to-mau-theo-mau-2-1744871958-497-width563height475.jpg",
 		"Enabled": true
 	},
