@@ -201,7 +201,7 @@
     width: 100%; height: 100%;
     border: 0;
     background: #fff;
-    visibility: hidden;         /* chỉ hiện khi iframe load xong */
+    visibility: hidden;         /* chỉ hiện khi iframe load xong VÀ kiểm tra hợp lệ */
   }
   .modal.ready .modal-frame { visibility: visible; }
 
@@ -317,8 +317,8 @@
 (function () {
   'use strict';
   <@@path:https://mywebplay.github.io/MyWebPlay_External/External/minigame-list.txt@@>
-  var CHECK_TIMEOUT = 15000;   // chờ kiểm tra trang (ms)
   var LOAD_TIMEOUT = 30000;    // chờ iframe load xong (ms)
+  var PLAY_ELEMENT_ID = 'html_play';   // phần tử bắt buộc phải có trong trang game hợp lệ
 
   var grid = document.getElementById('grid');
   var emptyBox = document.getElementById('empty');
@@ -328,8 +328,7 @@
   var modalClose = document.getElementById('modalClose');
 
   var seq = 0;               // đổi mỗi lần mở/đóng để bỏ qua kết quả cũ
-  var currentAbort = null;
-  var checkTimer = null, loadTimer = null;
+  var loadTimer = null;
   var frame = null;
   var frameKey = null;       // key của game đang được giữ iframe
   var lastFocus = null;
@@ -380,8 +379,7 @@
 
   function clearAll() {
     seq++;
-    if (currentAbort) { currentAbort.abort(); currentAbort = null; }
-    clearTimeout(checkTimer); clearTimeout(loadTimer);
+    clearTimeout(loadTimer);
     if (frame) { frame.remove(); frame = null; }   // gỡ hẳn iframe để game dừng chạy
     frameKey = null;
   }
@@ -402,23 +400,75 @@
 
   function fail(token) {
     if (token !== seq) return;           // đã đóng hoặc mở game khác
-    if (currentAbort) { currentAbort.abort(); currentAbort = null; }
-    clearTimeout(checkTimer); clearTimeout(loadTimer);
-    if (frame) { frame.remove(); frame = null; }
+    clearTimeout(loadTimer);
+    if (frame) { frame.remove(); frame = null; }   // huỷ iframe, không hiển thị nội dung lỗi của trang con
+    frameKey = null;
     setState('failed');
     modalClose.focus();
   }
 
+  // bỏ phần #hash để so sánh URL
+  function stripHash(u) {
+    var i = u.indexOf('#');
+    return i === -1 ? u : u.slice(0, i);
+  }
+
+  /*
+   * Kiểm tra iframe sau khi load xong, theo thứ tự ưu tiên:
+   *  1. Response không phải HTML (text/json/...) => thất bại
+   *  2. Bị redirect sang URL khác src gốc       => thất bại
+   *  3. Có phần tử #html_play                   => hợp lệ, hiện iframe
+   * Trả về true nếu hợp lệ, false nếu thất bại, null nếu cần chờ lần load kế tiếp (about:blank).
+   */
+  function validateFrame(f, expectedUrl) {
+    var win, doc, href;
+    try {
+      win = f.contentWindow;
+      doc = f.contentDocument;
+      href = win.location.href;      // cross-origin (do redirect ra domain khác) sẽ ném lỗi
+    } catch (err) {
+      return false;                  // không đọc được => đã sang origin khác (redirect) hoặc bị chặn
+    }
+    if (!win || !doc) return false;
+
+    // Một số trình duyệt bắn load cho about:blank ban đầu: bỏ qua, chờ load thật (loadTimer vẫn canh timeout)
+    if (href === 'about:blank' && expectedUrl !== 'about:blank') return null;
+
+    // (1) Không phải HTML
+    var ct = String(doc.contentType || '').toLowerCase();
+    if (ct.indexOf('text/html') !== 0 && ct.indexOf('application/xhtml+xml') !== 0) return false;
+
+    // (2) Bị redirect khỏi src gốc
+    if (stripHash(href) !== stripHash(expectedUrl)) return false;
+
+    // (3) Phải có phần tử #html_play
+    try {
+      if (!doc.getElementById(PLAY_ELEMENT_ID)) return false;
+    } catch (err) {
+      return false;
+    }
+    return true;
+  }
+
   function mountFrame(key, name, token) {
+    var expectedUrl;
+    try { expectedUrl = new URL(key, window.location.href).href; }
+    catch (err) { fail(token); return; }
+
+    var checked = false;                 // chỉ kiểm tra ở lần load đầu; về sau game tự điều hướng bên trong không bị xét lại
     frame = document.createElement('iframe');
     frameKey = key;
-    frame.className = 'modal-frame';
+    frame.className = 'modal-frame';     // đang ẩn (visibility:hidden) cho tới khi state = ready
     frame.title = name;
     frame.setAttribute('allow', 'fullscreen; autoplay');
     frame.addEventListener('load', function () {
-      if (token !== seq) return;
+      if (token !== seq || checked) return;
+      var ok = validateFrame(frame, expectedUrl);
+      if (ok === null) return;           // chờ load thật
+      checked = true;
+      if (!ok) { fail(token); return; }
       clearTimeout(loadTimer);
-      setState('ready');                 // load xong hoàn tất: hiện iframe, tắt spinner, hiện nút X
+      setState('ready');                 // hợp lệ: hiện iframe, tắt spinner, hiện nút X
       modalClose.focus();
     });
     frame.src = key;                     // gán src SAU khi đã gắn sự kiện load
@@ -430,7 +480,7 @@
     if (modal.classList.contains('open')) return;   // chống bấm đúp
     lastFocus = trigger;
 
-    // Mở lại đúng game vừa đóng: dùng lại iframe cũ, không fetch/load lại
+    // Mở lại đúng game vừa đóng: dùng lại iframe cũ, không load lại
     if (frame && frameKey === key) {
       modalTitle.textContent = name;
       modal.classList.add('open');
@@ -451,19 +501,7 @@
     document.documentElement.style.overflow = 'hidden';
 
     var token = ++seq;
-    currentAbort = new AbortController();
-    checkTimer = setTimeout(function () { fail(token); }, CHECK_TIMEOUT);
-
-    // Iframe không báo được mã HTTP, nên kiểm tra trước: chỉ nhận đúng 200 mới nạp iframe
-    fetch(key, { method: 'GET', credentials: 'same-origin', signal: currentAbort.signal })
-      .then(function (res) {
-        if (token !== seq) return;
-        if (res.status !== 200) throw new Error('HTTP ' + res.status);
-        clearTimeout(checkTimer);
-        currentAbort = null;
-        mountFrame(key, name, token);
-      })
-      .catch(function () { fail(token); });
+    mountFrame(key, name, token);        // load iframe luôn (ẩn), không fetch trước => chỉ 1 request
   }
 })();
 </script>
