@@ -600,6 +600,12 @@ var seeTitleData = [
         GiaiPhap: "Tạm thời sẽ sử dụng file setting RequestUrlAccept.txt với key 'IGNORE_LIMIT' có sẵn. Việc này sẽ tạm đóng lại, cho đến khi có quyết định khác!"
     },
     {
+        Index: 141,
+        Status: "FIXED",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
+    {
         Index: 142,
         Status: "FIXED",
         NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI] <b>Nguyên nhân bug thực sự và cần được fix</b>: lý do thực sự bị 403 là do rule setting tại HTTP METHOD PLAY và do IP giả 123.456.789 không phải là IPv4 hợp lệ. Tuy nhiên, file log request vẫn ghi status là [temp request] thay vì reason do rule HTTP METHOD PLAY.<br /><br /> <b>Về nguyên nhân bug bug ghi status tại log bị sai</b>: do chỉ sửa đổi/thiết lập IP giả tại hàm dùng chung GetUserIp() => không phải admin (1), tuy nhiên tại logic kiểm tra IP admin để quyết định việc ghi log thì lại đang không dùng hàm GetUserIp() mà đang lấy lại IP thật => là admin (2). Do (1) và (2) bị trở nên mâu thuẫn, do đó file log bị đánh dấu status là [temp request]; bởi vì nơi ghi status chính xác đã bị đánh giá là admin nên quyết định không ghi log.",
