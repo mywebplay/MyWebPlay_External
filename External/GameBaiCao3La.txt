@@ -201,7 +201,7 @@ function invites(){if(!P.length||over||P[0].done)return[];return P.filter(functi
 
 /* chốt: lật bài, tính điểm ngay, bong bóng tổng nút + điểm */
 function settle(p,forced){
- var e=ev(p.hand),tx=e.t=='cào'?'3 lá bài cào':(e.t=='bù'?'Bù':'Tổng 3 lá = '+e.p+' nút');
+ var e=ev(p.hand),tx=e.t=='cào'?'3 lá bài cào':(e.t=='bù'?'Bù':e.p+' nút');
  p.done=true;p.offer=null;p.delta=e.p;p.kind=e.t;p.score+=e.p;
  pop(p.id,(forced?'Lật bài':(p.id?p.name+' đã chốt':'Bạn đã chốt'))+' · '+tx,'','keep');
  pop(p.id,(e.p>0?'+':'')+e.p+' điểm','big '+(e.p<0?'neg':'pos'),'keep');
@@ -213,12 +213,14 @@ function finish(p){
  settle(p);chosen=-1;dirty=true;checkEnd();
 }
 function checkEnd(){if(!over&&P.filter(function(p){return !p.done}).length<=1)endRound()}
-/* hết ván: ai đồng điểm cao nhất đều chớp sáng; xếp hạng theo điểm rồi lá lớn nhất; giữ nguyên đến khi bấm Ván mới */
+/* hết ván: ai đồng điểm cao nhất đều chớp sáng; nếu hòa thì xếp hạng giữa họ theo lá lớn nhất; giữ nguyên đến khi bấm Ván mới */
 function endRound(){
  over=true;
  P.forEach(function(p){p.offer=null;if(!p.done)settle(p,true)});
  var o=P.slice().sort(function(a,b){var t=b.delta-a.delta;if(t)return t;var x=top(a.hand),y=top(b.hand);return y.r*4+y.s-x.r*4-x.s}),mx=o[0].delta;
- o.forEach(function(p,i){p.rank=i+1;p.win=p.delta===mx});
+ var tied=o.filter(function(p){return p.delta===mx});
+ o.forEach(function(p){p.win=p.delta===mx;p.rank=0});
+ if(tied.length>1)tied.forEach(function(p,i){p.rank=i+1});   /* chỉ gắn hạng khi có từ 2 người cùng điểm cao nhất, xét theo lá lớn nhất */
  dirty=true;
 }
 
