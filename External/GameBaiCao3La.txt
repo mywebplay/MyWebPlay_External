@@ -39,6 +39,7 @@ button{font:inherit;cursor:pointer}
 .cn{position:absolute;left:7%;top:4%;display:flex;flex-direction:column;align-items:center;font-size:calc(var(--c)*.26);line-height:1}
 .cn svg{width:calc(var(--c)*.2);height:calc(var(--c)*.2)}
 .cn.bm{left:auto;right:7%;top:auto;bottom:4%;transform:rotate(180deg)}
+.court{position:absolute;left:50%;top:50%;width:calc(var(--c)*.48);height:calc(var(--c)*.7);transform:translate(-50%,-50%)}
 .mid{position:absolute;left:50%;top:50%;width:calc(var(--c)*.5);height:calc(var(--c)*.5);transform:translate(-50%,-50%)}
 .card.hung{transform:translateY(calc(var(--c)*-.2));outline:2px dashed #fbbf24}
 .card.sel{transform:translateY(calc(var(--c)*-.2));box-shadow:0 0 0 3px #fbbf24,0 3px 6px #0008}
@@ -97,6 +98,9 @@ button{font:inherit;cursor:pointer}
 <symbol id="s1" viewBox="0 0 100 100"><circle cx="50" cy="28" r="20"/><circle cx="27" cy="62" r="20"/><circle cx="73" cy="62" r="20"/><path d="M50 55L36 95H64Z"/></symbol>
 <symbol id="s2" viewBox="0 0 100 100"><path d="M50 4L88 50 50 96 12 50Z"/></symbol>
 <symbol id="s3" viewBox="0 0 100 100"><path d="M50 92C10 62 4 36 22 20 36 8 50 22 50 30 50 22 64 8 78 20 96 36 90 62 50 92Z"/></symbol>
+<g id="h11"><path d="M5 35Q5 25 15 23H33Q43 25 43 35Z" fill="currentColor"/><path d="M17 23L24 31L31 23Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/><path d="M17.5 10V19H30.5V10Z" fill="#7c4a1d"/><ellipse cx="24" cy="16" rx="6.5" ry="8" fill="#fde0c0" stroke="#7a5a3a" stroke-width=".6"/><circle cx="21.5" cy="15.5" r=".9" fill="#222"/><circle cx="26.5" cy="15.5" r=".9" fill="#222"/><path d="M22 20Q24 21.5 26 20" stroke="#8b3a2b" stroke-width=".7" fill="none"/><path d="M17.5 12Q24 6.5 30.5 12Q24 9.5 17.5 12Z" fill="#7c4a1d"/><path d="M15 10Q15 2.5 24 2.5Q33 2.5 33 10Z" fill="currentColor"/><rect x="15" y="9" width="18" height="2" fill="#fde047" stroke="#a16207" stroke-width=".6"/><path d="M32 7Q42 1 44.5 10Q38 6 32 10Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/></g><g id="c11"><rect x=".8" y=".8" width="46.4" height="68.4" rx="3" fill="#fffbea" stroke="currentColor" stroke-width="1.2"/><use href="#h11"/><use href="#h11" transform="rotate(180 24 35)"/><path d="M1 35H47" stroke="currentColor" stroke-width=".8" opacity=".5"/></g>
+<g id="h12"><path d="M5 35Q5 25 15 23H33Q43 25 43 35Z" fill="currentColor"/><path d="M17 23L24 31L31 23Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/><path d="M14 11Q14 3.5 24 3.5Q34 3.5 34 11L36.5 27Q30 23 31 17H17Q18 23 11.5 27Z" fill="#7c4a1d"/><ellipse cx="24" cy="16" rx="6.5" ry="8" fill="#fde0c0" stroke="#7a5a3a" stroke-width=".6"/><circle cx="21.5" cy="15.5" r=".9" fill="#222"/><circle cx="26.5" cy="15.5" r=".9" fill="#222"/><path d="M22 20Q24 21.5 26 20" stroke="#8b3a2b" stroke-width=".7" fill="none"/><path d="M17 8.5L18 2L21.5 5.5L24 1.5L26.5 5.5L30 2L31 8.5Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/><circle cx="38" cy="30" r="3.2" fill="currentColor"/><circle cx="38" cy="30" r="1.2" fill="#fde047"/></g><g id="c12"><rect x=".8" y=".8" width="46.4" height="68.4" rx="3" fill="#fffbea" stroke="currentColor" stroke-width="1.2"/><use href="#h12"/><use href="#h12" transform="rotate(180 24 35)"/><path d="M1 35H47" stroke="currentColor" stroke-width=".8" opacity=".5"/></g>
+<g id="h13"><path d="M5 35Q5 25 15 23H33Q43 25 43 35Z" fill="currentColor"/><path d="M17 23L24 31L31 23Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/><path d="M16 9H32V20H16Z" fill="#6b4a2b"/><ellipse cx="24" cy="16" rx="6.5" ry="8" fill="#fde0c0" stroke="#7a5a3a" stroke-width=".6"/><circle cx="21.5" cy="15.5" r=".9" fill="#222"/><circle cx="26.5" cy="15.5" r=".9" fill="#222"/><path d="M17.5 18Q24 33 30.5 18Q27 22 24 21Q21 22 17.5 18Z" fill="#6b4a2b"/><path d="M20 19Q24 17 28 19Q24 21 20 19Z" fill="#6b4a2b"/><path d="M15 9.5L15.5 2.5L20 6L24 1.5L28 6L32.5 2.5L33 9.5Z" fill="#fde047" stroke="#a16207" stroke-width=".6"/><circle cx="24" cy="6.5" r="1" fill="currentColor"/><rect x="38" y="19" width="2" height="16" fill="#a16207"/><circle cx="39" cy="18" r="2" fill="#fde047" stroke="#a16207" stroke-width=".6"/></g><g id="c13"><rect x=".8" y=".8" width="46.4" height="68.4" rx="3" fill="#fffbea" stroke="currentColor" stroke-width="1.2"/><use href="#h13"/><use href="#h13" transform="rotate(180 24 35)"/><path d="M1 35H47" stroke="currentColor" stroke-width=".8" opacity=".5"/></g>
 </defs></svg>
 <div id="app"><div id="arena"><div id="grid"></div><div id="fx"></div></div><div id="bar"><div id="btns"></div></div></div>
 <script>
@@ -214,7 +218,7 @@ function newRound(){
  for(i=51;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=d[i];d[i]=d[j];d[j]=t}
  P.forEach(function(p){
   p.hand=[0,1,2].map(function(){var k=d.pop();return{id:k,r:k%13+1,s:Math.floor(k/13)}});
-  p.done=false;p.offer=null;p.act=null;p.swaps=0;p.stale=0;p.annoy={};p.rej={};p.flash=0;p.win=false;p.rank=0;p.delta=null;p.newUntil=0;
+  p.done=false;p.offer=null;p.act=null;p.swaps=0;p.stale=0;p.annoy={};p.rej={};p.mut={};p.flash=0;p.win=false;p.rank=0;p.delta=null;p.newUntil=0;
   p.next=Date.now()+rnd(2500,5500);
   if(p.id){p.ty=TY[Math.floor(Math.random()*4)];p.ms=Math.round(rnd(p.ty.ms[0],p.ty.ms[1]))}
  });
@@ -343,16 +347,24 @@ function execAct(m){
  if(m.done||A.done)return;
  if(!A.offer||A.offer.id!==a.oid){pop(m.id,'Chậm một nhịp, lá đã không còn','mut');return}
  if(A.offer.to!==null&&A.offer.to!==m.id)return;
+ if(a.rej){reject(m,A);return}
  swap(A,A.offer.ci,m,a.ci!=null?a.ci:bestSwap(m).gi);
 }
 setInterval(function(){
  if(!P.length)return;
  var now=Date.now(),u=P[0];
  if(!over){
-  /* bạn đã đưa lá ra, máy nào đang hỏi bạn thì lấy luôn, không ai phải chờ */
-  if(u.offer&&!u.done)P.forEach(function(m){
-   if(m.id&&!m.done&&!m.act&&m.offer&&m.offer.to===0&&!hid[m.offer.id]&&(u.offer.to===null||u.offer.to===m.id))
-   {m.act={from:0,oid:u.offer.id,at:now+rnd(600,1200),ci:m.offer.ci};announce(m,u,u.offer.id)}
+  /* hỏi qua hỏi lại: máy m đang hỏi q, q cũng hỏi lại m (hoặc bạn đưa lá ra bàn) => thường đổi luôn (85%), thỉnh thoảng mới đổi ý từ chối */
+  P.forEach(function(m){
+   if(!m.id||m.done||m.act||!m.offer||m.offer.to===null||hid[m.offer.id])return;
+   var q=P[m.offer.to];if(!q||q.done||!q.offer)return;
+   if(q.id&&m.id>q.id)return;
+   if(!(q.offer.to===m.id||(q.id===0&&q.offer.to===null)))return;
+   var key=q.offer.id;m.mut=m.mut||{};
+   if(m.mut[key]!==undefined)return;
+   m.mut[key]=Math.random()<.85;
+   m.act={from:q.id,oid:key,at:now+rnd(700,1400),ci:m.offer.ci,rej:!m.mut[key]};
+   if(!m.act.rej)announce(m,q,key);
   });
   P.forEach(function(m){
    if(!m.id||m.done||over)return;
@@ -417,7 +429,8 @@ document.addEventListener('pointerdown',function(e){
 /* ---------- giao diện ---------- */
 function face(c){
  var s='<svg viewBox="0 0 100 100"><use href="#s'+c.s+'"/></svg>',k=RK[c.r];
- return '<div class="cn"><b>'+k+'</b>'+s+'</div><div class="mid">'+s+'</div><div class="cn bm"><b>'+k+'</b>'+s+'</div>';
+ var mid=c.r>=11?'<svg class="court" viewBox="0 0 48 70" aria-hidden="true"><use href="#c'+c.r+'"/></svg>':'<div class="mid">'+s+'</div>';
+ return '<div class="cn"><b>'+k+'</b>'+s+'</div>'+mid+'<div class="cn bm"><b>'+k+'</b>'+s+'</div>';
 }
 function seat(p){
  var u=!p.id,c=u?cu:cm,now=Date.now(),h='';
