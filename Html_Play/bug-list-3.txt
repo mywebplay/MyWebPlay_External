@@ -623,4 +623,10 @@ var seeTitleData = [
         NguyenNhan: "[Hỗ trợ điều tra bởi Claude AI]<br />- Để fix được bug #158, khi setting dùng IP run test (IP giả) thì đã bổ sung logic để tự gán giá trị mặc định cho thông tin IP/nhà cung cấp (thay vì gán bởi api bên thứ ba).<br />- Do thông tin tự gán mặc định này đã đối ứng sai format, gây code exception => thông tin json của HttpContext request bị gán thành <b>[ERROR FOR GET JSON USER REQUEST - CONTEXT]</b> => Do đó, rule 1 của Http Method Play sẽ luôn đúng với mọi trường hợp (kể cả khi đang truy cập path <b>/</b>)",
         GiaiPhap: null
     },
+    {
+        Index: 145,
+        Status: "NOBUG",
+        NguyenNhan: null,
+        GiaiPhap: null
+    },
 ];
