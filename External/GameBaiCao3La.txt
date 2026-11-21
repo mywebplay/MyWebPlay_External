@@ -220,7 +220,7 @@ function newRound(){
   p.hand=[0,1,2].map(function(){var k=d.pop();return{id:k,r:k%13+1,s:Math.floor(k/13)}});
   p.done=false;p.offer=null;p.act=null;p.swaps=0;p.stale=0;p.annoy={};p.rej={};p.mut={};p.flash=0;p.win=false;p.rank=0;p.delta=null;p.newUntil=0;
   p.next=Date.now()+rnd(2500,5500);
-  if(p.id){p.ty=TY[Math.floor(Math.random()*4)];p.ms=Math.round(rnd(p.ty.ms[0],p.ty.ms[1]))}
+  if(p.id){p.ty=TY[Math.floor(Math.random()*4)];p.ms=Math.round(rnd(p.ty.ms[0],p.ty.ms[1]));p.mood=rnd(-.5,.5)}
  });
  over=false;sel=-1;chosen=-1;hid={};fx.innerHTML='';fit();render();
  pop(0,'Chạm một lá của bạn, rồi chạm tên người muốn đổi, hoặc bấm “Đưa ra bàn”.','hint',9000,function(){return sel<0&&!P[0].offer&&!invites().length});
@@ -322,10 +322,13 @@ function reject(m,p){
 }
 function decide(m){
  var now=Date.now();
+ m.mood=Math.max(-1,Math.min(1,(m.mood||0)+rnd(-.3,.3)));   /* tâm trạng trôi dần: lúc liều lúc nhát */
  if(m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}
  var b=bestSwap(m),th=m.ty.thr;
+ b.gain+=m.mood*.6;
  var inc=P.filter(function(p){return p!==m&&!p.done&&p.offer&&(p.offer.to===m.id||p.offer.to===null)});
  var ok=b.gain>th&&m.swaps<=m.ms&&Math.random()<(m.ty.k=='đa nghi'?.7:.92);
+ if(Math.random()<.06){if(ok)ok=false;else if(b.gain>th-1.2&&m.swaps<=m.ms)ok=true}   /* lúc khó tính bỏ lỡ lời hay, lúc dễ dãi nhận lời hơi lỗ */
  var cand=inc.filter(function(p){return p.offer.to===null||(m.annoy[p.id]||0)<3});
  if(ok&&cand.length){
   var p=cand[Math.floor(Math.random()*cand.length)];
@@ -336,9 +339,11 @@ function decide(m){
  if(m.offer){if(Math.random()<.08)change(m,b);return}   /* phần lớn cố chấp chờ, lâu lâu mới đổi ý */
  var want=b.gain>th&&m.swaps<m.ms;
  if(!want&&m.swaps<m.ms&&b.h0<8&&Math.random()<m.ty.whim)want=true;
+ if(!want&&b.h0>=7&&m.swaps<m.ms&&Math.random()<.05)want=true;     /* hăng: bài đang tốt (kể cả cào) vẫn đi hỏi đổi */
+ if(want&&b.h0<5&&Math.random()<.04){finish(m);return}           /* lơ ngơ: bài yếu mà chốt thẳng */
  if(want){if(Math.random()<.8)offerFrom(m,b.gi)}
  else{
-  var pf=b.h0>=6?.7:(m.swaps>=m.ms?.6:.3);
+  var pf=(b.h0>=6?.7:(m.swaps>=m.ms?.6:.3))-m.mood*.12;
   if(Math.random()<pf||m.stale>=3)finish(m);
  }
 }
@@ -362,14 +367,14 @@ setInterval(function(){
    if(!(q.offer.to===m.id||(q.id===0&&q.offer.to===null)))return;
    var key=q.offer.id;m.mut=m.mut||{};
    if(m.mut[key]!==undefined)return;
-   m.mut[key]=Math.random()<.85;
+   m.mut[key]=Math.random()<Math.max(.7,Math.min(.95,.85+m.mood*.08));
    m.act={from:q.id,oid:key,at:now+rnd(700,1400),ci:m.offer.ci,rej:!m.mut[key]};
    if(!m.act.rej)announce(m,q,key);
   });
   P.forEach(function(m){
    if(!m.id||m.done||over)return;
    if(m.act){if(now>=m.act.at)execAct(m)}
-   else if(now>=m.next){m.next=now+rnd(2000,4200)+n*100;decide(m)}
+   else if(now>=m.next){m.next=now+rnd(2000,4200)+n*100+(Math.random()<.12?rnd(2000,4000):0);   /* thỉnh thoảng do dự lâu */decide(m)}
   });
   checkEnd();
  }
