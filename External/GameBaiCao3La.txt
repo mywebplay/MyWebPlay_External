@@ -478,14 +478,18 @@ function decide(m){
  var now=Date.now();
  m.mood=Math.max(-1,Math.min(1,(m.mood||0)+rnd(-.25,.25)));   /* tâm trạng trôi dần: lúc liều lúc nhát */
  if(m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}
- var b=bestSwap(m),th=m.ty.thr,h=b.h0,tg=target(m),low=h<=3,hi=h>=8,sat=!low&&h>=tg,tired=m.swaps>=m.ms||m.stale>=3;
+ var b=bestSwap(m),th=m.ty.thr,h=b.h0,tg=target(m),low=h<=3,hi=h>=8,sat=!low&&h>=tg,alive=P.filter(function(q){return q!==m&&!q.done}).length;
  b.gain+=m.mood*.5;
  var inc=P.filter(function(p){return p!==m&&!p.done&&!busy(p.id)&&p.offer&&(isTo(p.offer,m.id)||p.offer.to===null)});
  var want;   /* "muốn đổi" chỉ tính một lần: vừa dùng để nhận lời, vừa dùng để tự đi hỏi => không còn chuyện mình muốn đổi mà lại từ chối người đổi */
  if(low)want=true;                                              /* nhất định phải đi đổi, đổi bao nhiêu lần cũng được */
  else if(hi)want=Math.random()<(h>=15?.005:.02);                /* hiếm hoi: bài rất tốt mà vẫn tham */
  else if(sat)want=Math.random()<m.ty.whim*1.2;                  /* đã đủ ý nhưng tham muốn cao thêm */
- else want=!tired||Math.random()<.15;                           /* chưa đạt kỳ vọng: đi đổi tiếp, mệt rồi thì thôi */
+ else{   /* chưa đạt kỳ vọng: chỉ bỏ cuộc khi có lý do, còn nhiều người chưa chốt thì còn cơ hội */
+  var hopeless=b.gain<-1;                                                                          /* tính theo các lá còn lại, đổi tiếp trung bình cũng không khá hơn */
+  var worn=(alive<=1&&m.swaps>=m.ms)||(alive<=2&&m.stale>=3)||(m.swaps>=m.ms+4&&Math.random()<.35);   /* ít người để đổi mà đã thử nhiều / không ai đáp lời / thử quá nhiều lần */
+  want=!hopeless&&!worn;
+ }
  var ok=want&&Math.random()<(low?.97:(m.ty.k=='đa nghi'?.8:.93));
  var cand=inc;
  if(ok&&cand.length){
