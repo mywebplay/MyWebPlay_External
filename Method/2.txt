@@ -192,7 +192,7 @@ p{
     <h1>Tính năng hiện chưa được kích hoạt</h1>
 
     <p>
-      Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng hoặc đã hết hạn.<br>
+      Có vẻ thiết bị/trình duyệt của bạn vẫn chưa đăng ký cho phép sử dụng, đã hết hạn hoặc đã bị hỏng đột xuất.<br>
       Để tiếp tục, vui lòng kích hoạt đăng kí xác thực trên thiết bị hoặc trình duyệt hiện tại của bạn thường xuyên sử dụng để được sử dụng tính năng này.
     </p>
 
