@@ -290,7 +290,7 @@ function sticky(){
  conds=conds.filter(function(c){if(!c.b.parentNode||c.b.classList.contains('bst'))return false;if(!c.f()){burst(c.b);return false}return true});
  var want={},u=P[0],iv=invites(),cur=curInv(iv),k;
  if(!over&&!u.done)P.forEach(function(p){
-  if(p.id&&!p.done&&p.offer&&(p.offer.to===0||p.offer.to===null)&&!hid[p.offer.id])
+  if(p.id&&!p.done&&p.offer&&p.offer.exp>Date.now()&&(p.offer.to===0||p.offer.to===null)&&!hid[p.offer.id])
    want['i'+p.offer.id]={pid:p.id,txt:p.offer.to===0?p.name+' muốn đổi một lá với bạn':p.name+' đưa một lá ra bàn',cls:p===cur?'cur':'',inv:p.id};
  });
  if(u.offer&&!over&&!u.done)want.me={pid:0,txt:(u.offer.to===null?'Bạn đã đưa lá ra bàn, chờ ai lấy…':'Đang chờ '+P[u.offer.to].name+' trả lời…')+' (chạm lại lá để rút)',cls:'wait'};
@@ -374,7 +374,7 @@ function launch(a,ai,ca,ra,b,bi,cb,rb,now){
   }
  },FT+20);
 }
-function invites(){if(!P.length||over||P[0].done)return[];return P.filter(function(p){return p.id&&!p.done&&p.offer&&(p.offer.to===0||p.offer.to===null)&&!hid[p.offer.id]})}
+function invites(){if(!P.length||over||P[0].done)return[];var now=Date.now();return P.filter(function(p){return p.id&&!p.done&&p.offer&&p.offer.exp>now&&(p.offer.to===0||p.offer.to===null)&&!hid[p.offer.id]})}
 
 /* chốt: lật bài, tính điểm ngay, bong bóng tổng nút + điểm */
 function settle(p,forced){
@@ -491,6 +491,8 @@ setInterval(function(){
  var now=Date.now(),u=P[0];
  flights=flights.filter(function(f){return f.end>now});
  if(!over){
+  /* lời hỏi quá hạn: rút ngay đúng lúc hết đếm ngược, không đợi máy quyết định lần sau */
+  P.forEach(function(m){if(m.id&&!m.done&&m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}});
   /* hỏi qua hỏi lại: máy m đang hỏi q, q cũng hỏi lại m (hoặc bạn đưa lá ra bàn) => thường đổi luôn (85%), thỉnh thoảng mới đổi ý từ chối */
   P.forEach(function(m){
    if(!m.id||m.done||m.act||!m.offer||m.offer.to===null||hid[m.offer.id]||busy(m.id)||busy(m.offer.to))return;
@@ -623,7 +625,7 @@ function fit(){
  if(n==2){cm=Math.min((W/2-14)/3.3,(H*.4-tgm)/k);cu=Math.min((W-14)/3.3,(H*.6-tgu)/k)}
  else if(n==3){cm=Math.min((W/3-14)/3.3,(H*.38-tgm)/k);cu=Math.min((W-14)/3.3,(H*.62-tgu)/k)}
  else{var cw=W/3.4,ch=H/3.5;cm=Math.min((cw-14)/3.3,(ch-tgm)/k);cu=Math.min((cw*1.4-14)/3.3,(ch*1.5-tgu)/k)}
- document.documentElement.style.setProperty('--dy',(n==7?Math.round(H*.02):0)+'px');
+ document.documentElement.style.setProperty('--dy',(n==7?Math.round(H*.055):0)+'px');
  cm=Math.max(24,Math.min(100,Math.floor(cm)));cu=Math.max(28,Math.min(170,Math.floor(cu)));
 }
 addEventListener('resize',function(){fit();dirty=true;render()});
