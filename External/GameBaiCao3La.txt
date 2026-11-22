@@ -419,14 +419,23 @@ function pool(p){
  for(i=0;i<52;i++)if(!used[i])a.push({r:i%13+1,s:Math.floor(i/13)});
  return a;
 }
+/* "đủ rồi" của máy: tùy tính cách, tâm trạng và thế trận (người đã chốt cao thì 6 nút là thấp, chốt thấp thì 6 nút là cao) */
+var BASE={'tham':7.5,'liều':6.6,'đa nghi':6.2,'thận trọng':5.3};
+function bestDone(m){var b=-99;P.forEach(function(q){if(q!==m&&q.done)b=Math.max(b,q.delta)});return b}
+function target(m){
+ var t=BASE[m.ty.k]+(m.mood||0)*.8,b=bestDone(m);
+ if(b>-99)t=(t+(b+1))/2;
+ return Math.max(4,Math.min(9.2,t));
+}
 function bestSwap(p){
- var pl=pool(p),h0=ev(p.hand).p,b={gi:0,gain:-99,h0:h0},gi;
+ var pl=pool(p),h0=ev(p.hand).p,gs=[],gi;
  for(gi=0;gi<3;gi++){
   var s=0;pl.forEach(function(x){var h=p.hand.slice();h[gi]=x;s+=ev(h).p});
-  var g=s/pl.length-h0-.6+p.ty.amb+rnd(-.5,.5);
-  if(g>b.gain){b.gain=g;b.gi=gi}
+  gs.push({gi:gi,g:s/pl.length-h0-.6+p.ty.amb+rnd(-.5,.5)});
  }
- return b;
+ gs.sort(function(a,b){return b.g-a.g});
+ var pick=Math.random()<.12?gs[1]:gs[0];   /* thỉnh thoảng đánh giá trật lá nào nên đưa đi */
+ return{gi:pick.gi,gain:gs[0].g,h0:h0};
 }
 function offerFrom(m,gi,pre,table){
  var t=P.filter(function(q){return q!==m&&!q.done&&!busy(q.id)});
@@ -447,11 +456,12 @@ function offerFrom(m,gi,pre,table){
 /* máy đổi ý khi đang treo lá: hỏi người khác / đưa ra bàn / không đổi nữa */
 function change(m,b){
  var o=m.offer,r=Math.random(),now=Date.now();
+ if(ev(m.hand).p<=3&&r>=.75)r=Math.random()*.75;   /* bài đang thấp thì không bỏ cuộc, đi hỏi người khác */
  notifyDrop(m,m.name+' đã rút lại lời hỏi');m.offer=null;dirty=true;
  if(o.to!==null)m.rej[o.to]=(m.rej[o.to]||0)+2;
  if(r<.45)offerFrom(m,b.gi,'Rút bài lại và ');
  else if(r<.75)offerFrom(m,b.gi,'Rút bài lại và ',true);
- else{pop(m.id,'Rút bài lại, không đổi nữa','mut');m.next=now+rnd(3500,7000);if(Math.random()<.3)finish(m)}
+ else{pop(m.id,'Rút bài lại, không đổi nữa','mut');m.next=now+rnd(3500,7000);if(ev(m.hand).p>=4&&Math.random()<.3)finish(m)}
 }
 function reject(m,p){
  var o=p.offer,more=!!(o&&o.tos&&o.tos.length>1);
@@ -462,16 +472,21 @@ function reject(m,p){
  pop(p.id,p.id?'Bị '+m.name+' từ chối':m.name+' đã từ chối bạn','mut');
  if(!more&&o&&o.n0>1&&!p.id)pop(0,'Tất cả đều từ chối bạn','mut');
 }
+/* Quyết định của máy. Không có lựa chọn nào hoàn hảo: chốt hay đổi ở bài 6-7 nút đều hợp lý, kết quả do lá rút về (hên/xui).
+   Nhưng bài thấp (Bù, 1-3 nút) thì luôn tìm cách đổi tiếp, không bao giờ chốt khi còn người chưa chốt. */
 function decide(m){
  var now=Date.now();
  m.mood=Math.max(-1,Math.min(1,(m.mood||0)+rnd(-.25,.25)));   /* tâm trạng trôi dần: lúc liều lúc nhát */
  if(m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}
- var b=bestSwap(m),th=m.ty.thr;
+ var b=bestSwap(m),th=m.ty.thr,h=b.h0,tg=target(m),low=h<=3,hi=h>=8,sat=!low&&h>=tg,tired=m.swaps>=m.ms||m.stale>=3;
  b.gain+=m.mood*.5;
  var inc=P.filter(function(p){return p!==m&&!p.done&&!busy(p.id)&&p.offer&&(isTo(p.offer,m.id)||p.offer.to===null)});
- var ok=b.gain>th&&m.swaps<=m.ms&&Math.random()<(m.ty.k=='đa nghi'?.7:.92);
- if(Math.random()<.04){if(ok)ok=false;else if(b.gain>th-1.2&&m.swaps<=m.ms)ok=true}   /* lúc khó tính bỏ lỡ lời hay, lúc dễ dãi nhận lời hơi lỗ */
- var cand=inc.filter(function(p){return p.offer.to===null||(m.annoy[p.id]||0)<3});
+ var ok;
+ if(low)ok=Math.random()<.95;                    /* bài thấp: cần đổi gấp, ai mời cũng nhận */
+ else if(hi)ok=Math.random()<.03;                /* 8-9 nút, cào: gần như không đổi */
+ else if(sat)ok=b.gain>th+1&&Math.random()<.25;  /* đã đủ ý: chỉ nhận khi lời rất hời */
+ else ok=b.gain>th&&m.swaps<=m.ms+1&&Math.random()<(m.ty.k=='đa nghi'?.7:.92);
+ var cand=inc.filter(function(p){return p.offer.to===null||(m.annoy[p.id]||0)<3||low});
  if(ok&&cand.length){
   var p=cand[Math.floor(Math.random()*cand.length)];
   m.act={from:p.id,oid:p.offer.id,at:now+rnd(900,2200)};announce(m,p,p.offer.id);
@@ -479,14 +494,15 @@ function decide(m){
  }else inc.forEach(function(q){if(q.offer&&isTo(q.offer,m.id))reject(m,q)});
  if(m.act)return;
  if(m.offer){if(Math.random()<.08)change(m,b);return}   /* phần lớn cố chấp chờ, lâu lâu mới đổi ý */
- var want=b.gain>th&&m.swaps<m.ms;
- if(!want&&m.swaps<m.ms&&b.h0<8&&Math.random()<m.ty.whim)want=true;
- if(!want&&b.h0>=7&&m.swaps<m.ms&&Math.random()<.035)want=true;     /* hăng: bài đang tốt (kể cả cào) vẫn đi hỏi đổi */
- if(want&&b.h0<5&&Math.random()<.03){finish(m);return}           /* lơ ngơ: bài yếu mà chốt thẳng */
+ var want;
+ if(low)want=true;                                              /* nhất định phải đi đổi, đổi bao nhiêu lần cũng được */
+ else if(hi)want=Math.random()<(h>=15?.005:.02);                /* hiếm hoi: bài rất tốt mà vẫn tham */
+ else if(sat)want=Math.random()<m.ty.whim*1.2;                  /* đã đủ ý nhưng tham muốn cao thêm */
+ else want=!tired||Math.random()<.15;                           /* chưa đạt kỳ vọng: đi đổi tiếp, mệt rồi thì thôi */
  if(want){if(Math.random()<.8)offerFrom(m,b.gi)}
- else{
-  var pf=(b.h0>=6?.7:(m.swaps>=m.ms?.6:.3))-m.mood*.1;
-  if(Math.random()<pf||m.stale>=3)finish(m);
+ else{   /* đến đây là bài đã tạm ổn (hoặc quá mệt) và không phải bài thấp: mới chốt */
+  var pf=hi?.9:(sat?.75:.55);
+  if(Math.random()<pf)finish(m);
  }
 }
 function execAct(m){
@@ -515,7 +531,7 @@ setInterval(function(){
    if(!(isTo(q.offer,m.id)||(q.id===0&&q.offer.to===null)))return;
    var key=q.offer.id;m.mut=m.mut||{};
    if(m.mut[key]!==undefined)return;
-   m.mut[key]=Math.random()<Math.max(.7,Math.min(.95,.85+m.mood*.08));
+   m.mut[key]=Math.random()<(ev(m.hand).p<=3?.97:Math.max(.7,Math.min(.95,.85+m.mood*.08)));
    m.act={from:q.id,oid:key,at:now+rnd(700,1400),ci:m.offer.ci,rej:!m.mut[key]};
    if(!m.act.rej)announce(m,q,key);
   });
