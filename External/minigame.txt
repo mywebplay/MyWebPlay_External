@@ -13,7 +13,6 @@
     --paper: #fff7ee;
     --card: #ffffff;
     --line: #f0dfcc;
-    --green: #22b14c;
     --gap: 20px;
   }
   * { box-sizing: border-box; }
@@ -152,52 +151,11 @@
     .card.disabled .thumb::after { font-size: .8rem; padding: 4px 10px; }
   }
 
-  /* ---------- Màn hình tải trang lần đầu: body nhoè + thanh tiến trình xanh ---------- */
+  /* ---------- Lúc mới tải trang: body nhoè, xong thì rõ lại ---------- */
   html.booting .wrap {
     filter: blur(28px);
     pointer-events: none;
     user-select: none;
-  }
-  .boot {
-    position: fixed;
-    inset: 0;
-    z-index: 2147483000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    background: rgba(255, 247, 238, .55);
-    opacity: 1;
-    transition: opacity .3s ease;
-  }
-  html:not(.booting) .boot { opacity: 0; pointer-events: none; }
-  .boot[hidden] { display: none; }
-  .boot-bar {
-    position: relative;
-    width: min(320px, 70vw);
-    height: 10px;
-    border-radius: 999px;
-    background: #d4efdb;
-    overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .12);
-  }
-  .boot-bar::before {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0; left: 0;
-    width: 40%;
-    border-radius: 999px;
-    background: var(--green);
-    animation: bootslide 1.1s ease-in-out infinite alternate;
-  }
-  @keyframes bootslide { from { transform: translateX(0); } to { transform: translateX(150%); } }
-  .boot-text {
-    margin: 0;
-    font-weight: 800;
-    font-size: 1.05rem;
-    letter-spacing: .04em;
-    color: #1a7f37;
   }
 
   /* ---------- Modal toàn màn hình ---------- */
@@ -311,9 +269,8 @@
   .deco.d5 { left: 44%; top: 4%;     font-size: clamp(20px, 5vw, 36px); }
 
   @media (prefers-reduced-motion: reduce) {
-    .card, .thumb img, .wrap, .boot { transition: none; }
+    .card, .thumb img, .wrap { transition: none; }
     .spinner { animation-duration: 1.6s; }
-    .boot-bar::before { animation-duration: 2.2s; }
   }
 </style>
 </head>
@@ -335,12 +292,6 @@
     <p>Vui lòng quay lại sau.</p>
   </div>
 </main>
-
-<!-- Màn hình tải trang lần đầu -->
-<div id="boot" class="boot" role="status" aria-live="polite">
-  <div class="boot-bar" aria-hidden="true"></div>
-  <p class="boot-text">Loading...</p>
-</div>
 
 <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-bar"><h2 id="modalTitle" class="modal-title"></h2></div>
@@ -376,7 +327,7 @@
   var LOAD_TIMEOUT = 30000;    // chờ iframe load xong (ms)
   var PLAY_ELEMENT_ID = 'html_play';   // phần tử bắt buộc phải có trong trang game hợp lệ
   var KEY_PARAM = 'key';       // tên query param chứa key game
-  var BOOT_MIN_MS = 700;       // thanh tiến trình hiện tối thiểu (ms)
+  var BOOT_MIN_MS = 700;       // thời gian nền nhoè tối thiểu (ms)
   var BOOT_MAX_MS = 8000;      // tối đa chờ trang load xong (ms)
 
   var grid = document.getElementById('grid');
@@ -385,17 +336,19 @@
   var modalBody = document.getElementById('modalBody');
   var modalTitle = document.getElementById('modalTitle');
   var modalClose = document.getElementById('modalClose');
-  var bootEl = document.getElementById('boot');
 
   var seq = 0;               // đổi mỗi lần mở/đóng để bỏ qua kết quả cũ
   var loadTimer = null;
   var frame = null;
   var frameKey = null;       // key của game đang được giữ iframe
   var lastFocus = null;
-  var gameByKey = {};        // key => { name, card } (chỉ game đang Enabled)
+  var gameByKey = {};        // key (đã bỏ dấu / đầu) => { key, name, card } (chỉ game đang Enabled)
 
 
   /* ================= Query param ?key=... (không reload trang) ================= */
+  // Bỏ mọi dấu "/" ở đầu key: "/game-dino" => "game-dino"
+  function normKey(k) { return String(k).replace(/^\/+/, ''); }
+
   function getKeyParam() {
     try { return new URLSearchParams(window.location.search).get(KEY_PARAM); }
     catch (err) { return null; }
@@ -405,8 +358,9 @@
     try {
       var u = new URL(window.location.href);
       if (key === null || key === undefined) u.searchParams.delete(KEY_PARAM);
-      else u.searchParams.set(KEY_PARAM, key);
-      window.history.replaceState(window.history.state, '', u.pathname + u.search + u.hash);
+      else u.searchParams.set(KEY_PARAM, normKey(key));
+      var qs = u.search.replace(/%2F/gi, '/');   // giữ "/" ở giữa key cho URL gọn
+      window.history.replaceState(window.history.state, '', u.pathname + qs + u.hash);
     } catch (err) { /* bỏ qua nếu trình duyệt không cho đổi URL */ }
   }
 
@@ -444,7 +398,8 @@
       card.appendChild(name);
       if (enabled) {
         var k = String(g.Key);
-        if (!Object.prototype.hasOwnProperty.call(gameByKey, k)) gameByKey[k] = { name: g.Name || '', card: card };
+        var nk = normKey(k);
+        if (!Object.prototype.hasOwnProperty.call(gameByKey, nk)) gameByKey[nk] = { key: k, name: g.Name || '', card: card };
         card.addEventListener('click', function () { openGame(k, g.Name || '', card); });
       }
       frag.appendChild(card);
@@ -587,7 +542,7 @@
     mountFrame(key, name, token);        // load iframe luôn (ẩn), không fetch trước => chỉ 1 request
   }
 
-  /* ================= Khởi động lần đầu: nhoè body + thanh tiến trình, rồi xử lý ?key ================= */
+  /* ================= Khởi động lần đầu: nền nhoè, rồi xử lý ?key ================= */
   var bootStart = Date.now();
   var bootDone = false;
 
@@ -595,16 +550,16 @@
     if (bootDone) return;
     bootDone = true;
 
-    // Bỏ nhoè body + ẩn thanh tiến trình
+    // Bỏ nhoè body
     document.documentElement.classList.remove('booting');
-    setTimeout(function () { bootEl.hidden = true; }, 350);
 
     // Xử lý ?key=...
     var k = getKeyParam();
     if (k === null) return;                          // không có param: hiện danh sách bình thường
-    if (Object.prototype.hasOwnProperty.call(gameByKey, k)) {
-      var item = gameByKey[k];
-      openGame(k, item.name, item.card);             // key khớp: tự mở modal game đó
+    var nk = normKey(k);                             // so khớp không phân biệt có / đầu hay không
+    if (Object.prototype.hasOwnProperty.call(gameByKey, nk)) {
+      var item = gameByKey[nk];
+      openGame(item.key, item.name, item.card);      // key khớp: tự mở modal game đó (dùng key gốc để load iframe)
     } else {
       setKeyParam(null);                             // key không khớp: xoá khỏi URL
     }
