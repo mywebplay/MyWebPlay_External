@@ -11,9 +11,9 @@ html,body{margin:0;height:100%;overflow:hidden;background:#022c22;overscroll-beh
 button{font:inherit;cursor:pointer}
 #arena{flex:1;min-height:0;position:relative}
 #grid{position:absolute;inset:0;display:grid}
-.a2{grid-template:1fr 1.5fr/1fr 1fr}
-.a3{grid-template:1fr 1.6fr/1fr 1fr 1fr}
-.a7{grid-template:1fr 1.5fr 1fr/1fr 1.4fr 1fr}
+.a2{grid-template:1fr 1.8fr/1fr 1fr}
+.a3{grid-template:1fr 1.8fr/1fr 1fr 1fr}
+.a7{grid-template:1fr 1.9fr 1fr/1fr 1.7fr 1fr}
 .cell{display:flex;justify-content:center;align-items:center;min-width:0;min-height:0}
 .seat{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:3px 6px 6px;border-radius:14px;transition:opacity .4s}
 .seat::before{content:"";position:absolute;inset:0;border:2px solid var(--pc,#fff);border-radius:14px;opacity:.5;pointer-events:none}
@@ -118,7 +118,10 @@ button{font:inherit;cursor:pointer}
 .rb{width:38px;height:38px;border-radius:50%;border:2px solid #fff;background:var(--pc);color:#1f2937;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;line-height:1;padding:0;animation:rx .28s cubic-bezier(.3,1.6,.5,1) both}
 .rb .ri{width:16px;height:16px}
 .rb.tb{width:auto;border-radius:19px;padding:0 12px;background:#e5e7eb;font-size:13px}
+.rb{position:relative}
 .rb.off{opacity:.3;pointer-events:none}
+.rb.asked{box-shadow:0 0 0 3px #86efac}
+.rb.asked::after{content:"✓";position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:#16a34a;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
 .rb.inv{box-shadow:0 0 0 3px #fde047;animation:rx .28s both,pl 1s infinite}
 @keyframes rx{from{opacity:0;transform:translateY(16px) scale(.3)}to{opacity:1;transform:none}}
 @media (pointer:coarse){.rb{width:42px;height:42px}}
@@ -156,7 +159,10 @@ var P=[],n=0,over=false,sel=-1,lastTap={ci:-1,t:0},chosen=-1,oid=0,dirty=true,cm
 var COL=['#fde047','#f87171','#fb923c','#4ade80','#38bdf8','#a78bfa','#f472b6','#2dd4bf'];   /* mỗi người một màu: bạn vàng, máy 1..7 */
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,FT=520;
 var RBI='<svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><use href="#rb"/></svg>';
-var trayEl=$('#tray'),pkEl=$('#pk');
+var trayEl=$('#tray'),pkEl=$('#pk'),pkIdle=0;
+/* lời hỏi của bạn có thể gửi cho nhiều máy cùng lúc: offer.tos = danh sách; máy thì chỉ có offer.to */
+function isTo(o,id){return o.tos?o.tos.indexOf(id)>=0:o.to===id}
+function toIds(o){return o.to===null?[]:(o.tos||[o.to])}
 /* người đang có lá bay thì bận, không hỏi/đổi được */
 function busy(id){var now=Date.now();return flights.some(function(f){return f.end>now&&(f.a===id||f.b===id)})}
 var fx=$('#fx');
@@ -238,7 +244,7 @@ function announce(m,p,oid){
  pop(p.id,m.name+' đồng ý đổi'+(p.id?'':' với bạn'),'mut',null,cd);
 }
 /* lời hỏi của m bị rút/hủy: báo cho người đang được hỏi */
-function notifyDrop(m,txt){var o=m.offer;if(o&&o.to!==null&&o.to!==m.id&&!P[o.to].done)pop(o.to,txt,'mut')}
+function notifyDrop(m,txt){var o=m.offer;if(!o)return;toIds(o).forEach(function(t){if(t!==m.id&&!P[t].done)pop(t,txt,'mut')})}
 function curInv(iv){return iv.filter(function(p){return p.id===chosen})[0]||iv[0]}
 function ico(p){return RBI+'<b>'+p.id+'</b>'}
 /* khay lời mời ngay dưới bài của bạn: chip mỗi máy đang mời, ✕ từ chối, ⊘ từ chối tất cả */
@@ -262,18 +268,20 @@ function syncTray(){
 function syncPopup(){
  var u=P[0];
  if(!(sel>=0&&!over&&!u.done&&!busy(0))){if(pkEl.firstChild)pkEl.innerHTML='';pkEl.removeAttribute('data-sel');return}
- if(pkEl.getAttribute('data-sel')!==String(sel)){
-  pkEl.setAttribute('data-sel',sel);
+ var live=P.filter(function(p){return p.id&&!p.done}),key=sel+':'+live.map(function(p){return p.id}).join(',');
+ if(pkEl.getAttribute('data-sel')!==key){   /* máy đã chốt thì bị bỏ khỏi popup */
+  pkEl.setAttribute('data-sel',key);
   var h='';
-  P.forEach(function(p,i){if(i)h+='<button class="rb" type="button" data-a="pick" data-to="'+p.id+'" aria-label="'+p.name+'" style="--pc:'+p.color+';animation-delay:'+(i*35)+'ms">'+ico(p)+'</button>'});
-  h+='<button class="rb tb" type="button" data-a="pick" data-to="t" style="animation-delay:'+(P.length*35)+'ms">Bàn</button>';
+  live.forEach(function(p,i){h+='<button class="rb" type="button" data-a="pick" data-to="'+p.id+'" aria-label="'+p.name+'" style="--pc:'+p.color+';animation-delay:'+(i*35)+'ms">'+ico(p)+'</button>'});
+  h+='<button class="rb tb" type="button" data-a="pick" data-to="t" style="animation-delay:'+(live.length*35)+'ms">Bàn</button>';
   pkEl.innerHTML=h;
  }
- var iv=invites();
+ var iv=invites(),o=u.offer&&u.offer.ci===sel?u.offer:null;
  [].forEach.call(pkEl.querySelectorAll('.rb[data-to]'),function(b){
   var t=b.getAttribute('data-to'),p=t=='t'?null:P[+t];
-  b.classList.toggle('off',!!p&&(p.done||busy(p.id)));
+  b.classList.toggle('off',!!p&&busy(p.id));
   b.classList.toggle('inv',!!p&&iv.indexOf(p)>=0&&p.offer.to===0);
+  b.classList.toggle('asked',!!p&&!!o&&isTo(o,p.id));
  });
 }
 /* máy chưa có động tĩnh thì hơi mờ, máy vừa nói/đổi bài thì sáng */
@@ -293,7 +301,7 @@ function sticky(){
   if(p.id&&!p.done&&p.offer&&p.offer.exp>Date.now()&&(p.offer.to===0||p.offer.to===null)&&!hid[p.offer.id])
    want['i'+p.offer.id]={pid:p.id,txt:p.offer.to===0?p.name+' muốn đổi một lá với bạn':p.name+' đưa một lá ra bàn',cls:p===cur?'cur':'',inv:p.id};
  });
- if(u.offer&&!over&&!u.done)want.me={pid:0,txt:(u.offer.to===null?'Bạn đã đưa lá ra bàn, chờ ai lấy…':'Đang chờ '+P[u.offer.to].name+' trả lời…')+' (chạm lại lá để rút)',cls:'wait'};
+ if(u.offer&&!over&&!u.done)want.me={pid:0,txt:(u.offer.to===null?'Bạn đã đưa lá ra bàn, chờ ai lấy…':'Đang chờ '+toIds(u.offer).map(function(i){return P[i].name}).join(', ')+' trả lời…')+' (chạm lại lá để rút)',cls:'wait'};
  if(iv.length&&!over&&!u.done)want.pr={pid:0,txt:'Hãy bấm đúp vào lá bạn muốn đổi'+(cur?' với '+cur.name:''),cls:'hint'};
  [].slice.call(fx.querySelectorAll('.bb.st')).forEach(function(b){if(!want[b.getAttribute('data-k')])b.remove()});
  for(k in want){
@@ -323,7 +331,7 @@ function newRound(){
   if(p.id){p.ty=TY[Math.floor(Math.random()*4)];p.ms=Math.round(rnd(p.ty.ms[0],p.ty.ms[1]));p.mood=rnd(-.5,.5)}
  });
  over=false;sel=-1;chosen=-1;hid={};flights=[];trayAll=false;fx.innerHTML='';$('#fly').innerHTML='';trayEl.setAttribute('data-k','');fit();render();
- if(++rn<=2)tip('Chạm 1 lá của bạn, rồi chọn máy muốn đổi hoặc “Bàn”. Bấm đúp lá để đồng ý khi có người mời.',4000,function(){return sel<0&&!P[0].offer&&!invites().length&&!over});
+ if(++rn<=2)tip('Chạm 1 lá rồi chạm một hoặc nhiều máy muốn đổi, hoặc “Bàn”. Bấm đúp lá để đồng ý khi có người mời.',4000,function(){return sel<0&&!P[0].offer&&!invites().length&&!over});
 }
 
 /* ---------- đổi bài ---------- */
@@ -334,7 +342,7 @@ function swap(a,ai,b,bi){
  var ra=RM?null:cardRect(a,ai),rb=RM?null:cardRect(b,bi),fly=!!(ra&&rb&&ra.width>0&&rb.width>0),T=fly?FT:0;
  a.hand[ai]=cb;b.hand[bi]=ca;a.swaps++;b.swaps++;
  a.offer=null;if(bo)b.offer=null;
- if(bo&&bo.to!==null&&bo.to!==a.id&&!P[bo.to].done)pop(bo.to,b.name+' đã rút lời hỏi, đổi với '+(a===u?'bạn':a.name),'mut');
+ if(bo)toIds(bo).forEach(function(t){if(t!==a.id&&!P[t].done)pop(t,b.name+' đã rút lời hỏi, đổi với '+(a===u?'bạn':a.name),'mut')});
  a.flash=b.flash=now+1400+T;
  if(a===u||b===u){
   var m=a===u?b:a,ui=a===u?ai:bi,gv=a===u?ca:cb,rc=a===u?cb:ca;
@@ -387,7 +395,8 @@ function settle(p,forced){
 function finish(p){
  if(p.done)return;
  notifyDrop(p,p.name+' đã chốt, lời hỏi bị hủy');p.offer=null;
- P.forEach(function(q){if(q.offer&&q.offer.to===p.id){q.offer=null;pop(q.id,q.id?'Rút bài lại vì '+p.name+' đã chốt':p.name+' đã chốt, lời hỏi của bạn bị hủy','mut')}});
+ P.forEach(function(q){if(q.offer&&q.offer.tos&&q.offer.tos.length>1&&isTo(q.offer,p.id)){q.offer.tos=q.offer.tos.filter(function(x){return x!==p.id});q.offer.to=q.offer.tos[0];pop(0,p.name+' đã chốt, bỏ qua','mut')}
+  else if(q.offer&&isTo(q.offer,p.id)){q.offer=null;pop(q.id,q.id?'Rút bài lại vì '+p.name+' đã chốt':p.name+' đã chốt, lời hỏi của bạn bị hủy','mut')}});
  settle(p);chosen=-1;dirty=true;checkEnd();
 }
 function checkEnd(){if(!over&&P.filter(function(p){return !p.done}).length<=1)endRound()}
@@ -445,9 +454,13 @@ function change(m,b){
  else{pop(m.id,'Rút bài lại, không đổi nữa','mut');m.next=now+rnd(3500,7000);if(Math.random()<.3)finish(m)}
 }
 function reject(m,p){
- clearOffer(p);m.annoy[p.id]=(m.annoy[p.id]||0)+1;p.rej[m.id]=(p.rej[m.id]||0)+1;
+ var o=p.offer,more=!!(o&&o.tos&&o.tos.length>1);
+ if(more){o.tos=o.tos.filter(function(x){return x!==m.id});o.to=o.tos[0];dirty=true}   /* hỏi nhiều người: chỉ bỏ máy này, các máy kia vẫn còn cơ hội */
+ else clearOffer(p);
+ m.annoy[p.id]=(m.annoy[p.id]||0)+1;p.rej[m.id]=(p.rej[m.id]||0)+1;
  pop(m.id,'Đã từ chối '+(p.id?p.name:'bạn'),'mut');
  pop(p.id,p.id?'Bị '+m.name+' từ chối':m.name+' đã từ chối bạn','mut');
+ if(!more&&o&&o.n0>1&&!p.id)pop(0,'Tất cả đều từ chối bạn','mut');
 }
 function decide(m){
  var now=Date.now();
@@ -455,15 +468,15 @@ function decide(m){
  if(m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}
  var b=bestSwap(m),th=m.ty.thr;
  b.gain+=m.mood*.5;
- var inc=P.filter(function(p){return p!==m&&!p.done&&!busy(p.id)&&p.offer&&(p.offer.to===m.id||p.offer.to===null)});
+ var inc=P.filter(function(p){return p!==m&&!p.done&&!busy(p.id)&&p.offer&&(isTo(p.offer,m.id)||p.offer.to===null)});
  var ok=b.gain>th&&m.swaps<=m.ms&&Math.random()<(m.ty.k=='đa nghi'?.7:.92);
  if(Math.random()<.04){if(ok)ok=false;else if(b.gain>th-1.2&&m.swaps<=m.ms)ok=true}   /* lúc khó tính bỏ lỡ lời hay, lúc dễ dãi nhận lời hơi lỗ */
  var cand=inc.filter(function(p){return p.offer.to===null||(m.annoy[p.id]||0)<3});
  if(ok&&cand.length){
   var p=cand[Math.floor(Math.random()*cand.length)];
   m.act={from:p.id,oid:p.offer.id,at:now+rnd(900,2200)};announce(m,p,p.offer.id);
-  inc.forEach(function(q){if(q!==p&&q.offer&&q.offer.to===m.id&&Math.random()<.5)reject(m,q)});
- }else inc.forEach(function(q){if(q.offer&&q.offer.to===m.id)reject(m,q)});
+  inc.forEach(function(q){if(q!==p&&q.offer&&isTo(q.offer,m.id)&&Math.random()<.5)reject(m,q)});
+ }else inc.forEach(function(q){if(q.offer&&isTo(q.offer,m.id))reject(m,q)});
  if(m.act)return;
  if(m.offer){if(Math.random()<.08)change(m,b);return}   /* phần lớn cố chấp chờ, lâu lâu mới đổi ý */
  var want=b.gain>th&&m.swaps<m.ms;
@@ -482,7 +495,7 @@ function execAct(m){
  m.act=null;
  if(m.done||A.done)return;
  if(!A.offer||A.offer.id!==a.oid){pop(m.id,'Chậm một nhịp, lá đã không còn','mut');return}
- if(A.offer.to!==null&&A.offer.to!==m.id)return;
+ if(A.offer.to!==null&&!isTo(A.offer,m.id))return;
  if(a.rej){reject(m,A);return}
  swap(A,A.offer.ci,m,a.ci!=null?a.ci:bestSwap(m).gi);
 }
@@ -493,12 +506,13 @@ setInterval(function(){
  if(!over){
   /* lời hỏi quá hạn: rút ngay đúng lúc hết đếm ngược, không đợi máy quyết định lần sau */
   P.forEach(function(m){if(m.id&&!m.done&&m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}});
+  if(sel>=0&&u.offer&&u.offer.tos&&u.offer.ci===sel&&now>pkIdle){sel=-1;dirty=true}   /* bạn ngừng bấm thì popup đóng, lời hỏi đã gửi vẫn còn */
   /* hỏi qua hỏi lại: máy m đang hỏi q, q cũng hỏi lại m (hoặc bạn đưa lá ra bàn) => thường đổi luôn (85%), thỉnh thoảng mới đổi ý từ chối */
   P.forEach(function(m){
    if(!m.id||m.done||m.act||!m.offer||m.offer.to===null||hid[m.offer.id]||busy(m.id)||busy(m.offer.to))return;
    var q=P[m.offer.to];if(!q||q.done||!q.offer)return;
    if(q.id&&m.id>q.id)return;
-   if(!(q.offer.to===m.id||(q.id===0&&q.offer.to===null)))return;
+   if(!(isTo(q.offer,m.id)||(q.id===0&&q.offer.to===null)))return;
    var key=q.offer.id;m.mut=m.mut||{};
    if(m.mut[key]!==undefined)return;
    m.mut[key]=Math.random()<Math.max(.7,Math.min(.95,.85+m.mood*.08));
@@ -522,9 +536,16 @@ function myOffer(to){
  if(over||u.done||busy(0))return;
  if(sel<0){tip('Chọn một lá của bạn trước.',3000,function(){return sel<0});return}
  if(to&&(P[to].done||busy(to)))return;
- if(u.offer){notifyDrop(u,'Bạn đã rút lại lời hỏi');clearOffer(u)}   /* lá mới thay lá đang treo */
- u.offer={id:++oid,ci:sel,to:to,t0:Date.now(),exp:Infinity};sel=-1;
- if(to){var oi=u.offer.id;pop(to,'Bạn hỏi đổi một lá','mut',null,function(){return P[0].offer&&P[0].offer.id===oi})}
+ var o=u.offer;
+ if(to&&o&&o.tos&&o.ci===sel){   /* cùng một lá: hỏi thêm người, ai nhanh tay thì đổi */
+  if(o.tos.indexOf(to)>=0)return;
+  o.tos.push(to);o.n0=Math.max(o.n0||1,o.tos.length);pkIdle=Date.now()+1600;
+ }else{
+  if(o){notifyDrop(u,'Bạn đã rút lại lời hỏi');clearOffer(u)}   /* lá mới thay lá đang treo */
+  if(to){u.offer={id:++oid,ci:sel,to:to,tos:[to],n0:1,t0:Date.now(),exp:Infinity};pkIdle=Date.now()+1600}   /* giữ popup mở để hỏi thêm */
+  else{u.offer={id:++oid,ci:sel,to:null,t0:Date.now(),exp:Infinity};sel=-1}
+ }
+ if(to){var oi=u.offer.id;pop(to,'Bạn hỏi đổi một lá','mut',null,function(){return P[0].offer&&P[0].offer.id===oi&&isTo(P[0].offer,to)})}
 }
 function acceptInvite(ci){
  var iv=invites(),u=P[0];
@@ -593,13 +614,13 @@ function seat(p){
   if(p.fly&&p.fly[i]>now)cl+=' void';   /* chỗ trống đợi lá bay tới */
   else{
    if(u||p.done||over){cl+=' face '+(cd.s>=2?'r':'k');inner=face(cd)}else cl+=' back';
-   if(p.offer&&p.offer.ci===i&&!over){cl+=' hung';inner+='<i class="bd">→ '+(p.offer.to===null?'bàn':(p.offer.to===0?'bạn':P[p.offer.to].name))+'</i>'}
+   if(p.offer&&p.offer.ci===i&&!over){cl+=' hung';inner+='<i class="bd">→ '+(p.offer.tos&&p.offer.tos.length>1?'Máy '+p.offer.tos.join('·'):(p.offer.to===null?'bàn':(p.offer.to===0?'bạn':P[p.offer.to].name)))+'</i>'}
    if(u&&sel===i)cl+=' sel';
    if(u&&p.newIdx===i&&now<p.newUntil)cl+=' new';
   }
   h+='<div class="'+cl+'"'+(u?' data-a="card" data-ci="'+i+'"':'')+'>'+inner+'</div>';
  });
- var ask=!u&&sel>=0&&!P[0].offer&&!P[0].done&&!p.done&&!over;
+ var ask=!u&&sel>=0&&(!P[0].offer||P[0].offer.ci===sel)&&!P[0].done&&!p.done&&!over;
  var dim=u&&!over&&!p.done&&invites().length>0;
  var wn=over&&p.win?' wn':'',sw=p.flash>now?' sw':'',rk=over&&p.rank?'<span class="rk r'+(p.rank<4?p.rank:'n')+'">Hạng '+p.rank+'</span>':'';
  return '<div class="seat'+wn+sw+'" data-sid="'+p.id+'" style="--pc:'+p.color+'"><div class="tag'+(u?' me':'')+(ask?' ask':'')+(p.flash>now?' fh':'')+(p.done?' dn':'')+'"'+(u?'':' data-a="ask" data-pid="'+p.id+'"')+'>'+(u?'':'<span class="av">'+RBI+'</span>')+'<b>'+p.name+'</b><span class="pt">'+p.score+' điểm</span>'+rk+'</div><div class="hand'+(dim?' dim':'')+'" style="--c:'+c+'px">'+h+'</div>'+(u?'<div class="sl"></div>':'')+'</div>';
@@ -622,11 +643,11 @@ function render(){
 function fit(){
  var a=$('#arena'),W=a.clientWidth,H=a.clientHeight,co=matchMedia('(pointer:coarse)').matches,k=1.62;
  var tgm=(co?30:24)+16,tgu=(co?34:28)+16+(co?36:32);   /* nhãn + khoảng đệm (+ khe gợi ý cho bạn) */
- if(n==2){cm=Math.min((W/2-14)/3.3,(H*.4-tgm)/k);cu=Math.min((W-14)/3.3,(H*.6-tgu)/k)}
- else if(n==3){cm=Math.min((W/3-14)/3.3,(H*.38-tgm)/k);cu=Math.min((W-14)/3.3,(H*.62-tgu)/k)}
- else{var cw=W/3.4,ch=H/3.5;cm=Math.min((cw-14)/3.3,(ch-tgm)/k);cu=Math.min((cw*1.4-14)/3.3,(ch*1.5-tgu)/k)}
+ if(n==2){cm=Math.min((W/2-14)/3.3,(H*.36-tgm)/k);cu=Math.min((W-14)/3.2,(H*.64-tgu)/k)}
+ else if(n==3){cm=Math.min((W/3-14)/3.3,(H*.36-tgm)/k);cu=Math.min((W-14)/3.3,(H*.64-tgu)/k)}
+ else{var cw=W/3.7,ch=H/3.9;cm=Math.min((cw-14)/3.3,(ch-tgm)/k);cu=Math.min((cw*1.7-14)/3.3,(ch*1.9-tgu)/k)}
  document.documentElement.style.setProperty('--dy',(n==7?Math.round(H*.055):0)+'px');
- cm=Math.max(24,Math.min(100,Math.floor(cm)));cu=Math.max(28,Math.min(170,Math.floor(cu)));
+ cm=Math.max(24,Math.min(100,Math.floor(cm)));cu=Math.max(28,Math.min(210,Math.floor(cu)));
 }
 addEventListener('resize',function(){fit();dirty=true;render()});
 newRound();
