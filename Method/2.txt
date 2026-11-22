@@ -200,13 +200,10 @@ p{
       🚀 Kích hoạt ngay
     </a>
 
+    <br /><br />
     <a class="action2" href="https://www.youtube.com/watch?v=XboJbkTiIio">
           👁 Xem video hướng dẫn
     </a>
-
-    <div class="secondary">
-      Sau khi đăng ký, bạn sẽ có thể truy cập đầy đủ tính năng mà không bị giới hạn.
-    </div>
 
     <div class="devices">
       <div class="device browser"></div>
@@ -214,6 +211,7 @@ p{
 
   </div>
 </div>
+<@@remove_CK:.AspNetCore.MyWebPlay.00AAxinp@@>
 <script>
 // Delete div somee
      setInterval(function () {
