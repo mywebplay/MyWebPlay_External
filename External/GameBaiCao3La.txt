@@ -159,7 +159,7 @@ var P=[],n=0,over=false,sel=-1,lastTap={ci:-1,t:0},chosen=-1,oid=0,dirty=true,cm
 var COL=['#fde047','#f87171','#fb923c','#4ade80','#38bdf8','#a78bfa','#f472b6','#2dd4bf'];   /* mỗi người một màu: bạn vàng, máy 1..7 */
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,FT=520;
 var RBI='<svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><use href="#rb"/></svg>';
-var trayEl=$('#tray'),pkEl=$('#pk'),pkIdle=0;
+var trayEl=$('#tray'),pkEl=$('#pk'),pkIdle=0,lastSwap=0;
 /* lời hỏi của bạn có thể gửi cho nhiều máy cùng lúc: offer.tos = danh sách; máy thì chỉ có offer.to */
 function isTo(o,id){return o.tos?o.tos.indexOf(id)>=0:o.to===id}
 function toIds(o){return o.to===null?[]:(o.tos||[o.to])}
@@ -330,7 +330,7 @@ function newRound(){
   p.next=Date.now()+rnd(2500,5500);
   if(p.id){p.ty=TY[Math.floor(Math.random()*4)];p.ms=Math.round(rnd(p.ty.ms[0],p.ty.ms[1]));p.mood=rnd(-.5,.5)}
  });
- over=false;sel=-1;chosen=-1;hid={};flights=[];trayAll=false;fx.innerHTML='';$('#fly').innerHTML='';trayEl.setAttribute('data-k','');fit();render();
+ lastSwap=Date.now();over=false;sel=-1;chosen=-1;hid={};flights=[];trayAll=false;fx.innerHTML='';$('#fly').innerHTML='';trayEl.setAttribute('data-k','');fit();render();
  if(++rn<=2)tip('Chạm 1 lá rồi chạm một hoặc nhiều máy muốn đổi, hoặc “Bàn”. Bấm đúp lá để đồng ý khi có người mời.',4000,function(){return sel<0&&!P[0].offer&&!invites().length&&!over});
 }
 
@@ -340,7 +340,7 @@ function cardRect(p,i){var el=$('#grid .seat[data-sid="'+p.id+'"] .card:nth-chil
 function swap(a,ai,b,bi){
  var u=P[0],now=Date.now(),ca=a.hand[ai],cb=b.hand[bi],bo=b.offer&&b.offer.ci===bi?b.offer:null;
  var ra=RM?null:cardRect(a,ai),rb=RM?null:cardRect(b,bi),fly=!!(ra&&rb&&ra.width>0&&rb.width>0),T=fly?FT:0;
- a.hand[ai]=cb;b.hand[bi]=ca;a.swaps++;b.swaps++;
+ lastSwap=now;a.hand[ai]=cb;b.hand[bi]=ca;a.swaps++;b.swaps++;
  a.offer=null;if(bo)b.offer=null;
  if(bo)toIds(bo).forEach(function(t){if(t!==a.id&&!P[t].done)pop(t,b.name+' đã rút lời hỏi, đổi với '+(a===u?'bạn':a.name),'mut')});
  a.flash=b.flash=now+1400+T;
@@ -481,12 +481,13 @@ function decide(m){
  var b=bestSwap(m),th=m.ty.thr,h=b.h0,tg=target(m),low=h<=3,hi=h>=8,sat=!low&&h>=tg,tired=m.swaps>=m.ms||m.stale>=3;
  b.gain+=m.mood*.5;
  var inc=P.filter(function(p){return p!==m&&!p.done&&!busy(p.id)&&p.offer&&(isTo(p.offer,m.id)||p.offer.to===null)});
- var ok;
- if(low)ok=Math.random()<.95;                    /* bài thấp: cần đổi gấp, ai mời cũng nhận */
- else if(hi)ok=Math.random()<.03;                /* 8-9 nút, cào: gần như không đổi */
- else if(sat)ok=b.gain>th+1&&Math.random()<.25;  /* đã đủ ý: chỉ nhận khi lời rất hời */
- else ok=b.gain>th&&m.swaps<=m.ms+1&&Math.random()<(m.ty.k=='đa nghi'?.7:.92);
- var cand=inc.filter(function(p){return p.offer.to===null||(m.annoy[p.id]||0)<3||low});
+ var want;   /* "muốn đổi" chỉ tính một lần: vừa dùng để nhận lời, vừa dùng để tự đi hỏi => không còn chuyện mình muốn đổi mà lại từ chối người đổi */
+ if(low)want=true;                                              /* nhất định phải đi đổi, đổi bao nhiêu lần cũng được */
+ else if(hi)want=Math.random()<(h>=15?.005:.02);                /* hiếm hoi: bài rất tốt mà vẫn tham */
+ else if(sat)want=Math.random()<m.ty.whim*1.2;                  /* đã đủ ý nhưng tham muốn cao thêm */
+ else want=!tired||Math.random()<.15;                           /* chưa đạt kỳ vọng: đi đổi tiếp, mệt rồi thì thôi */
+ var ok=want&&Math.random()<(low?.97:(m.ty.k=='đa nghi'?.8:.93));
+ var cand=inc;
  if(ok&&cand.length){
   var p=cand[Math.floor(Math.random()*cand.length)];
   m.act={from:p.id,oid:p.offer.id,at:now+rnd(900,2200)};announce(m,p,p.offer.id);
@@ -494,11 +495,9 @@ function decide(m){
  }else inc.forEach(function(q){if(q.offer&&isTo(q.offer,m.id))reject(m,q)});
  if(m.act)return;
  if(m.offer){if(Math.random()<.08)change(m,b);return}   /* phần lớn cố chấp chờ, lâu lâu mới đổi ý */
- var want;
- if(low)want=true;                                              /* nhất định phải đi đổi, đổi bao nhiêu lần cũng được */
- else if(hi)want=Math.random()<(h>=15?.005:.02);                /* hiếm hoi: bài rất tốt mà vẫn tham */
- else if(sat)want=Math.random()<m.ty.whim*1.2;                  /* đã đủ ý nhưng tham muốn cao thêm */
- else want=!tired||Math.random()<.15;                           /* chưa đạt kỳ vọng: đi đổi tiếp, mệt rồi thì thôi */
+ /* bế tắc: mọi người còn lại đều bài thấp, đổi qua đổi lại quá nhiều mà vẫn không khá hơn => đành chấp nhận số phận.
+    Người 1-3 nút bỏ cuộc trước, người Bù bỏ cuộc sau cùng (thường là bị lật bài khi người kia chốt) */
+ if(low&&m.swaps>=m.ms+8&&P.every(function(q){return q===m||q.done||ev(q.hand).p<=3})&&Math.random()<(h<0?.2:.45)){pop(m.id,'Hết cách rồi, đành chốt','mut');finish(m);return}
  if(want){if(Math.random()<.8)offerFrom(m,b.gi)}
  else{   /* đến đây là bài đã tạm ổn (hoặc quá mệt) và không phải bài thấp: mới chốt */
   var pf=hi?.9:(sat?.75:.55);
@@ -523,6 +522,7 @@ setInterval(function(){
   /* lời hỏi quá hạn: rút ngay đúng lúc hết đếm ngược, không đợi máy quyết định lần sau */
   P.forEach(function(m){if(m.id&&!m.done&&m.offer&&now>m.offer.exp){notifyDrop(m,m.name+' đã rút lại lời hỏi');clearOffer(m);m.stale++;pop(m.id,'Chờ lâu quá nên rút bài lại','mut')}});
   if(sel>=0&&u.offer&&u.offer.tos&&u.offer.ci===sel&&now>pkIdle){sel=-1;dirty=true}   /* bạn ngừng bấm thì popup đóng, lời hỏi đã gửi vẫn còn */
+  if(now-lastSwap>20000){P.forEach(function(m){if(m.id&&!m.done)m.stale=Math.max(m.stale,3)});lastSwap=now}   /* bế tắc quá lâu: ai bài tạm ổn thì chán, chốt */
   /* hỏi qua hỏi lại: máy m đang hỏi q, q cũng hỏi lại m (hoặc bạn đưa lá ra bàn) => thường đổi luôn (85%), thỉnh thoảng mới đổi ý từ chối */
   P.forEach(function(m){
    if(!m.id||m.done||m.act||!m.offer||m.offer.to===null||hid[m.offer.id]||busy(m.id)||busy(m.offer.to))return;
@@ -531,7 +531,7 @@ setInterval(function(){
    if(!(isTo(q.offer,m.id)||(q.id===0&&q.offer.to===null)))return;
    var key=q.offer.id;m.mut=m.mut||{};
    if(m.mut[key]!==undefined)return;
-   m.mut[key]=Math.random()<(ev(m.hand).p<=3?.97:Math.max(.7,Math.min(.95,.85+m.mood*.08)));
+   m.mut[key]=Math.random()<.96;   /* mình đã hỏi người ta, người ta cũng hỏi lại: gần như chắc chắn đổi */
    m.act={from:q.id,oid:key,at:now+rnd(700,1400),ci:m.offer.ci,rej:!m.mut[key]};
    if(!m.act.rej)announce(m,q,key);
   });
