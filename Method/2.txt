@@ -211,7 +211,8 @@ p{
 
   </div>
 </div>
-
+<!-- Xoá xác thực sử dụng: lay-tai-lieu-tu-stoducu -->
+<@@remove_CK:.AspNetCore.MyWebPlay.00AAxinp@@>
 <script>
 // Delete div somee
      setInterval(function () {
