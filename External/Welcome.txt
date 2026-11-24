@@ -1,3 +1,6 @@
+<!--
+If you are accessing this request through a non-browser client (such as an API testing tool, HTTP client, or automated script), please try again using a regular web browser. Please ensure that cookies and JavaScript are enabled in your browser. Although not required, disabling ad-blocking extensions or applications is also recommended, as they may interfere with the website's normal functionality.
+-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -781,8 +784,18 @@
 
     <script>
         setTimeout(function () {
-             window.location.href = '@@ url @@';
-        }, 5000);
+             fetch('/is-checked-user', {
+			    method: 'GET',
+			    credentials: 'include'
+			})
+			.then(response => response.json())
+			.then(data => {
+			    if (data.result === true) {
+			        window.location.href = '@@ url @@';
+			    }
+			})
+			.catch(error => console.error('Request failed:', error));
+		}, 5000);
 
         setInterval(function () {
             document.querySelectorAll("div[style*='opacity: 0.9'][style*='z-index: 2147483647']").forEach((el) => el.remove());
@@ -794,3 +807,6 @@
 
 </body>
 </html>
+<!--
+If you are accessing this request through a non-browser client (such as an API testing tool, HTTP client, or automated script), please try again using a regular web browser. Please ensure that cookies and JavaScript are enabled in your browser. Although not required, disabling ad-blocking extensions or applications is also recommended, as they may interfere with the website's normal functionality.
+-->
