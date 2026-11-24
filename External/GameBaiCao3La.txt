@@ -12,6 +12,7 @@ button{font:inherit;cursor:pointer}
 #arena{flex:1;min-height:0;position:relative}
 #grid{position:absolute;inset:0;display:grid}
 .a2{grid-template:1fr 1.8fr/1fr 1fr}
+.a4{grid-template:auto auto 1fr/1fr 1fr;gap:4px 0}   /* điện thoại dọc: 4 máy xếp 2x2, bạn ở hàng dưới */
 .a3{grid-template:1fr 1.8fr/1fr 1fr 1fr}
 .a7{grid-template:1fr 1.9fr 1fr/1fr 1.7fr 1fr}
 .cell{display:flex;justify-content:center;align-items:center;min-width:0;min-height:0}
@@ -111,9 +112,10 @@ button{font:inherit;cursor:pointer}
 .cp.cur{box-shadow:0 0 0 2px #fde047;background:#422006}
 .cp.all{padding:0 9px;font-size:15px;background:#7f1d1d;border-color:#fecaca}
 .cp.more{padding:0 9px;background:#334155}
+@media (max-width:420px){.tag{gap:4px;padding:0 7px}.rk{padding:0 4px;font-size:9px}}
 @media (pointer:coarse){.cp{height:34px}.cp u{width:26px;height:26px}.sl{height:36px}}
 /* popup chọn máy: sổ lên phía trên lá được chạm */
-#pk{position:absolute;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;padding:6px 8px;background:#fffbe6;border-radius:26px;box-shadow:0 4px 14px #000a;z-index:9;transform:translateX(-50%)}
+#pk{position:absolute;width:max-content;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;padding:6px 8px;background:#fffbe6;border-radius:26px;box-shadow:0 4px 14px #000a;z-index:9;transform:translateX(-50%)}
 #pk:empty{display:none}
 .rb{width:38px;height:38px;border-radius:50%;border:2px solid #fff;background:var(--pc);color:#1f2937;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;line-height:1;padding:0;animation:rx .28s cubic-bezier(.3,1.6,.5,1) both}
 .rb .ri{width:16px;height:16px}
@@ -167,7 +169,7 @@ function toIds(o){return o.to===null?[]:(o.tos||[o.to])}
 function busy(id){var now=Date.now();return flights.some(function(f){return f.end>now&&(f.a===id||f.b===id)})}
 var fx=$('#fx');
 
-function modeN(){return innerWidth>=1000&&innerHeight>=560?7:(innerWidth>innerHeight?3:2)}
+function modeN(){return innerWidth>=1000&&innerHeight>=560?7:(innerWidth>innerHeight?3:(innerHeight>=560?4:2))}
 function val(c){return c.r>=10?0:c.r}
 function ev(h){var s=0,f=0;h.forEach(function(c){s+=val(c);if(c.r>=11)f++});s%=10;if(f==3)return{p:15,t:'cào'};if(s==0)return{p:-5,t:'bù'};return{p:s,t:s+' nút'}}
 function top(h){return h.slice().sort(function(a,b){return b.r*4+b.s-a.r*4-a.s})[0]}
@@ -182,9 +184,11 @@ function place(){
   var s=$('#grid .seat[data-sid="'+pid+'"]');if(!s)return;
   var r=s.getBoundingClientRect();
   if(m!==null){   /* huân chương: góc trên phải của khu bài */
-   var d=Math.max(40,Math.min(64,r.width*.2))*(z.classList.contains('ca')?1.15:1),l=r.right-ar.left-d*.85;
+   var d=Math.max(pid!=='0'&&r.width<260?36:40,Math.min(64,r.width*.2))*(z.classList.contains('ca')?1.15:1),l=r.right-ar.left-d*.85;
    l=Math.max(0,Math.min(l,ar.width-d));
-   z.style.width=z.style.height=d+'px';z.style.fontSize=(d*.22)+'px';z.style.left=l+'px';z.style.top=(r.top-ar.top+4)+'px';
+   var tp=r.top-ar.top+4;
+   if(pid!=='0'&&r.width<260)tp=s.querySelector('.hand').getBoundingClientRect().top-ar.top-2;   /* khu bài máy hẹp: hạ huân chương xuống góc phải hàng bài để không đè nhãn tên */
+   z.style.width=z.style.height=d+'px';z.style.fontSize=(d*.22)+'px';z.style.left=l+'px';z.style.top=tp+'px';
    return;
   }
   var hd=s.querySelector('.hand').getBoundingClientRect(),w=Math.max(r.width,150),l2=r.left-ar.left+r.width/2-w/2;
@@ -649,6 +653,7 @@ function render(){
  dirty=false;
  var u=P[0],g=$('#grid'),S=function(i,st){return '<div class="cell'+(i?'':' me')+'"'+(st?' style="grid-area:'+st+'"':'')+'>'+seat(P[i])+'</div>'};
  if(n==2){g.className='a2';g.innerHTML=S(1)+S(2)+S(0,'2/1/3/3')}
+ else if(n==4){g.className='a4';g.innerHTML=S(1)+S(2)+S(3)+S(4)+S(0,'3/1/4/3')}
  else if(n==3){g.className='a3';g.innerHTML=S(1)+S(2)+S(3)+S(0,'2/1/3/4')}
  else{
   var pos=['2/2','1/1','1/2','1/3','2/1','2/3','3/1','3/3'];
@@ -664,6 +669,10 @@ function fit(){
  var a=$('#arena'),W=a.clientWidth,H=a.clientHeight,co=matchMedia('(pointer:coarse)').matches,k=1.62;
  var tgm=(co?30:24)+16,tgu=(co?34:28)+16+(co?36:32);   /* nhãn + khoảng đệm (+ khe gợi ý cho bạn) */
  if(n==2){cm=Math.min((W/2-14)/3.3,(H*.36-tgm)/k);cu=Math.min((W-14)/3.2,(H*.64-tgu)/k)}
+ else if(n==4){   /* điện thoại dọc: bài máy lấy theo bề ngang, bài bạn lấy phần chiều cao còn lại nhưng không nhỏ hơn ~80px */
+  cm=Math.min((W/2-14)/3.3,100);cu=(H-2*(tgm+k*cm)-tgu-14)/k;
+  if(cu<80){cm=Math.max(24,((H-tgu-14-k*80)/2-tgm)/k);cu=80}
+  cu=Math.min(cu,(W-14)/3.2)}
  else if(n==3){cm=Math.min((W/3-14)/3.3,(H*.36-tgm)/k);cu=Math.min((W-14)/3.3,(H*.64-tgu)/k)}
  else{var cw=W/3.7,ch=H/3.9;cm=Math.min((cw-14)/3.3,(ch-tgm)/k);cu=Math.min((cw*1.7-14)/3.3,(ch*1.9-tgu)/k)}
  document.documentElement.style.setProperty('--dy',(n==7?Math.round(H*.055):0)+'px');
