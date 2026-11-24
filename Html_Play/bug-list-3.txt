@@ -629,4 +629,16 @@ var seeTitleData = [
         NguyenNhan: null,
         GiaiPhap: null
     },
+    {
+        Index: 147,
+        Status: "FIXED",
+        NguyenNhan: "Do logic get thông tin IP để tra cứu vẫn bị lưu vào session (mục đích là để tránh gọi lại API bên thứ ba quá nhiều lần), tuy nhiên tại middle ware: xử lý get info của IP thật thì đang dùng lại chính key session đó và sẽ khởi động lại nếu phát hiện IP bị thay đổi.",
+        GiaiPhap: null
+    },
+    {
+        Index: 148,
+        Status: "FIXED",
+        NguyenNhan: "Khi IP đột ngột bị thay đổi thì chưa gọi API đến trang sub để lấy/kiểm tra thông tin IP mà vẫn dùng lại session cũ.",
+        GiaiPhap: null
+    },
 ];
