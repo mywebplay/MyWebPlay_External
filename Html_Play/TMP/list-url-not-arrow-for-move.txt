@@ -10,3 +10,4 @@
 /play-karaoke-2
 /karaoke
 /Admin/EditFileAdminStatic
+/get-stoducu-document
