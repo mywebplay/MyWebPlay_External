@@ -11,3 +11,4 @@
 /karaoke
 /Admin/EditFileAdminStatic
 /get-stoducu-document
+/Home/Error
