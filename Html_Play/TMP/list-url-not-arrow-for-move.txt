@@ -13,3 +13,4 @@
 /get-stoducu-document
 /Home/Error
 /nhap-code-xac-minh-1
+/verify-1
