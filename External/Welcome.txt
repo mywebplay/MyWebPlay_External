@@ -784,17 +784,7 @@ If you are accessing this request through a non-browser client (such as an API t
 
     <script>
         setTimeout(function () {
-             fetch('/is-checked-user', {
-			    method: 'GET',
-			    credentials: 'include'
-			})
-			.then(response => response.json())
-			.then(data => {
-			    if (data.result === true) {
-			        window.location.href = '@@ url @@';
-			    }
-			})
-			.catch(error => console.error('Request failed:', error));
+             window.location.href = '@@ url @@';
 		}, 5000);
 
         setInterval(function () {
