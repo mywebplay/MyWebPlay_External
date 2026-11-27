@@ -371,7 +371,7 @@
             }
 			else
 			{
-				alert(`Thất bại!\nSố lượng đã insert: ${data.count}`);
+				alert(`Thất bại!\nĐã xử lý đến record thứ ${data.count + 1} thì xảy ra lỗi.\nToàn bộ dữ liệu đã được rollback, không có record nào được lưu.`);
 				document.getElementById("action").disabled = false;
 			}
         } catch (err) {
