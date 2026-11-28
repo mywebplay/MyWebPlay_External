@@ -14,3 +14,4 @@
 /Home/Error
 /nhap-code-xac-minh-1
 /verify-1
+/xac-thuc-1
